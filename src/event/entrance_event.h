@@ -111,6 +111,7 @@ typedef struct Entrance_Xsession_
     const char *name;
     const char *command;
     const char *icon;
+    Eina_Bool is_wayland;  /* TRUE for wayland sessions, FALSE for X11 */
 } Entrance_Xsession;
 
 typedef struct Entrance_Xsessions_Event_
