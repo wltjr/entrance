@@ -17,6 +17,9 @@
 #ifdef HAVE_PAM
 #include "entrance_pam.h"
 #endif
+#ifdef HAVE_LOGIND
+#include "entrance_logind.h"
+#endif
 #include "../event/entrance_event.h"
 #include "entrance_config.h"
 #include "entrance_xserver.h"
