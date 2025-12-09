@@ -18,10 +18,15 @@ static char *_login = NULL;
 static unsigned char _logged = 0;
 static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
+#ifdef HAVE_LOGIND
+static char *_logind_seat = NULL;
+static Entrance_Logind_Session *_logind_session = NULL;
+#endif
 static int _entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b);
 static int _entrance_session_userid_set(struct passwd *pwd);
 
-static void _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie);
+static void _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland);
+static Eina_Bool _entrance_session_is_wayland(const char *session);
 
 static void _entrance_session_desktops_scan_file(const char *path);
 static void _entrance_session_desktops_scan(const char *dir);
@@ -102,9 +107,25 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
 #ifdef HAVE_PAM
    char *term = NULL;
    char vtnr[128] = {0};
+   char *seat_name = NULL;
    
    term = getenv("TERM");
-   eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+   
+#ifdef HAVE_LOGIND
+   /* Get seat and VT info from logind */
+   if (!_logind_seat)
+     _logind_seat = entrance_logind_seat_detect();
+   
+   seat_name = _logind_seat ? _logind_seat : "seat0";
+   
+   /* Try to get VT from logind, fallback to config */
+   unsigned int logind_vt = entrance_logind_vt_get(_dname);
+   if (logind_vt > 0)
+     eina_convert_xtoa(logind_vt, vtnr);
+   else
+#endif
+     eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+   
    if (term) entrance_pam_env_set("TERM", term);
    entrance_pam_env_set("HOME", pwd->pw_dir);
    entrance_pam_env_set("SHELL", pwd->pw_shell);
@@ -114,7 +135,11 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
    entrance_pam_env_set("DISPLAY", _dname);
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
+#ifdef HAVE_LOGIND
+   entrance_pam_env_set("XDG_SEAT", seat_name);
+#else
    entrance_pam_env_set("XDG_SEAT", "seat0");
+#endif
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_VTNR", vtnr);
 #endif
@@ -122,7 +147,7 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
 }
 
 static void
-_entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie)
+_entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland)
 {
    pid_t pid;
    pid = fork();
@@ -130,14 +155,21 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie)
      {
         char buf[PATH_MAX];
 
-        PT("Session Run");
+        PT("Session Run (%s)", is_wayland ? "wayland" : "x11");
 #ifdef HAVE_PAM
+        /* Set session type environment variables for logind/PAM */
+        if (is_wayland)
+          setenv("XDG_SESSION_TYPE", "wayland", 1);
+        else
+          setenv("XDG_SESSION_TYPE", "x11", 1);
+        setenv("XDG_SESSION_DESKTOP", "entrance", 1);
+        
         env = entrance_pam_env_list_get();
         entrance_pam_end();
 #else
         int n = 0;
         char *term = getenv("TERM");
-        env = (char **)malloc(12 * sizeof(char *));
+        env = (char **)malloc(15 * sizeof(char *));
         if(term)
           {
             char *t = NULL;
@@ -168,6 +200,10 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie)
         snprintf(buf, sizeof(buf), "XDG_SESSION_CLASS=user");
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_VTNR=%d", entrance_config->command.vtnr);
+        env[n++]=strdup(buf);
+        snprintf(buf, sizeof(buf), "XDG_SESSION_TYPE=%s", is_wayland ? "wayland" : "x11");
+        env[n++]=strdup(buf);
+        snprintf(buf, sizeof(buf), "XDG_SESSION_DESKTOP=entrance");
         env[n++]=strdup(buf);
         env[n++]=0;
 #endif
@@ -226,6 +262,25 @@ entrance_session_pid_set(pid_t pid)
    _session_pid = pid;
    snprintf(buf, sizeof(buf), "%d", pid);
    setenv("ENTRANCE_SPID", buf, 1);
+   
+#ifdef HAVE_LOGIND
+   /* Get logind session information for this PID */
+   if (_logind_session)
+     entrance_logind_session_free(_logind_session);
+   
+   _logind_session = entrance_logind_session_get(pid);
+   if (_logind_session)
+     {
+        PT("Session registered with logind: id=%s seat=%s vt=%u",
+           _logind_session->id,
+           _logind_session->seat ? _logind_session->seat : "none",
+           _logind_session->vtnr);
+     }
+   else
+     {
+        PT("Warning: Could not get logind session for PID %d", pid);
+     }
+#endif
 }
 
 pid_t
@@ -238,6 +293,11 @@ void
 entrance_session_init(const char *dname)
 {
    _dname = dname;
+#ifdef HAVE_LOGIND
+   entrance_logind_init();
+   _logind_seat = entrance_logind_seat_detect();
+   PT("Using logind with seat: %s", _logind_seat ? _logind_seat : "unknown");
+#endif
 }
 
 static const char *dig = "0123456789abcdef";
@@ -310,6 +370,19 @@ entrance_session_shutdown(void)
         free(xsession);
      }
    _session_pid = 0;
+#ifdef HAVE_LOGIND
+   if (_logind_session)
+     {
+        entrance_logind_session_free(_logind_session);
+        _logind_session = NULL;
+     }
+   if (_logind_seat)
+     {
+        free(_logind_seat);
+        _logind_seat = NULL;
+     }
+   entrance_logind_shutdown();
+#endif
 }
 
 Eina_Bool
@@ -387,9 +460,27 @@ entrance_session_login(const char *session, Eina_Bool push)
    if(!_login && entrance_auto_login_enabled())
      _login = strdup(entrance_config->userlogin);
    PT("launching session %s for user %s", cmd, _login);
-   _entrance_session_run(pwd, cmd, buf);
+   
+   Eina_Bool is_wayland = _entrance_session_is_wayland(session);
+   _entrance_session_run(pwd, cmd, buf, is_wayland);
    free(_login);
    return EINA_TRUE;
+}
+
+static Eina_Bool
+_entrance_session_is_wayland(const char *session)
+{
+   Entrance_Xsession *xsession = NULL;
+   Eina_List *l;
+   
+   if (!session) return EINA_FALSE;
+   
+   EINA_LIST_FOREACH(_xsessions, l, xsession)
+     {
+        if (!strcmp(xsession->name, session))
+          return xsession->is_wayland;
+     }
+   return EINA_FALSE;
 }
 
 static const char *
@@ -492,6 +583,7 @@ _entrance_session_desktops_scan_file(const char *path)
    Eina_List *l;
    Entrance_Xsession *xsession;
    char *command = NULL;
+   Eina_Bool is_wayland = EINA_FALSE;
 
    desktop = efreet_desktop_get(path);
    if (!desktop) return;
@@ -504,20 +596,32 @@ _entrance_session_desktops_scan_file(const char *path)
           }
      }
 
+   /* Detect if this is a Wayland session */
+   if (strstr(path, "wayland-sessions"))
+     is_wayland = EINA_TRUE;
+
    commands = efreet_desktop_command_local_get(desktop, NULL);
    if (commands)
      command = eina_list_data_get(commands);
    if (command && desktop->name)
      {
-        PT("Adding %s as wm", desktop->name);
+        PT("Adding %s as %s session", desktop->name, is_wayland ? "wayland" : "x11");
         xsession= calloc(1, sizeof(Entrance_Xsession));
         xsession->command = eina_stringshare_add(command);
         xsession->name = eina_stringshare_add(desktop->name);
+        xsession->is_wayland = is_wayland;
         if (desktop->icon && strcmp(desktop->icon,""))
           xsession->icon = eina_stringshare_add(desktop->icon);
         _xsessions = eina_list_sorted_insert(_xsessions,
             (Eina_Compare_Cb)_entrance_session_sort,
             xsession);
+#ifdef HAVE_LOGIND
+        /* Store session type for logind */
+        if (is_wayland)
+          {
+             PT("Wayland session detected: %s", desktop->name);
+          }
+#endif
      }
    EINA_LIST_FREE(commands, command)
      free(command);
