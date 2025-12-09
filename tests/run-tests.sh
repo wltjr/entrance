@@ -60,4 +60,5 @@ echo "${0} Going to sleep for ${SLEEP}"
 sleep ${SLEEP}
 echo "${0} Waking up"
 
+killall -v entrance_client
 killall -v entrance
