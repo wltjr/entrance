@@ -27,7 +27,7 @@ sed -i -e "s|nobody|ubuntu|" /etc/entrance/entrance.conf
 
 /usr/sbin/entrance &>/dev/null & disown
 
-SLEEP=60
+SLEEP=90
 
 echo "${0} Going to sleep for ${SLEEP}"
 sleep ${SLEEP}
