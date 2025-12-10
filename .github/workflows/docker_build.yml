@@ -22,7 +22,7 @@ jobs:
                     -v ${{ github.workspace }}:/tmp/entrance
                 run: |
                     cd /tmp/entrance
-                    meson setup --prefix /usr --buildtype=debug -Dpam=true . build
+                    meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=true . build
                     build-wrapper-linux-x86-64 --out-dir bw-output  ninja -C build
                     ninja -C build install
                     ./tests/run-tests.sh
