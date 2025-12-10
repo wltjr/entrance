@@ -6,6 +6,8 @@ if [[ ! -f /.dockerenv ]]; then
  	exit 1
 fi
 
+echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
+
 /etc/init.d/dbus start
 
 export XDG_RUNTIME_DIR="/tmp/ecore"
@@ -25,13 +27,15 @@ Type=Application
 
 sed -i -e "s|nobody|ubuntu|" /etc/entrance/entrance.conf
 
+echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
+
 /usr/sbin/entrance &>/dev/null & disown
 
 SLEEP=90
 
-echo "${0} Going to sleep for ${SLEEP}"
+echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
 sleep ${SLEEP}
-echo "${0} Waking up"
+echo -e "\e[1;35m${0} Waking up\e[0m"
 
 killall -v entrance_client
 
@@ -41,13 +45,13 @@ killall -v entrance
 
 sleep 5
 
-echo "${0} Additional client tests"
+echo -e "\e[1;35m${0} Additional client tests\e[0m"
 export HOME=/tmp
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client --help
 export HOME=/home/ubuntu
 
-echo "${0} Test autologin"
+echo -e "\e[1;35m${0} Test autologin\e[0m"
 useradd -g users -m -p 1234 -s /bin/bash myusername
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	/etc/entrance/entrance.conf
@@ -56,9 +60,11 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 
 SLEEP=60
 
-echo "${0} Going to sleep for ${SLEEP}"
+echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
 sleep ${SLEEP}
-echo "${0} Waking up"
+echo -e "\e[1;35m${0} Waking up\e[0m"
 
 killall -v entrance_client
 killall -v entrance
+
+echo -e "\e[1;35m${0} End Entrance Tests\e[0m"
