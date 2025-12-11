@@ -393,7 +393,7 @@ entrance_session_shutdown(void)
 }
 
 Eina_Bool
-entrance_session_authenticate(const char *login, const char *passwd)
+entrance_session_authenticate(const char *login, char *passwd)
 {
    Eina_Bool auth;
    _login = strdup(login);
@@ -424,7 +424,7 @@ entrance_session_authenticate(const char *login, const char *passwd)
    auth = !strcmp(enc, v);
 #endif
    eina_stringshare_del(passwd);
-   memset((char *)passwd, 0, strlen(passwd));
+   memset(passwd, 0, strlen(passwd));
    return auth;
 }
 
