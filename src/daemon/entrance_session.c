@@ -387,6 +387,14 @@ entrance_session_shutdown(void)
         if (xsession->command) eina_stringshare_del(xsession->command);
         free(xsession);
      }
+   
+   /* Free authentication cookie to prevent memory leak on restart */
+   if (_mcookie)
+     {
+        free(_mcookie);
+        _mcookie = NULL;
+     }
+   
    _session_pid = 0;
 #ifdef HAVE_LOGIND
    if (_logind_session)
@@ -506,6 +514,7 @@ entrance_session_login(const char *session, Eina_Bool push)
    Eina_Bool is_wayland = _entrance_session_is_wayland(session);
    _entrance_session_run(pwd, cmd, buf, is_wayland);
    free(_login);
+   _login = NULL;
    return EINA_TRUE;
 }
 
