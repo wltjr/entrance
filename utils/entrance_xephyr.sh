@@ -6,7 +6,7 @@ SOCKET="/tmp/.ecore_service|entrance|43"
 
 export XDG_RUNTIME_DIR="/tmp/ecore"
 
-[[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir -p "${XDG_RUNTIME_DIR}/.ecore"
+[[ ! -d "${XDG_RUNTIME_DIR}" ]] && su - nobody -c mkdir -p "${XDG_RUNTIME_DIR}/.ecore"
 
 # for both run and coverage
 find build -type d -exec chmod 0777 {} \;
