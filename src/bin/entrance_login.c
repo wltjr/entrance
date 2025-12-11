@@ -296,6 +296,8 @@ entrance_login_add(Evas_Object *obj, void *data)
 
    /* layout */
    _login = calloc(1, sizeof(Entrance_Gui_Login));
+   if (!_login)
+     return NULL;
    _login->func.data = data;
    o = entrance_gui_theme_get(obj, ENTRANCE_EDJE_GROUP_LOGIN);
 
