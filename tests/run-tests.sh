@@ -1,6 +1,19 @@
 #!/bin/bash
 # wrapper to run entrance with env vars
 
+sleep_and_kill() {
+    SLEEP=45
+
+    echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
+    sleep ${SLEEP}
+    echo -e "\e[1;35m${0} Waking up\e[0m"
+
+    killall -v entrance_client
+    sleep 5
+    killall -v entrance
+    sleep 5
+}
+
 if [[ ! -f /.dockerenv ]]; then
  	echo "Only meant to be run inside docker container"
  	exit 1
@@ -31,19 +44,7 @@ echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
 /usr/sbin/entrance &>/dev/null & disown
 
-SLEEP=90
-
-echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
-sleep ${SLEEP}
-echo -e "\e[1;35m${0} Waking up\e[0m"
-
-killall -v entrance_client
-
-sleep 5
-
-killall -v entrance
-
-sleep 5
+sleep_and_kill
 
 echo -e "\e[1;35m${0} Additional client tests\e[0m"
 export HOME=/tmp
@@ -58,13 +59,6 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 
 /usr/sbin/entrance &>/dev/null & disown
 
-SLEEP=60
-
-echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
-sleep ${SLEEP}
-echo -e "\e[1;35m${0} Waking up\e[0m"
-
-killall -v entrance_client
-killall -v entrance
+sleep_and_kill
 
 echo -e "\e[1;35m${0} End Entrance Tests\e[0m"
