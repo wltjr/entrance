@@ -62,11 +62,18 @@ _entrance_image_get(Eina_List *src, char *stdfile, char *mask)
 static char *
 _entrance_image_homedir_get(const char *usr)
 {
+   struct passwd pwd_buf;
+   struct passwd *pw = NULL;
+   char buf[4096];
    char *name;
-   struct passwd *pw;
+   int result;
 
-   pw = getpwnam(usr);
-   if (!pw) return NULL;
+   if (!usr)
+     return NULL;
+
+   result = getpwnam_r(usr, &pwd_buf, buf, sizeof(buf), &pw);
+   if (result != 0 || !pw)
+     return NULL;
    name = pw->pw_dir;
    return name;
 }
