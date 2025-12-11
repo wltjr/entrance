@@ -34,7 +34,24 @@ _entrance_logind_monitor_cb(void *data EINA_UNUSED, Ecore_Fd_Handler *fd_handler
 Eina_Bool
 entrance_logind_init(void)
 {
+   int ret;
+   
    PT("Initializing logind integration");
+   
+   /* Test systemd/elogind availability by attempting a basic call */
+   ret = sd_get_seats(NULL);
+   if (ret < 0)
+     {
+        if (ret == -ENOENT || ret == -ECONNREFUSED)
+          {
+             PT("WARNING: logind/systemd not available: %s", strerror(-ret));
+             return EINA_FALSE;
+          }
+        PT("Error checking logind availability: %s", strerror(-ret));
+        return EINA_FALSE;
+     }
+   
+   PT("logind integration initialized successfully");
    return EINA_TRUE;
 }
 
@@ -43,6 +60,8 @@ entrance_logind_shutdown(void)
 {
    PT("Shutting down logind integration");
    entrance_logind_monitor_stop();
+   
+   /* Note: Active session cleanup is handled by entrance_session_shutdown() */
 }
 
 Entrance_Logind_Session *
@@ -106,6 +125,24 @@ entrance_logind_session_free(Entrance_Logind_Session *session)
    free(session->id);
    free(session->seat);
    free(session);
+}
+
+void
+entrance_logind_session_close(Entrance_Logind_Session *session)
+{
+   if (!session) return;
+   
+   /* Note: logind/elogind automatically manages session lifecycle via PAM.
+    * When pam_close_session() is called, logind is notified automatically
+    * through pam_systemd/pam_elogind. We just need to free our local tracking.
+    * 
+    * The key is ensuring entrance_session_close() is called BEFORE we free
+    * the session structure, so PAM can properly notify logind.
+    */
+   if (session->id)
+     PT("Cleaning up logind session tracking: %s", session->id);
+   
+   entrance_logind_session_free(session);
 }
 
 Entrance_Logind_Seat *
