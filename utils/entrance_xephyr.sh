@@ -52,6 +52,8 @@ do
     	esac
 done
 
+/etc/init.d/dbus start
+
 #rm -f ~/.Xauthority
 /usr/bin/Xephyr :1 -nolisten tcp -noreset -ac -br -dpi "${DPI}" -screen "${SCREEN}" &
 sleep 1
