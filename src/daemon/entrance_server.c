@@ -154,6 +154,16 @@ _entrance_server_write_cb(const void *data, size_t size, void *user_data EINA_UN
    return EINA_TRUE;
 }
 
+#ifdef HAVE_LOGIND
+/* Callback for logind seat/session changes */
+static void
+_entrance_logind_monitor_cb(void *data EINA_UNUSED)
+{
+   PT("Logind event detected - seat or session change");
+   /* Could trigger UI updates, rescan seats, etc. */
+}
+#endif
+
 void
 entrance_server_init(gid_t uid, uid_t gid)
 {
@@ -191,12 +201,28 @@ entrance_server_init(gid_t uid, uid_t gid)
    h = ecore_event_handler_add(ECORE_CON_EVENT_CLIENT_DATA,
                                _entrance_server_data, NULL);
    _handlers = eina_list_append(_handlers, h);
+
+#ifdef HAVE_LOGIND
+   /* Initialize and start logind monitoring for seat/session changes */
+   if (entrance_logind_init())
+     {
+        if (!entrance_logind_monitor_start(_entrance_logind_monitor_cb, NULL))
+          PT("WARNING: Could not start logind monitor");
+     }
+   else
+     {
+        PT("WARNING: logind initialization failed - multi-seat support disabled");
+     }
+#endif
 }
 
 void
 entrance_server_shutdown(void)
 {
    Ecore_Event_Handler *h;
+#ifdef HAVE_LOGIND
+   entrance_logind_shutdown();
+#endif
    if (_entrance_server)
      ecore_con_server_del(_entrance_server);
    EINA_LIST_FREE(_handlers, h)
