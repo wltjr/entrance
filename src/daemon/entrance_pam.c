@@ -22,16 +22,17 @@ _entrance_pam_conv(int num_msg,
 {
    int i;
    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
+   if (!*resp) return PAM_CONV_ERR;
    for (i = 0; i < num_msg; i++)
      {
-        resp[i]->resp_retcode=0;
+        (*resp)[i].resp_retcode=0;
         switch(msg[i]->msg_style)
           {
            case PAM_PROMPT_ECHO_ON:
               break;
            case PAM_PROMPT_ECHO_OFF:
               PT("echo off");
-              resp[i]->resp = _passwd;
+              (*resp)[i].resp = _passwd;
               break;
            case PAM_ERROR_MSG:
               PT("error msg %s", msg[i]->msg);
