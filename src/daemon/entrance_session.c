@@ -172,6 +172,11 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         int n = 0;
         char *term = getenv("TERM");
         env = (char **)malloc(15 * sizeof(char *));
+        if (!env)
+          {
+            PT("Failed to allocate environment array");
+            return;
+          }
         if(term)
           {
             char *t = NULL;
@@ -318,6 +323,11 @@ entrance_session_cookie(void)
    char buf[PATH_MAX];
 
    _mcookie = calloc(33, sizeof(char));
+   if (!_mcookie)
+     {
+       PT("Failed to allocate memory for cookie");
+       return;
+     }
    _mcookie[0] = 'a';
 
    long rand = 0;
@@ -356,6 +366,7 @@ entrance_session_cookie(void)
 
    snprintf(buf, sizeof(buf), "XAUTHORITY=%s",
             entrance_config->command.xauth_file);
+   /* Note: putenv takes ownership of string, don't free */
    putenv(strdup(buf));
    _entrance_session_cookie_add(_mcookie, _dname,
                             entrance_config->command.xauth_path,
@@ -397,17 +408,21 @@ entrance_session_authenticate(const char *login, const char *passwd)
 {
    Eina_Bool auth;
    _login = strdup(login);
+   if (!_login)
+     return EINA_FALSE;
 #ifdef HAVE_PAM
    entrance_pam_init(_dname, login);
    auth = !!(!entrance_pam_passwd_set(passwd)
              && !entrance_pam_authenticate());
 #else
    char *enc, *v;
-   struct passwd *pwd;
+   struct passwd pwd_buf;
+   struct passwd *pwd = NULL;
+   char buf[4096];
+   int result;
 
-   pwd = getpwnam(login);
-   endpwent();
-   if(!pwd)
+   result = getpwnam_r(login, &pwd_buf, buf, sizeof(buf), &pwd);
+   if (result != 0 || !pwd)
      return EINA_FALSE;
 #ifdef HAVE_SHADOW
    struct spwd *spd;
@@ -430,12 +445,33 @@ entrance_session_authenticate(const char *login, const char *passwd)
 static struct passwd *
 _entrance_session_session_open(void)
 {
+   static struct passwd pwd_buf;
+   static char buf[4096];
+   struct passwd *pwd = NULL;
+   const char *user;
+   int result;
+
 #ifdef HAVE_PAM
    if (!entrance_pam_open_session())
-      return getpwnam(entrance_pam_item_get(ENTRANCE_PAM_ITEM_USER));
+     {
+       user = entrance_pam_item_get(ENTRANCE_PAM_ITEM_USER);
+       if (user)
+         {
+           result = getpwnam_r(user, &pwd_buf, buf, sizeof(buf), &pwd);
+           if (result == 0 && pwd)
+             return pwd;
+         }
+     }
    return NULL;
 #else
-   return getpwnam(entrance_session_login_get());
+   user = entrance_session_login_get();
+   if (user)
+     {
+       result = getpwnam_r(user, &pwd_buf, buf, sizeof(buf), &pwd);
+       if (result == 0 && pwd)
+         return pwd;
+     }
+   return NULL;
 #endif
 }
 
@@ -613,6 +649,8 @@ _entrance_session_desktops_scan_file(const char *path)
      {
         PT("Adding %s as %s session", desktop->name, is_wayland ? "wayland" : "x11");
         xsession= calloc(1, sizeof(Entrance_Xsession));
+        if (!xsession)
+          return;
         xsession->command = eina_stringshare_add(command);
         xsession->name = eina_stringshare_add(desktop->name);
         xsession->is_wayland = is_wayland;
