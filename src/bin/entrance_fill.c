@@ -184,6 +184,8 @@ entrance_fill_new(const char *item_style,
 {
    Entrance_Fill *ef;
    ef = calloc(1, sizeof(Entrance_Fill));
+   if (!ef)
+     return NULL;
    ef->item_style = eina_stringshare_add(item_style);
    ef->func.text_get = text_get;
    ef->func.content_get = content_get;
