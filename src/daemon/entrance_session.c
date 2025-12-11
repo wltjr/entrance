@@ -107,7 +107,9 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
 #ifdef HAVE_PAM
    char *term = NULL;
    char vtnr[128] = {0};
+#ifdef HAVE_LOGIND
    char *seat_name = NULL;
+#endif
    
    term = getenv("TERM");
    
@@ -271,10 +273,14 @@ entrance_session_pid_set(pid_t pid)
    _logind_session = entrance_logind_session_get(pid);
    if (_logind_session)
      {
-        PT("Session registered with logind: id=%s seat=%s vt=%u",
+        PT("Session found in logind: id=%s seat=%s vt=%u",
            _logind_session->id,
            _logind_session->seat ? _logind_session->seat : "none",
            _logind_session->vtnr);
+        
+        /* Set XDG_SESSION_ID environment variable for proper session tracking */
+        if (_logind_session->id)
+          setenv("XDG_SESSION_ID", _logind_session->id, 1);
      }
    else
      {
@@ -321,9 +327,10 @@ entrance_session_cookie(void)
    fp = fopen("/dev/urandom", "r");
    for (i=0; i<32; i+=4)
      {
+       read = 0;
        if (fp)
            read = fread(&rand,sizeof(rand),1,fp);
-       if (read)
+       if (!read)  /* Use clock fallback ONLY if urandom read failed */
          {
            clock_gettime(CLOCK_REALTIME, &time);
            rand = time.tv_nsec;
