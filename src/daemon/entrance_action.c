@@ -28,13 +28,17 @@ _entrance_action_add(const char *label,
 {
    Entrance_Action_Data *ead;
    ead = calloc(1, sizeof(Entrance_Action_Data));
+   if (!ead)
+     return NULL;
    ead->label = eina_stringshare_add(label);
    ead->func = func;
    ead->data = data;
    ead->id = (unsigned char)eina_list_count(_entrance_actions);
    char icon[128];
    snprintf(icon,128,"system-%s",label);
-   icon[7] = tolower(icon[7]);
+   /* Lowercase first char of label (after "system-" prefix) */
+   if (icon[7] != '\0')
+     icon[7] = tolower(icon[7]);
    ead->icon = eina_stringshare_add(icon);
    ecore_event_handler_add(ECORE_EXE_EVENT_DEL,
                            _entrance_action_exe_event_del_cb, NULL);
@@ -64,6 +68,8 @@ entrance_action_get(void)
    EINA_LIST_FOREACH(_entrance_actions, l, ead)
      {
         ea = calloc(1, sizeof(Entrance_Action));
+        if (!ea)
+          continue;
         ea->label = eina_stringshare_add(ead->label);
         ea->id = ead->id;
         ea->icon = eina_stringshare_add(ead->icon);
