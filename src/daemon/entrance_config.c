@@ -69,12 +69,20 @@ _users_get(void)
    textlen = ftell(f);
    rewind(f);
    if(textlen > 0)
-     text = (char *)malloc(textlen);
-   if (!text)
      {
-        fclose(f);
-        eet_close(ef);
-        return;
+       text = (char *)malloc(textlen);
+       if (!text)
+         {
+           fclose(f);
+           eet_close(ef);
+           return;
+         }
+     }
+   else
+     {
+       fclose(f);
+       eet_close(ef);
+       return;
      }
 
    if (fread(text, textlen, 1, f) != 1)
