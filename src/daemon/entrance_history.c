@@ -149,9 +149,17 @@ entrance_history_push(const char *login, const char *session)
              el->login = eina_stringshare_add(login);
              if (session) el->lsess = eina_stringshare_add(session);
              el->remember_session = EINA_TRUE;
-             _entrance_history->history =
-                eina_list_append(_entrance_history->history, el);
-             _history_update = EINA_TRUE;
+             if (el->login)
+               {
+                 _entrance_history->history =
+                    eina_list_append(_entrance_history->history, el);
+                 _history_update = EINA_TRUE;
+               }
+             else
+               {
+                 /* Failed to add login, cleanup */
+                 free(el);
+               }
           }
      }
 }
@@ -240,8 +248,10 @@ _entrance_user_init(void)
         while (fgets(buf, sizeof(buf), f))
           {
              user = strtok_r(buf, ":", &saveptr);
+             if (!user) continue;
              strtok_r(NULL, ":", &saveptr);
              token = strtok_r(NULL, ":", &saveptr);
+             if (!token) continue;
              uid = atoi(token);
              if (uid > 999 && uid < 65534)
                  lu = eina_list_append(lu, eina_stringshare_add(user));
@@ -259,7 +269,14 @@ _entrance_user_init(void)
             if (eu)
               {
                 eu->login = eina_stringshare_add(user);
-                eu->remember_session = EINA_TRUE;
+                if (!eu->login)
+                  {
+                    /* Failed to add login, cleanup */
+                    free(eu);
+                    eu = NULL;
+                  }
+                else
+                  eu->remember_session = EINA_TRUE;
               }
           }
         eina_stringshare_del(user);
