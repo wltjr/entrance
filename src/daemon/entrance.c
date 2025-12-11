@@ -107,7 +107,8 @@ _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
    if ((unsigned int)ev->size > sizeof(buf) - 1)
      size = sizeof(buf) - 1;
 
-   snprintf(buf, size + 1, "%s", (char*)ev->data);
+   strncpy(buf, (char*)ev->data, size);
+   buf[size] = '\0';  /* Ensure null termination */
    EINA_LOG_DOM_INFO(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
 }
@@ -165,6 +166,7 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
      size = sizeof(buf) - 1;
 
    strncpy(buf, (char*)ev->data, size);
+   buf[size] = '\0';  /* Ensure null termination */
    EINA_LOG_DOM_ERR(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
 }
@@ -273,17 +275,29 @@ _entrance_start_client(const char *entrance_display)
 static void
 _entrance_uid_gid_init()
 {
+   struct passwd pwd_buf;
    struct passwd *pwd = NULL;
+   char buf[4096];
+   int result;
 
    if (entrance_config->start_user
        && entrance_config->start_user[0])
-     pwd = getpwnam(entrance_config->start_user);
+     {
+       result = getpwnam_r(entrance_config->start_user, &pwd_buf, buf, sizeof(buf), &pwd);
+       if (result != 0 || !pwd)
+         pwd = NULL;
+     }
    if (!pwd)
      {
        PT("The given user %s, is not valid."
           "Falling back to nobody", entrance_config->start_user);
-        pwd = getpwnam("nobody");
-        entrance_user = "nobody";
+       result = getpwnam_r("nobody", &pwd_buf, buf, sizeof(buf), &pwd);
+       if (result != 0 || !pwd)
+         {
+           PT("Critical: Cannot get nobody user information");
+           return;
+         }
+       entrance_user = "nobody";
      }
    else
      entrance_user = entrance_config->start_user;
