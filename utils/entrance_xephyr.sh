@@ -4,7 +4,7 @@ SOCKET="/tmp/.ecore_service|entrance|43"
 
 [[ -e "${SOCKET}" ]] && rm -v "${SOCKET}"
 
-export XDG_RUNTIME_DIR="${PWD}/build/test/entrance/client"
+export XDG_RUNTIME_DIR="/tmp/ecore"
 
 [[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir -p "${XDG_RUNTIME_DIR}/.ecore"
 
@@ -13,12 +13,12 @@ find build -type d -exec chmod 0777 {} \;
 
 DPI=${DPI:-142}
 SCREEN=${SCREEN:-1024x768}
-ENTRANCE=${ENTRANCE:-src/daemon/entrance}
+ENTRANCE=${ENTRANCE:-/usr/sbin/entrance}
 
 [[ -d build ]] && cd build
 
-if [[ ! -f src/daemon/entrance ]]; then
-	echo "src/daemon/entrance does not exist, run ./utils/local_build.sh"
+if [[ ! -f /usr/sbin/entrance ]]; then
+	echo "/usr/sbin/entrance does not exist, run ./utils/local_build_docker.sh"
 	exit 1
 fi
 
@@ -53,7 +53,7 @@ do
 done
 
 #rm -f ~/.Xauthority
-Xephyr :1 -nolisten tcp -noreset -ac -br -dpi "${DPI}" -screen "${SCREEN}" &
+/usr/bin/Xephyr :1 -nolisten tcp -noreset -ac -br -dpi "${DPI}" -screen "${SCREEN}" &
 sleep 1
 
 if [[ ${GDB} ]]; then
