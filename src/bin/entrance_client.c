@@ -2,6 +2,8 @@
 #include <Ecore.h>
 #include <Ecore_X.h>
 #include <Ecore_Getopt.h>
+#include <errno.h>
+#include <string.h>
 
 #define NOBODY 65534
 
@@ -81,18 +83,38 @@ main(int argc, char **argv)
    if (quit_option)
      return EXIT_SUCCESS;
    if(gid>0)
-     setgid(gid);
+     {
+       if (setgid(gid) != 0)
+         {
+           fprintf(stderr, "Failed to set gid %d: %s\n", gid, strerror(errno));
+           return EXIT_FAILURE;
+         }
+     }
    else
      {
        PT("root gid not allowed, defaulting to nobody");
-       setgid(NOBODY);
+       if (setgid(NOBODY) != 0)
+         {
+           fprintf(stderr, "Failed to set gid to nobody: %s\n", strerror(errno));
+           return EXIT_FAILURE;
+         }
      }
    if(uid>0)
-     setuid(uid);
+     {
+       if (setuid(uid) != 0)
+         {
+           fprintf(stderr, "Failed to set uid %d: %s\n", uid, strerror(errno));
+           return EXIT_FAILURE;
+         }
+     }
    else
      {
        PT("root uid not allowed, defaulting to nobody");
-       setuid(NOBODY);
+       if (setuid(NOBODY) != 0)
+         {
+           fprintf(stderr, "Failed to set uid to nobody: %s\n", strerror(errno));
+           return EXIT_FAILURE;
+         }
      }
    eina_init();
    if (!display)
