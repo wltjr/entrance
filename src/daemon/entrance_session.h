@@ -5,7 +5,7 @@
 void entrance_session_init(const char *dname);
 void entrance_session_cookie(void);
 void entrance_session_shutdown(void);
-Eina_Bool entrance_session_authenticate(const char *login, char *pwd);
+Eina_Bool entrance_session_authenticate(const char *login, const char *pwd);
 void entrance_session_close(Eina_Bool opened);
 Eina_Bool entrance_session_login(const char *command, Eina_Bool push);
 void entrance_session_pid_set(pid_t pid);
