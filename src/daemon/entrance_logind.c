@@ -159,6 +159,11 @@ entrance_logind_seat_get(const char *seat_name)
    if (!seat) return NULL;
 
    seat->name = strdup(seat_name);
+   if (!seat->name)
+     {
+       free(seat);
+       return NULL;
+     }
 
    /* Check capabilities */
    ret = sd_seat_can_graphical(seat_name);
