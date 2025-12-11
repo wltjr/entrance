@@ -111,6 +111,7 @@ entrance_gui_init(const char *theme)
              if (!ol)
                {
                   PT("Tut Tut Tut no theme for entrance");
+                  evas_object_del(screen->transition);
                   free(screen);
                   return j;
                }
@@ -146,6 +147,14 @@ entrance_gui_init(const char *theme)
                }
 
              o = entrance_login_add(ol, screen);
+             if (!o)
+               {
+                 /* Failed to create login, cleanup screen */
+                 evas_object_del(screen->transition);
+                 evas_object_del(screen->edj);
+                 free(screen);
+                 continue;
+               }
              entrance_login_open_session_set(o, EINA_TRUE);
              screen->login = o;
              elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_LOGIN, o);
@@ -284,7 +293,15 @@ _entrance_gui_string_to_entrance_image(Eina_List *src, char *stdfile, char *mask
             img->path = eina_stringshare_add(stdfile);
           }
         else
-          img->path = src_str;
+          {
+            if (!src_str || !src_str[0])
+              {
+                 /* Invalid image, cleanup */
+                 free(img);
+                 continue;
+              }
+            img->path = src_str;
+          }
         result = eina_list_append(result,img);
      }
    return result;
