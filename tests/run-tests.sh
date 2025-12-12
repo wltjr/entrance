@@ -38,6 +38,10 @@ Icon=
 Type=Application
 " > /usr/share/xsessions/Xsession.desktop
 
+# this is temporary for CI till a better solution for all distros, ideally
+sed -i -e "s|system-login|common-auth|" \
+	/etc/pam.d/entrance
+
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
 /usr/sbin/entrance &>/dev/null & disown
