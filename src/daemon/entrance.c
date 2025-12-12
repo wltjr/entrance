@@ -291,10 +291,10 @@ _entrance_start_client(const char *entrance_display)
             fchown(home_dir, entrance_uid, entrance_gid);
          }
        snprintf(buf, sizeof(buf),
-                "export HOME=%s; export USER=%s;"
-                "export LD_LIBRARY_PATH="PACKAGE_LIB_DIR";%s "
-                PACKAGE_BIN_DIR"/entrance_client -d %s -t %s -g %d -u %d -p %d",
-                home_path, entrance_user, entrance_config->command.session_login,
+                "export HOME='%s'; export USER='%s';"
+                "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
+                PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
+                home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
                 entrance_display, entrance_config->theme,
                 entrance_gid,entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
