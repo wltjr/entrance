@@ -38,8 +38,6 @@ Icon=
 Type=Application
 " > /usr/share/xsessions/Xsession.desktop
 
-sed -i -e "s|nobody|ubuntu|" /etc/entrance/entrance.conf
-
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
 /usr/sbin/entrance &>/dev/null & disown
@@ -53,8 +51,8 @@ export HOME=/tmp
 export HOME=/home/ubuntu
 
 echo -e "\e[1;35m${0} Test autologin\e[0m"
-useradd -g users -m -p 1234 -s /bin/bash myusername
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
+	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	/etc/entrance/entrance.conf
 
 /usr/sbin/entrance &>/dev/null & disown
