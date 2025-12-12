@@ -123,10 +123,16 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
    /* Try to get VT from logind, fallback to config */
    unsigned int logind_vt = entrance_logind_vt_get(_dname);
    if (logind_vt > 0)
-     eina_convert_xtoa(logind_vt, vtnr);
+     {
+        eina_convert_xtoa(logind_vt, vtnr);
+        PT("Using VT from logind: %u", logind_vt);
+     }
    else
 #endif
-     eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+     {
+        eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+        PT("Using configured VT: %u", entrance_config->command.vtnr);
+     }
    
    if (term) entrance_pam_env_set("TERM", term);
    entrance_pam_env_set("HOME", pwd->pw_dir);
@@ -144,6 +150,10 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
 #endif
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_VTNR", vtnr);
+   
+   char xdg_runtime_dir[PATH_MAX];
+   snprintf(xdg_runtime_dir, sizeof(xdg_runtime_dir), "/run/user/%d", pwd->pw_uid);
+   entrance_pam_env_set("XDG_RUNTIME_DIR", xdg_runtime_dir);
 #endif
    return EINA_TRUE;
 }
@@ -165,6 +175,11 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         else
           setenv("XDG_SESSION_TYPE", "x11", 1);
         setenv("XDG_SESSION_DESKTOP", "entrance", 1);
+        
+        /* Ensure XDG_RUNTIME_DIR is set for user services (audio, DBus, systemd) */
+        char xdg_runtime[PATH_MAX];
+        snprintf(xdg_runtime, sizeof(xdg_runtime), "/run/user/%d", pwd->pw_uid);
+        setenv("XDG_RUNTIME_DIR", xdg_runtime, 1);
         
         env = entrance_pam_env_list_get();
         entrance_pam_end();
@@ -211,6 +226,8 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         snprintf(buf, sizeof(buf), "XDG_SESSION_TYPE=%s", is_wayland ? "wayland" : "x11");
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_SESSION_DESKTOP=entrance");
+        env[n++]=strdup(buf);
+        snprintf(buf, sizeof(buf), "XDG_RUNTIME_DIR=/run/user/%d", pwd->pw_uid);
         env[n++]=strdup(buf);
         env[n++]=0;
 #endif
@@ -283,13 +300,13 @@ entrance_session_pid_set(pid_t pid)
            _logind_session->seat ? _logind_session->seat : "none",
            _logind_session->vtnr);
         
-        /* Set XDG_SESSION_ID environment variable for proper session tracking */
-        if (_logind_session->id)
-          setenv("XDG_SESSION_ID", _logind_session->id, 1);
+        /* Note: XDG_SESSION_ID is set via PAM or will be inherited from parent.
+         * logind automatically registers the session through pam_systemd/pam_elogind.
+         * We track it here for monitoring/debugging purposes. */
      }
    else
      {
-        PT("Warning: Could not get logind session for PID %d", pid);
+        PT("Warning: Could not get logind session for PID %d (may not be registered yet)", pid);
      }
 #endif
 }
@@ -305,9 +322,16 @@ entrance_session_init(const char *dname)
 {
    _dname = dname;
 #ifdef HAVE_LOGIND
-   entrance_logind_init();
-   _logind_seat = entrance_logind_seat_detect();
-   PT("Using logind with seat: %s", _logind_seat ? _logind_seat : "unknown");
+   if (entrance_logind_init())
+     {
+        _logind_seat = entrance_logind_seat_detect();
+        PT("Using logind with seat: %s", _logind_seat ? _logind_seat : "unknown");
+     }
+   else
+     {
+        PT("WARNING: logind initialization failed - using defaults");
+        _logind_seat = strdup("seat0");
+     }
 #endif
 }
 
