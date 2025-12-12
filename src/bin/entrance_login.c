@@ -47,14 +47,14 @@ _login_check_auth(Evas_Object *widget)
 
    o = elm_object_part_content_get(widget, ENTRANCE_EDJE_PART_LOGIN);
    host = elm_entry_markup_to_utf8(elm_object_text_get(o));
-   if(!host || !host[0])
+   if(!host || *host == '\0')
      {
        ALERT_ERROR(widget, _("Please enter your user name"));
        return;
      }
    o = elm_object_part_content_get(widget, ENTRANCE_EDJE_PART_PASSWORD);
    passwd = elm_entry_markup_to_utf8(elm_object_text_get(o));
-   if(entrance_gui_req_passwd_get() && (!passwd || !passwd[0]))
+   if(entrance_gui_req_passwd_get() && (!passwd || *passwd == '\0'))
      {
        ALERT_ERROR(widget, _("Please enter your password"));
        return;
