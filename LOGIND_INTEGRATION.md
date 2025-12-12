@@ -73,9 +73,43 @@ XDG_VTNR=<vt-number>            # From logind or config fallback
 XDG_SESSION_CLASS=user          # User session
 XDG_SESSION_TYPE=x11|wayland    # Based on actual session type
 XDG_SESSION_DESKTOP=entrance    # Session desktop name
+XDG_RUNTIME_DIR=/run/user/<uid> # Ensures audio/DBus/systemd user services work
 ```
 
+### XDG_RUNTIME_DIR fix (PAM and non-PAM)
+- Set in PAM env during session init and in the parent env before exec (PAM builds)
+- Set in the env array for non-PAM builds
+- Works for both X11 and Wayland sessions; required for PipeWire/PulseAudio/DBus/systemd --user sockets under `/run/user/<uid>`
+
 ---
+
+## Portable PAM Configuration
+
+Entrance ships a portable PAM stack (`data/entrance.pam.d`) installed as `/etc/pam.d/entrance` that avoids distro-specific includes (e.g., `system-login`, `common-*`) and works across systemd and OpenRC environments.
+
+### Modules Used
+- `pam_env.so` — export environment variables
+- `pam_unix.so` — standard auth/account/password
+- `pam_limits.so` — resource limits
+- `pam_loginuid.so` — audit login UID
+- `pam_systemd.so` (optional) — session registration on systemd
+- `pam_elogind.so` (optional) — session registration on elogind
+- `pam_gnome_keyring.so`, `pam_kwallet6.so` (optional) — desktop keyrings
+
+### Rationale
+- Explicit module list ensures the same behavior across Gentoo, Ubuntu, Debian, Arch, Fedora, Alpine.
+- Optional modules are prefixed with `-` to avoid hard failures when absent.
+- Works with `-Dpam=true` and either `-Dlogind=true` (systemd/elogind) or `-Dlogind=false` (pure OpenRC).
+
+### Install Locations
+- PAM file: `/etc/pam.d/entrance`
+- Config: `/etc/entrance/entrance.conf` (EET)
+- Session launcher: `/etc/entrance/Xsession`
+
+### Notes
+- On OpenRC + elogind, ensure `rc-service elogind start` so `pam_elogind.so` can register sessions.
+- On Alpine/Gentoo, package names differ (e.g., `linux-pam-dev`, `elogind`); the portable file handles absence gracefully.
+- Password handling in code uses PAM conversation; no in-tree zeroing is performed (heap is freed promptly).
 
 ## How It Works
 
@@ -198,6 +232,24 @@ After installation:
 ```bash
 # Check session registration
 loginctl list-sessions
+
+## OpenRC Display-Manager Integration (elogind)
+
+For elogind users on OpenRC, the stock `display-manager` script does not know how to background entrance, so the service will flap with "no pid found". Add the standard backgrounding/pidfile flags for entrance:
+
+```bash
+entrance*)
+   command=/usr/sbin/entrance
+   pidfile=/run/entrance.pid
+   command_background=yes
+   start_stop_daemon_args="--make-pidfile"
+   ;;
+```
+
+Notes:
+- Entrance creates its own pidfile (`/var/run/entrance.pid`), but OpenRC still needs `command_background` + `--make-pidfile` to track the service reliably.
+- The `daemonize` config option in `entrance.conf` is unused by the code; its value does not affect runtime.
+- The session wait logic in `entrance.c` is now resilient: it first `waitpid(WNOHANG)` and, if backgrounded by init, falls back to polling `/proc/<session_pid>` until logout.
 # Should show entrance session
 
 # Check session details
@@ -262,6 +314,32 @@ Possible improvements for future versions:
 
 ---
 
+## Tested Distros Matrix
+
+- Ubuntu (systemd): PAM + libsystemd — build/run ✅
+- Arch (systemd): PAM + libsystemd — build/run ✅
+- Fedora (systemd): PAM + libsystemd — build/run ✅
+- Alpine (OpenRC): PAM, `-Dlogind=false` — build/run ✅
+- Gentoo (OpenRC/elogind): PAM + elogind — build/run ✅
+
+Notes:
+- In containers, `SO_REUSEPORT` warnings are benign.
+- Headless runs may prompt efreetd backtrace; use `timeout 10s /usr/sbin/entrance </dev/null`.
+- `--sysconfdir=/etc` installs `entrance.conf` to `/etc/entrance`, PAM file to `/etc/pam.d/entrance`, and `Xsession` to `/etc/entrance`.
+
+### Alpine (OpenRC) quick Docker smoke
+```
+docker run --rm -it -v "$(pwd)":/tmp/entrance alpine:latest sh
+apk add --no-cache build-base meson ninja pkgconf git gettext-dev \
+   efl efl-dev dbus dbus-x11 xauth libx11-dev libxcb-dev xcb-util-image-dev \
+   libxkbcommon-dev wayland-dev linux-pam-dev
+cd /tmp/entrance
+meson setup build --prefix=/usr --sysconfdir=/etc -Dpam=true -Dlogind=false
+ninja -C build install
+mkdir -p /run/dbus && dbus-daemon --system --fork
+timeout 10s /usr/sbin/entrance </dev/null
+```
+
 ## Comparison: Before vs After
 
 ### Before Implementation
@@ -321,8 +399,4 @@ _logind_session = entrance_logind_session_get(pid);
 
 ## Credits
 
-Implementation by: OxusByte45
-Date: December 2025
-Repository: https://github.com/OxusByte45/entrance
-
-Maintained fork for Gentoo/OpenRC with enlightenment-live overlay.
+This integration builds on the original Entrance project and its authors. All credit remains with the upstream maintainers and contributors.
