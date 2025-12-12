@@ -53,6 +53,7 @@ export HOME=/home/ubuntu
 echo -e "\e[1;35m${0} Test autologin\e[0m"
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
+	-e "s|Enlightenment|Xsession|" \
 	/etc/entrance/entrance.conf
 
 /usr/sbin/entrance &>/dev/null & disown
