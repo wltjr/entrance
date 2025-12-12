@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 #include <Eina.h>
 #include "Ecore_Getopt.h"
 #include <xcb/xcb.h>
@@ -196,12 +197,52 @@ static void
 _entrance_session_wait()
 {
   pid_t session_pid = 0;
+  char proc_path[64];
+  int wait_result;
 
   if((session_pid = entrance_session_pid_get())>0)
     {
       PT("session running pid %d, waiting...", session_pid);
-      while (!entrance_signal &&
-             ( waitpid(session_pid, NULL, 0) > 0 ));
+      snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
+      
+      /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
+      while (!entrance_signal)
+        {
+          wait_result = waitpid(session_pid, NULL, WNOHANG);
+          
+          if (wait_result > 0)
+            {
+              /* Child terminated */
+              PT("session pid %d exited", session_pid);
+              break;
+            }
+          else if (wait_result < 0)
+            {
+              if (errno == ECHILD)
+                {
+                  /* Not a direct child (backgrounded by OpenRC), poll /proc instead */
+                  PT("session not direct child, polling /proc/%d", session_pid);
+                  while (!entrance_signal)
+                    {
+                      if (access(proc_path, F_OK) != 0)
+                        {
+                          PT("session pid %d terminated", session_pid);
+                          break;
+                        }
+                      usleep(500000); /* Check every 500ms */
+                    }
+                  break;
+                }
+              else
+                {
+                  /* Other error */
+                  PT("waitpid error: %d", errno);
+                  break;
+                }
+            }
+          /* wait_result == 0: child still running, sleep and check again */
+          usleep(500000);
+        }
     }
 }
 
