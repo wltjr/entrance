@@ -36,9 +36,6 @@ Entrance_Logind_Session *entrance_logind_session_get(pid_t pid);
 /* Free session structure */
 void entrance_logind_session_free(Entrance_Logind_Session *session);
 
-/* Close and release session with logind */
-void entrance_logind_session_close(Entrance_Logind_Session *session);
-
 /* Get seat information */
 Entrance_Logind_Seat *entrance_logind_seat_get(const char *seat_name);
 
