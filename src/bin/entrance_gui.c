@@ -367,11 +367,12 @@ entrance_gui_stringlist_get(const char *str)
      {
         if ((*s == ' ') || (!*s))
           {
-             char *t = malloc(s - b + 1);
+             size_t len = s - b;
+             char *t = malloc(len + 1);
              if (t)
                {
-                  strncpy(t, b, s - b);
-                  t[s - b] = 0;
+                  memcpy(t, b, len);
+                  t[len] = 0;
                   list = eina_list_append(list, eina_stringshare_add(t));
                   free(t);
                }
