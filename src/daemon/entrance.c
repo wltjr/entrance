@@ -108,7 +108,7 @@ _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
    if ((unsigned int)ev->size > sizeof(buf) - 1)
      size = sizeof(buf) - 1;
 
-   strncpy(buf, (char*)ev->data, size);
+   memcpy(buf, ev->data, size);
    buf[size] = '\0';  /* Ensure null termination */
    EINA_LOG_DOM_INFO(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
@@ -166,7 +166,7 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
    if ((unsigned int)ev->size > sizeof(buf) - 1)
      size = sizeof(buf) - 1;
 
-   strncpy(buf, (char*)ev->data, size);
+   memcpy(buf, ev->data, size);
    buf[size] = '\0';  /* Ensure null termination */
    EINA_LOG_DOM_ERR(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
