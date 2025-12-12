@@ -101,16 +101,14 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
    if (pwd->pw_shell[0] == '\0')
      {
         const char *shell;
-        size_t len;
+        static char default_shell[PATH_MAX];
+
         setusershell();
         shell = getusershell();
         if (shell)
           {
-             len = strlen(shell);
-             if (len >= sizeof(pwd->pw_shell))
-               len = sizeof(pwd->pw_shell) - 1;
-             memcpy(pwd->pw_shell, shell, len);
-             pwd->pw_shell[len] = '\0';
+             snprintf(default_shell, sizeof(default_shell), "%s", shell);
+             pwd->pw_shell = default_shell;
           }
         endusershell();
      }
