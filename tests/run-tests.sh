@@ -40,6 +40,11 @@ Type=Application
 sed -i -e "s|system-login|common-auth|" \
 	/etc/pam.d/entrance
 
+# Fix permissions for CI build directory to allow entrance user access
+if [ -d "/build" ]; then
+    chmod -R 777 /build
+fi
+
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
 /usr/sbin/entrance &>/dev/null & disown
