@@ -23,9 +23,7 @@ echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
 
 /etc/init.d/dbus start
 
-export XDG_RUNTIME_DIR="/tmp/ecore"
-
-for d in "${XDG_RUNTIME_DIR}"{,/.ecore} /usr/share/xsessions; do
+for d in /usr/share/xsessions; do
 	[[ ! -d "${d}" ]] && mkdir -p "${d}"
 done
 
