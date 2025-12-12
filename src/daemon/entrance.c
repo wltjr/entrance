@@ -98,7 +98,7 @@ static Eina_Bool
 _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
 {
    char buf[4096];
-   Ecore_Exe_Event_Data *ev;
+   const Ecore_Exe_Event_Data *ev;
    size_t size;
 
    ev = event;
@@ -117,7 +117,7 @@ _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
 static Eina_Bool
 _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
-   Ecore_Exe_Event_Del *ev;
+   const Ecore_Exe_Event_Del *ev;
 
    ev = event;
    if (ev->exe != _entrance_client)
@@ -157,7 +157,7 @@ static Eina_Bool
 _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
    char buf[4096];
-   Ecore_Exe_Event_Data *ev;
+   const Ecore_Exe_Event_Data *ev;
    size_t size;
 
    ev = event;
