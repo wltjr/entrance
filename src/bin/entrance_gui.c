@@ -167,7 +167,7 @@ entrance_gui_init(const char *theme)
              evas_object_show(screen->edj);
            }
          evas_object_show(screen->transition);
-
+         /* Add screen to list for all monitors (not just primary) */
          _gui->screens = eina_list_append(_gui->screens, screen);
          ecore_x_xinerama_screen_geometry_get(j, &x, &y, &w, &h);
          evas_object_move(screen->transition, x, y);
