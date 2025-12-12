@@ -32,8 +32,8 @@ done
 echo "[Desktop Entry]
 Name=XSession
 Comment=Xsession
-Exec=/etc/entrance/Xsession
-TryExec=/etc/entrance/Xsession
+Exec=/etc/entrance/Xsession /usr/bin/xeyes
+TryExec=/etc/entrance/Xsession /usr/bin/xeyes
 Icon=
 Type=Application
 " > /usr/share/xsessions/Xsession.desktop
