@@ -203,16 +203,10 @@ entrance_server_init(gid_t uid, uid_t gid)
    _handlers = eina_list_append(_handlers, h);
 
 #ifdef HAVE_LOGIND
-   /* Initialize and start logind monitoring for seat/session changes */
-   if (entrance_logind_init())
-     {
-        if (!entrance_logind_monitor_start(_entrance_logind_monitor_cb, NULL))
-          PT("WARNING: Could not start logind monitor");
-     }
-   else
-     {
-        PT("WARNING: logind initialization failed - multi-seat support disabled");
-     }
+   /* Note: logind_init() is called in entrance_session_init() */
+   /* Start monitoring for seat/session changes */
+   if (!entrance_logind_monitor_start(_entrance_logind_monitor_cb, NULL))
+     PT("WARNING: Could not start logind monitor");
 #endif
 }
 
@@ -221,7 +215,8 @@ entrance_server_shutdown(void)
 {
    Ecore_Event_Handler *h;
 #ifdef HAVE_LOGIND
-   entrance_logind_shutdown();
+   /* Stop monitoring only - full shutdown in entrance_session_shutdown() */
+   entrance_logind_monitor_stop();
 #endif
    if (_entrance_server)
      ecore_con_server_del(_entrance_server);
