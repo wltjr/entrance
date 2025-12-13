@@ -33,10 +33,4 @@ void entrance_gui_pools_set(const Entrance_Pools *pool);
 void entrance_gui_themes_set(Eina_List *list);
 Eina_List* entrance_gui_themes_get(void);
 
-/*
-char *entrance_gui_user_get();
-char *entrance_gui_password_get();
-char *entrance_gui_login_command_get();
-*/
-
 #endif /* ENTRANCE_GUI_H_ */
