@@ -476,7 +476,7 @@ _signal_log(int sig EINA_UNUSED)
 
 Eina_Bool entrance_auto_login_enabled()
 {
-  return(_entrance_auto_login);
+  return _entrance_auto_login;
 }
 
 void
