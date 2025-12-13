@@ -539,7 +539,7 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
         _gui->vkbd_enabled = conf->vkbd_enabled;
         _gui->changed &= ENTRANCE_CONF_VKBD;
      }
-   _gui->changed = ~(ENTRANCE_CONF_NONE);
+   _gui->changed = ~ENTRANCE_CONF_NONE;
    _entrance_gui_update();
 }
 
@@ -717,9 +717,9 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
 
    struct timespec time;
    clock_gettime(CLOCK_REALTIME, &time);
-   rnd = (((eina_list_count(user_icons) + eina_list_count(sys_icons) + eina_list_count(theme_icons))
-         * time.tv_nsec) / (INT_MAX + 1.0));
-   if ((el) && (rnd < eina_list_count(user_icons)))
+   rnd = ((eina_list_count(user_icons) + eina_list_count(sys_icons) + eina_list_count(theme_icons)) * time.tv_nsec)
+        / (INT_MAX + 1.0);
+   if (el && rnd < eina_list_count(user_icons))
      {
         o = elm_icon_add(obj);
         img = eina_list_nth(user_icons, rnd);
@@ -762,7 +762,7 @@ _entrance_gui_user_text_get(void *data,
 {
    Entrance_Login *eu;
    eu = data;
-   if ((part) && (!strcmp(part, "elm.text.sub")))
+   if (part && !strcmp(part, "elm.text.sub"))
      if (eu->lsess)
        return strdup(eu->lsess);
      else
@@ -830,7 +830,7 @@ _entrance_gui_action_text_get(void *data,
 {
    Entrance_Action *ea;
    ea = data;
-   if ((part) && (!strcmp(part, "icon")))
+   if (part && !strcmp(part, "icon"))
      return strdup(ea->icon);
    return strdup(ea->label);
 }
