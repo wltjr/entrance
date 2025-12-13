@@ -17,7 +17,3 @@ ninja -C build install
 sed -i -e "s|7|9|" -e "s|:0|:1.0|" -e "s|42|43|" \
 	-e "s|Enlightenment|Xsession|" /etc/entrance/entrance.conf
 
-# this is temporary for CI till a better solution for all distros, ideally
-sed -i -e "s|system-login|common-auth|" \
-	/etc/pam.d/entrance
-

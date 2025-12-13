@@ -36,10 +36,6 @@ Icon=
 Type=Application
 " > /usr/share/xsessions/Xsession.desktop
 
-# this is temporary for CI till a better solution for all distros, ideally
-sed -i -e "s|system-login|common-auth|" \
-	/etc/pam.d/entrance
-
 # Fix permissions for CI build directory to allow entrance user access
 if [ -d "/build" ]; then
     chmod -R 777 /build
