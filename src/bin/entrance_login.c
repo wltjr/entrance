@@ -140,7 +140,7 @@ _login_xsession_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *p
 {
    Entrance_Xsession *xsession;
    xsession = data;
-   if ((part) && (!strcmp(part, "icon")))
+   if (part && !strcmp(part, "icon"))
      {
         if (xsession->icon)
           return strdup(xsession->icon);
