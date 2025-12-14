@@ -66,7 +66,7 @@ _users_get(void)
      }
 
    fseek(f, 0, SEEK_END);
-   textlen = ftell(f);
+   textlen = (int)ftell(f);
    rewind(f);
    if(textlen > 0)
      {
