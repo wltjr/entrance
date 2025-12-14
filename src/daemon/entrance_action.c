@@ -38,7 +38,7 @@ _entrance_action_add(const char *label,
    snprintf(icon,128,"system-%s",label);
    /* Lowercase first char of label (after "system-" prefix) */
    if (icon[7] != '\0')
-     icon[7] = tolower(icon[7]);
+     icon[7] = (char)tolower(icon[7]);
    ead->icon = eina_stringshare_add(icon);
    ecore_event_handler_add(ECORE_EXE_EVENT_DEL,
                            _entrance_action_exe_event_del_cb, NULL);
