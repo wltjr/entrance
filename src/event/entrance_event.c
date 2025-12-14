@@ -394,7 +394,7 @@ static Eina_Bool
 _entrance_event_read_cb(const void *data, size_t size, void *user_data EINA_UNUSED)
 {
    void *ev;
-   ev = eet_data_descriptor_decode(_eep->event_descriptor, data, size);
+   ev = eet_data_descriptor_decode(_eep->event_descriptor, data, (int)size);
    if (_eep->func_read_cb)
      _eep->func_read_cb(ev, size, user_data);
    return EINA_TRUE;
