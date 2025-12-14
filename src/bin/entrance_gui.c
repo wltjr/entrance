@@ -702,6 +702,8 @@ static Evas_Object*
 _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
 {
    unsigned int rnd = 0;
+   unsigned int user_icons_count = 0;
+   unsigned int sys_icons_count = 0;
    Evas_Object *o = NULL;
    Entrance_Image *img;
    const Entrance_Login *el;
@@ -711,31 +713,34 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
 
    el = entrance_gui_user_get(username);
    if (el)
+   {
        user_icons = el->icon_pool;
+       user_icons_count = eina_list_count(user_icons);
+   }
    sys_icons = entrance_gui_icon_pool_get();
+   sys_icons_count = eina_list_count(sys_icons);
    theme_icons = entrance_gui_theme_icons();
 
    struct timespec time;
    clock_gettime(CLOCK_REALTIME, &time);
-   rnd = ((eina_list_count(user_icons) + eina_list_count(sys_icons) + eina_list_count(theme_icons)) * time.tv_nsec)
-        / (INT_MAX + 1.0);
-   if (el && rnd < eina_list_count(user_icons))
+   rnd = rand() % (user_icons_count + sys_icons_count + eina_list_count(theme_icons));
+   if (el && rnd < user_icons_count)
      {
         o = elm_icon_add(obj);
         img = eina_list_nth(user_icons, rnd);
         elm_image_file_set(o, img->path, NULL);
 
      }
-   else if((rnd >= eina_list_count(user_icons)) && (rnd < (eina_list_count(user_icons)
+   else if((rnd >= user_icons_count) && (rnd < (user_icons_count
             +eina_list_count(sys_icons))))
      {
         o = elm_icon_add(obj);
-        img = eina_list_nth(sys_icons, (rnd - eina_list_count(user_icons)));
+        img = eina_list_nth(sys_icons, (rnd - user_icons_count));
         elm_image_file_set(o, img->path, NULL);
      }
    else
      {
-        img = eina_list_nth(theme_icons, (rnd - (eina_list_count(user_icons)
+        img = eina_list_nth(theme_icons, (rnd - (user_icons_count
                                         + eina_list_count(sys_icons))));
         o = elm_icon_add(obj);
         elm_image_file_set(o, img->path, img->group);
