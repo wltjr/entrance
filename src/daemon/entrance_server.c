@@ -149,7 +149,7 @@ _entrance_server_write_cb(const void *data, size_t size, void *user_data EINA_UN
    const Eina_List *l;
    Ecore_Con_Client *ecc;
    EINA_LIST_FOREACH(ecore_con_server_clients_get(_entrance_server), l, ecc)
-      ecore_con_client_send(ecc, data, size);
+      ecore_con_client_send(ecc, data, (int)size);
 
    return EINA_TRUE;
 }
