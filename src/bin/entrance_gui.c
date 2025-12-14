@@ -701,6 +701,7 @@ _entrance_gui_conf_clicked_cb(void *data EINA_UNUSED,
 static Evas_Object*
 _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
 {
+   unsigned int max = 0;
    unsigned int rnd = 0;
    unsigned int user_icons_count = 0;
    unsigned int sys_icons_count = 0;
@@ -721,7 +722,10 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
    sys_icons_count = eina_list_count(sys_icons);
    theme_icons = entrance_gui_theme_icons();
 
-   rnd = rand() % (user_icons_count + sys_icons_count + eina_list_count(theme_icons));
+   max = user_icons_count + sys_icons_count + eina_list_count(theme_icons);
+   // prevent division by zero
+   if(max > 0)
+       rnd = rand() % max;
    if (el && rnd < user_icons_count)
      {
         o = elm_icon_add(obj);
