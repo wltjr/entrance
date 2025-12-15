@@ -1,6 +1,17 @@
 #!/bin/bash
 # wrapper to run entrance with env vars
 
+cat_and_rm() {
+    LOG="/var/log/entrance.log"
+
+    if [[ -f ${LOG} ]]; then
+        cat ${LOG}
+        rm ${LOG}
+        echo
+        echo
+    fi
+}
+
 sleep_and_kill() {
     SLEEP=45
 
@@ -46,14 +57,17 @@ echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 /usr/sbin/entrance &>/dev/null & disown
 
 sleep_and_kill
+cat_and_rm
 
 echo -e "\e[1;35m${0} Additional client tests\e[0m"
 export HOME=/tmp
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client --help
-export HOME=/home/ubuntu
+
+cat_and_rm
 
 echo -e "\e[1;35m${0} Test autologin\e[0m"
+export HOME=/home/ubuntu
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	-e "s|Enlightenment|Xsession|" \
@@ -62,5 +76,6 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 /usr/sbin/entrance &>/dev/null & disown
 
 sleep_and_kill
+cat_and_rm
 
 echo -e "\e[1;35m${0} End Entrance Tests\e[0m"
