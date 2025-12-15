@@ -48,8 +48,8 @@ Type=Application
 " > /usr/share/xsessions/Xsession.desktop
 
 # Fix permissions for CI build directory to allow entrance user access
-if [ -d "/build" ]; then
-    chmod -R 777 /build
+if [ -d "./build" ]; then
+    chmod -R 777 ./build
 fi
 
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
