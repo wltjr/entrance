@@ -15,7 +15,7 @@ Name=XSession
 Comment=Xsession
 Exec=/etc/entrance/Xsession /usr/bin/xeyes
 TryExec=/etc/entrance/Xsession /usr/bin/xeyes
-Icon=
+Icon=user-desktop
 Type=Application
 " > "${DESKTOP_FILE}"
     echo "created ${DESKTOP_FILE}"
