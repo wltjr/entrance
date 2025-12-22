@@ -581,7 +581,7 @@ main (int argc, char ** argv)
    if(!_entrance_auto_login)
      _entrance_uid_gid_init();
 
-   if (_xephyr == EINA_TRUE)
+   if (_xephyr == EINA_FALSE)
      {
         PT("xserver init");
         entrance_xserver_pid = entrance_xserver_init(_entrance_start_client,
