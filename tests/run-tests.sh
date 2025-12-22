@@ -34,18 +34,8 @@ echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
 
 /etc/init.d/dbus start
 
-for d in /usr/share/xsessions; do
-	[[ ! -d "${d}" ]] && mkdir -p "${d}"
-done
-
-echo "[Desktop Entry]
-Name=XSession
-Comment=Xsession
-Exec=/etc/entrance/Xsession /usr/bin/xeyes
-TryExec=/etc/entrance/Xsession /usr/bin/xeyes
-Icon=
-Type=Application
-" > /usr/share/xsessions/Xsession.desktop
+# create xsession, directory and desktop file
+"$(dirname $0)/../utils/create_xsession.sh"
 
 # Fix permissions for CI build directory to allow entrance user access
 if [ -d "./build" ]; then
