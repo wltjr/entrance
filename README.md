@@ -42,7 +42,7 @@ does not function correctly, if it is even usable to log in at all.
 
 The broken, incomplete, unmaintained 2nd Generation Entrance 
 resides in Enlightenment's 
-[entrance git repository](https://git.enlightenment.org/misc/entrance.git/).
+[entrance git repository](https://git.enlightenment.org/old/entrance).
 A branch may be added to this repository for historical purposes.
 
 ### 3rd Generation
