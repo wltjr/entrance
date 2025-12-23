@@ -34,6 +34,9 @@ echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
 
 /etc/init.d/dbus start
 
+# copy test dummy xorg.conf
+cp -v "$(dirname $0)/xorg.conf" /etc/X11/
+
 # create xsession, directory and desktop file
 "$(dirname $0)/../utils/create_xsession.sh"
 
