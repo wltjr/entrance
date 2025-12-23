@@ -26,7 +26,7 @@ projects both using the name entrance.
 
 ### 1st Generation
 There was a project long ago that worked, and went 
-[MIA](http://xcomputerman.com/pages/entrance.html). Copies of the 
+[MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html). Copies of the 
 sources for some releases are in some distro repositories. A copy has 
 been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a 
 copy of the old entrance repo to add to this one for historical 
