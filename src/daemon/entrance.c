@@ -20,7 +20,7 @@ static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
 static void _entrance_session_wait();
-static void _entrance_start_client(const char *entrance_display);
+static void _entrance_start_client(const char *display);
 static void _entrance_uid_gid_init();
 static void _remove_lock();
 static void _signal_cb(int sig);
@@ -247,7 +247,7 @@ _entrance_session_wait()
 }
 
 static void
-_entrance_start_client(const char *entrance_display)
+_entrance_start_client(const char *display)
 {
    char *home_path = ENTRANCE_CONFIG_HOME_PATH;
    int home_dir;
@@ -295,7 +295,7 @@ _entrance_start_client(const char *entrance_display)
                 "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
                 PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
                 home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
-                entrance_display, entrance_config->theme,
+                display, entrance_config->theme,
                 entrance_gid,entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
