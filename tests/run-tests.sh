@@ -10,6 +10,8 @@ cat_and_rm() {
         echo
         echo
     fi
+
+    return 0
 }
 
 sleep_and_kill() {
@@ -23,6 +25,8 @@ sleep_and_kill() {
     sleep 5
     killall -v entrance
     sleep 5
+
+    return 0
 }
 
 if [[ ! -f /.dockerenv ]]; then
