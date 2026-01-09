@@ -45,7 +45,7 @@ cp -v "$(dirname $0)/xorg.conf" /etc/X11/
 "$(dirname $0)/../utils/create_xsession.sh"
 
 # Fix permissions for CI build directory to allow entrance user access
-if [ -d "./build" ]; then
+if [[ -d "./build" ]]; then
     chmod -R 777 ./build
 fi
 
