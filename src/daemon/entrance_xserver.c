@@ -52,7 +52,6 @@ _xserver_start(void)
    free(buf);
    if (num_token)
      {
-        int i;
         if (!(abuf = strdup(entrance_config->command.xinit_args)))
           goto xserver_error;
         if (!(args = calloc(num_token + 4, sizeof(char *))))
@@ -63,7 +62,7 @@ _xserver_start(void)
         args[0] = (char *)entrance_config->command.xinit_path;
         token = strtok_r(abuf, " ", &saveptr);
         ++num_token;
-        for(i = 1; i < num_token; ++i)
+        for(int i = 1; i < num_token; ++i)
           {
              if (token)
                args[i] = token;
