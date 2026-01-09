@@ -20,10 +20,9 @@ _entrance_pam_conv(int num_msg,
                    struct pam_response **resp,
                    void *appdata_ptr EINA_UNUSED)
 {
-   int i;
    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
    if (!*resp) return PAM_CONV_ERR;
-   for (i = 0; i < num_msg; i++)
+   for (int i = 0; i < num_msg; i++)
      {
         (*resp)[i].resp_retcode=0;
         switch(msg[i]->msg_style)
