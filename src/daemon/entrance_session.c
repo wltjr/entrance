@@ -351,7 +351,6 @@ entrance_session_cookie(void)
    uint16_t word;
    uint8_t hi;
    uint8_t lo;
-   int i;
    char buf[PATH_MAX];
 
    _mcookie = calloc(33, sizeof(char));
@@ -367,7 +366,7 @@ entrance_session_cookie(void)
    struct timespec time;
    FILE *fp;
    fp = fopen("/dev/urandom", "r");
-   for (i=0; i<32; i+=4)
+   for (int i = 0; i < 32; i += 4)
      {
        read = 0;
        if (fp)
