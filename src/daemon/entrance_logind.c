@@ -276,7 +276,8 @@ entrance_logind_seat_detect(void)
 Eina_Bool
 entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data)
 {
-   int fd, ret;
+   int fd;
+   int ret;
 
    if (_logind_monitor)
      {
