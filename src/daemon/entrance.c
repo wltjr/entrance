@@ -231,14 +231,13 @@ _entrance_session_wait()
                         }
                       usleep(500000); /* Check every 500ms */
                     }
-                  break;
                 }
               else
                 {
                   /* Other error */
                   PT("waitpid error: %d", errno);
-                  break;
                 }
+                break;
             }
           /* wait_result == 0: child still running, sleep and check again */
           usleep(500000);
