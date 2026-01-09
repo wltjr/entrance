@@ -54,6 +54,7 @@ entrance_history_shutdown(void)
         eina_stringshare_del(el->bg.path);
         eina_stringshare_del(el->bg.group);
         eina_stringshare_del(el->lsess);
+        free(el);
      }
    free(_entrance_history);
 }
