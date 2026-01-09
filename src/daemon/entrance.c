@@ -208,6 +208,7 @@ _entrance_session_wait()
       /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
       while (!entrance_signal)
         {
+          struct timespec request = { 0, 500000000 };
           wait_result = waitpid(session_pid, NULL, WNOHANG);
           
           if (wait_result > 0)
@@ -229,7 +230,7 @@ _entrance_session_wait()
                           PT("session pid %d terminated", session_pid);
                           break;
                         }
-                      usleep(500000); /* Check every 500ms */
+                      nanosleep(&request, NULL); /* Check every 500ms */
                     }
                 }
               else
@@ -240,7 +241,7 @@ _entrance_session_wait()
                 break;
             }
           /* wait_result == 0: child still running, sleep and check again */
-          usleep(500000);
+          nanosleep(&request, NULL);
         }
     }
 }
