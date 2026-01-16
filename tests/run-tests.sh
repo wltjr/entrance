@@ -38,7 +38,7 @@ echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
 
 /etc/init.d/dbus start
 
-start-stop-daemon --start --quiet \
+start-stop-daemon --start --verbose \
                 --pidfile /run/elogind.pid \
                 --exec /usr/lib/elogind/elogind -- --daemon
 
