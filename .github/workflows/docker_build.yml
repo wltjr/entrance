@@ -19,6 +19,7 @@ jobs:
                 image: wltjr/docker-efl:latest
                 options: |
                     -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}
+                    --privileged
                     -v ${{ github.workspace }}:/tmp/entrance
                 run: |
                     cd /tmp/entrance
