@@ -50,9 +50,11 @@ cp -v "$(dirname $0)/xorg.conf" /etc/X11/
 # create xsession, directory and desktop file
 "$(dirname $0)/../utils/create_xsession.sh"
 
-# Fix permissions for CI build directory to allow entrance user access
+#Fix permissions for CI code coverage to allow entrance user/nobody access
+umask 000
 if [[ -d "./build" ]]; then
-    chmod -R 777 ./build
+    find ./build/src -type d -exec chmod 7777 {} \;
+    find ./build/src -type f -exec chmod 666 {} \;
 fi
 
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
