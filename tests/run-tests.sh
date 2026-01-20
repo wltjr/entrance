@@ -15,7 +15,7 @@ cat_and_rm() {
 }
 
 sleep_and_kill() {
-    SLEEP=45
+    SLEEP=30
 
     echo -e "\e[1;35m${0} Going to sleep for ${SLEEP}\e[0m"
     sleep ${SLEEP}
