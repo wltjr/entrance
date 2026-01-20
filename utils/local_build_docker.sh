@@ -5,10 +5,6 @@ if [[ ! -f /.dockerenv ]]; then
  	exit 1
 fi
 
-# prepare the env
-export LD_LIBRARY_PATH=/usr/lib64/
-export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig
-
 # configure and build
 meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=true . build
 ninja -C build install
