@@ -6,7 +6,7 @@ cat_and_rm() {
 
     if [[ -f ${LOG} ]]; then
         cat ${LOG}
-        rm ${LOG}
+        rm -v ${LOG}
         echo
         echo
     fi
