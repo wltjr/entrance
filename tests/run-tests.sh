@@ -70,7 +70,7 @@ export HOME=/tmp
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client
 
 # change owner of files created by user "nobody"
-chown root:root -R /entrance/build/src/bin
+chown root:root -R ./build/src/bin
 
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client --help
 
