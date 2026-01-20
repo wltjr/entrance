@@ -67,6 +67,10 @@ cat_and_rm
 echo -e "\e[1;35m${0} Additional client tests\e[0m"
 export HOME=/tmp
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client
+
+# change owner of files created by user "nobody"
+chown root:root -R /entrance/build/src/bin
+
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client --help
 
 cat_and_rm
