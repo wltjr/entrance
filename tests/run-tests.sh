@@ -66,6 +66,7 @@ cat_and_rm
 
 echo -e "\e[1;35m${0} Additional client tests\e[0m"
 export HOME=/tmp
+# this is known to seg fault, likely need better solution for incorrect usage
 /usr/lib/x86_64-linux-gnu/entrance/entrance_client
 
 # change owner of files created by user "nobody"
