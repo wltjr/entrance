@@ -21,6 +21,8 @@ static Eina_List *_xsessions = NULL;
 #ifdef HAVE_LOGIND
 static char *_logind_seat = NULL;
 static Entrance_Logind_Session *_logind_session = NULL;
+static Ecore_Timer *_logind_session_probe_timer = NULL;
+static int _logind_session_probe_attempts = 0;
 #endif
 static int _entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b);
 static int _entrance_session_userid_set(struct passwd *pwd);
@@ -33,6 +35,41 @@ static void _entrance_session_desktops_scan(const char *dir);
 static void _entrance_session_desktops_init(void);
 static const char *_entrance_session_find_command(const char *path, const char *session);
 static struct passwd *_entrance_session_session_open();
+#ifdef HAVE_LOGIND
+static Eina_Bool _entrance_logind_session_probe_cb(void *data);
+#endif
+#ifdef HAVE_LOGIND
+static Eina_Bool
+_entrance_logind_session_probe_cb(void *data)
+{
+   (void)data;
+   _logind_session_probe_attempts++;
+   if (_logind_session)
+     {
+        _logind_session_probe_timer = NULL;
+        return ECORE_CALLBACK_CANCEL;
+     }
+   Entrance_Logind_Session *s = entrance_logind_session_get(_session_pid);
+   if (s)
+     {
+        _logind_session = s;
+        PT("Session registered in logind after %d attempt(s): id=%s seat=%s vt=%u",
+           _logind_session_probe_attempts,
+           _logind_session->id,
+           _logind_session->seat ? _logind_session->seat : "none",
+           _logind_session->vtnr);
+        _logind_session_probe_timer = NULL;
+        return ECORE_CALLBACK_CANCEL;
+     }
+   if (_logind_session_probe_attempts >= 10)
+     {
+        PT("Logind session still unavailable after retries (pid %d)", _session_pid);
+        _logind_session_probe_timer = NULL;
+        return ECORE_CALLBACK_CANCEL;
+     }
+   return ECORE_CALLBACK_RENEW;
+}
+#endif
 
 long
 entrance_session_seed_get(void)
@@ -311,10 +348,23 @@ entrance_session_pid_set(pid_t pid)
         /* Note: XDG_SESSION_ID is set via PAM or will be inherited from parent.
          * logind automatically registers the session through pam_systemd/pam_elogind.
          * We track it here for monitoring/debugging purposes. */
+            if (_logind_session_probe_timer)
+               {
+                   ecore_timer_del(_logind_session_probe_timer);
+                   _logind_session_probe_timer = NULL;
+               }
      }
    else
      {
         PT("Warning: Could not get logind session for PID %d (may not be registered yet)", pid);
+            /* Race mitigation: retry a few times as logind may register shortly after exec */
+            if (_logind_session_probe_timer)
+               {
+                   ecore_timer_del(_logind_session_probe_timer);
+                   _logind_session_probe_timer = NULL;
+               }
+            _logind_session_probe_attempts = 0;
+            _logind_session_probe_timer = ecore_timer_add(0.5, _entrance_logind_session_probe_cb, NULL);
      }
 #endif
 }
@@ -428,6 +478,11 @@ entrance_session_shutdown(void)
    
    _session_pid = 0;
 #ifdef HAVE_LOGIND
+   if (_logind_session_probe_timer)
+     {
+        ecore_timer_del(_logind_session_probe_timer);
+        _logind_session_probe_timer = NULL;
+     }
    if (_logind_session)
      {
         entrance_logind_session_free(_logind_session);
