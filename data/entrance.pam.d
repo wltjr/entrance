@@ -32,7 +32,7 @@ password   required   pam_unix.so    nullok shadow
 session    required   pam_limits.so
 session    required   pam_unix.so
 session    required   pam_env.so     user_readenv=1
--session   optional   pam_elogind.so
+session    optional   pam_elogind.so
 -session   optional   pam_systemd.so
 session    optional   pam_loginuid.so
 -session   optional   pam_gnome_keyring.so auto_start
