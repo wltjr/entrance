@@ -168,7 +168,7 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
 
    memcpy(buf, ev->data, size);
    buf[size] = '\0';  /* Ensure null termination */
-   EINA_LOG_DOM_ERR(_entrance_client_log, "%s", buf);
+   EINA_LOG_DOM_WARN(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
 }
 
