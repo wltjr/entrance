@@ -180,31 +180,6 @@ collections {
                rel2.offset: 0 -OFFSET*3;
             }
          }
-         external { name: ENTRANCE_EDJE_PART_CONF;
-            source: "elm/button";
-            description { state: "default" 0.0;
-               fixed: 1 1;
-               max: 0 0;
-               min: BUTTON_ICON_SIZE;
-               align: 1 0;
-               rel2.relative: 1 0;
-               rel2.offset: -OFFSET -OFFSET;
-               params {
-                  bool: "disabled" 1;
-                  string: "icon" "preferences-other";
-               }
-            }
-            description {
-                state: "default" 0.5;
-                inherit: "default" 0.0;
-                align: 1 1;
-                rel2.relative: 1 1;
-                rel2.offset: -OFFSET -OFFSET;
-            }
-            description { state: "enabled" 0.0;
-               inherit: "default" 0.5;
-            }
-         }
 
       }
       programs {
@@ -217,7 +192,6 @@ collections {
             target: ENTRANCE_EDJE_PART_CLOCK;
             target: ENTRANCE_EDJE_PART_ACTIONS;
             target: ENTRANCE_EDJE_PART_UNAME;
-            target: ENTRANCE_EDJE_PART_CONF;
             transition: LINEAR 0.5;
          }
          program {
@@ -234,20 +208,7 @@ collections {
             action: STATE_SET "default" 0.0;
             target: ENTRANCE_EDJE_PART_USERS;
          }
-         program {
-            name: "conf_enabled";
-            signal: ENTRANCE_EDJE_SIGNAL_CONF_ENABLED;
-            source: "";
-            action: STATE_SET "enabled" 0.0;
-            target: ENTRANCE_EDJE_PART_CONF;
-         }
-         program {
-            name: "conf_disabled";
-            signal: ENTRANCE_EDJE_SIGNAL_CONF_DISABLED;
-            source: "";
-            action: STATE_SET "default" 0.5;
-            target: ENTRANCE_EDJE_PART_CONF;
-         }
+
       }
    }
 
