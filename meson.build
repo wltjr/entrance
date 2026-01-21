@@ -84,10 +84,14 @@ configure_file(input  : 'data/entrance.conf.in',
                install_dir : join_paths(dir_syscfg, proj),
                configuration : cfg
 )
-if has_logind
+# Only install systemd service file on systemd-based systems
+# OpenRC/Gentoo users should use their own init scripts
+systemd = dependency('systemd', required: false)
+if has_logind and systemd.found()
+	systemd_system_unit_dir = systemd.get_pkgconfig_variable('systemdsystemunitdir')
 	configure_file(input  : 'data/entrance.service.in',
                        output : 'entrance.service',
-                       install_dir : '/usr/lib/systemd/system' ,
+                       install_dir : systemd_system_unit_dir,
                        configuration : cfg
 	)
 endif
