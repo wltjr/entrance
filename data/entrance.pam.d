@@ -29,12 +29,14 @@ password   required   pam_unix.so    nullok shadow
 #
 # Session management - critical for proper login environment
 #
+-session   optional   pam_selinux.so close
 session    required   pam_limits.so
 session    required   pam_unix.so
 session    required   pam_env.so     user_readenv=1
-session    optional   pam_elogind.so
+-session   optional   pam_elogind.so
 -session   optional   pam_systemd.so
 session    optional   pam_loginuid.so
 -session   optional   pam_gnome_keyring.so auto_start
 -session   optional   pam_kwallet6.so auto_start
+-session   optional   pam_selinux.so multiple open
 
