@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ -z ${1} ]]; then
-    echo "missing /path/to/entrance repo"
-    exit 1
-fi
-
 docker run \
 	--net=host \
 	--rm -it \
