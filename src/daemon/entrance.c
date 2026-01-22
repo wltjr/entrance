@@ -20,7 +20,7 @@ static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
 static void _entrance_session_wait();
-static void _entrance_start_client(const char *display);
+static void _entrance_start_client(const char *entrance_display);
 static void _entrance_uid_gid_init();
 static void _remove_lock();
 static void _signal_cb(int sig);
@@ -232,6 +232,8 @@ _entrance_session_wait()
                         }
                       nanosleep(&request, NULL); /* Check every 500ms */
                     }
+                  break;
+                  break;
                 }
               else
                 {
@@ -247,7 +249,7 @@ _entrance_session_wait()
 }
 
 static void
-_entrance_start_client(const char *display)
+_entrance_start_client(const char *entrance_display)
 {
    char *home_path = ENTRANCE_CONFIG_HOME_PATH;
    int home_dir;
@@ -295,7 +297,7 @@ _entrance_start_client(const char *display)
                 "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
                 PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
                 home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
-                display, entrance_config->theme,
+                entrance_display, entrance_config->theme,
                 entrance_gid,entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
@@ -600,7 +602,16 @@ main (int argc, char ** argv)
         disp = xcb_connect(entrance_display, NULL);
 #ifdef HAVE_PAM
         PT("pam init");
-        entrance_pam_init(entrance_display, entrance_config->userlogin);
+        char tty_name[16];
+#ifdef HAVE_LOGIND
+        unsigned int logind_vt = entrance_logind_vt_get(entrance_display);
+        if (logind_vt > 0)
+          snprintf(tty_name, sizeof(tty_name), "tty%u", logind_vt);
+        else
+#endif
+          snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
+        
+        entrance_pam_init("entrance-autologin", tty_name, entrance_config->userlogin);
 #endif
         PT("login user");
         entrance_session_login(entrance_config->session, EINA_FALSE);

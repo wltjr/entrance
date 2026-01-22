@@ -20,9 +20,10 @@ _entrance_pam_conv(int num_msg,
                    struct pam_response **resp,
                    void *appdata_ptr EINA_UNUSED)
 {
+   int i;
    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
    if (!*resp) return PAM_CONV_ERR;
-   for (int i = 0; i < num_msg; i++)
+   for (i = 0; i < num_msg; i++)
      {
         (*resp)[i].resp_retcode=0;
         switch(msg[i]->msg_style)
@@ -164,20 +165,17 @@ entrance_pam_authenticate(void)
 }
 
 int
-entrance_pam_init(const char *display, const char *user)
+entrance_pam_init(const char *service, const char *tty, const char *user)
 {
    int status;
 
-   if (!display || !*display) goto pam_error;
+   if (!tty || !*tty) goto pam_error;
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, NULL };
 
    if (_pam_handle) entrance_pam_end();
-   status = pam_start(PACKAGE, user, &pam_conversation, &_pam_handle);
+   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pam_handle);
    if (status != 0) goto pam_error;
-   /* PAM_TTY should reflect the actual VT/TTY (e.g., tty7), not the X display (e.g., :0) */
-   char tty[32];
-   snprintf(tty, sizeof(tty), "tty%u", entrance_config->command.vtnr);
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_TTY, tty);
    if (status != 0) goto pam_error;
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_RUSER, user);
