@@ -33,8 +33,13 @@ _xserver_start(void)
    PT("Launching xserver");
    pid = fork();
    if (pid)
-     return pid;
+     {
+        PT("Parent process: X server child pid %d", pid);
+        return pid;  /* Parent returns child's PID */
+     }
 
+   /* Child process (pid == 0): will exec X server */
+   PT("Child process: executing X server");
    char *token;
    int num_token = 0;
    signal(SIGTTIN, SIG_IGN);
@@ -52,6 +57,7 @@ _xserver_start(void)
    free(buf);
    if (num_token)
      {
+        int i;
         if (!(abuf = strdup(entrance_config->command.xinit_args)))
           goto xserver_error;
         if (!(args = calloc(num_token + 4, sizeof(char *))))
@@ -62,7 +68,7 @@ _xserver_start(void)
         args[0] = (char *)entrance_config->command.xinit_path;
         token = strtok_r(abuf, " ", &saveptr);
         ++num_token;
-        for(int i = 1; i < num_token; ++i)
+        for(i = 1; i < num_token; ++i)
           {
              if (token)
                args[i] = token;
@@ -122,7 +128,8 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
    _xserver = calloc(1, sizeof(Entrance_Xserver));
    _xserver->dname = eina_stringshare_add(dname);
    _xserver->start = start;
-   pid = _xserver_start();
+   pid = _xserver_start();  /* Returns child X server PID */
+   PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
    _handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                             _xserver_started,
