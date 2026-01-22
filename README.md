@@ -62,15 +62,22 @@ Entrance presently uses meson build system, autotools has been dropped.
 ### Build using meson
 ```
 prefix=/usr/share
-meson \
+meson setup build \
 	--prefix "${prefix}" \
 	--bindir "${prefix}/bin" \
 	--sbindir "${prefix}/sbin" \
 	--datadir "${prefix}/share" \
 	--sysconfdir "/etc" \
-	. build
+	-Dpam=true \
+	-Dlogind=true \
+	-Dsystemd=false \
 ninja -C build
 ```
+
+### Build Options
+- `-Dlogind=true`: Enable session tracking via elogind or systemd-logind.
+- `-Dsystemd=true`: Install systemd service unit (disable for OpenRC).
+- `-Dpam=true`: Enable PAM support (recommended).
 
 On most systems you likely need a pam file. Meson will install this file.
 ```
@@ -88,11 +95,21 @@ configurable or does not work.
 
 ## Usage
 In order to start entrance, you need a system init script or systemd (untested). 
-This may differ based on your operating system. Entrance does not 
-provide an init script at this time, it may not run or work correctly if started 
-directly. Entrance should be invoked via init script or systemd service. 
-There is a provided systemd service file for entrance. It is unknown if 
-this works or not.
+This may differ based on your operating system. 
+
+### OpenRC
+An OpenRC init script is installed to `/etc/init.d/entrance`.
+```bash
+rc-update add entrance default
+rc-service entrance start
+```
+
+### Systemd
+If built with `-Dsystemd=true`, a service file is installed.
+```bash
+systemctl enable entrance
+systemctl start entrance
+```
 
 ### Entrance User
 Entrance presently starts as root, and then, uses setuid to run entrance_client 
@@ -148,3 +165,6 @@ Presently not supported beyond build systems, no code written, just a
 service file. There are plans to support logind/elogind for Wayland and 
 X via D-Bus. Initial work is currently under way. No code has been committed
 yet. There is no ETA at this time for completion.
+
+## SELinux Support
+Running Entrance on SELinux-enabled system (Fedora, Gentoo, etc.), please refer to [SELINUX_SUPPORT.md](SELINUX_SUPPORT.md) for configuration instructions regarding file contexts and PAM setup.
