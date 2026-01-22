@@ -54,6 +54,7 @@ typedef struct Entrance_Conf_Gui_Event_
      } bg;
    Eina_Bool req_passwd;
    Eina_Bool vkbd_enabled;
+   Eina_Bool autoselect_last_user;
 } Entrance_Conf_Gui_Event;
 
 typedef struct Entrance_Image_
