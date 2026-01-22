@@ -4,11 +4,10 @@ cmd = [ edje_cmd,
       ]
 src = 'default'
 custom_target(src + '.edj',
-              input      : src + '.edc',
-              output     : src + '.edj',
-              command    : cmd,
-              install_dir: join_paths(dir_data, proj, 'themes'),
-              install    : true
+              input       : src + '.edc',
+              output      : src + '.edj',
+              command     : cmd,
+              install_dir : join_paths(dir_data, proj, 'themes'),
+              install_mode: 'rw-r--r--',
+              install     : true
              )
-out = join_paths(dir_data, proj, 'themes', 'default.edj')
-meson.add_install_script(chmod, 'a+r', out)
