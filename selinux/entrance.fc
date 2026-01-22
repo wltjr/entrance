@@ -1,0 +1,22 @@
+# SELinux File Contexts for Entrance Display Manager
+
+# Daemon executables
+/usr/sbin/entrance          --  gen_context(system_u:object_r:xdm_exec_t,s0)
+/usr/lib64/entrance/entrance_client -- gen_context(system_u:object_r:xdm_exec_t,s0)
+
+# Runtime files
+/var/run/entrance\.auth.*   --  gen_context(system_u:object_r:xdm_var_run_t,s0)
+/run/entrance\.auth.*       --  gen_context(system_u:object_r:xdm_var_run_t,s0)
+/var/run/entrance\.pid      --  gen_context(system_u:object_r:xdm_var_run_t,s0)
+
+# Log files (use generic var_log_t as xdm doesn't have its own log type)
+/var/log/entrance\.log      --  gen_context(system_u:object_r:var_log_t,s0)
+
+# Config directory (use xdm_rw_etc_t, the actual xdm config type)
+/etc/entrance(/.*)?             gen_context(system_u:object_r:xdm_rw_etc_t,s0)
+
+# Cache directory
+/var/cache/entrance(/.*)?       gen_context(system_u:object_r:xdm_var_lib_t,s0)
+
+# Session script
+/etc/entrance/Xsession      --  gen_context(system_u:object_r:xdm_exec_t,s0)

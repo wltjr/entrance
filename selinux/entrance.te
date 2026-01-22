@@ -1,0 +1,57 @@
+policy_module(entrance, 1.0.0)
+
+########################################
+#
+# Entrance Display Manager SELinux Policy
+# 
+# Extends xdm domain for entrance-specific operations
+#
+########################################
+
+gen_require(`
+    type xdm_t;
+    type xdm_exec_t;
+    type xdm_var_run_t;
+    type xdm_var_lib_t;
+    type xdm_rw_etc_t;
+    type xauth_t;
+    type var_run_t;
+    type var_log_t;
+    type var_t;
+    type user_home_t;
+    class x_server { grab manage };
+')
+
+########################################
+# xauth_t permissions
+# (xauth is called by entrance to manage Xauthority)
+########################################
+
+# Manage entrance.auth files in /var/run
+allow xauth_t xdm_var_run_t:file manage_file_perms;
+allow xauth_t var_run_t:dir rw_dir_perms;
+allow xauth_t xdm_var_run_t:dir manage_dir_perms;
+
+# Read entrance config cache
+allow xauth_t xdm_var_lib_t:file read_file_perms;
+
+# Append to entrance log (uses generic var_log_t)
+allow xauth_t var_log_t:file append_file_perms;
+
+# Search user home for session Xauthority
+allow xauth_t user_home_t:dir search_dir_perms;
+
+########################################
+# xdm_t permissions
+# (entrance daemon)
+########################################
+
+# Create/manage auth files in /var/run
+allow xdm_t xdm_var_run_t:file manage_file_perms;
+
+# Read/write cache files
+allow xdm_t xdm_var_lib_t:file rw_file_perms;
+allow xdm_t var_t:file read_file_perms;
+
+# Allow X server operations
+allow xdm_t self:x_server { grab manage };

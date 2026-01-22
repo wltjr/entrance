@@ -13,6 +13,10 @@ option('logind',
        type       : 'boolean',
        value      : false,
        description: 'Enable support for systemd logind or elogind')
+option('systemd',
+       type       : 'boolean',
+       value      : false,
+       description: 'Install systemd service file')
 option('nls',
 	type: 'boolean',
 	value: true,
@@ -21,3 +25,7 @@ option('pam',
        type       : 'boolean',
        value      : true,
        description: 'Enable support for pam (default=true)')
+option('selinux',
+       type       : 'boolean',
+       value      : false,
+       description: 'Build and install SELinux policy module')

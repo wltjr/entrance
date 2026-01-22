@@ -1,0 +1,1435 @@
+#line 1 "/usr/share/selinux/targeted/include/support/all_perms.spt"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 238
+
+
+#line 276
+
+#line 1 "/usr/share/selinux/targeted/include/support/file_patterns.spt"
+#
+# Directory patterns (dir)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. directory type
+#
+#line 12
+
+
+#line 17
+
+
+#line 22
+
+
+#line 27
+
+
+#line 32
+
+
+#line 37
+
+
+#line 42
+
+
+#line 47
+
+
+#line 52
+
+
+#line 57
+
+
+#line 62
+
+
+#line 67
+
+
+#line 72
+
+
+#line 77
+
+
+#
+# Regular file patterns (file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 90
+
+
+#line 95
+
+
+#line 100
+
+
+#line 105
+
+
+#line 110
+
+
+#line 115
+
+
+#line 120
+
+
+#line 125
+
+
+#line 130
+
+
+#line 135
+
+
+#line 140
+
+
+#line 145
+
+
+#line 150
+
+
+#line 155
+
+
+#line 160
+
+
+#line 165
+
+
+#line 170
+
+
+#line 175
+
+
+#
+# Symbolic link patterns (lnk_file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 188
+
+
+#line 193
+
+
+#line 198
+
+
+#line 203
+
+
+#line 208
+
+
+#line 213
+
+
+#line 218
+
+
+#line 223
+
+
+#line 228
+
+
+#line 233
+
+
+#line 238
+
+
+#line 243
+
+
+#line 248
+
+
+#
+# (Un)named Pipes/FIFO patterns (fifo_file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 261
+
+
+#line 266
+
+
+#line 271
+
+
+#line 276
+
+
+#line 281
+
+
+#line 286
+
+
+#line 291
+
+
+#line 296
+
+
+#line 301
+
+
+#line 306
+
+
+#line 311
+
+
+#line 316
+
+
+#line 321
+
+
+#
+# (Un)named sockets patterns (sock_file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 334
+
+
+#line 339
+
+
+#line 344
+
+
+#line 349
+
+
+#line 354
+
+
+#line 359
+
+
+#line 364
+
+
+#line 369
+
+
+#line 374
+
+
+#line 379
+
+
+#line 384
+
+
+#line 389
+
+
+#
+# Block device node patterns (blk_file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 402
+
+
+#line 407
+
+
+#line 412
+
+
+#line 417
+
+
+#line 422
+
+
+#line 427
+
+
+#line 433
+
+
+#line 438
+
+
+#line 443
+
+
+#line 449
+
+
+#line 454
+
+
+#line 459
+
+
+#line 464
+
+
+#
+# Character device node patterns (chr_file)
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. file type
+#
+#line 477
+
+
+#line 482
+
+
+#line 487
+
+
+#line 492
+
+
+#line 497
+
+
+#line 502
+
+
+#line 508
+
+
+#line 513
+
+
+#line 518
+
+
+#line 524
+
+
+#line 529
+
+
+#line 534
+
+
+#line 539
+
+
+#
+# File type_transition patterns
+#
+# Parameters:
+# 1. domain type
+# 2. container (directory) type
+# 3. new object type
+# 4. object class(es)
+# [optional] 5. filename (c style strcmp ready)
+#
+
+# do not grant $2:dir remove_name
+#line 556
+
+
+#line 561
+
+
+#
+# Admin pattern for file_type
+#
+# Parameters:
+# 1. domain type
+# 2. source object type
+#
+#line 582
+
+#line 1 "/usr/share/selinux/targeted/include/support/ipc_patterns.spt"
+#
+# unix domain socket patterns
+#
+# Parameters:
+# 1. source domain type
+# 2. container (directory) type
+# 3. socket type
+# 4. target domain type
+#
+#line 14
+
+
+#line 20
+
+#line 1 "/usr/share/selinux/targeted/include/support/loadable_module.spt"
+########################################
+#
+# Macros for switching between source policy
+# and loadable policy module support
+#
+
+##############################
+#
+# For adding the module statement
+#
+#line 30
+
+
+##############################
+#
+# For use in interfaces, to optionally insert a require block
+#
+#line 48
+
+
+# helper function, since m4 will not expand macros
+# if a line is a comment (#):
+#line 55
+
+#line 58
+
+#line 60
+
+##############################
+#
+# In the future interfaces should be in loadable modules
+#
+# template(name,rules)
+#
+#line 76
+
+
+##############################
+#
+# In the future interfaces should be in loadable modules
+#
+# interface(name,rules)
+#
+#line 93
+
+
+
+
+##############################
+#
+# Optional policy handling
+#
+#line 107
+
+
+##############################
+#
+# Determine if we should use the default
+# tunable value as specified by the policy
+# or if the override value should be used
+#
+
+
+##############################
+#
+# Extract booleans out of an expression.
+# This needs to be reworked so expressions
+# with parentheses can work.
+
+#line 128
+
+
+##############################
+#
+# Tunable declaration
+#
+#line 136
+
+
+##############################
+#
+# Tunable policy handling
+#
+#line 151
+
+#line 1 "/usr/share/selinux/targeted/include/support/misc_macros.spt"
+
+########################################
+#
+# Helper macros
+#
+
+#
+# shiftn(num,list...)
+#
+# shift the list num times
+#
+
+
+#
+# ifndef(expr,true_block,false_block)
+#
+# m4 does not have this.
+#
+
+
+#
+# __endline__
+#
+# dummy macro to insert a newline.  used for
+# errprint, so the close parentheses can be
+# indented correctly.
+#
+#line 29
+
+
+########################################
+#
+# refpolwarn(message)
+#
+# print a warning message
+#
+
+
+########################################
+#
+# refpolerr(message)
+#
+# print an error message.
+#
+
+
+########################################
+#
+# gen_user(username, prefix, role_set, mls_defaultlevel, mls_range, [mcs_categories])
+#
+#line 57
+
+
+########################################
+#
+# gen_context(context,mls_sensitivity,[mcs_categories])
+#
+#line 64
+
+########################################
+#
+# gen_bool(name,default_value)
+#
+#line 71
+
+#line 1 "/usr/share/selinux/targeted/include/support/misc_patterns.spt"
+#
+# Common domain transition pattern perms
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 13
+
+
+
+#
+# Specified domain transition patterns
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 31
+
+
+#
+# Automatic domain transition patterns
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 44
+
+
+#
+# Automatic domain transition patterns
+# with feedback permissions
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 61
+
+
+#
+# Automatic domain transition patterns
+# with NoNewPerms
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 75
+
+
+#
+# Automatic domain transition patterns
+# on nosuid filesystem
+#
+# Parameters:
+# 1. source domain
+# 2. entry point file type
+# 3. target domain
+#
+#line 89
+
+
+#
+# Dynamic transition pattern
+#
+# Parameters:
+# 1. source domain
+# 2. target domain
+#
+#line 102
+
+
+#
+# Read foreign domain proc data
+#
+# Parameters:
+# 1. source domain
+# 2. target domain
+#
+#line 116
+
+
+#
+# Process administration pattern
+#
+# Parameters:
+# 1. source domain
+# 2. target domain
+#
+#line 129
+
+
+#
+# File execution pattern
+#
+# Parameters:
+# 1. source domain
+# 2. executable file type
+#
+
+#line 1 "/usr/share/selinux/targeted/include/support/mls_mcs_macros.spt"
+########################################
+#
+# gen_cats(N)
+#
+# declares categores c0 to c(N-1)
+#
+#line 10
+
+
+
+
+########################################
+#
+# gen_sens(N)
+#
+# declares sensitivities s0 to s(N-1) with dominance
+# in increasing numeric order with s0 lowest, s(N-1) highest
+#
+#line 24
+
+
+
+
+#line 34
+
+
+########################################
+#
+# gen_levels(N,M)
+#
+# levels from s0 to (N-1) with categories c0 to (M-1)
+#
+#line 45
+
+
+
+
+########################################
+#
+# Basic level names for system low and high
+#
+
+
+
+
+
+#line 1 "/usr/share/selinux/targeted/include/support/obj_perm_sets.spt"
+########################################
+#
+# Support macros for sets of object classes and permissions
+#
+# This file should only have object class and permission set macros - they
+# can only reference object classes and/or permissions.
+
+
+########################################
+#
+# Macros for sets of classes
+#
+
+#
+# All directory and file classes
+#
+
+
+#
+# All non-directory file classes.
+#
+
+
+#
+# Non-device file classes.
+#
+
+
+#
+# Device file classes.
+#
+
+
+#
+# All socket classes.
+#
+
+
+#
+# Datagram socket classes.
+#
+
+
+#
+# Stream socket classes.
+#
+
+
+#
+# Unprivileged socket classes (exclude rawip, netlink, packet).
+#
+
+
+
+########################################
+#
+# Macros for sets of permissions
+#
+
+#
+# Permissions to mount and unmount file systems.
+#
+
+
+#
+# Permissions for using sockets.
+#
+
+
+#
+# Permissions for creating and using sockets.
+#
+
+
+#
+# Permissions for using stream sockets.
+#
+
+
+#
+# Permissions for creating and using stream sockets.
+#
+
+
+#
+# Permissions for creating and using sockets.
+#
+
+
+#
+# Permissions for creating and using sockets.
+#
+
+
+#
+# Permissions for creating and using netlink sockets.
+#
+
+
+#
+# Permissions for using netlink sockets for operations that modify state.
+#
+
+
+#
+# Permissions for using netlink sockets for operations that observe state.
+#
+
+
+#
+# Permissions for sending all signals.
+#
+
+
+#
+# Permissions for using System V IPC
+#
+
+
+
+
+
+
+
+
+
+
+#
+# Directory (dir)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# Regular file (file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# Symbolic link (lnk_file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# (Un)named Pipes/FIFOs (fifo_file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# (Un)named Sockets (sock_file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# Block device nodes (blk_file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# Character device nodes (chr_file)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################
+#
+# Special permission sets
+#
+
+#
+# Use (read and write) terminals
+#
+
+
+
+#
+# Sockets
+#
+
+
+
+#
+# Keys
+#
+
+#line 267165 "tmp/all_interfaces.conf"
+
+#line 1 "entrance.te"
+
+#line 1
+	
+#line 1
+		module entrance 1.0.0;
+#line 1
+
+#line 1
+		require {
+#line 1
+			role system_r;
+#line 1
+			
+#line 1
+	class security { compute_av compute_create compute_member check_context load_policy compute_relabel compute_user setenforce setbool setsecparam setcheckreqprot read_policy validate_trans };
+#line 1
+	class process { fork transition sigchld sigkill sigstop signull signal ptrace getsched setsched getsession getpgid setpgid getcap setcap share getattr setexec setfscreate noatsecure siginh setrlimit rlimitinh dyntransition setcurrent execmem execstack execheap setkeycreate setsockcreate getrlimit };
+#line 1
+	class system { ipc_info syslog_read syslog_mod syslog_console module_request module_load halt reboot status start stop enable disable reload };
+#line 1
+	class capability { chown dac_override dac_read_search fowner fsetid kill setgid setuid setpcap linux_immutable net_bind_service net_broadcast net_admin net_raw ipc_lock ipc_owner sys_module sys_rawio sys_chroot sys_ptrace sys_pacct sys_admin sys_boot sys_nice sys_resource sys_time sys_tty_config mknod lease audit_write audit_control setfcap };
+#line 1
+	class filesystem { mount remount unmount getattr relabelfrom relabelto associate quotamod quotaget watch };
+#line 1
+	class file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads execute_no_trans entrypoint };
+#line 1
+	class dir { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads add_name remove_name reparent search rmdir };
+#line 1
+	class fd { use };
+#line 1
+	class lnk_file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class chr_file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class blk_file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class sock_file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class fifo_file { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class tcp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind name_connect };
+#line 1
+	class udp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind };
+#line 1
+	class rawip_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind };
+#line 1
+	class node { recvfrom sendto };
+#line 1
+	class netif { ingress egress };
+#line 1
+	class netlink_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class packet_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class key_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class unix_stream_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind connectto };
+#line 1
+	class unix_dgram_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class sem { create destroy getattr setattr read write associate unix_read unix_write };
+#line 1
+	class msg { send receive };
+#line 1
+	class msgq { create destroy getattr setattr read write associate unix_read unix_write enqueue };
+#line 1
+	class shm { create destroy getattr setattr read write associate unix_read unix_write lock };
+#line 1
+	class ipc { create destroy getattr setattr read write associate unix_read unix_write };
+#line 1
+	class netlink_route_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write nlmsg };
+#line 1
+	class obsolete_netlink_firewall_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write };
+#line 1
+	class netlink_tcpdiag_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write nlmsg };
+#line 1
+	class netlink_nflog_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_xfrm_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write nlmsg };
+#line 1
+	class netlink_selinux_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_audit_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write nlmsg_relay nlmsg_readpriv nlmsg_tty_audit nlmsg };
+#line 1
+	class obsolete_netlink_ip6fw_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind nlmsg_read nlmsg_write };
+#line 1
+	class netlink_dnrt_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class association { sendto recvfrom setcontext polmatch };
+#line 1
+	class netlink_kobject_uevent_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class appletalk_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class packet { send recv relabelto forward_in forward_out };
+#line 1
+	class key { view read write search link setattr create };
+#line 1
+	class dccp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind name_connect };
+#line 1
+	class memprotect { mmap_zero };
+#line 1
+	class peer { recv };
+#line 1
+	class capability2 { mac_override mac_admin syslog wake_alarm block_suspend audit_read perfmon bpf checkpoint_restore };
+#line 1
+	class kernel_service { use_as_override create_files_as };
+#line 1
+	class tun_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind attach_queue };
+#line 1
+	class binder { impersonate call set_context_mgr transfer };
+#line 1
+	class netlink_iscsi_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_fib_lookup_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_connector_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_netfilter_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_generic_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_scsitransport_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_rdma_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netlink_crypto_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class infiniband_pkey { access };
+#line 1
+	class infiniband_endport { manage_subnet };
+#line 1
+	class cap_userns { chown dac_override dac_read_search fowner fsetid kill setgid setuid setpcap linux_immutable net_bind_service net_broadcast net_admin net_raw ipc_lock ipc_owner sys_module sys_rawio sys_chroot sys_ptrace sys_pacct sys_admin sys_boot sys_nice sys_resource sys_time sys_tty_config mknod lease audit_write audit_control setfcap };
+#line 1
+	class cap2_userns { mac_override mac_admin syslog wake_alarm block_suspend audit_read perfmon bpf checkpoint_restore };
+#line 1
+	class sctp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind name_connect association };
+#line 1
+	class icmp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind node_bind };
+#line 1
+	class ax25_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class ipx_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class netrom_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class atmpvc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class x25_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class rose_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class decnet_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class atmsvc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class rds_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class irda_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class pppox_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class llc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class can_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class tipc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class bluetooth_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class iucv_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class rxrpc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class isdn_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class phonet_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class ieee802154_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class caif_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class alg_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class nfc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class vsock_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class kcm_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class qipcrtr_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class smc_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class process2 { nnp_transition nosuid_transition };
+#line 1
+	class bpf { map_create map_read map_write prog_load prog_run };
+#line 1
+	class xdp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class mctp_socket { ioctl read write create getattr setattr lock relabelfrom relabelto append map bind connect listen accept getopt setopt shutdown recvfrom sendto name_bind };
+#line 1
+	class perf_event { open cpu kernel tracepoint read write };
+#line 1
+	class lockdown { integrity confidentiality };
+#line 1
+	class anon_inode { ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb watch_with_perm watch_reads };
+#line 1
+	class io_uring { override_creds sqpoll cmd };
+#line 1
+	class user_namespace { create };
+#line 1
+
+#line 1
+
+#line 1
+			
+#line 1
+
+#line 1
+			
+#line 1
+		}
+#line 1
+	
+#line 1
+
+
+########################################
+#
+# Entrance Display Manager SELinux Policy
+# 
+# Extends xdm domain for entrance-specific operations
+#
+########################################
+
+
+#line 11
+	
+#line 11
+		require {
+#line 11
+			
+#line 11
+    type xdm_t;
+#line 11
+    type xdm_exec_t;
+#line 11
+    type xdm_var_run_t;
+#line 11
+    type xdm_var_lib_t;
+#line 11
+    type xdm_rw_etc_t;
+#line 11
+    type xauth_t;
+#line 11
+    type var_run_t;
+#line 11
+    type var_log_t;
+#line 11
+    type var_t;
+#line 11
+    type user_home_t;
+#line 11
+    class x_server { grab manage };
+#line 11
+
+#line 11
+		} # end require
+#line 11
+	
+#line 23
+
+
+########################################
+# xauth_t permissions
+# (xauth is called by entrance to manage Xauthority)
+########################################
+
+# Manage entrance.auth files in /var/run
+allow xauth_t xdm_var_run_t:file { create open getattr setattr read write append rename link unlink ioctl lock };
+allow xauth_t var_run_t:dir { open read getattr lock search ioctl add_name remove_name write };
+allow xauth_t xdm_var_run_t:dir { create open getattr setattr read write link unlink rename search add_name remove_name reparent rmdir lock ioctl };
+
+# Read entrance config cache
+allow xauth_t xdm_var_lib_t:file { { getattr read lock ioctl } open };
+
+# Append to entrance log (uses generic var_log_t)
+allow xauth_t var_log_t:file {  { getattr append lock ioctl } open};
+
+# Search user home for session Xauthority
+allow xauth_t user_home_t:dir { getattr search open };
+
+########################################
+# xdm_t permissions
+# (entrance daemon)
+########################################
+
+# Create/manage auth files in /var/run
+allow xdm_t xdm_var_run_t:file { create open getattr setattr read write append rename link unlink ioctl lock };
+
+# Read/write cache files
+allow xdm_t xdm_var_lib_t:file { { getattr read write append ioctl lock } open };
+allow xdm_t var_t:file { { getattr read lock ioctl } open };
+
+# Allow X server operations
+allow xdm_t self:x_server { grab manage };
