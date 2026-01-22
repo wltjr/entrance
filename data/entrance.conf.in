@@ -50,6 +50,10 @@ group "Entrance_Config" struct {
      *  1 = autologin enabled, 0 = autologin disabled */
     value "autologin" uchar: 0;
 
+    /** Bool to determine if entrance should auto-select the last logged-in user
+     *  1 = auto-select enabled (default), 0 = disabled */
+    value "autoselect_last_user" uchar: 1;
+
     /* The name of the user to use when autologin are enabled */
     value "userlogin" string: "myusername";
 
