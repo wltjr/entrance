@@ -32,7 +32,8 @@ _entrance_pam_conv(int num_msg,
               break;
            case PAM_PROMPT_ECHO_OFF:
               PT("echo off");
-              (*resp)[i].resp = _passwd;
+              /* PAM will free this, so we must duplicate it */
+              (*resp)[i].resp = _passwd ? strdup(_passwd) : NULL;
               break;
            case PAM_ERROR_MSG:
               PT("error msg %s", msg[i]->msg);
