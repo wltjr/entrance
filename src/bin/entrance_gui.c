@@ -24,7 +24,8 @@ enum {
      ENTRANCE_CONF_STATE = (1 << 0),
      ENTRANCE_CONF_WALLPAPER = (1 << 1),
      ENTRANCE_CONF_REQ_PASSWD = (1 << 2),
-     ENTRANCE_CONF_VKBD = (1 << 3)
+     ENTRANCE_CONF_VKBD = (1 << 3),
+     ENTRANCE_CONF_AUTOSELECT = (1 << 4)
 };
 
 
@@ -49,6 +50,7 @@ struct Entrance_Gui_
    unsigned char changed;
    Eina_Bool req_passwd : 1;
    Eina_Bool vkbd_enabled : 1;
+   Eina_Bool autoselect_last_user : 1;
 
 };
 
@@ -84,6 +86,7 @@ entrance_gui_init(const char *theme)
         return 1;
      }
    _gui->theme = eina_stringshare_add(theme);
+   _gui->autoselect_last_user = EINA_TRUE; /* Default to enabled */
 
    i = ecore_x_xinerama_screen_count_get();
    if (i < 1) i = 1;
@@ -104,6 +107,11 @@ entrance_gui_init(const char *theme)
          if(j<1)
            {
              Evas_Object *ol;
+             time_t t;
+             struct tm local_tm;
+             struct tm tm;
+             char date[64];
+             struct utsname uname_str;
 
              ol = entrance_gui_theme_get(_gui->win, ENTRANCE_EDJE_GROUP_ENTRANCE);
              if (!ol)
@@ -117,10 +125,8 @@ entrance_gui_init(const char *theme)
              elm_object_part_content_set(o, ENTRANCE_EDJE_PART_SCREEN, ol);
 
              /* date */
-             time_t t = time(0);
-             struct tm local_tm;
-             struct tm tm = *localtime_r(&t, &local_tm);
-             char date[64];
+             t = time(0);
+             tm = *localtime_r(&t, &local_tm);
              strftime(date,64,"%B %d, %Y",&tm);
              elm_object_part_text_set(ol, ENTRANCE_EDJE_PART_DATE,date);
 
@@ -130,7 +136,6 @@ entrance_gui_init(const char *theme)
              elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_CLOCK, o);
 
              /* uname */
-             struct utsname uname_str;
              if(uname(&uname_str)==0)
                {
                  char uname_value[1024];
@@ -416,6 +421,7 @@ _entrance_gui_users_populate(void)
    Evas_Object *ol;
    Entrance_Fill *ef;
    const char *style;
+   Entrance_Login *first_user = NULL;
 
    screen = eina_list_data_get(_gui->screens);
 
@@ -430,6 +436,9 @@ _entrance_gui_users_populate(void)
                           _entrance_gui_user_content_get,
                           _entrance_gui_user_state_get);
 
+   /* Get first user (which is the last logged-in from history) */
+   first_user = eina_list_data_get(_gui->users);
+
    EINA_LIST_FOREACH(_gui->screens, l, screen)
      {
         ol = ENTRANCE_GUI_GET(screen->edj, ENTRANCE_EDJE_PART_USERS);
@@ -438,6 +447,24 @@ _entrance_gui_users_populate(void)
                       _entrance_gui_user_sel_cb, screen->login);
         elm_object_signal_emit(screen->edj,
                                ENTRANCE_EDJE_SIGNAL_USERS_ENABLED, "");
+
+        /* Auto-select and pre-fill first user (last logged-in) if enabled */
+        if (first_user && _gui->autoselect_last_user)
+          {
+             PT("Auto-selecting user: %s", first_user->login);
+             entrance_login_login_set(screen->login, first_user->login);
+             /* Bring first item into view and select it */
+             Elm_Object_Item *it = elm_gengrid_first_item_get(ol);
+             if (it)
+               {
+                  elm_gengrid_item_selected_set(it, EINA_TRUE);
+                  elm_gengrid_item_bring_in(it, ELM_GENGRID_ITEM_SCROLLTO_IN);
+               }
+          }
+        else if (!_gui->autoselect_last_user)
+          {
+             PT("Auto-select disabled by configuration");
+          }
      }
    entrance_fill_del(ef);
 }
@@ -524,6 +551,11 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
      {
         _gui->vkbd_enabled = conf->vkbd_enabled;
         _gui->changed &= ENTRANCE_CONF_VKBD;
+     }
+   if (_gui->autoselect_last_user != conf->autoselect_last_user)
+     {
+        _gui->autoselect_last_user = conf->autoselect_last_user;
+        _gui->changed &= ENTRANCE_CONF_AUTOSELECT;
      }
    _gui->changed = ~ENTRANCE_CONF_NONE;
    _entrance_gui_update();
