@@ -112,6 +112,7 @@ entrance_gui_init(const char *theme)
              struct tm tm;
              char date[64];
              struct utsname uname_str;
+             const char *logo_path;
 
              ol = entrance_gui_theme_get(_gui->win, ENTRANCE_EDJE_GROUP_ENTRANCE);
              if (!ol)
@@ -147,6 +148,24 @@ entrance_gui_init(const char *theme)
                          uname_str.release,
                          uname_str.machine);
                  elm_object_part_text_set (ol, ENTRANCE_EDJE_PART_UNAME, uname_value);
+               }
+
+             /* distro logo */
+             logo_path = entrance_system_logo_get();
+             if (logo_path)
+               {
+                  Evas_Object *logo = elm_icon_add(ol);
+                  if (logo)
+                    {
+                       elm_image_file_set(logo, logo_path, NULL);
+                       elm_image_resizable_set(logo, EINA_TRUE, EINA_TRUE);
+                       elm_image_aspect_fixed_set(logo, EINA_TRUE);
+                       evas_object_size_hint_weight_set(logo, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+                       evas_object_size_hint_align_set(logo, EVAS_HINT_FILL, EVAS_HINT_FILL);
+                       evas_object_show(logo);
+                       elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_ICON, logo);
+                       PT("Distro logo: %s (%s)", entrance_system_distro_get(), logo_path);
+                    }
                }
 
              o = entrance_login_add(ol, screen);
