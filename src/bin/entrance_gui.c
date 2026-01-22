@@ -13,7 +13,6 @@ static char *_entrance_gui_user_text_get(void *data, Evas_Object *obj, const cha
 static Evas_Object *_entrance_gui_user_content_get(void *data, Evas_Object *obj, const char *part);
 static Eina_Bool _entrance_gui_user_state_get(void *data, Evas_Object *obj, const char *part);
 static void _entrance_gui_actions_populate();
-static void _entrance_gui_conf_clicked_cb(void *data, Evas_Object *obj, void *event_info);
 static void _entrance_gui_update(void);
 static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename);
 static void _entrance_gui_users_populate(void);
@@ -48,7 +47,6 @@ struct Entrance_Gui_
         const char *group;
      } bg;
    unsigned char changed;
-   Eina_Bool conf_enabled : 1;
    Eina_Bool req_passwd : 1;
    Eina_Bool vkbd_enabled : 1;
 
@@ -158,11 +156,6 @@ entrance_gui_init(const char *theme)
              entrance_login_open_session_set(o, EINA_TRUE);
              screen->login = o;
              elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_LOGIN, o);
-             evas_object_smart_callback_add(
-                ENTRANCE_GUI_GET(ol, ENTRANCE_EDJE_PART_CONF),
-                "clicked",
-                _entrance_gui_conf_clicked_cb,
-                screen->transition);
              evas_object_show(screen->login);
              evas_object_show(screen->edj);
            }
@@ -210,11 +203,6 @@ _entrance_gui_theme_update(void)
         elm_layout_file_set(screen->transition, buf, ENTRANCE_EDJE_GROUP_WALLPAPER);
         elm_layout_file_set(screen->edj, buf, ENTRANCE_EDJE_GROUP_ENTRANCE);
         elm_layout_file_set(screen->login, buf, ENTRANCE_EDJE_GROUP_LOGIN);
-        evas_object_smart_callback_add(
-                ENTRANCE_GUI_GET(screen->edj, ENTRANCE_EDJE_PART_CONF),
-                "clicked",
-                _entrance_gui_conf_clicked_cb,
-                screen->transition);
      }
    _gui->theme_icon_pool =
           _entrance_gui_theme_icons_cache_fill(_gui->win, _gui->theme);
@@ -673,24 +661,11 @@ _entrance_gui_update(void)
         if(primary)
           {
             primary = EINA_FALSE;
-            if (_gui->conf_enabled)
-              elm_object_signal_emit(screen->edj,
-                                     ENTRANCE_EDJE_SIGNAL_CONF_ENABLED, "");
-            else
-              elm_object_signal_emit(screen->edj,
-                                     ENTRANCE_EDJE_SIGNAL_CONF_DISABLED, "");
           }
      }
    _gui->changed = 0;
 }
 
-static void
-_entrance_gui_conf_clicked_cb(void *data EINA_UNUSED,
-                              Evas_Object *obj EINA_UNUSED,
-                              void *event EINA_UNUSED)
-{
-   // FIXME: Do new conf UI
-}
 ///////////////////////////////////////////////////
 ///////////////// USER ////////////////////////////
 ///////////////////////////////////////////////////
