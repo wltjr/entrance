@@ -14,7 +14,6 @@
 
 #define ENTRANCE_EDJE_PART_ACTIONS              "entrance.actions"
 #define ENTRANCE_EDJE_PART_CLOCK                "entrance.clock"
-#define ENTRANCE_EDJE_PART_CONF                 "entrance.conf"
 #define ENTRANCE_EDJE_PART_DATE                 "entrance.date"
 #define ENTRANCE_EDJE_PART_ICON                 "entrance.icon"
 #define ENTRANCE_EDJE_PART_LABEL                "entrance.label"
@@ -34,8 +33,6 @@
 #define ENTRANCE_EDJE_SIGNAL_AUTH_CHECKING      "entrance,auth,checking"
 #define ENTRANCE_EDJE_SIGNAL_AUTH_ERROR         "entrance,auth,error"
 #define ENTRANCE_EDJE_SIGNAL_AUTH_VALID         "entrance,auth,valid"
-#define ENTRANCE_EDJE_SIGNAL_CONF_ENABLED       "entrance,conf,enabled"
-#define ENTRANCE_EDJE_SIGNAL_CONF_DISABLED      "entrance,conf,disabled"
 #define ENTRANCE_EDJE_SIGNAL_USERS_ENABLED      "entrance,users,enabled"
 #define ENTRANCE_EDJE_SIGNAL_USERS_DISABLED     "entrance,users,disabled"
 #define ENTRANCE_EDJE_SIGNAL_WALLPAPER_DEFAULT  "entrance,wallpaper,default"
