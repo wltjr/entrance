@@ -33,8 +33,13 @@ _xserver_start(void)
    PT("Launching xserver");
    pid = fork();
    if (pid)
-     return pid;
+     {
+        PT("Parent process: X server child pid %d", pid);
+        return pid;  /* Parent returns child's PID */
+     }
 
+   /* Child process (pid == 0): will exec X server */
+   PT("Child process: executing X server");
    char *token;
    int num_token = 0;
    signal(SIGTTIN, SIG_IGN);
@@ -122,7 +127,8 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
    _xserver = calloc(1, sizeof(Entrance_Xserver));
    _xserver->dname = eina_stringshare_add(dname);
    _xserver->start = start;
-   pid = _xserver_start();
+   pid = _xserver_start();  /* Returns child X server PID */
+   PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
    _handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                             _xserver_started,
