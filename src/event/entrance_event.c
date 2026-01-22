@@ -3,7 +3,7 @@
 #include "entrance_event.h"
 
 #define EET_LOGIN_ADD(NAME, TYPE) \
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, # NAME, NAME, TYPE)
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, # NAME, NAME, TYPE);
 
 #define ENTRANCE_EVENT_ACTION_NAME "EntranceEventAction"
 #define ENTRANCE_EVENT_ACTIONS_NAME "EntranceEventActions"
@@ -192,6 +192,8 @@ _entrance_event_conf_gui_dd(void)
                                  req_passwd, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "vkbd_enabled",
                                  vkbd_enabled, EET_T_UCHAR);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "autoselect_last_user",
+                                 autoselect_last_user, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "theme",
                                  theme, EET_T_STRING);
    return edd;
