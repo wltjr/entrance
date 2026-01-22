@@ -20,6 +20,7 @@ top_inc  = include_directories('.')
 efl_version = '>= 1.19.0'
 crypt   = cc.find_library('crypt')
 deps	= dependency('elementary', version: efl_version)
+ecore_file	= dependency('ecore-file', version: efl_version)
 ecore_x	= dependency('ecore-x',	   version: efl_version)
 edje	= dependency('edje',       version: efl_version)
 xcb	= dependency('xcb')
