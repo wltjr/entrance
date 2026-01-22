@@ -172,6 +172,14 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         char buf[PATH_MAX];
 
         PT("Session Run (%s)", is_wayland ? "wayland" : "x11");
+        
+        /* Create new session - MUST be done before PAM  */
+        if (setsid() < 0)
+          {
+             PT("Failed to create new session");
+             exit(1);
+          }
+        
 #ifdef HAVE_PAM
         /* Set session type environment variables for logind/PAM */
         if (is_wayland)
@@ -180,8 +188,14 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
           setenv("XDG_SESSION_TYPE", "x11", 1);
         setenv("XDG_SESSION_DESKTOP", "entrance", 1);
         
+        /* Open PAM session in child process */
+        if (entrance_pam_open_session())
+          {
+             PT("Failed to open PAM session in child");
+             exit(1);
+          }
+        
         env = entrance_pam_env_list_get();
-        entrance_pam_end();
 #else
         int n = 0;
         char *term = getenv("TERM");
@@ -230,6 +244,46 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         env[n++]=strdup(buf);
         env[n++]=0;
 #endif
+
+#ifdef HAVE_LOGIND
+        /* Get logind session for THIS child process */
+        pid_t child_pid = getpid();
+        Entrance_Logind_Session *child_session = entrance_logind_session_get(child_pid);
+        if (child_session)
+          {
+             PT("Child session registered: id=%s seat=%s vt=%u",
+                child_session->id,
+                child_session->seat ? child_session->seat : "none",
+                child_session->vtnr);
+             
+             /* Activate this session if needed */
+             if (!child_session->active)
+               {
+                  PT("Activating session %s", child_session->id);
+                  /* Use loginctl to activate our session */
+                  snprintf(buf, sizeof(buf), "loginctl activate %s", child_session->id);
+                  system(buf);
+                  
+                  /* Wait for session to become active */
+                  int retry = 0;
+                  while (!entrance_logind_session_is_active(child_session->id) && retry < 10)
+                    {
+                       usleep(100000); /* 100ms */
+                       retry++;
+                    }
+                  if (retry >= 10)
+                    PT("Warning: Session did not activate in time");
+                  else
+                    PT("Session activated successfully");
+               }
+             entrance_logind_session_free(child_session);
+          }
+        else
+          {
+             PT("Warning: Could not get logind session for child PID %d", child_pid);
+          }
+#endif
+        
         snprintf(buf, sizeof(buf),
                  "%s %s %s",
                  entrance_config->command.session_start,
@@ -245,6 +299,12 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              PT("change directory for user fail");
              return;
           }
+        
+        /* Clean up PAM in child before exec */
+#ifdef HAVE_PAM
+        entrance_pam_end();
+#endif
+        
         snprintf(buf, sizeof(buf), "%s/.entrance_session.log", pwd->pw_dir);
         if (-1 == remove(buf))
           PT("Error could not remove session log file");
@@ -286,28 +346,8 @@ entrance_session_pid_set(pid_t pid)
    snprintf(buf, sizeof(buf), "%d", pid);
    setenv("ENTRANCE_SPID", buf, 1);
    
-#ifdef HAVE_LOGIND
-   /* Get logind session information for this PID */
-   if (_logind_session)
-     entrance_logind_session_free(_logind_session);
-   
-   _logind_session = entrance_logind_session_get(pid);
-   if (_logind_session)
-     {
-        PT("Session found in logind: id=%s seat=%s vt=%u",
-           _logind_session->id,
-           _logind_session->seat ? _logind_session->seat : "none",
-           _logind_session->vtnr);
-        
-        /* Note: XDG_SESSION_ID is set via PAM or will be inherited from parent.
-         * logind automatically registers the session through pam_systemd/pam_elogind.
-         * We track it here for monitoring/debugging purposes. */
-     }
-   else
-     {
-        PT("Warning: Could not get logind session for PID %d (may not be registered yet)", pid);
-     }
-#endif
+   /* Note: logind session detection now happens in child process after PAM opens session.
+    * The child process will call entrance_logind_session_get() on its own PID after setsid() and PAM. */
 }
 
 pid_t
@@ -491,15 +531,13 @@ _entrance_session_session_open(void)
    int result;
 
 #ifdef HAVE_PAM
-   if (!entrance_pam_open_session())
+   /* Just get user info - session will be opened in child process (spawny pattern) */
+   user = entrance_pam_item_get(ENTRANCE_PAM_ITEM_USER);
+   if (user)
      {
-       user = entrance_pam_item_get(ENTRANCE_PAM_ITEM_USER);
-       if (user)
-         {
-           result = getpwnam_r(user, &pwd_buf, buf, sizeof(buf), &pwd);
-           if (result == 0 && pwd)
-             return pwd;
-         }
+       result = getpwnam_r(user, &pwd_buf, buf, sizeof(buf), &pwd);
+       if (result == 0 && pwd)
+         return pwd;
      }
    return NULL;
 #else
