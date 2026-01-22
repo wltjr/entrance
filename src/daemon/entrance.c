@@ -292,12 +292,20 @@ _entrance_start_client(const char *entrance_display)
             PT("chown home directory %s", home_path);
             fchown(home_dir, entrance_uid, entrance_gid);
          }
+       /* Allow override for testing - ENTRANCE_CLIENT_PATH env var */
+       const char *client_path = getenv("ENTRANCE_CLIENT_PATH");
+       if (!client_path)
+         client_path = PACKAGE_BIN_DIR"/entrance_client";
+       
        snprintf(buf, sizeof(buf),
-                "export HOME='%s'; export USER='%s';"
+                "export HOME='%s'; export USER='%s'; export DISPLAY='%s'; "
+                "export XAUTHORITY='%s'; "
                 "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
-                PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
-                home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
-                entrance_display, entrance_config->theme,
+                "%s -d '%s' -t '%s' -g %d -u %d -p %d",
+                home_path, entrance_user, entrance_display,
+                entrance_config->command.xauth_file,
+                entrance_config->command.session_login ? entrance_config->command.session_login : "",
+                client_path, entrance_display, entrance_config->theme,
                 entrance_gid,entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
@@ -546,7 +554,19 @@ main (int argc, char ** argv)
 
 
    _entrance_auto_login = entrance_config->autologin;
-   entrance_display = strdup(entrance_config->command.xdisplay);
+   
+   /* In Xephyr mode, use DISPLAY from environment, otherwise use config */
+   if (_xephyr)
+     {
+        const char *env_display = getenv("DISPLAY");
+        if (env_display)
+          entrance_display = strdup(env_display);
+        else
+          entrance_display = strdup(":1"); /* fallback */
+        PT("Xephyr mode: using DISPLAY=%s", entrance_display);
+     }
+   else
+     entrance_display = strdup(entrance_config->command.xdisplay);
 
    if (!_xephyr && !_get_lock())
         exit(1);
