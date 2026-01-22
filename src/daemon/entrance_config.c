@@ -1,5 +1,6 @@
 #include "entrance.h"
 #include <sys/stat.h>
+#include <dirent.h>
 
 #define ENTRANCE_CONFIG_KEY "config"
 
@@ -7,6 +8,7 @@ static void _defaults_set(Entrance_Config *config);
 static void _users_get(void);
 static void _config_free(Entrance_Config *config);
 static Entrance_Config *_cache_get(void);
+static const char *_detect_cursor_theme(void);
 
 static Eet_Data_Descriptor *_entrance_config_descriptor;
 
@@ -36,6 +38,7 @@ _defaults_set(Entrance_Config *config)
    config->autologin = EINA_FALSE;
    config->custom_conf = EINA_FALSE;
    config->req_passwd = EINA_TRUE;
+   config->autoselect_last_user = EINA_TRUE;
    config->userlogin = eina_stringshare_add("mylogintouse");
    config->lockfile = eina_stringshare_add("/var/run/entrance.pid");
    config->logfile = eina_stringshare_add("/var/log/entrance.log");
@@ -194,6 +197,7 @@ entrance_config_init()
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "custom_conf", custom_conf, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "start_user", start_user, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "require_password", req_passwd, EET_T_UCHAR);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "autoselect_last_user", autoselect_last_user, EET_T_UCHAR);
    _entrance_config_descriptor = edd;
 
    if (stat( PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE, &cache) == -1)
