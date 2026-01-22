@@ -42,6 +42,7 @@ struct _Entrance_Config
    Eina_Bool custom_conf;
    Eina_Bool vkbd_enabled;
    Eina_Bool req_passwd;
+   Eina_Bool autoselect_last_user;
    const char *start_user;
 };
 
