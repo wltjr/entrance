@@ -23,6 +23,7 @@
 #include "entrance_client.h"
 #include "entrance_gui.h"
 #include "entrance_login.h"
+#include "entrance_system.h"
 
 #define PT(f, x...)                                                        \
 do                                                                         \
