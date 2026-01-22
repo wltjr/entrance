@@ -187,11 +187,8 @@ entrance_gui_init(const char *theme)
    Ecore_Evas *ee = ecore_evas_ecore_evas_get(evas_object_evas_get(_gui->win));
    ecore_evas_override_set(ee,EINA_TRUE);
    ecore_evas_focus_set(ee, 1);
-   /* need to hide and show the cursor */
-   ecore_x_window_cursor_show(elm_win_xwindow_get(_gui->win),
-                              EINA_FALSE);
-   ecore_x_window_cursor_show(elm_win_xwindow_get(_gui->win),
-                              EINA_TRUE);
+   /* Let Elementary manage cursor theme and widget-specific cursors
+    * Do not set global cursors as this interferes with text input cursors */
    return j;
 }
 
