@@ -4,7 +4,38 @@
 [![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=wltjr_entrance&metric=alert_status)](https://sonarcloud.io/dashboard?id=wltjr_entrance)
 
 This is a fork and current development version.
-It is ALIVE! IT WORKS! (for me™)
+It is ALIVE! IT WORKS! (for me™).
+
+This version of entrance has worked in some form or another since 2017. The
+entire EFL community has repeatedly shunned entrance for years. Many incorrectly
+assume this version is the same as past versions, when many have never run or
+seen this version.
+
+There has been talk of making Enlightenment a login manager as many under
+Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
+has never been any efforts, and you are reduced to starting Enlightment with
+some other DM like Light-DM, SDDM, etc, or startx. However, this is reliant on
+one person as so much of EFL and Enlightement has been for decades, and the
+developer community has never grown.
+
+Maybe someday Enlightenment can log into itself, but in the years since 2017 to
+2026, and in forseeable future in 2026, the way to log into Enlightenment
+Desktop is?
+
+Sadly, while EFL has much potential, its toxic community has shunned developers
+for years. All efforts with entrance have been frowned upon and discouraged
+since 2017, and development has continued, despite it all! It took almost
+10 years to get [another's](https://github.com/thewaiter)
+improved [efforts](https://github.com/wltjr/clipboard) into Enlightement,
+and
+[re-written](https://github.com/Enlightenment/enlightenment/tree/master/src/modules/clipboard) upon addition.
+
+If entrance development will continue remains to be seen, there is new interest
+in entrance development, but like all other EFL app efforts, the future is
+unknown. Hopefully, this version of entrance will not face abandonment as past
+versions, and most EFL applications.
+
+The best tech does not always win, it can rise or fall based on communities!
 
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
