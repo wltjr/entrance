@@ -39,10 +39,6 @@ The best tech does not always win, it can rise or fall based on communities!
 
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
-## Known Issues
-- Settings UI is broken, hidden for now
-[Issue #6](https://github.com/wltjr/entrance/issues/6)
-
 ## About
 Entrance is a Unix Display/Login Manager written in Enlightenment Foundation 
 Libraries (EFL). Entrance allows a user to choose a X WM/Desktop 
