@@ -17,7 +17,7 @@ int entrance_pam_item_set(ENTRANCE_PAM_ITEM_TYPE type, const void *value);
 const void *entrance_pam_item_get(ENTRANCE_PAM_ITEM_TYPE);
 int entrance_pam_env_set(const char *env, const char *value);
 char **entrance_pam_env_list_get(void);
-int entrance_pam_init(const char *display, const char *user);
+int entrance_pam_init(const char *service, const char *tty, const char *user);
 void entrance_pam_shutdown(void);
 int entrance_pam_open_session(void);
 void entrance_pam_close_session(Eina_Bool opened);
