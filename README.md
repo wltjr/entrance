@@ -99,6 +99,8 @@ meson \
 	--sbindir "${prefix}/sbin" \
 	--datadir "${prefix}/share" \
 	--sysconfdir "/etc" \
+    -Dpam=true \
+    -Dlogind=true \
 	. build
 ninja -C build
 ```
