@@ -184,3 +184,13 @@ information please refer to
 
 This work should be completed soon, and there will be the first actual release
 of entrance shortly thereafter.
+
+## wayland display sessions
+Once again thanks to [@OxusByte45](https://github.com/OxusByte45), entrance now
+has initial support for launching Wayland sessions! This is not as heavily
+tested, and is not being presented tested in CI. Please report any issues with
+launching Wayland sessions, preferable, Enlightement under Wayland, when the 
+mesa issues are resolved.
+
+It is not known how well this will work to launch other Desktop enviroments,
+but testing is welcomed!
