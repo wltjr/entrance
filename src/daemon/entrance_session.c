@@ -21,8 +21,6 @@ static Eina_List *_xsessions = NULL;
 #ifdef HAVE_LOGIND
 static char *_logind_seat = NULL;
 static Entrance_Logind_Session *_logind_session = NULL;
-static Ecore_Timer *_logind_session_probe_timer = NULL;
-static int _logind_session_probe_attempts = 0;
 #endif
 static int _entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b);
 static int _entrance_session_userid_set(struct passwd *pwd);
@@ -35,41 +33,6 @@ static void _entrance_session_desktops_scan(const char *dir);
 static void _entrance_session_desktops_init(void);
 static const char *_entrance_session_find_command(const char *path, const char *session);
 static struct passwd *_entrance_session_session_open();
-#ifdef HAVE_LOGIND
-static Eina_Bool _entrance_logind_session_probe_cb(void *data);
-#endif
-#ifdef HAVE_LOGIND
-static Eina_Bool
-_entrance_logind_session_probe_cb(void *data)
-{
-   (void)data;
-   _logind_session_probe_attempts++;
-   if (_logind_session)
-     {
-        _logind_session_probe_timer = NULL;
-        return ECORE_CALLBACK_CANCEL;
-     }
-   Entrance_Logind_Session *s = entrance_logind_session_get(_session_pid);
-   if (s)
-     {
-        _logind_session = s;
-        PT("Session registered in logind after %d attempt(s): id=%s seat=%s vt=%u",
-           _logind_session_probe_attempts,
-           _logind_session->id,
-           _logind_session->seat ? _logind_session->seat : "none",
-           _logind_session->vtnr);
-        _logind_session_probe_timer = NULL;
-        return ECORE_CALLBACK_CANCEL;
-     }
-   if (_logind_session_probe_attempts >= 10)
-     {
-        PT("Logind session still unavailable after retries (pid %d)", _session_pid);
-        _logind_session_probe_timer = NULL;
-        return ECORE_CALLBACK_CANCEL;
-     }
-   return ECORE_CALLBACK_RENEW;
-}
-#endif
 
 long
 entrance_session_seed_get(void)
@@ -195,10 +158,6 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
 #endif
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_VTNR", vtnr);
-   
-   char xdg_runtime_dir[PATH_MAX];
-   snprintf(xdg_runtime_dir, sizeof(xdg_runtime_dir), "/run/user/%d", pwd->pw_uid);
-   entrance_pam_env_set("XDG_RUNTIME_DIR", xdg_runtime_dir);
 #endif
    return EINA_TRUE;
 }
@@ -220,11 +179,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         else
           setenv("XDG_SESSION_TYPE", "x11", 1);
         setenv("XDG_SESSION_DESKTOP", "entrance", 1);
-        
-        /* Ensure XDG_RUNTIME_DIR is set for user services (audio, DBus, systemd) */
-        char xdg_runtime[PATH_MAX];
-        snprintf(xdg_runtime, sizeof(xdg_runtime), "/run/user/%d", pwd->pw_uid);
-        setenv("XDG_RUNTIME_DIR", xdg_runtime, 1);
         
         env = entrance_pam_env_list_get();
         entrance_pam_end();
@@ -295,7 +249,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         if (-1 == remove(buf))
           PT("Error could not remove session log file");
 
-        snprintf(buf, sizeof(buf), "%s %s > %s/.entrance_session.log 2>&1",
+        snprintf(buf, sizeof(buf), "%s %s > \"%s/.entrance_session.log\" 2>&1",
                  entrance_config->command.session_login, cmd, pwd->pw_dir);
 
         PT("Executing: %s --login -c %s ", pwd->pw_shell, buf);
@@ -348,23 +302,10 @@ entrance_session_pid_set(pid_t pid)
         /* Note: XDG_SESSION_ID is set via PAM or will be inherited from parent.
          * logind automatically registers the session through pam_systemd/pam_elogind.
          * We track it here for monitoring/debugging purposes. */
-            if (_logind_session_probe_timer)
-               {
-                   ecore_timer_del(_logind_session_probe_timer);
-                   _logind_session_probe_timer = NULL;
-               }
      }
    else
      {
         PT("Warning: Could not get logind session for PID %d (may not be registered yet)", pid);
-            /* Race mitigation: retry a few times as logind may register shortly after exec */
-            if (_logind_session_probe_timer)
-               {
-                   ecore_timer_del(_logind_session_probe_timer);
-                   _logind_session_probe_timer = NULL;
-               }
-            _logind_session_probe_attempts = 0;
-            _logind_session_probe_timer = ecore_timer_add(0.5, _entrance_logind_session_probe_cb, NULL);
      }
 #endif
 }
@@ -478,11 +419,6 @@ entrance_session_shutdown(void)
    
    _session_pid = 0;
 #ifdef HAVE_LOGIND
-   if (_logind_session_probe_timer)
-     {
-        ecore_timer_del(_logind_session_probe_timer);
-        _logind_session_probe_timer = NULL;
-     }
    if (_logind_session)
      {
         entrance_logind_session_free(_logind_session);
@@ -505,7 +441,16 @@ entrance_session_authenticate(const char *login, const char *passwd)
    if (!_login)
      return EINA_FALSE;
 #ifdef HAVE_PAM
-   entrance_pam_init(_dname, login);
+   char tty_name[16];
+#ifdef HAVE_LOGIND
+   unsigned int logind_vt = entrance_logind_vt_get(_dname);
+   if (logind_vt > 0)
+     snprintf(tty_name, sizeof(tty_name), "tty%u", logind_vt);
+   else
+#endif
+     snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
+
+   entrance_pam_init(PACKAGE, tty_name, login);
    auth = !!(!entrance_pam_passwd_set(passwd)
              && !entrance_pam_authenticate());
 #else
