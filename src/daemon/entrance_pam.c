@@ -164,20 +164,17 @@ entrance_pam_authenticate(void)
 }
 
 int
-entrance_pam_init(const char *display, const char *user)
+entrance_pam_init(const char *service, const char *tty, const char *user)
 {
    int status;
 
-   if (!display || !*display) goto pam_error;
+   if (!tty || !*tty) goto pam_error;
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, NULL };
 
    if (_pam_handle) entrance_pam_end();
-   status = pam_start(PACKAGE, user, &pam_conversation, &_pam_handle);
+   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pam_handle);
    if (status != 0) goto pam_error;
-   /* PAM_TTY should reflect the actual VT/TTY (e.g., tty7), not the X display (e.g., :0) */
-   char tty[32];
-   snprintf(tty, sizeof(tty), "tty%u", entrance_config->command.vtnr);
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_TTY, tty);
    if (status != 0) goto pam_error;
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_RUSER, user);
