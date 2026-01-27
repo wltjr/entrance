@@ -135,7 +135,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
          PT("session shutdown");
          entrance_session_shutdown();
          PT("session init");
-         entrance_session_init(entrance_display);
+         entrance_session_display_set(entrance_display);
          entrance_session_cookie();
          PT("restarting X server");
          entrance_xserver_pid = entrance_xserver_init(_entrance_start_client,
@@ -576,7 +576,7 @@ main (int argc, char ** argv)
    signal(SIGUSR2, _signal_log);
 
    PT("session init");
-   entrance_session_init(entrance_display);
+   entrance_session_display_set(entrance_display);
    entrance_session_cookie();
 
    if(!_entrance_auto_login)
