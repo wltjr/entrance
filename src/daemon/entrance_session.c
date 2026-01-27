@@ -360,18 +360,6 @@ void
 entrance_session_init(const char *dname)
 {
    _dname = dname;
-#ifdef HAVE_LOGIND
-   if (entrance_logind_init())
-     {
-        _logind_seat = entrance_logind_seat_detect();
-        PT("Using logind with seat: %s", _logind_seat ? _logind_seat : "unknown");
-     }
-   else
-     {
-        PT("WARNING: logind initialization failed - using defaults");
-        _logind_seat = strdup("seat0");
-     }
-#endif
 }
 
 static const char *dig = "0123456789abcdef";
