@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 #include <grp.h>
@@ -94,10 +95,10 @@ _entrance_session_userid_set(struct passwd *pwd)
    return 0;
 }
 
-static Eina_Bool
-_entrance_session_begin(struct passwd *pwd, const char *cookie)
+static void
+_entrance_session_detect_shell(struct passwd *pwd)
 {
-   PT("Session Init");
+   PT("Detecting shell");
    if (pwd->pw_shell[0] == '\0')
      {
         const char *shell;
@@ -112,6 +113,12 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
           }
         endusershell();
      }
+}
+
+static void
+_entrance_session_set_environment(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session)
+{
+   PT("Setting environment");
 #ifdef HAVE_PAM
    char *term = NULL;
    char vtnr[128] = {0};
@@ -122,25 +129,33 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
    term = getenv("TERM");
    
 #ifdef HAVE_LOGIND
-   /* Get seat and VT info from logind */
-   if (!_logind_seat)
-     _logind_seat = entrance_logind_seat_detect();
-   
-   seat_name = _logind_seat ? _logind_seat : "seat0";
-   
-   /* Try to get VT from logind, fallback to config */
-   unsigned int logind_vt = entrance_logind_vt_get(_dname);
-   if (logind_vt > 0)
+   /* Use session info from child's actual logind session */
+   if (session)
      {
-        eina_convert_xtoa(logind_vt, vtnr);
-        PT("Using VT from logind: %u", logind_vt);
+        seat_name = session->seat ? session->seat : "seat0";
+        if (session->vtnr > 0)
+          {
+             eina_convert_xtoa(session->vtnr, vtnr);
+             PT("Using VT from child session: %u", session->vtnr);
+          }
+        else
+          {
+             eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+             PT("Using configured VT: %u", entrance_config->command.vtnr);
+          }
      }
    else
-#endif
      {
+        /* Fallback if session info not available */
+        if (!_logind_seat)
+          _logind_seat = entrance_logind_seat_detect();
+        seat_name = _logind_seat ? _logind_seat : "seat0";
         eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
-        PT("Using configured VT: %u", entrance_config->command.vtnr);
+        PT("Using fallback seat/VT: %s/%u", seat_name, entrance_config->command.vtnr);
      }
+#else
+   eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
+#endif
    
    if (term) entrance_pam_env_set("TERM", term);
    entrance_pam_env_set("HOME", pwd->pw_dir);
@@ -159,7 +174,6 @@ _entrance_session_begin(struct passwd *pwd, const char *cookie)
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_VTNR", vtnr);
 #endif
-   return EINA_TRUE;
 }
 
 static void
@@ -194,8 +208,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              PT("Failed to open PAM session in child");
              exit(1);
           }
-        
-        env = entrance_pam_env_list_get();
 #else
         int n = 0;
         char *term = getenv("TERM");
@@ -256,13 +268,27 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
                 child_session->seat ? child_session->seat : "none",
                 child_session->vtnr);
              
+             /* Set environment variables using REAL session info */
+             /* This modifies PAM environment in-place via entrance_pam_env_set() */
+             _entrance_session_set_environment(pwd, cookie, child_session);
+             
              /* Activate this session if needed */
-             if (!child_session->active)
+             if (!child_session->active && child_session->id)
                {
                   PT("Activating session %s", child_session->id);
                   /* Use loginctl to activate our session */
-                  snprintf(buf, sizeof(buf), "loginctl activate %s", child_session->id);
-                  system(buf);
+                  pid_t loginctl_pid = fork();
+                  if (loginctl_pid == 0)
+                    {
+                       /* Child: exec loginctl */
+                       execl("/usr/bin/loginctl", "loginctl", "activate", child_session->id, NULL);
+                       exit(1); /* If exec fails */
+                    }
+                  else if (loginctl_pid > 0)
+                    {
+                       /* Parent: wait for loginctl */
+                       waitpid(loginctl_pid, NULL, 0);
+                    }
                   
                   /* Wait for session to become active */
                   int retry = 0;
@@ -280,8 +306,17 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
           }
         else
           {
-             PT("Warning: Could not get logind session for child PID %d", child_pid);
+             PT("Warning: Could not get child session, using fallback env");
+             _entrance_session_set_environment(pwd, cookie, NULL);
           }
+#else
+        /* No logind, set environment without session info */
+        _entrance_session_set_environment(pwd, cookie, NULL);
+#endif
+
+#ifdef HAVE_PAM
+        /* Retrieve final PAM environment with our vars */
+        env = entrance_pam_env_list_get();
 #endif
         
         snprintf(buf, sizeof(buf),
@@ -551,12 +586,11 @@ entrance_session_login(const char *session, Eina_Bool push)
    endpwent();
    if (!pwd) return ECORE_CALLBACK_CANCEL;
    _logged = EINA_TRUE;
+   
+   /* Detect shell in parent - env setup happens in child after session */
+   _entrance_session_detect_shell(pwd);
+   
    snprintf(buf, sizeof(buf), "%s/.Xauthority", pwd->pw_dir);
-   if (!_entrance_session_begin(pwd, buf))
-     {
-        PT("Entrance: couldn't open session");
-        exit(1);
-     }
    if (push) entrance_history_push(pwd->pw_name, session);
    cmd = _entrance_session_find_command(pwd->pw_dir, session);
    if (!cmd)
