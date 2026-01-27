@@ -2,7 +2,7 @@
 #define ENTRANCE_SESSION_H_
 #include <pwd.h>
 
-void entrance_session_init(const char *dname);
+void entrance_session_display_set(const char *dname);
 void entrance_session_cookie(void);
 void entrance_session_shutdown(void);
 Eina_Bool entrance_session_authenticate(const char *login, const char *pwd);
