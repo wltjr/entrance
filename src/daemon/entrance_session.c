@@ -357,7 +357,7 @@ entrance_session_pid_get(void)
 }
 
 void
-entrance_session_init(const char *dname)
+entrance_session_display_set(const char *dname)
 {
    _dname = dname;
 }
