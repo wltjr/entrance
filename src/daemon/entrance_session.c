@@ -294,7 +294,8 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
                   int retry = 0;
                   while (!entrance_logind_session_is_active(child_session->id) && retry < 10)
                     {
-                       usleep(100000); /* 100ms */
+                       struct timespec request = { 0, 100000000 };
+                       nanosleep(&request, NULL); /* 100ms */
                        retry++;
                     }
                   if (retry >= 10)
