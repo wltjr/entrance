@@ -575,7 +575,7 @@ main (int argc, char ** argv)
    signal(SIGALRM, _signal_cb);
    signal(SIGUSR2, _signal_log);
 
-   PT("session init");
+   PT("entrance init");
    entrance_session_display_set(entrance_display);
    entrance_session_cookie();
 
