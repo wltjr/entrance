@@ -602,14 +602,7 @@ main (int argc, char ** argv)
 #ifdef HAVE_PAM
         PT("pam init");
         char tty_name[16];
-#ifdef HAVE_LOGIND
-        unsigned int logind_vt = entrance_logind_vt_get(entrance_display);
-        if (logind_vt > 0)
-          snprintf(tty_name, sizeof(tty_name), "tty%u", logind_vt);
-        else
-#endif
         snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
-
         entrance_pam_init("entrance-autologin", tty_name, entrance_config->userlogin);
 #endif
         PT("login user");
