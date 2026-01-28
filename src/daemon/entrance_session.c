@@ -116,7 +116,7 @@ _entrance_session_detect_shell(struct passwd *pwd)
 }
 
 static void
-_entrance_session_set_environment(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session)
+_entrance_session_environment_set(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session)
 {
    PT("Setting environment");
 #ifdef HAVE_PAM
@@ -270,7 +270,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              
              /* Set environment variables using REAL session info */
              /* This modifies PAM environment in-place via entrance_pam_env_set() */
-             _entrance_session_set_environment(pwd, cookie, child_session);
+             _entrance_session_environment_set(pwd, cookie, child_session);
              
              /* Activate this session if needed */
              if (!child_session->active && child_session->id)
@@ -307,11 +307,11 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         else
           {
              PT("Warning: Could not get child session, using fallback env");
-             _entrance_session_set_environment(pwd, cookie, NULL);
+             _entrance_session_environment_set(pwd, cookie, NULL);
           }
 #else
         /* No logind, set environment without session info */
-        _entrance_session_set_environment(pwd, cookie, NULL);
+        _entrance_session_environment_set(pwd, cookie, NULL);
 #endif
 
 #ifdef HAVE_PAM
