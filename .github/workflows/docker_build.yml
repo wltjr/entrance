@@ -28,4 +28,4 @@ jobs:
                     ninja -C build install
                     ./tests/run-tests.sh
                     cd build ; find . -name '*.gcno' -exec sh -c 'gcov -b -p {} -o $(dirname {})' \;; cd ../
-                    export PATH="/sonar-scanner-8.0.1.6346-linux-x64/bin:${PATH}"; sonar-scanner
+                    export PATH="/sonar-scanner-linux-x64/bin:${PATH}"; sonar-scanner
