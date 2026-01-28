@@ -96,7 +96,7 @@ _entrance_session_userid_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_detect_shell(struct passwd *pwd)
+_entrance_session_shell_set(struct passwd *pwd)
 {
    PT("Detecting shell");
    if (pwd->pw_shell[0] == '\0')
@@ -588,7 +588,7 @@ entrance_session_login(const char *session, Eina_Bool push)
    _logged = EINA_TRUE;
    
    /* Detect shell in parent - env setup happens in child after session */
-   _entrance_session_detect_shell(pwd);
+   _entrance_session_shell_set(pwd);
    
    snprintf(buf, sizeof(buf), "%s/.Xauthority", pwd->pw_dir);
    if (push) entrance_history_push(pwd->pw_name, session);
