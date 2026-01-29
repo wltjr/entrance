@@ -475,17 +475,11 @@ entrance_session_authenticate(const char *login, const char *passwd)
      return EINA_FALSE;
 #ifdef HAVE_PAM
    char tty_name[16];
-#ifdef HAVE_LOGIND
-   unsigned int logind_vt = entrance_logind_vt_get(_dname);
-   if (logind_vt > 0)
-     snprintf(tty_name, sizeof(tty_name), "tty%u", logind_vt);
-   else
-#endif
-     snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
 
-   entrance_pam_init(PACKAGE, tty_name, login);
-   auth = !!(!entrance_pam_passwd_set(passwd)
-             && !entrance_pam_authenticate());
+    snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
+    entrance_pam_init(PACKAGE, tty_name, login);
+    auth = !!(!entrance_pam_passwd_set(passwd) &&
+              !entrance_pam_authenticate());
 #else
    char *enc, *v;
    struct passwd pwd_buf;
