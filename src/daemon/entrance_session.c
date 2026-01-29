@@ -172,7 +172,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
           setenv("XDG_SESSION_TYPE", "wayland", 1);
         else
           setenv("XDG_SESSION_TYPE", "x11", 1);
-        setenv("XDG_SESSION_DESKTOP", "entrance", 1);
         
         /* Open PAM session in child process */
         if (entrance_pam_open_session())
@@ -221,8 +220,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         snprintf(buf, sizeof(buf), "XDG_VTNR=%d", entrance_config->command.vtnr);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_SESSION_TYPE=%s", is_wayland ? "wayland" : "x11");
-        env[n++]=strdup(buf);
-        snprintf(buf, sizeof(buf), "XDG_SESSION_DESKTOP=entrance");
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_RUNTIME_DIR=/run/user/%d", pwd->pw_uid);
         env[n++]=strdup(buf);
