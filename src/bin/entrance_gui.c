@@ -360,10 +360,8 @@ Eina_List *
 entrance_gui_stringlist_get(const char *str)
 {
    Eina_List *list = NULL;
-   const char *b;
-   const char *s;
    if (!str) return NULL;
-   for (b = s = str; 1; s++)
+   for (const char *s, *b = s = str; 1; s++)
      {
         if ((*s == ' ') || (!*s))
           {
