@@ -166,13 +166,11 @@ _entrance_session_environment_set(struct passwd *pwd, const char *cookie, Entran
    entrance_pam_env_set("DISPLAY", _dname);
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
-#ifdef HAVE_LOGIND
-   entrance_pam_env_set("XDG_SEAT", seat_name);
-#else
-   entrance_pam_env_set("XDG_SEAT", "seat0");
-#endif
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
+#ifndef HAVE_LOGIND
+   entrance_pam_env_set("XDG_SEAT", "seat0");
    entrance_pam_env_set("XDG_VTNR", vtnr);
+#endif
 #endif
 }
 
