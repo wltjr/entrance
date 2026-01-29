@@ -47,7 +47,7 @@ _entrance_connect_data(void *data EINA_UNUSED,
                        int type EINA_UNUSED,
                        void *event)
 {
-   Ecore_Con_Event_Server_Data *ev;
+   const Ecore_Con_Event_Server_Data *ev;
    ev = event;
 
    entrance_event_received(ev->data, ev->size);
@@ -59,7 +59,7 @@ static void
 _entrance_connect_auth(const char *login, Eina_Bool granted)
 {
    Entrance_Connect_Auth *auth;
-   Eina_List *l;
+   const Eina_List *l;
    Eina_List *ll;
 
    EINA_LIST_FOREACH_SAFE(_auth_list, l, ll, auth)
@@ -175,7 +175,7 @@ entrance_connect_action_send(unsigned char id)
 }
 
 void
-entrance_connect_conf_gui_send(Entrance_Conf_Gui_Event *ev)
+entrance_connect_conf_gui_send(const Entrance_Conf_Gui_Event *ev)
 {
    Entrance_Event eev;
    PT("Send gui config");
@@ -189,7 +189,7 @@ entrance_connect_conf_gui_send(Entrance_Conf_Gui_Event *ev)
 }
 
 void
-entrance_connect_conf_user_send(Entrance_Login *el)
+entrance_connect_conf_user_send(const Entrance_Login *el)
 {
    Entrance_Event eev;
    PT("Send user config");
@@ -228,7 +228,7 @@ entrance_connect_auth_cb_del(void *auth)
 Eina_Bool
 entrance_connect(int port)
 {
-   Ecore_Event_Handler *h;
+   const Ecore_Event_Handler *h;
    ecore_con_init();
    entrance_event_init(_entrance_connect_read_cb,
                        _entrance_connect_write_cb,
