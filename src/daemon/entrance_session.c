@@ -20,7 +20,6 @@ static unsigned char _logged = 0;
 static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
 #ifdef HAVE_LOGIND
-static char *_logind_seat = NULL;
 static Entrance_Logind_Session *_logind_session = NULL;
 #endif
 static int _entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b);
@@ -456,11 +455,6 @@ entrance_session_shutdown(void)
      {
         entrance_logind_session_free(_logind_session);
         _logind_session = NULL;
-     }
-   if (_logind_seat)
-     {
-        free(_logind_seat);
-        _logind_seat = NULL;
      }
    entrance_logind_shutdown();
 #endif
