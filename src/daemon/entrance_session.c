@@ -116,44 +116,18 @@ _entrance_session_shell_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_environment_set(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session)
+_entrance_session_environment_set(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session EINA_UNUSED)
 {
    PT("Setting environment");
 #ifdef HAVE_PAM
    char *term = NULL;
+#ifndef HAVE_LOGIND
    char vtnr[128] = {0};
-#ifdef HAVE_LOGIND
-   char *seat_name = NULL;
 #endif
    
    term = getenv("TERM");
    
-#ifdef HAVE_LOGIND
-   /* Use session info from child's actual logind session */
-   if (session)
-     {
-        seat_name = session->seat ? session->seat : "seat0";
-        if (session->vtnr > 0)
-          {
-             eina_convert_xtoa(session->vtnr, vtnr);
-             PT("Using VT from child session: %u", session->vtnr);
-          }
-        else
-          {
-             eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
-             PT("Using configured VT: %u", entrance_config->command.vtnr);
-          }
-     }
-   else
-     {
-        /* Fallback if session info not available */
-        if (!_logind_seat)
-          _logind_seat = entrance_logind_seat_detect();
-        seat_name = _logind_seat ? _logind_seat : "seat0";
-        eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
-        PT("Using fallback seat/VT: %s/%u", seat_name, entrance_config->command.vtnr);
-     }
-#else
+#ifndef HAVE_LOGIND
    eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
 #endif
    
