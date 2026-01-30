@@ -72,7 +72,7 @@ static Eina_Bool
 _entrance_server_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
 
-   Ecore_Con_Event_Client_Data *ev;
+   const Ecore_Con_Event_Client_Data *ev;
 
    ev = event;
    entrance_event_received(ev->data, ev->size);
@@ -167,7 +167,7 @@ _entrance_logind_monitor_cb(void *data EINA_UNUSED)
 void
 entrance_server_init(gid_t uid, uid_t gid)
 {
-   Ecore_Event_Handler *h;
+   const Ecore_Event_Handler *h;
    char path[1024] = {0};
 
    ecore_con_init();
