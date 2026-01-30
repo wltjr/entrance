@@ -60,7 +60,7 @@ entrance_action_init(void)
 Eina_List *
 entrance_action_get(void)
 {
-   Entrance_Action_Data *ead;
+   const Entrance_Action_Data *ead;
    Entrance_Action *ea;
    Eina_List *l;
    Eina_List *ret = NULL;
@@ -128,7 +128,7 @@ _entrance_action_exe_event_del_cb(void *data EINA_UNUSED,
                                   int type EINA_UNUSED,
                                   void *event)
 {
-   Ecore_Exe_Event_Del *ev;
+   const Ecore_Exe_Event_Del *ev;
    Eina_Bool ret = ECORE_CALLBACK_PASS_ON;
    ev = event;
    if (!ev->exe) return ret;
