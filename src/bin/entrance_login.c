@@ -10,7 +10,7 @@ static void _login_login_unfocused_cb(void *data, Evas_Object *obj, void *event)
 static void _login_login_activated_cb(void *data, Evas_Object *obj, void *event);
 static char *_login_xsession_text_get(void *data, Evas_Object *obj, const char *part);
 static void _login_auth_cb(void *data, const char *user, Eina_Bool granted);
-static void _entrance_login_session_set(Evas_Object *widget, const char *name);
+static void _entrance_login_session_set(const Evas_Object *widget, const char *name);
 static void _entrance_login_auth_check_cb(void *data, Evas_Object *obj, const char *signal, const char *source);
 
 typedef struct _Entrance_Gui_Login
@@ -234,7 +234,7 @@ _login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted)
 }
 
 static void
-_entrance_login_session_set(Evas_Object *widget, const char *name)
+_entrance_login_session_set(const Evas_Object *widget, const char *name)
 {
    Entrance_Xsession *sess;
    const Eina_List *l = NULL;
@@ -339,7 +339,7 @@ entrance_login_add(Evas_Object *obj, void *data)
 }
 
 void
-entrance_login_xsessions_populate(Evas_Object *widget, Eina_List *xsessions)
+entrance_login_xsessions_populate(Evas_Object *widget, const Eina_List *xsessions)
 {
    PT("Session set");
    Evas_Object *o;
@@ -364,7 +364,7 @@ entrance_login_login_set(Evas_Object *widget, const char *user)
 }
 
 void
-entrance_login_open_session_set(Evas_Object *widget, Eina_Bool open_session)
+entrance_login_open_session_set(const Evas_Object *widget, Eina_Bool open_session)
 {
    Evas_Object *o;
 
