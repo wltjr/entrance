@@ -252,7 +252,7 @@ _entrance_start_client(const char *display)
    char *home_path = ENTRANCE_CONFIG_HOME_PATH;
    int home_dir;
    struct stat st;
-   Ecore_Event_Handler *h;
+   const Ecore_Event_Handler *h;
 
    if (_entrance_client)
      return;
