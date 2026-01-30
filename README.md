@@ -186,7 +186,7 @@ of entrance shortly thereafter.
 ## wayland display sessions
 Once again thanks to [@OxusByte45](https://github.com/OxusByte45), entrance now
 has initial support for launching Wayland sessions! This is not as heavily
-tested, and is not being presented tested in CI. Please report any issues with
+tested, and is not being presently tested in CI. Please report any issues with
 launching Wayland sessions, preferable, Enlightement under Wayland, when the
 mesa issues are resolved.
 
