@@ -22,8 +22,8 @@ static Eina_List *_xsessions = NULL;
 #ifdef HAVE_LOGIND
 static Entrance_Logind_Session *_logind_session = NULL;
 #endif
-static int _entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b);
-static int _entrance_session_userid_set(struct passwd *pwd);
+static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
+static int _entrance_session_userid_set(const struct passwd *pwd);
 
 static void _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland);
 static Eina_Bool _entrance_session_is_wayland(const char *session);
@@ -69,7 +69,7 @@ _entrance_session_cookie_add(const char *mcookie, const char *display,
 }
 
 static int
-_entrance_session_userid_set(struct passwd *pwd)
+_entrance_session_userid_set(const struct passwd *pwd)
 {
    if (!pwd)
      {
@@ -115,11 +115,11 @@ _entrance_session_shell_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_environment_set(struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session EINA_UNUSED)
+_entrance_session_environment_set(const struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session EINA_UNUSED)
 {
    PT("Setting environment");
 #ifdef HAVE_PAM
-   char *term = NULL;
+   const char *term = NULL;
 #ifndef HAVE_LOGIND
    char vtnr[128] = {0};
 #endif
@@ -570,7 +570,7 @@ entrance_session_login(const char *session, Eina_Bool push)
 static Eina_Bool
 _entrance_session_is_wayland(const char *session)
 {
-   Entrance_Xsession *xsession = NULL;
+   const Entrance_Xsession *xsession = NULL;
    Eina_List *l;
    
    if (!session) return EINA_FALSE;
@@ -586,7 +586,7 @@ _entrance_session_is_wayland(const char *session)
 static const char *
 _entrance_session_find_command(const char *path, const char *session)
 {
-   Entrance_Xsession *xsession = NULL;
+   const Entrance_Xsession *xsession = NULL;
    char buf[PATH_MAX];
    if (session)
      {
@@ -731,7 +731,7 @@ _entrance_session_desktops_scan_file(const char *path)
 }
 
 static int
-_entrance_session_sort(Entrance_Xsession *a, Entrance_Xsession *b)
+_entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b)
 {
     return strcasecmp(a->name, b->name);
 }
