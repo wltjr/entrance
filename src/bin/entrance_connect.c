@@ -60,7 +60,7 @@ _entrance_connect_auth(const char *login, Eina_Bool granted)
 {
    Entrance_Connect_Auth *auth;
    const Eina_List *l;
-   Eina_List *ll;
+   const Eina_List *ll;
 
    EINA_LIST_FOREACH_SAFE(_auth_list, l, ll, auth)
      {
