@@ -227,7 +227,7 @@ void
 entrance_gui_shutdown(void)
 {
    Entrance_Screen *screen;
-   Entrance_Xsession *xsession;
+   const Entrance_Xsession *xsession;
    Entrance_Image *img;
    PT("Gui shutdown");
    if (_gui)
@@ -267,7 +267,7 @@ entrance_gui_shutdown(void)
 }
 
 static Eina_List*
-_entrance_gui_string_to_entrance_image(Eina_List *src, char *stdfile, char *mask)
+_entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile, const char *mask)
 {
    //If srdfile is NULL we will set the src string to file, if not we will set the stdfile. And the src as group.
    Eina_List *result = NULL;
@@ -317,7 +317,7 @@ static Eina_List*
 _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename)
 {
    Evas_Object *edje;
-   Evas_Object *o;
+   const Evas_Object *o;
    char buf[PATH_MAX];
    Eina_List *icons = NULL;
 
@@ -470,7 +470,7 @@ entrance_gui_users_get(void)
 const Entrance_Login*
 entrance_gui_user_get(const char* name)
 {
-   Entrance_Login *el;
+   const Entrance_Login *el;
    Eina_List *l;
    EINA_LIST_FOREACH(_gui->users, l, el)
      {
@@ -704,11 +704,11 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
    unsigned int user_icons_count = 0;
    unsigned int sys_icons_count = 0;
    Evas_Object *o = NULL;
-   Entrance_Image *img;
+   const Entrance_Image *img;
    const Entrance_Login *el;
-   Eina_List *sys_icons = NULL;
-   Eina_List *theme_icons = NULL;
-   Eina_List *user_icons = NULL;
+   const Eina_List *sys_icons = NULL;
+   const Eina_List *theme_icons = NULL;
+   const Eina_List *user_icons = NULL;
 
    el = entrance_gui_user_get(username);
    if (el)
@@ -754,7 +754,7 @@ _entrance_gui_user_sel_cb(void *data,
                           Evas_Object *obj EINA_UNUSED,
                           void *event_info)
 {
-   Entrance_Login *eu;
+   const Entrance_Login *eu;
    eu = elm_object_item_data_get(event_info);
    entrance_login_login_set(data, eu->login);
 }
@@ -765,7 +765,7 @@ _entrance_gui_user_text_get(void *data,
                             Evas_Object *obj EINA_UNUSED,
                             const char *part)
 {
-   Entrance_Login *eu;
+   const Entrance_Login *eu;
    eu = data;
    if (part && !strcmp(part, "elm.text.sub"))
      if (eu->lsess)
@@ -833,7 +833,7 @@ _entrance_gui_action_text_get(void *data,
                               Evas_Object *obj EINA_UNUSED,
                               const char *part EINA_UNUSED)
 {
-   Entrance_Action *ea;
+   const Entrance_Action *ea;
    ea = data;
    if (part && !strcmp(part, "icon"))
      return strdup(ea->icon);
@@ -845,7 +845,7 @@ _entrance_gui_action_clicked_cb(void *data EINA_UNUSED,
                                 Evas_Object *obj EINA_UNUSED,
                                 void *event_info)
 {
-   Entrance_Action *ea;
+   const Entrance_Action *ea;
    ea = elm_object_item_data_get(event_info);
    if (ea) entrance_connect_action_send(ea->id);
 }
