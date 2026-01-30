@@ -104,7 +104,7 @@ const char *
 entrance_history_user_session_get(const char *login)
 {
    Eina_List *l;
-   Entrance_Login *el;
+   const Entrance_Login *el;
 
    EINA_LIST_FOREACH(_entrance_history->history, l, el)
      {
@@ -236,8 +236,8 @@ _entrance_user_init(void)
    FILE *f;
    Eina_List *lu = NULL;
    char *saveptr;
-   char *token;
-   char *user;
+   const char *token;
+   const char *user;
 
    PT("scan for users");
    f = fopen("/etc/passwd", "r");
@@ -294,7 +294,7 @@ static void
 _entrance_user_shutdown(void)
 {
    Entrance_Login *eu;
-   char *buf;
+   const char *buf;
    EINA_LIST_FREE(_lusers, eu)
      {
         if (!_entrance_history_match(eu->login))
