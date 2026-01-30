@@ -3,7 +3,7 @@
 #include <Eina.h>
 
 static void _login_check_auth(Evas_Object *widget);
-static void _login_xsession_update(Evas_Object *obj);
+static void _login_xsession_update(const Evas_Object *obj);
 static void _login_xsession_guess(void *data, const char *user);
 static void _login_xsession_clicked_cb(void *data, Evas_Object *obj, void *event_info);
 static void _login_login_unfocused_cb(void *data, Evas_Object *obj, void *event);
@@ -41,7 +41,7 @@ static Entrance_Gui_Login *_login;
 static void
 _login_check_auth(Evas_Object *widget)
 {
-   Evas_Object *o;
+   const Evas_Object *o;
    const char *host;
    const char *passwd;
 
@@ -89,7 +89,7 @@ _login_entry_changed_cb(void *data,
 static void
 _login_login_unfocused_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSED)
 {
-   Evas_Object *o;
+   const Evas_Object *o;
    const char *hostname;
 
    if (_login->write_timer)
@@ -107,7 +107,7 @@ _login_login_unfocused_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event 
 static Eina_Bool
 _login_login_timer_cb(void *data)
 {
-   Evas_Object *o;
+   const Evas_Object *o;
    const char *hostname;
 
    o = elm_object_part_content_get(data, ENTRANCE_EDJE_PART_LOGIN);
@@ -138,7 +138,7 @@ _login_login_changed_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event EI
 static char *
 _login_xsession_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part)
 {
-   Entrance_Xsession *xsession;
+   const Entrance_Xsession *xsession;
    xsession = data;
    if (part && !strcmp(part, "icon"))
      {
@@ -152,7 +152,7 @@ _login_xsession_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *p
 }
 
 static void
-_login_xsession_update(Evas_Object *obj)
+_login_xsession_update(const Evas_Object *obj)
 {
    Evas_Object *icon;
    Evas_Object *o;
@@ -187,7 +187,7 @@ _login_xsession_guess(void *data, const char *user)
 {
    const Eina_List *l;
    const Eina_List *users;
-   Entrance_Login *eu;
+   const Entrance_Login *eu;
 
    users = entrance_gui_users_get();
    EINA_LIST_FOREACH(users, l, eu)
