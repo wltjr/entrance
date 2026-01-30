@@ -18,8 +18,8 @@ struct Entrance_Fill_
 ///////////////// LIST ///////////////////////////////
 static void
 _entrance_fill_list(Evas_Object *obj,
-                    Entrance_Fill *ef,
-                    const  Eina_List *contents,
+                    const Entrance_Fill *ef,
+                    const Eina_List *contents,
                     Entrance_Fill_Cb_Func fill_cb,
                     Evas_Smart_Cb func,
                     void *data)
