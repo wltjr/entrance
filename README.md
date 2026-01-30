@@ -40,9 +40,9 @@ The best tech does not always win, it can rise or fall based on communities!
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
 ## About
-Entrance is a Unix Display/Login Manager written in Enlightenment Foundation 
-Libraries (EFL). Entrance allows a user to choose a X WM/Desktop 
-session to launch upon successful login. Entrance is alive and working 
+Entrance is a Unix Display/Login Manager written in Enlightenment Foundation
+Libraries (EFL). Entrance allows a user to choose a X WM/Desktop
+session to launch upon successful login. Entrance is alive and working
 again for logging into X sessions and eventually Wayland sessions!
 
 The project has been resurrected from the dead to live on once again...
@@ -75,7 +75,7 @@ A branch may be added to this repository for historical purposes.
 
 ### 1st Generation
 
-There was a project long ago that worked, and went 
+There was a project long ago that worked, and went
 [MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html).
 Copies of the sources for some releases are in some distro repositories. A copy
 has  been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a
@@ -84,7 +84,7 @@ have a copy of the old Entrance repository, please  open an issue and provide a
 link. That would be greatly appreciated!
 
 ## Build
-Entrance presently uses meson build system, autotools has been dropped. 
+Entrance presently uses meson build system, autotools has been dropped.
 
 ### Build using meson
 ```
@@ -106,50 +106,50 @@ On most systems you likely need a pam file. Meson will install this file.
 cp data/entrance.pam.d /etc/pam.d/entrance
 ```
 
-The systemd service file is presently not installed. It may or may not 
-be usable and/or correct. Please see the section on logind/elogind for 
+The systemd service file is presently not installed. It may or may not
+be usable and/or correct. Please see the section on logind/elogind for
 further information.
 
 ## Configuration
 Most things can be configured in entrance.conf at `/etc/entrance/entrance.conf`.
-Some settings may not work. Please file issues for anything that is not 
+Some settings may not work. Please file issues for anything that is not
 configurable or does not work.
 
 ## Usage
-In order to start entrance, you need a system init script or systemd (untested). 
-This may differ based on your operating system. Entrance does not 
-provide an init script at this time, it may not run or work correctly if started 
-directly. Entrance should be invoked via init script or systemd service. 
-There is a provided systemd service file for entrance. It is unknown if 
+In order to start entrance, you need a system init script or systemd (untested).
+This may differ based on your operating system. Entrance does not
+provide an init script at this time, it may not run or work correctly if started
+directly. Entrance should be invoked via init script or systemd service.
+There is a provided systemd service file for entrance. It is unknown if
 this works or not.
 
 ### Entrance User
-Entrance presently starts as root, and then, uses setuid to run entrance_client 
-under the user nobody. This was done via sudo and su for a bit before 
-switching to setuid. Entrance also used to run under the "entrance" user but 
+Entrance presently starts as root, and then, uses setuid to run entrance_client
+under the user nobody. This was done via sudo and su for a bit before
+switching to setuid. Entrance also used to run under the "entrance" user but
 was changed in this [past commit](https://git.enlightenment.org/misc/entrance.git/commit/?id=866fdf557acbfbf1f2404da9c3799020375c16d2).
 Inherited design from the 2nd generation.
 
-It may be changed such that entrance runs under its own user, and does 
-not setuid or run under root. This will require creation of a user 
-account and adding permissions for the user for video, etc. It may be 
-possible to accomplish this now, starting entrance under a user say 
-"entrance" by modifying the untested entrance.conf `start_user` 
+It may be changed such that entrance runs under its own user, and does
+not setuid or run under root. This will require creation of a user
+account and adding permissions for the user for video, etc. It may be
+possible to accomplish this now, starting entrance under a user say
+"entrance" by modifying the untested entrance.conf `start_user`
 option:
 ```
 value "start_user" string: "entrance";
 ```
 
-You will likely also need to create a directory for entrance, and ensure 
+You will likely also need to create a directory for entrance, and ensure
 it has proper permissions. Since entrance will not be running under root,
 entrance will not be able to correct this, despite having code for such.
 Expect to see some errors in log file otherwise, along with non-functional
-entrance. If started as root, entrance will create directories with proper 
+entrance. If started as root, entrance will create directories with proper
 permissions as needed.
 
 ### Multiple Displays
-Entrance supports multiple displays, with the login form residing on the 
-primary display. In some cases this does not work correctly. If using X, 
+Entrance supports multiple displays, with the login form residing on the
+primary display. In some cases this does not work correctly. If using X,
 you may need to set the following settings in your monitor sections.
 ```
 Section "Monitor"
@@ -167,9 +167,9 @@ Section "Monitor"
 	Option		"RightOf"	"A"
 EndSection
 ```
-Without such, only the background will appear. The login form will not 
-appear along with the rest of the UI, and the cursor will be an X. This  
-likely due to bugs in entrance code. The work around is the previously 
+Without such, only the background will appear. The login form will not
+appear along with the rest of the UI, and the cursor will be an X. This
+likely due to bugs in entrance code. The work around is the previously
 mentioned monitors section.
 
 ## logind/elogind aka systemd
@@ -187,7 +187,7 @@ of entrance shortly thereafter.
 Once again thanks to [@OxusByte45](https://github.com/OxusByte45), entrance now
 has initial support for launching Wayland sessions! This is not as heavily
 tested, and is not being presented tested in CI. Please report any issues with
-launching Wayland sessions, preferable, Enlightement under Wayland, when the 
+launching Wayland sessions, preferable, Enlightement under Wayland, when the
 mesa issues are resolved.
 
 It is not known how well this will work to launch other Desktop enviroments,
