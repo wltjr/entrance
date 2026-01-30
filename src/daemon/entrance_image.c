@@ -2,7 +2,7 @@
 #include "entrance.h"
 
 static Eina_List *_entrance_image_readdir(const char *path);
-static Eina_List *_entrance_image_get(Eina_List *src, char *stdfile, char *mask);
+static Eina_List *_entrance_image_get(Eina_List *src, const char *stdfile, const char *mask);
 static char *_entrance_image_homedir_get(const char *usr);
 
 static Eina_List *
@@ -16,7 +16,7 @@ _entrance_image_readdir(const char *path)
    if (!files) return NULL;
    EINA_ITERATOR_FOREACH(files, file_stat)
      {
-        char *buf;
+        const char *buf;
 
         buf = file_stat->path;
         if (file_stat->path[file_stat->name_start] != '.'
@@ -29,7 +29,7 @@ _entrance_image_readdir(const char *path)
 }
 
 static Eina_List *
-_entrance_image_get(Eina_List *src, char *stdfile, char *mask)
+_entrance_image_get(Eina_List *src, const char *stdfile, const char *mask)
 {
    //If srdfile is NULL we will set the src string to file, if not we will set the stdfile. And the src as group.
    Eina_List *result = NULL;
