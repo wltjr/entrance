@@ -36,7 +36,7 @@ static Entrance_Gui_Login *_login;
 #define ALERT_ERROR(widget,text) \
   elm_object_part_text_set(widget, ENTRANCE_EDJE_PART_LABEL, text); \
   elm_object_signal_emit(widget, ENTRANCE_EDJE_SIGNAL_AUTH_ERROR, ""); \
-  _login->error = EINA_TRUE;
+  _login->error = EINA_TRUE
 
 static void
 _login_check_auth(Evas_Object *widget)
