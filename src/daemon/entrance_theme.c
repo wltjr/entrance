@@ -12,7 +12,7 @@ entrance_theme_themes_get(void)
      return NULL;
    EINA_ITERATOR_FOREACH(themes, file_stat)
      {
-        char *basename;
+        const char *basename;
         basename = eina_str_split(&file_stat->path[file_stat->name_start], ".",2)[0];
         if (basename[0] != '.'
             && file_stat->type == EINA_FILE_REG
