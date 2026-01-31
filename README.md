@@ -206,3 +206,22 @@ mesa issues are resolved.
 
 It is not known how well this will work to launch other Desktop environments,
 but testing is welcomed!
+
+## To-do
+
+This isn't really an accurate todo list, but merging in legacy external TODO
+file contents, this maybe revised for more accuracy as project direction
+becomes more well defined.
+
+- [ ] logind integration (IN PROGRESS - core implementation done, needs testing, CI passing)
+  - [ ] Session tracking via sd_login APIs
+  - [ ] Seat detection and management
+  - [ ] VT number auto-detection
+  - [x] Session type (X11/Wayland) support
+  - [ ] Multi-seat awareness
+- virtual keyboard support
+- [-] Wayland support, client for DM and session
+  - [x] Basic detection and XDG_SESSION_TYPE=wayland set
+  - [ ] Full wayland compositor support needed
+- theme for cursor
+- [ ] clean up codebase
