@@ -87,7 +87,7 @@ entrance_pam_close_session(const Eina_Bool opened)
        pam_setcred(_pam_handle, PAM_DELETE_CRED);
        entrance_pam_end();
      }
-   if (opened)
+   else if (opened)
      {
        last_result = pam_setcred(_pam_handle, PAM_DELETE_CRED);
        if(last_result!=PAM_SUCCESS)
