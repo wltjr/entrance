@@ -1,4 +1,5 @@
 # entrance - An EFL based display manager
+
 [![License](http://img.shields.io/badge/license-GPLv3-blue.svg?colorB=9977bb&style=plastic)](https://github.com/wltjr/entrance/blob/master/LICENSE)
 ![Build Status](https://github.com/wltjr/entrance/actions/workflows/docker_build.yml/badge.svg)
 [![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=wltjr_entrance&metric=alert_status)](https://sonarcloud.io/dashboard?id=wltjr_entrance)
@@ -13,20 +14,20 @@ seen this version.
 
 There has been talk of making Enlightenment a login manager as many under
 Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
-has never been any efforts, and you are reduced to starting Enlightment with
+has never been any efforts, and you are reduced to starting Enlightenment with
 some other DM like Light-DM, SDDM, etc, or startx. However, this is reliant on
-one person as so much of EFL and Enlightement has been for decades, and the
+one person as so much of EFL and Enlightenment has been for decades, and the
 developer community has never grown.
 
 Maybe someday Enlightenment can log into itself, but in the years since 2017 to
-2026, and in forseeable future in 2026, the way to log into Enlightenment
+2026, and in foreseeable future in 2026, the way to log into Enlightenment
 Desktop is?
 
 Sadly, while EFL has much potential, its toxic community has shunned developers
 for years. All efforts with entrance have been frowned upon and discouraged
 since 2017, and development has continued, despite it all! It took almost
 10 years to get [another's](https://github.com/thewaiter)
-improved [efforts](https://github.com/wltjr/clipboard) into Enlightement,
+improved [efforts](https://github.com/wltjr/clipboard) into Enlightenment,
 and
 [re-written](https://github.com/Enlightenment/enlightenment/tree/master/src/modules/clipboard) upon addition.
 
@@ -40,6 +41,7 @@ The best tech does not always win, it can rise or fall based on communities!
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
 ## About
+
 Entrance is a Unix Display/Login Manager written in Enlightenment Foundation
 Libraries (EFL). Entrance allows a user to choose a X WM/Desktop
 session to launch upon successful login. Entrance is alive and working
@@ -84,25 +86,28 @@ have a copy of the old Entrance repository, please  open an issue and provide a
 link. That would be greatly appreciated!
 
 ## Build
+
 Entrance presently uses meson build system, autotools has been dropped.
 
 ### Build using meson
-```
+
+```sh
 prefix=/usr/share
 meson \
-	--prefix "${prefix}" \
-	--bindir "${prefix}/bin" \
-	--sbindir "${prefix}/sbin" \
-	--datadir "${prefix}/share" \
-	--sysconfdir "/etc" \
+    --prefix "${prefix}" \
+    --bindir "${prefix}/bin" \
+    --sbindir "${prefix}/sbin" \
+    --datadir "${prefix}/share" \
+    --sysconfdir "/etc" \
     -Dpam=true \
     -Dlogind=true \
-	. build
+    . build
 ninja -C build
 ```
 
 On most systems you likely need a pam file. Meson will install this file.
-```
+
+```sh
 cp data/entrance.pam.d /etc/pam.d/entrance
 ```
 
@@ -111,11 +116,13 @@ be usable and/or correct. Please see the section on logind/elogind for
 further information.
 
 ## Configuration
+
 Most things can be configured in entrance.conf at `/etc/entrance/entrance.conf`.
 Some settings may not work. Please file issues for anything that is not
 configurable or does not work.
 
 ## Usage
+
 In order to start entrance, you need a system init script or systemd (untested).
 This may differ based on your operating system. Entrance does not
 provide an init script at this time, it may not run or work correctly if started
@@ -124,6 +131,7 @@ There is a provided systemd service file for entrance. It is unknown if
 this works or not.
 
 ### Entrance User
+
 Entrance presently starts as root, and then, uses setuid to run entrance_client
 under the user nobody. This was done via sudo and su for a bit before
 switching to setuid. Entrance also used to run under the "entrance" user but
@@ -136,7 +144,8 @@ account and adding permissions for the user for video, etc. It may be
 possible to accomplish this now, starting entrance under a user say
 "entrance" by modifying the untested entrance.conf `start_user`
 option:
-```
+
+```c
 value "start_user" string: "entrance";
 ```
 
@@ -148,33 +157,37 @@ entrance. If started as root, entrance will create directories with proper
 permissions as needed.
 
 ### Multiple Displays
+
 Entrance supports multiple displays, with the login form residing on the
 primary display. In some cases this does not work correctly. If using X,
 you may need to set the following settings in your monitor sections.
-```
+
+```c
 Section "Monitor"
-	Identifier	"A"
-	Option		"position"	"0 0"
+    Identifier  "A"
+    Option      "position"  "0 0"
 EndSection
 
 Section "Monitor"
-	Identifier	"B"
-	Option		"LeftOf"	"A"
+    Identifier  "B"
+    Option      "LeftOf"    "A"
 EndSection
 
 Section "Monitor"
-	Identifier	"C"
-	Option		"RightOf"	"A"
+    Identifier  "C"
+    Option      "RightOf"   "A"
 EndSection
 ```
+
 Without such, only the background will appear. The login form will not
 appear along with the rest of the UI, and the cursor will be an X. This
 likely due to bugs in entrance code. The work around is the previously
 mentioned monitors section.
 
 ## logind/elogind aka systemd
+
 Initial logind/elogind code has been added to entrance thanks to
-[@OxusByte45](https://github.com/OxusByte45), and this works in some enviroments,
+[@OxusByte45](https://github.com/OxusByte45), and this works in some environments,
 but we are still working out issues in CI before fully confirming that entrance
 supports logind/elogind. That is the current area of development focus, for more
 information please refer to
@@ -184,11 +197,12 @@ This work should be completed soon, and there will be the first actual release
 of entrance shortly thereafter.
 
 ## wayland display sessions
+
 Once again thanks to [@OxusByte45](https://github.com/OxusByte45), entrance now
 has initial support for launching Wayland sessions! This is not as heavily
 tested, and is not being presently tested in CI. Please report any issues with
-launching Wayland sessions, preferable, Enlightement under Wayland, when the
+launching Wayland sessions, preferable, Enlightenment under Wayland, when the
 mesa issues are resolved.
 
-It is not known how well this will work to launch other Desktop enviroments,
+It is not known how well this will work to launch other Desktop environments,
 but testing is welcomed!
