@@ -87,7 +87,7 @@ link. That would be greatly appreciated!
 
 ## Build
 
-Entrance presently uses meson build system, autotools has been dropped.
+Entrance presently uses meson build system.
 
 ### Build using meson
 
