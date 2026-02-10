@@ -1,7 +1,7 @@
 # entrance - An EFL based display manager
 
 [![License](http://img.shields.io/badge/license-GPLv3-blue.svg?colorB=9977bb&style=plastic)](https://github.com/wltjr/entrance/blob/master/LICENSE)
-![Build Status](https://github.com/wltjr/entrance/actions/workflows/docker_build.yml/badge.svg)
+[![Build Status](https://github.com/wltjr/entrance/actions/workflows/docker_build.yml/badge.svg)](https://github.com/wltjr/entrance/actions)
 [![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=wltjr_entrance&metric=alert_status)](https://sonarcloud.io/dashboard?id=wltjr_entrance)
 
 This is a fork and current development version.
