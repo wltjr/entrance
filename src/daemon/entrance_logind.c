@@ -51,7 +51,7 @@ entrance_logind_init(void)
         return EINA_FALSE;
      }
    
-   PT("logind integration initialized successfully");
+   PT("logind integration initialized successfully %d seats detected", ret);
    return EINA_TRUE;
 }
 
@@ -243,34 +243,6 @@ entrance_logind_vt_get(const char *display EINA_UNUSED)
      }
 
    return vtnr;
-}
-
-char *
-entrance_logind_seat_detect(void)
-{
-   char *seat = NULL;
-   int ret;
-
-   /* Try to get seat from our PID */
-   ret = sd_pid_get_session(getpid(), NULL);
-   if (ret >= 0)
-     {
-        Entrance_Logind_Session *session = entrance_logind_session_get(getpid());
-        if (session && session->seat)
-          {
-             seat = strdup(session->seat);
-             entrance_logind_session_free(session);
-             PT("Auto-detected seat: %s", seat);
-             return seat;
-          }
-        if (session)
-          entrance_logind_session_free(session);
-     }
-
-   /* Default to seat0 */
-   seat = strdup("seat0");
-   PT("Using default seat: %s", seat);
-   return seat;
 }
 
 Eina_Bool
