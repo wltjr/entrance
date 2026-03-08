@@ -220,31 +220,6 @@ entrance_logind_session_is_active(const char *session_id)
    return (ret > 0) ? EINA_TRUE : EINA_FALSE;
 }
 
-unsigned int
-entrance_logind_vt_get(const char *display EINA_UNUSED)
-{
-   Entrance_Logind_Session *session;
-   unsigned int vtnr = 0;
-   pid_t pid;
-
-   /* Get current process session */
-   pid = getpid();
-   session = entrance_logind_session_get(pid);
-   if (session)
-     {
-        vtnr = session->vtnr;
-        entrance_logind_session_free(session);
-     }
-
-   if (vtnr == 0)
-     {
-        /* Fallback: try to detect from parent or use configured value */
-        PT("Could not detect VT from logind, using fallback");
-     }
-
-   return vtnr;
-}
-
 Eina_Bool
 entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data)
 {
