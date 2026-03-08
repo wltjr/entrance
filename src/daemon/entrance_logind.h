@@ -48,9 +48,6 @@ char **entrance_logind_seats_list(int *count);
 /* Check if a session is active */
 Eina_Bool entrance_logind_session_is_active(const char *session_id);
 
-/* Get the VT number for the current display */
-unsigned int entrance_logind_vt_get(const char *display);
-
 /* Monitor session/seat changes */
 typedef void (*Entrance_Logind_Cb)(void *data);
 Eina_Bool entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data);
