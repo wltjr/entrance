@@ -19,9 +19,6 @@ static char *_login = NULL;
 static unsigned char _logged = 0;
 static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
-#ifdef HAVE_LOGIND
-static Entrance_Logind_Session *_logind_session = NULL;
-#endif
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
 static int _entrance_session_userid_set(const struct passwd *pwd);
 
@@ -225,63 +222,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         env[n++]=0;
 #endif
 
-#ifdef HAVE_LOGIND
-        /* Get logind session for THIS child process */
-        pid_t child_pid = getpid();
-        Entrance_Logind_Session *child_session = entrance_logind_session_get(child_pid);
-        if (child_session)
-          {
-             PT("Child session registered: id=%s seat=%s vt=%u",
-                child_session->id,
-                child_session->seat ? child_session->seat : "none",
-                child_session->vtnr);
-             
-             /* Set environment variables using REAL session info */
-             /* This modifies PAM environment in-place via entrance_pam_env_set() */
-             _entrance_session_environment_set(pwd, cookie, child_session);
-             
-             /* Activate this session if needed */
-             if (!child_session->active && child_session->id)
-               {
-                  PT("Activating session %s", child_session->id);
-                  /* Use loginctl to activate our session */
-                  pid_t loginctl_pid = fork();
-                  if (loginctl_pid == 0)
-                    {
-                       /* Child: exec loginctl */
-                       execl("/usr/bin/loginctl", "loginctl", "activate", child_session->id, NULL);
-                       exit(1); /* If exec fails */
-                    }
-                  else if (loginctl_pid > 0)
-                    {
-                       /* Parent: wait for loginctl */
-                       waitpid(loginctl_pid, NULL, 0);
-                    }
-                  
-                  /* Wait for session to become active */
-                  int retry = 0;
-                  while (!entrance_logind_session_is_active(child_session->id) && retry < 10)
-                    {
-                       struct timespec request = { 0, 100000000 };
-                       nanosleep(&request, NULL); /* 100ms */
-                       retry++;
-                    }
-                  if (retry >= 10)
-                    PT("Warning: Session did not activate in time");
-                  else
-                    PT("Session activated successfully");
-               }
-             entrance_logind_session_free(child_session);
-          }
-        else
-          {
-             PT("Warning: Could not get child session, using fallback env");
-             _entrance_session_environment_set(pwd, cookie, NULL);
-          }
-#else
-        /* No logind, set environment without session info */
         _entrance_session_environment_set(pwd, cookie, NULL);
-#endif
 
 #ifdef HAVE_PAM
         /* Retrieve final PAM environment with our vars */
@@ -450,14 +391,6 @@ entrance_session_shutdown(void)
      }
    
    _session_pid = 0;
-#ifdef HAVE_LOGIND
-   if (_logind_session)
-     {
-        entrance_logind_session_free(_logind_session);
-        _logind_session = NULL;
-     }
-   entrance_logind_shutdown();
-#endif
 }
 
 Eina_Bool
@@ -717,13 +650,6 @@ _entrance_session_desktops_scan_file(const char *path)
         _xsessions = eina_list_sorted_insert(_xsessions,
             (Eina_Compare_Cb)_entrance_session_sort,
             xsession);
-#ifdef HAVE_LOGIND
-        /* Store session type for logind */
-        if (is_wayland)
-          {
-             PT("Wayland session detected: %s", desktop->name);
-          }
-#endif
      }
    EINA_LIST_FREE(commands, command)
      free(command);
