@@ -8,7 +8,6 @@ static void _defaults_set(Entrance_Config *config);
 static void _users_get(void);
 static void _config_free(Entrance_Config *config);
 static Entrance_Config *_cache_get(void);
-static const char *_detect_cursor_theme(void);
 
 static Eet_Data_Descriptor *_entrance_config_descriptor;
 
