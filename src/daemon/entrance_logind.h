@@ -30,9 +30,6 @@ Eina_Bool entrance_logind_init(void);
 /* Shutdown logind integration */
 void entrance_logind_shutdown(void);
 
-/* Get session information for a PID */
-Entrance_Logind_Session *entrance_logind_session_get(pid_t pid);
-
 /* Free session structure */
 void entrance_logind_session_free(Entrance_Logind_Session *session);
 
