@@ -204,23 +204,6 @@ entrance_logind_seats_list(int *count)
 }
 
 Eina_Bool
-entrance_logind_session_is_active(const char *session_id)
-{
-   int ret;
-
-   if (!session_id) return EINA_FALSE;
-
-   ret = sd_session_is_active(session_id);
-   if (ret < 0)
-     {
-        PT("Failed to check session active state: %s", strerror(-ret));
-        return EINA_FALSE;
-     }
-
-   return (ret > 0) ? EINA_TRUE : EINA_FALSE;
-}
-
-Eina_Bool
 entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data)
 {
    int fd;
