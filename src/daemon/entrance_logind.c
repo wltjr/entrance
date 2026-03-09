@@ -64,59 +64,6 @@ entrance_logind_shutdown(void)
    /* Note: Active session cleanup is handled by entrance_session_shutdown() */
 }
 
-Entrance_Logind_Session *
-entrance_logind_session_get(pid_t pid)
-{
-   Entrance_Logind_Session *session;
-   char *session_id = NULL;
-   char *seat = NULL;
-   unsigned int vtnr = 0;
-   uid_t uid;
-   int ret;
-
-   ret = sd_pid_get_session(pid, &session_id);
-   if (ret < 0)
-     {
-        PT("Failed to get session for PID %d: %s", pid, strerror(-ret));
-        return NULL;
-     }
-
-   session = calloc(1, sizeof(Entrance_Logind_Session));
-   if (!session)
-     {
-        free(session_id);
-        return NULL;
-     }
-
-   session->id = session_id;
-   session->leader = pid;
-
-   /* Get session seat */
-   ret = sd_session_get_seat(session_id, &seat);
-   if (ret >= 0)
-     session->seat = seat;
-
-   /* Get VT number */
-   ret = sd_session_get_vt(session_id, &vtnr);
-   if (ret >= 0)
-     session->vtnr = vtnr;
-
-   /* Get UID */
-   ret = sd_session_get_uid(session_id, &uid);
-   if (ret >= 0)
-     session->uid = uid;
-
-   /* Check if active */
-   ret = sd_session_is_active(session_id);
-   session->active = (ret > 0) ? EINA_TRUE : EINA_FALSE;
-
-   PT("Got logind session: id=%s seat=%s vt=%u uid=%u active=%d",
-      session->id, session->seat ? session->seat : "none",
-      session->vtnr, session->uid, session->active);
-
-   return session;
-}
-
 void
 entrance_logind_session_free(Entrance_Logind_Session *session)
 {
