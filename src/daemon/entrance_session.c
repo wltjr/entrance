@@ -290,9 +290,6 @@ entrance_session_pid_set(pid_t pid)
    _session_pid = pid;
    snprintf(buf, sizeof(buf), "%d", pid);
    setenv("ENTRANCE_SPID", buf, 1);
-   
-   /* Note: logind session detection now happens in child process after PAM opens session.
-    * The child process will call entrance_logind_session_get() on its own PID after setsid() and PAM. */
 }
 
 pid_t
