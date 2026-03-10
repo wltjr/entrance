@@ -112,7 +112,7 @@ _entrance_session_shell_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_environment_set(const struct passwd *pwd, const char *cookie, Entrance_Logind_Session *session EINA_UNUSED)
+_entrance_session_environment_set(const struct passwd *pwd, const char *cookie)
 {
    PT("Setting environment");
 #ifdef HAVE_PAM
@@ -222,7 +222,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         env[n++]=0;
 #endif
 
-        _entrance_session_environment_set(pwd, cookie, NULL);
+        _entrance_session_environment_set(pwd, cookie);
 
 #ifdef HAVE_PAM
         /* Retrieve final PAM environment with our vars */
