@@ -47,9 +47,6 @@ typedef void (*Entrance_Logind_Cb)(void *data);
 Eina_Bool entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data);
 void entrance_logind_monitor_stop(void);
 
-/* Get user sessions */
-char **entrance_logind_user_sessions_get(uid_t uid, Eina_Bool active_only, int *count);
-
 #endif /* HAVE_LOGIND */
 
 #endif /* ENTRANCE_LOGIND_H_ */
