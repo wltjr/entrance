@@ -217,23 +217,4 @@ entrance_logind_monitor_stop(void)
    PT("Logind monitor stopped");
 }
 
-char **
-entrance_logind_user_sessions_get(uid_t uid, Eina_Bool active_only, int *count)
-{
-   char **sessions = NULL;
-   int ret;
-
-   ret = sd_uid_get_sessions(uid, active_only ? 1 : 0, &sessions);
-   if (ret < 0)
-     {
-        PT("Failed to get user sessions for UID %u: %s", uid, strerror(-ret));
-        if (count) *count = 0;
-        return NULL;
-     }
-
-   if (count) *count = ret;
-   PT("Found %d sessions for UID %u (active_only=%d)", ret, uid, active_only);
-   return sessions;
-}
-
 #endif /* HAVE_LOGIND */
