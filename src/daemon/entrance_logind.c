@@ -64,24 +64,6 @@ entrance_logind_shutdown(void)
    /* Note: Active session cleanup is handled by entrance_session_shutdown() */
 }
 
-void
-entrance_logind_session_free(Entrance_Logind_Session *session)
-{
-   if (!session) return;
-   
-   /* Note: logind/elogind automatically manages session lifecycle via PAM.
-    * When pam_close_session() is called (in entrance_session_close()),
-    * logind is notified automatically through pam_systemd/pam_elogind.
-    * We only track session info locally - actual lifecycle is managed by PAM.
-    */
-   if (session->id)
-     PT("Freeing logind session tracking: %s", session->id);
-   
-   free(session->id);
-   free(session->seat);
-   free(session);
-}
-
 Entrance_Logind_Seat *
 entrance_logind_seat_get(const char *seat_name)
 {
