@@ -6,16 +6,6 @@
 #include <systemd/sd-login.h>
 #include <Eina.h>
 
-typedef struct _Entrance_Logind_Session
-{
-   char *id;                    /* Session ID from logind */
-   char *seat;                  /* Seat name */
-   unsigned int vtnr;           /* Virtual terminal number */
-   pid_t leader;                /* Session leader PID */
-   uid_t uid;                   /* User ID */
-   Eina_Bool active;            /* Is session currently active */
-} Entrance_Logind_Session;
-
 typedef struct _Entrance_Logind_Seat
 {
    char *name;                  /* Seat name (e.g., "seat0") */
