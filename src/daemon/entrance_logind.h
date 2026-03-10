@@ -30,9 +30,6 @@ Eina_Bool entrance_logind_init(void);
 /* Shutdown logind integration */
 void entrance_logind_shutdown(void);
 
-/* Free session structure */
-void entrance_logind_session_free(Entrance_Logind_Session *session);
-
 /* Get seat information */
 Entrance_Logind_Seat *entrance_logind_seat_get(const char *seat_name);
 
