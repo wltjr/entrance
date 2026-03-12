@@ -193,6 +193,16 @@ _entrance_kill_and_wait(const char *desc, pid_t pid)
     }
 }
 
+#ifdef HAVE_LOGIND
+/* Callback for logind seat changes */
+static void
+_entrance_logind_monitor_cb(void *data EINA_UNUSED)
+{
+   PT("Logind event detected - seat or session change");
+   /* Could trigger UI updates, rescan seats, etc. */
+}
+#endif
+
 static void
 _entrance_session_wait()
 {
@@ -581,6 +591,12 @@ main (int argc, char ** argv)
    if(!_entrance_auto_login)
      _entrance_uid_gid_init();
 
+#ifdef HAVE_LOGIND
+   /* Start monitoring for seat changes */
+   if (!entrance_logind_monitor_start(_entrance_logind_monitor_cb, NULL))
+     PT("WARNING: Could not start logind monitor");
+#endif
+
    if (_xephyr == EINA_FALSE)
      {
         PT("xserver init");
@@ -637,6 +653,9 @@ main (int argc, char ** argv)
         entrance_xserver_shutdown();
         PT("xserver shutdown");
      }
+#ifdef HAVE_LOGIND
+   entrance_logind_monitor_stop();
+#endif
 #ifdef HAVE_PAM
    entrance_pam_shutdown();
    PT("pam shutdown");
