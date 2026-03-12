@@ -14,9 +14,6 @@ typedef struct _Entrance_Logind_Seat
    char *active_session;        /* Currently active session ID */
 } Entrance_Logind_Seat;
 
-/* Initialize logind integration */
-Eina_Bool entrance_logind_init(void);
-
 /* Shutdown logind integration */
 void entrance_logind_shutdown(void);
 
