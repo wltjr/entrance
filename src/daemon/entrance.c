@@ -266,6 +266,16 @@ _entrance_start_client(const char *display)
 
    if (_entrance_client)
      return;
+
+#ifdef HAVE_LOGIND
+   int seat_count;
+   char **seats;
+
+   seat_count = 0;
+   seats = entrance_logind_seats_list(&seat_count);
+   /* Loop through seats, can graphical, start client on each graphical seat */
+#endif
+
    PT("starting client...");
    _entrance_client_handlers_del();
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, NULL);
