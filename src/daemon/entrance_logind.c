@@ -31,30 +31,6 @@ _entrance_logind_monitor_cb(void *data EINA_UNUSED, Ecore_Fd_Handler *fd_handler
    return ECORE_CALLBACK_RENEW;
 }
 
-Eina_Bool
-entrance_logind_init(void)
-{
-   int ret;
-   
-   PT("Initializing logind integration");
-   
-   /* Test systemd/elogind availability by attempting a basic call */
-   ret = sd_get_seats(NULL);
-   if (ret < 0)
-     {
-        if (ret == -ENOENT || ret == -ECONNREFUSED)
-          {
-             PT("WARNING: logind/systemd not available: %s", strerror(-ret));
-             return EINA_FALSE;
-          }
-        PT("Error checking logind availability: %s", strerror(-ret));
-        return EINA_FALSE;
-     }
-   
-   PT("logind integration initialized successfully %d seats detected", ret);
-   return EINA_TRUE;
-}
-
 void
 entrance_logind_shutdown(void)
 {
