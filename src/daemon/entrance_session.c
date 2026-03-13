@@ -175,6 +175,11 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              PT("Failed to open PAM session in child");
              exit(1);
           }
+
+        _entrance_session_environment_set(pwd, cookie);
+
+        /* Retrieve final PAM environment with our vars */
+        env = entrance_pam_env_list_get();
 #else
         int n = 0;
         char *term = getenv("TERM");
@@ -220,13 +225,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         snprintf(buf, sizeof(buf), "XDG_RUNTIME_DIR=/run/user/%d", pwd->pw_uid);
         env[n++]=strdup(buf);
         env[n++]=0;
-#endif
-
-        _entrance_session_environment_set(pwd, cookie);
-
-#ifdef HAVE_PAM
-        /* Retrieve final PAM environment with our vars */
-        env = entrance_pam_env_list_get();
 #endif
         
         snprintf(buf, sizeof(buf),
