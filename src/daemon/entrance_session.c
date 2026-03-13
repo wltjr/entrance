@@ -31,17 +31,6 @@ static void _entrance_session_desktops_init(void);
 static const char *_entrance_session_find_command(const char *path, const char *session);
 static struct passwd *_entrance_session_session_open();
 
-long
-entrance_session_seed_get(void)
-{
-    struct timespec ts;
-    long pid = getpid();
-    long tm = time(NULL);
-    if (clock_gettime(CLOCK_MONOTONIC, &ts))
-       ts.tv_sec = ts.tv_nsec = 0;
-    return pid + tm + (ts.tv_sec ^ ts.tv_nsec);
-}
-
 static int
 _entrance_session_cookie_add(const char *mcookie, const char *display,
                          const char *xauth_cmd, const char *auth_file)
