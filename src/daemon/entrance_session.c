@@ -112,10 +112,9 @@ _entrance_session_shell_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_environment_set(const struct passwd *pwd, const char *cookie)
+_entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie)
 {
-   PT("Setting environment");
-#ifdef HAVE_PAM
+   PT("Setting PAM environment");
    const char *term = NULL;
 #ifndef HAVE_LOGIND
    char vtnr[128] = {0};
@@ -140,7 +139,6 @@ _entrance_session_environment_set(const struct passwd *pwd, const char *cookie)
 #ifndef HAVE_LOGIND
    entrance_pam_env_set("XDG_SEAT", "seat0");
    entrance_pam_env_set("XDG_VTNR", vtnr);
-#endif
 #endif
 }
 
@@ -176,7 +174,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              exit(1);
           }
 
-        _entrance_session_environment_set(pwd, cookie);
+        _entrance_session_pam_env_set(pwd, cookie);
 
         /* Retrieve final PAM environment with our vars */
         env = entrance_pam_env_list_get();
