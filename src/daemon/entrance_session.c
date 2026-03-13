@@ -112,7 +112,7 @@ _entrance_session_shell_set(struct passwd *pwd)
 }
 
 static void
-_entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie)
+_entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina_Bool is_wayland)
 {
    PT("Setting PAM environment");
    const char *term = NULL;
@@ -136,6 +136,7 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie)
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
+   entrance_pam_env_set("XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
 #ifndef HAVE_LOGIND
    entrance_pam_env_set("XDG_SEAT", "seat0");
    entrance_pam_env_set("XDG_VTNR", vtnr);
@@ -161,12 +162,6 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
           }
         
 #ifdef HAVE_PAM
-        /* Set session type environment variables for logind/PAM */
-        if (is_wayland)
-          setenv("XDG_SESSION_TYPE", "wayland", 1);
-        else
-          setenv("XDG_SESSION_TYPE", "x11", 1);
-        
         /* Open PAM session in child process */
         if (entrance_pam_open_session())
           {
@@ -174,7 +169,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
              exit(1);
           }
 
-        _entrance_session_pam_env_set(pwd, cookie);
+        _entrance_session_pam_env_set(pwd, cookie, is_wayland);
 
         /* Retrieve final PAM environment with our vars */
         env = entrance_pam_env_list_get();
