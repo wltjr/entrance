@@ -2,7 +2,7 @@
 project('entrance', 'c',
         version        : '3.0.0_alpha6',
         license        : 'GPL-3.0',
-        default_options: [ 'c_std=gnu99' ],
+        default_options: [ 'c_std=gnu17' ],
         meson_version  : '>= 0.40.0')
 base_url = 'https://github.com/wltjr/'
 
