@@ -100,6 +100,7 @@ _entrance_session_shell_set(struct passwd *pwd)
      }
 }
 
+#ifdef HAVE_PAM
 static void
 _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina_Bool is_wayland)
 {
@@ -131,6 +132,7 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina
    entrance_pam_env_set("XDG_VTNR", vtnr);
 #endif
 }
+#endif
 
 static void
 _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland)
