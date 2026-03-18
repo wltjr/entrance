@@ -274,6 +274,7 @@ _entrance_start_client(const char *display)
    seat_count = 0;
    seats = entrance_logind_seats_list(&seat_count);
    /* Loop through seats, can graphical, start client on each graphical seat */
+   Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
 #endif
 
    PT("starting client...");
@@ -331,6 +332,9 @@ _entrance_start_client(const char *display)
      }
    flock(home_dir, LOCK_UN);
    close(home_dir);
+#ifdef HAVE_LOGIND
+   entrance_logind_seat_free(els);
+#endif
 }
 
 static void
