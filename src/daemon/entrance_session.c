@@ -14,7 +14,6 @@
 
 static char *_mcookie = NULL;
 static const char *_dname = NULL;
-static char **env;
 static char *_login = NULL;
 static unsigned char _logged = 0;
 static pid_t _session_pid;
@@ -137,6 +136,7 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina
 static void
 _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland)
 {
+   char **env;
    pid_t pid;
    pid = fork();
    if (pid == 0)
