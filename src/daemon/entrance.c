@@ -16,7 +16,7 @@ static Eina_Bool _entrance_client_error(void *data, int type, void *event);
 static Eina_Bool _entrance_client_data(void *data, int type, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type, void *event);
 static Eina_Bool _open_log();
-static int * _entrance_xservers_init();
+static pid_t * _entrance_xservers_init();
 static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
@@ -387,10 +387,10 @@ _entrance_uid_gid_init()
    PT("Home directory %s", entrance_home_path);
 }
 
-static int *
+static pid_t *
 _entrance_xservers_init()
 {
-    int *pids;
+    pid_t *pids;
     int seat_count;
 
     seat_count = 1;
@@ -402,7 +402,7 @@ _entrance_xservers_init()
     Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
 #endif
 
-    pids = calloc(seat_count, sizeof(int));
+    pids = calloc(seat_count, sizeof(pid_t));
     if (!pids) return NULL;
 
     for(int i = 0; i < seat_count ; i++)
