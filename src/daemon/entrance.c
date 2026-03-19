@@ -35,6 +35,7 @@ static Eina_List *_entrance_client_handlers = NULL;
 static char *entrance_display = NULL;
 static char *entrance_home_path = NULL;
 static const char *entrance_user = NULL;
+static int _entrance_seat_count = 1;
 static int entrance_signal = 0;
 static pid_t entrance_client_pid = 0;
 static gid_t entrance_gid = 0;
@@ -391,21 +392,18 @@ static pid_t *
 _entrance_xservers_init()
 {
     pid_t *pids;
-    int seat_count;
-
-    seat_count = 1;
 #ifdef HAVE_LOGIND
     char **seats;
 
-    seats = entrance_logind_seats_list(&seat_count);
+    seats = entrance_logind_seats_list(&_entrance_seat_count);
     /* Loop through seats, can graphical, start client on each graphical seat */
     Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
 #endif
 
-    pids = calloc(seat_count, sizeof(pid_t));
+    pids = calloc(_entrance_seat_count, sizeof(pid_t));
     if (!pids) return NULL;
 
-    for(int i = 0; i < seat_count ; i++)
+    for(int i = 0; i < _entrance_seat_count ; i++)
         pids[i] = entrance_xserver_init(_entrance_start_client, entrance_display);
 
 #ifdef HAVE_LOGIND
