@@ -268,16 +268,6 @@ _entrance_start_client(const char *display)
    if (_entrance_client)
      return;
 
-#ifdef HAVE_LOGIND
-   int seat_count;
-   char **seats;
-
-   seat_count = 0;
-   seats = entrance_logind_seats_list(&seat_count);
-   /* Loop through seats, can graphical, start client on each graphical seat */
-   Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
-#endif
-
    PT("starting client...");
    _entrance_client_handlers_del();
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, NULL);
@@ -333,9 +323,6 @@ _entrance_start_client(const char *display)
      }
    flock(home_dir, LOCK_UN);
    close(home_dir);
-#ifdef HAVE_LOGIND
-   entrance_logind_seat_free(els);
-#endif
 }
 
 static void
@@ -400,19 +387,31 @@ _entrance_uid_gid_init()
    PT("Home directory %s", entrance_home_path);
 }
 
-int *
+static int *
 _entrance_xservers_init()
 {
     int *pids;
     int seat_count;
 
     seat_count = 1;
+#ifdef HAVE_LOGIND
+    char **seats;
+
+    seats = entrance_logind_seats_list(&seat_count);
+    /* Loop through seats, can graphical, start client on each graphical seat */
+    Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
+#endif
 
     pids = calloc(seat_count, sizeof(int));
     if (!pids) return NULL;
 
     for(int i = 0; i < seat_count ; i++)
         pids[i] = entrance_xserver_init(_entrance_start_client, entrance_display);
+
+#ifdef HAVE_LOGIND
+    /* may need to relocate of Entrance_Logind_Seat struct data is still used */
+    entrance_logind_seat_free(els);
+#endif
 
     return pids;
 }
