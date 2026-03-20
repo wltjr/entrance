@@ -40,7 +40,7 @@ static int entrance_signal = 0;
 static pid_t entrance_client_pid = 0;
 static gid_t entrance_gid = 0;
 static uid_t entrance_uid = 0;
-static pid_t entrance_xserver_pid = 0;
+static pid_t *_entrance_xserver_pids = NULL;
 
 int _entrance_log;
 int _entrance_client_log;
@@ -131,7 +131,8 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
       {
          PT("stopping X server");
          entrance_xserver_shutdown();
-         _entrance_kill_and_wait("xserver", entrance_xserver_pid);
+         for(int i = 0; i < _entrance_seat_count; i++)
+            _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
          PT("closing session");
          entrance_session_close(EINA_TRUE);
          PT("session shutdown");
@@ -139,10 +140,10 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
          PT("session init");
          entrance_session_display_set(entrance_display);
          entrance_session_cookie();
-         PT("restarting X server");
-         entrance_xserver_pid = entrance_xserver_init(_entrance_start_client,
-                                                      entrance_display);
-         PT("X server restarted pid %d",entrance_xserver_pid);
+         PT("restarting X server(s)");
+         _entrance_xserver_pids = _entrance_xservers_init();
+         for(int i = 0; i < _entrance_seat_count; i++)
+            PT("X server restarted pid %d", _entrance_xserver_pids[i]);
       }
     else
       {
@@ -628,10 +629,10 @@ main (int argc, char ** argv)
 
    if (_xephyr == EINA_FALSE)
      {
-        PT("xserver init");
-        entrance_xserver_pid = entrance_xserver_init(_entrance_start_client,
-                                                     entrance_display);
-        PT("X server started pid %d",entrance_xserver_pid);
+        PT("xserver(s) init");
+        _entrance_xserver_pids = _entrance_xservers_init();
+        for(int i = 0; i < _entrance_seat_count; i++)
+            PT("X server started pid %d", _entrance_xserver_pids[i]);
      }
    else
      _entrance_start_client(entrance_display);
@@ -704,8 +705,11 @@ main (int argc, char ** argv)
    free(entrance_display);
    if (!_xephyr)
      {
-        PT("ending xserver");
-        _entrance_kill_and_wait("xserver", entrance_xserver_pid);
+        PT("ending xserver(s)");
+        for(int i = 0; i < _entrance_seat_count; i++)
+            _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
+
+        free(_entrance_xserver_pids);
      }
    else
      PT("No session to wait, exiting");
