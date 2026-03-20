@@ -38,7 +38,7 @@ static const char *entrance_user = NULL;
 static int _entrance_seat_count = 1;
 static int entrance_signal = 0;
 static pid_t entrance_client_pid = 0;
-static gid_t entrance_gid = 0;
+static gid_t _entrance_gid = 0;
 static uid_t _entrance_uid = 0;
 static pid_t *_entrance_xserver_pids = NULL;
 
@@ -298,11 +298,11 @@ _entrance_start_client(const char *display)
      {
        char buf[PATH_MAX];
 
-       if ((st.st_uid != _entrance_uid)
-           || (st.st_gid != entrance_gid))
+       if ((st.st_uid != _entrance_uid) ||
+           (st.st_gid != _entrance_gid))
          {
             PT("chown home directory %s", home_path);
-            fchown(home_dir, _entrance_uid, entrance_gid);
+            fchown(home_dir, _entrance_uid, _entrance_gid);
          }
        snprintf(buf, sizeof(buf),
                 "export HOME='%s'; export USER='%s';"
@@ -310,7 +310,7 @@ _entrance_start_client(const char *display)
                 PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
                 home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
                 display, entrance_config->theme,
-                entrance_gid,_entrance_uid, entrance_config->port);
+                _entrance_gid,_entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
        _entrance_client =
@@ -357,7 +357,7 @@ _entrance_uid_gid_init()
    else
      entrance_user = entrance_config->start_user;
    PT("running under user : %s",entrance_user);
-   entrance_gid = pwd->pw_gid;
+   _entrance_gid = pwd->pw_gid;
    _entrance_uid = pwd->pw_uid;
    if (!pwd->pw_dir ||
        !strcmp(pwd->pw_dir, "/") ||
@@ -368,7 +368,7 @@ _entrance_uid_gid_init()
           {
              PT("Creating new home directory for client");
              ecore_file_mkdir(ENTRANCE_CONFIG_HOME_PATH);
-             chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, entrance_gid);
+             chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
           }
         else
           {
@@ -379,7 +379,7 @@ _entrance_uid_gid_init()
                      " with a directory");
                   ecore_file_remove(ENTRANCE_CONFIG_HOME_PATH);
                   ecore_file_mkdir(ENTRANCE_CONFIG_HOME_PATH);
-                  chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, entrance_gid);
+                  chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
                }
           }
         entrance_home_path = strdup(ENTRANCE_CONFIG_HOME_PATH);
@@ -667,7 +667,7 @@ main (int argc, char ** argv)
    PT("action init");
    entrance_action_init();
    PT("server init");
-   entrance_server_init(_entrance_uid, entrance_gid);
+   entrance_server_init(_entrance_uid, _entrance_gid);
    PT("starting main loop");
    ecore_main_loop_begin();
    PT("main loop end");
