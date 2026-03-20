@@ -36,7 +36,7 @@ static char *entrance_display = NULL;
 static char *entrance_home_path = NULL;
 static const char *entrance_user = NULL;
 static int _entrance_seat_count = 1;
-static int entrance_signal = 0;
+static int _entrance_signal = 0;
 static pid_t entrance_client_pid = 0;
 static gid_t _entrance_gid = 0;
 static uid_t _entrance_uid = 0;
@@ -127,7 +127,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
    PT("client terminated");
    _entrance_client = NULL;
    _entrance_session_wait();
-    if(!entrance_signal && !_xephyr)
+    if(!_entrance_signal && !_xephyr)
       {
          PT("stopping X server");
          entrance_xserver_shutdown();
@@ -219,7 +219,7 @@ _entrance_session_wait()
       snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
       
       /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
-      while (!entrance_signal)
+      while (!_entrance_signal)
         {
           struct timespec request = { 0, 500000000 };
           wait_result = waitpid(session_pid, NULL, WNOHANG);
@@ -236,7 +236,7 @@ _entrance_session_wait()
                 {
                   /* Not a direct child (backgrounded by OpenRC), poll /proc instead */
                   PT("session not direct child, polling /proc/%d", session_pid);
-                  while (!entrance_signal)
+                  while (!_entrance_signal)
                     {
                       if (access(proc_path, F_OK) != 0)
                         {
@@ -492,7 +492,7 @@ _signal_cb(int sig)
    pid_t session_pid = 0;
 
    PT("signal %d received", sig);
-   entrance_signal = sig;
+   _entrance_signal = sig;
    if (_entrance_client)
      {
        PT("terminate client");
@@ -656,7 +656,7 @@ main (int argc, char ** argv)
         xcb_disconnect(disp);
         _entrance_session_wait();
  
-        if(!entrance_signal)
+        if(!_entrance_signal)
           {
              _entrance_auto_login = EINA_FALSE;
              _entrance_uid_gid_init();
