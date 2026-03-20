@@ -34,7 +34,7 @@ static Eina_List *_entrance_client_handlers = NULL;
 
 static char *entrance_display = NULL;
 static char *entrance_home_path = NULL;
-static const char *entrance_user = NULL;
+static const char *_entrance_user = NULL;
 static int _entrance_seat_count = 1;
 static int _entrance_signal = 0;
 static pid_t entrance_client_pid = 0;
@@ -308,7 +308,7 @@ _entrance_start_client(const char *display)
                 "export HOME='%s'; export USER='%s';"
                 "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
                 PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
-                home_path, entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
+                home_path, _entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
                 display, entrance_config->theme,
                 _entrance_gid,_entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
@@ -352,11 +352,11 @@ _entrance_uid_gid_init()
            PT("Critical: Cannot get nobody user information");
            return;
          }
-       entrance_user = "nobody";
+       _entrance_user = "nobody";
      }
    else
-     entrance_user = entrance_config->start_user;
-   PT("running under user : %s",entrance_user);
+     _entrance_user = entrance_config->start_user;
+   PT("running under user : %s",_entrance_user);
    _entrance_gid = pwd->pw_gid;
    _entrance_uid = pwd->pw_uid;
    if (!pwd->pw_dir ||
