@@ -33,7 +33,7 @@ static Ecore_Exe *_entrance_client = NULL;
 static Eina_List *_entrance_client_handlers = NULL;
 
 static char *entrance_display = NULL;
-static char *entrance_home_path = NULL;
+static char *_entrance_home_path = NULL;
 static const char *_entrance_user = NULL;
 static int _entrance_seat_count = 1;
 static int _entrance_signal = 0;
@@ -278,8 +278,8 @@ _entrance_start_client(const char *display)
    _entrance_client_handlers = eina_list_append(_entrance_client_handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DATA, _entrance_client_data, NULL);
    _entrance_client_handlers = eina_list_append(_entrance_client_handlers, h);
-   if(entrance_home_path)
-       home_path = entrance_home_path;
+   if(_entrance_home_path)
+       home_path = _entrance_home_path;
    home_dir = open(home_path, O_RDONLY);
    if(!home_dir || home_dir<0)
      {
@@ -382,11 +382,11 @@ _entrance_uid_gid_init()
                   chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
                }
           }
-        entrance_home_path = strdup(ENTRANCE_CONFIG_HOME_PATH);
+        _entrance_home_path = strdup(ENTRANCE_CONFIG_HOME_PATH);
      }
    else
-     entrance_home_path = strdup(pwd->pw_dir);
-   PT("Home directory %s", entrance_home_path);
+     _entrance_home_path = strdup(pwd->pw_dir);
+   PT("Home directory %s", _entrance_home_path);
 }
 
 static pid_t *
@@ -700,8 +700,8 @@ main (int argc, char ** argv)
    entrance_config_shutdown();
    PT("eet shutdown");
    eet_shutdown();
-   if(entrance_home_path)
-     free(entrance_home_path);
+   if(_entrance_home_path)
+     free(_entrance_home_path);
    free(entrance_display);
    if (!_xephyr)
      {
