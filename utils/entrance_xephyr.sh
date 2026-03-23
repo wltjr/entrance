@@ -66,6 +66,8 @@ elif [[ ${VALGRIND} ]]; then
 		--read-var-info=yes \
 		--show-reachable=yes \
 		--track-origins=yes \
+		--trace-children=yes \
+		--log-file=../entrance_debug.log \
 		"${ENTRANCE}" -x
 else
 	"${ENTRANCE}" -x
