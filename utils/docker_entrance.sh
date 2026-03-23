@@ -1,8 +1,9 @@
 #!/bin/bash
 
+SOURCE=${1}
+
 if [[ -z ${1} ]]; then
-    echo "missing /path/to/entrance repo"
-    exit 1
+    SOURCE=${PWD}
 fi
 
 docker run \
@@ -11,5 +12,5 @@ docker run \
 	--env DISPLAY=${DISPLAY} \
 	--privileged \
 	-v /dev:/dev \
-	-v ${1}:/entrance \
+	-v ${SOURCE}:/entrance \
 	wltjr/docker-efl:latest
