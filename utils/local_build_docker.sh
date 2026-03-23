@@ -5,7 +5,24 @@ if [[ ! -f /.dockerenv ]]; then
  	exit 1
 fi
 
+# exit on any command failure
+set -e
+
+# build all options
+rm -fr build/
+meson setup --prefix /usr --buildtype=debug -Dpam=false -Dlogind=false . build
+ninja -C build
+
+rm -r build/
+meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=false . build
+ninja -C build
+
+rm -r build/
+meson setup --prefix /usr --buildtype=debug -Dpam=false -Dlogind=true . build
+ninja -C build
+
 # configure and build
+rm -r build/
 meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=true . build
 ninja -C build install
 
