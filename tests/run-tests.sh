@@ -44,6 +44,9 @@ start-stop-daemon --start --verbose \
 
 ps xa
 
+# hack to ensure seats exist, without entrance_logind_seats_list() Found 0 seats
+loginctl list-seats
+
 # copy test dummy xorg.conf
 cp -v "$(dirname $0)/xorg.conf" /etc/X11/
 
