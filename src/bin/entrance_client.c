@@ -124,7 +124,11 @@ main(int argc, char **argv)
    if (!theme)
      theme = "default";
    ecore_init();
-   ecore_x_init(display);
+   if (!ecore_x_init(display))
+   {
+        PT("failed to connect to display %s aborting", display);
+        return EXIT_FAILURE;
+   }
    elm_init(argc, argv);
    PT("login init");
    entrance_login_init();
