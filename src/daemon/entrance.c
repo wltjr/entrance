@@ -395,10 +395,15 @@ _entrance_xservers_init()
     pid_t *pids;
 #ifdef HAVE_LOGIND
     char **seats;
+    Entrance_Logind_Seat *els = NULL;
 
     seats = entrance_logind_seats_list(&_entrance_seat_count);
-    /* Loop through seats, can graphical, start client on each graphical seat */
-    Entrance_Logind_Seat *els = entrance_logind_seat_get(seats[0]);
+    if(_entrance_seat_count > 0)
+        /* Loop through seats, can graphical, start client on each graphical seat */
+        els = entrance_logind_seat_get(seats[0]);
+    else
+        /* fallback to 1 seat if logind is not initialized */
+        _entrance_seat_count = 1;
 #endif
 
     pids = calloc(_entrance_seat_count, sizeof(pid_t));
@@ -409,7 +414,8 @@ _entrance_xservers_init()
 
 #ifdef HAVE_LOGIND
     /* may need to relocate of Entrance_Logind_Seat struct data is still used */
-    entrance_logind_seat_free(els);
+    if(els)
+        entrance_logind_seat_free(els);
 #endif
 
     return pids;
