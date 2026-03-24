@@ -436,7 +436,7 @@ _get_lock()
         f = fopen(entrance_config->lockfile, "w");
         if (!f)
           {
-             PT("Could n0t create lockfile!");
+             PT("Could not create lockfile!");
              return (EINA_FALSE);
           }
         snprintf(buf, sizeof(buf), "%d", my_pid);
