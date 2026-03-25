@@ -129,14 +129,16 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
    _entrance_session_wait();
     if(!_entrance_signal && !_xephyr)
       {
-         PT("stopping X server");
-         entrance_xserver_shutdown();
          for(int i = 0; i < _entrance_seat_count; i++)
+         {
+            PT("stopping X server for seat%d", i);
+            entrance_xserver_shutdown();
             _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
-         PT("closing session");
-         entrance_session_close(EINA_TRUE);
-         PT("session shutdown");
-         entrance_session_shutdown();
+            PT("closing session for seat%d", i);
+            entrance_session_close(EINA_TRUE);
+            PT("session shutdown for seat%d", i);
+            entrance_session_shutdown();
+         }
          PT("restarting X server(s)");
          _entrance_xserver_pids = _entrance_xservers_init();
          for(int i = 0; i < _entrance_seat_count; i++)
@@ -144,10 +146,13 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
       }
     else
       {
-        PT("stopping server");
-        PT("closing session on exit");
-        entrance_session_close(EINA_TRUE);
-        entrance_session_shutdown();
+         for(int i = 0; i < _entrance_seat_count; i++)
+         {
+            PT("closing session for seat%d", i);
+            entrance_session_close(EINA_TRUE);
+            PT("session shutdown for seat%d", i);
+            entrance_session_shutdown();
+         }
         ecore_main_loop_quit();
       }
    return ECORE_CALLBACK_DONE;
