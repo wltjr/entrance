@@ -721,10 +721,11 @@ main (int argc, char ** argv)
    free(entrance_display);
    if (!_xephyr)
      {
-        PT("ending xserver(s)");
         for(int i = 0; i < _entrance_seat_count; i++)
+        {
+            PT("ending xserver for seat%d", i);
             _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
-
+        }
         free(_entrance_xserver_pids);
      }
    else
