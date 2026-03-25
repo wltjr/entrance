@@ -693,8 +693,11 @@ main (int argc, char ** argv)
    PT("history shutdown");
    if (!_xephyr)
      {
-        entrance_xserver_shutdown();
-        PT("xserver shutdown");
+        for(int i = 0; i < _entrance_seat_count; i++)
+        {
+            entrance_xserver_shutdown();
+            PT("xserver shutdown for seat%d", i);
+        }
      }
 #ifdef HAVE_LOGIND
    entrance_logind_monitor_stop();
