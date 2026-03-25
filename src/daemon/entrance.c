@@ -137,9 +137,6 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
          entrance_session_close(EINA_TRUE);
          PT("session shutdown");
          entrance_session_shutdown();
-         PT("session init");
-         entrance_session_display_set(entrance_display);
-         entrance_session_cookie();
          PT("restarting X server(s)");
          _entrance_xserver_pids = _entrance_xservers_init();
          for(int i = 0; i < _entrance_seat_count; i++)
@@ -410,7 +407,14 @@ _entrance_xservers_init()
     if (!pids) return NULL;
 
     for(int i = 0; i < _entrance_seat_count ; i++)
+    {
+        /* this needs to be modified to support per display/seat session */
+        PT("session init for seat%d", i);
+        entrance_session_display_set(entrance_display);
+        entrance_session_cookie();
+
         pids[i] = entrance_xserver_init(_entrance_start_client, entrance_display);
+    }
 
 #ifdef HAVE_LOGIND
     /* may need to relocate of Entrance_Logind_Seat struct data is still used */
@@ -621,8 +625,6 @@ main (int argc, char ** argv)
    signal(SIGUSR2, _signal_log);
 
    PT("entrance init");
-   entrance_session_display_set(entrance_display);
-   entrance_session_cookie();
 
    if(!_entrance_auto_login)
      _entrance_uid_gid_init();
