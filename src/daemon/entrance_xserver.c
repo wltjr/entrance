@@ -9,7 +9,7 @@ typedef struct Entrance_Xserver_
     Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
-Entrance_Xserver *_xserver;
+Entrance_Xserver **_xservers;
 
 /*
  * man Xserver
@@ -111,9 +111,9 @@ _xserver_started(void *data EINA_UNUSED,
                  void *event EINA_UNUSED)
 {
    PT("xserver started");
-   setenv("DISPLAY",_xserver->dname,1);
+   setenv("DISPLAY",_xservers[0]->dname,1);
    if(!entrance_auto_login_enabled())
-     _xserver->start(_xserver->dname);
+     _xservers[0]->start(_xservers[0]->dname);
    return ECORE_CALLBACK_PASS_ON;
 }
 
@@ -124,13 +124,14 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
    sigset_t newset;
    sigemptyset(&newset);
 
-   _xserver = calloc(1, sizeof(Entrance_Xserver));
-   _xserver->dname = eina_stringshare_add(dname);
-   _xserver->start = start;
+   _xservers = (Entrance_Xserver**) calloc(1, sizeof(Entrance_Xserver*));
+   _xservers[0] = calloc(1, sizeof(Entrance_Xserver));
+   _xservers[0]->dname = eina_stringshare_add(dname);
+   _xservers[0]->start = start;
    pid = _xserver_start();  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
-   _xserver->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
+   _xservers[0]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                                      _xserver_started,
                                                      NULL);
    return pid;
@@ -139,8 +140,9 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
 void
 entrance_xserver_shutdown(void)
 {
-   eina_stringshare_del(_xserver->dname);
-   ecore_event_handler_del(_xserver->handler_start);
-   free(_xserver);
+   eina_stringshare_del(_xservers[0]->dname);
+   ecore_event_handler_del(_xservers[0]->handler_start);
+   free(_xservers[0]);
+   free(_xservers);
 }
 
