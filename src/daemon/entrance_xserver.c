@@ -6,10 +6,10 @@ typedef struct Entrance_Xserver_
 {
    const char *dname;
    Entrance_X_Cb start;
+    Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
 Entrance_Xserver *_xserver;
-Ecore_Event_Handler *_handler_start;
 
 /*
  * man Xserver
@@ -130,9 +130,9 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
    pid = _xserver_start();  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
-   _handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
-                                            _xserver_started,
-                                            NULL);
+   _xserver->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
+                                                     _xserver_started,
+                                                     NULL);
    return pid;
 }
 
@@ -140,7 +140,7 @@ void
 entrance_xserver_shutdown(void)
 {
    eina_stringshare_del(_xserver->dname);
+   ecore_event_handler_del(_xserver->handler_start);
    free(_xserver);
-   ecore_event_handler_del(_handler_start);
 }
 
