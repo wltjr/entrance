@@ -9,6 +9,7 @@ typedef struct Entrance_Xserver_
     Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
+int _xserver_count = 0;
 Entrance_Xserver **_xservers;
 
 /*
@@ -115,6 +116,17 @@ _xserver_started(void *data EINA_UNUSED,
    if(!entrance_auto_login_enabled())
      _xservers[0]->start(_xservers[0]->dname);
    return ECORE_CALLBACK_PASS_ON;
+}
+
+void
+entrance_xservers_init(int count)
+{
+    _xserver_count = 0;
+    _xservers = (Entrance_Xserver**) calloc(count, sizeof(Entrance_Xserver*));
+    for(int i = 0; i < count; i++)
+        _xservers[i] = calloc(1, sizeof(Entrance_Xserver));
+    _xserver_count = count;
+    PT("Allocated memory for %d X servers", _xserver_count);
 }
 
 int
