@@ -702,6 +702,13 @@ main (int argc, char ** argv)
 #ifdef HAVE_LOGIND
    entrance_logind_monitor_stop();
 #endif
+    for(int i = 0; i < _entrance_seat_count; i++)
+    {
+        entrance_session_close(EINA_TRUE);
+        PT("session closed for seat%d", i);
+        entrance_session_shutdown();
+        PT("session shutdown for seat%d", i);
+    }
 #ifdef HAVE_PAM
    entrance_pam_shutdown();
    PT("pam shutdown");
@@ -709,8 +716,6 @@ main (int argc, char ** argv)
    _entrance_autologin_lock_set();
    PT("ecore shutdown");
    ecore_shutdown();
-   PT("session shutdown");
-   entrance_session_shutdown();
    _remove_lock();
    PT("config shutdown");
    entrance_config_shutdown();
