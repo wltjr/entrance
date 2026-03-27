@@ -136,8 +136,9 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
    sigset_t newset;
    sigemptyset(&newset);
 
-   _xservers = (Entrance_Xserver**) calloc(1, sizeof(Entrance_Xserver*));
-   _xservers[0] = calloc(1, sizeof(Entrance_Xserver));
+   /* ensure we have at least 1 X server allocated, legacy support*/
+    if(!_xserver_count)
+        entrance_xservers_init(1);
    _xservers[0]->dname = eina_stringshare_add(dname);
    _xservers[0]->start = start;
    pid = _xserver_start();  /* Returns child X server PID */
