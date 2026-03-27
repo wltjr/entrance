@@ -11,6 +11,11 @@ int entrance_xserver_init(Entrance_X_Cb start, const char *dname);
  */
 void entrance_xservers_init(int count);
 
-void entrance_xserver_shutdown(void);
+/**
+ * @brief Shutdown a specific X server
+ *
+ * @param id of X server in array, index value for now, could be seat id later
+ */
+void entrance_xserver_shutdown(int id);
 
 #endif /* ENTRANCE_XSERVER_H_ */
