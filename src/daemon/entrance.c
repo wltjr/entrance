@@ -411,6 +411,9 @@ _entrance_xservers_init()
     pids = calloc(_entrance_seat_count, sizeof(pid_t));
     if (!pids) return NULL;
 
+    /* initialize memory, needs modification for only graphical seats */
+    entrance_xservers_init(_entrance_seat_count);
+
     for(int i = 0; i < _entrance_seat_count ; i++)
     {
         /* this needs to be modified to support per display/seat session */
