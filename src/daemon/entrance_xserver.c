@@ -151,11 +151,10 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
 }
 
 void
-entrance_xserver_shutdown(void)
+entrance_xserver_shutdown(int id)
 {
-   eina_stringshare_del(_xservers[0]->dname);
-   ecore_event_handler_del(_xservers[0]->handler_start);
-   free(_xservers[0]);
+   eina_stringshare_del(_xservers[id]->dname);
+   ecore_event_handler_del(_xservers[id]->handler_start);
+   free(_xservers[id]);
    free(_xservers);
 }
-
