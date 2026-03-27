@@ -132,7 +132,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
          for(int i = 0; i < _entrance_seat_count; i++)
          {
             PT("stopping X server for seat%d", i);
-            entrance_xserver_shutdown();
+            entrance_xserver_shutdown(i);
             _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
             PT("closing session for seat%d", i);
             entrance_session_close(EINA_TRUE);
@@ -695,7 +695,7 @@ main (int argc, char ** argv)
      {
         for(int i = 0; i < _entrance_seat_count; i++)
         {
-            entrance_xserver_shutdown();
+            entrance_xserver_shutdown(i);
             PT("xserver shutdown for seat%d", i);
         }
      }
