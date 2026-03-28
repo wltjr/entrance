@@ -421,7 +421,7 @@ _entrance_xservers_init()
         entrance_session_display_set(entrance_display);
         entrance_session_cookie();
 
-        pids[i] = entrance_xserver_init(_entrance_start_client, entrance_display);
+        pids[i] = entrance_xserver_start(i, _entrance_start_client, entrance_display);
     }
 
 #ifdef HAVE_LOGIND
