@@ -107,15 +107,16 @@ xserver_error:
 }
 
 static Eina_Bool
-_xserver_started(void *data EINA_UNUSED,
-                 int type EINA_UNUSED,
-                 void *event EINA_UNUSED)
+_xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED)
 {
-   PT("xserver started");
-   setenv("DISPLAY",_xservers[0]->dname,1);
-   if(!entrance_auto_login_enabled())
-     _xservers[0]->start(_xservers[0]->dname);
-   return ECORE_CALLBACK_PASS_ON;
+    int id;
+
+    id = *((int *)data);
+    PT("xserver %d started on %s", id, _xservers[id]->dname);
+    setenv("DISPLAY", _xservers[id]->dname, 1);
+    if(!entrance_auto_login_enabled())
+        _xservers[id]->start(_xservers[id]->dname);
+    return ECORE_CALLBACK_PASS_ON;
 }
 
 void
@@ -149,7 +150,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, const char *display)
    PT("xserver adding signal user handler");
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                                           _xserver_started,
-                                                          NULL);
+                                                          &id);
    return pid;
 }
 
