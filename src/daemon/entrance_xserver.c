@@ -130,7 +130,7 @@ entrance_xservers_init(int count)
 }
 
 int
-entrance_xserver_init(Entrance_X_Cb start, const char *dname)
+entrance_xserver_start(int id, Entrance_X_Cb start, const char *display)
 {
    int pid;
    sigset_t newset;
@@ -138,15 +138,18 @@ entrance_xserver_init(Entrance_X_Cb start, const char *dname)
 
    /* ensure we have at least 1 X server allocated, legacy support*/
     if(!_xserver_count)
+    {
         entrance_xservers_init(1);
-   _xservers[0]->dname = eina_stringshare_add(dname);
-   _xservers[0]->start = start;
+        id = 0;
+    }
+   _xservers[id]->dname = eina_stringshare_add(display);
+   _xservers[id]->start = start;
    pid = _xserver_start();  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
-   _xservers[0]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
-                                                     _xserver_started,
-                                                     NULL);
+   _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
+                                                          _xserver_started,
+                                                          NULL);
    return pid;
 }
 
