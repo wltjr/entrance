@@ -160,5 +160,10 @@ entrance_xserver_shutdown(int id)
    eina_stringshare_del(_xservers[id]->dname);
    ecore_event_handler_del(_xservers[id]->handler_start);
    free(_xservers[id]);
+}
+
+void
+entrance_xservers_shutdown()
+{
    free(_xservers);
 }
