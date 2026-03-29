@@ -22,7 +22,7 @@ Entrance_Xserver **_xservers;
  * the server is possible.
  * */
 static int
-_xserver_start(void)
+_xserver_start(char *display)
 {
    char *abuf = NULL;
    char *buf = NULL;
@@ -77,7 +77,7 @@ _xserver_start(void)
         snprintf(vt, sizeof(vt), "vt%d", entrance_config->command.vtnr);
         args[num_token] = vt;
         num_token++;
-        args[num_token] = (char *)entrance_config->command.xdisplay;
+        args[num_token] = display;
         num_token++;
         args[num_token] = NULL;
      }
@@ -92,7 +92,7 @@ _xserver_start(void)
       entrance_config->command.xinit_path,
       entrance_config->command.xinit_args,
       entrance_config->command.vtnr,
-      entrance_config->command.xdisplay);
+      display);
    // ideally close on success, otherwise proceeding PT is never outputted
    entrance_close_log();
    execv(args[0], args);
@@ -131,7 +131,7 @@ entrance_xservers_init(int count)
 }
 
 int
-entrance_xserver_start(int id, Entrance_X_Cb start, const char *display)
+entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
 {
    int pid;
    sigset_t newset;
@@ -145,7 +145,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, const char *display)
     }
    _xservers[id]->dname = eina_stringshare_add(display);
    _xservers[id]->start = start;
-   pid = _xserver_start();  /* Returns child X server PID */
+   pid = _xserver_start(display);  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
