@@ -27,4 +27,9 @@ int entrance_xserver_start(int id, Entrance_X_Cb start, char *display);
  */
 void entrance_xserver_shutdown(int id);
 
+/**
+ * @brief Shutdown all X servers ( free array pointer, may have other usage later )
+ */
+void entrance_xservers_shutdown();
+
 #endif /* ENTRANCE_XSERVER_H_ */
