@@ -18,7 +18,7 @@ void entrance_xservers_init(int count);
  * @param display the display number with colon
  * @return int PID of the X server process
  */
-int entrance_xserver_start(int id, Entrance_X_Cb start, const char *display);
+int entrance_xserver_start(int id, Entrance_X_Cb start, char *display);
 
 /**
  * @brief Shutdown a specific X server
