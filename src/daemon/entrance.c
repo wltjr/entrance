@@ -139,6 +139,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
             PT("session shutdown for seat%d", i);
             entrance_session_shutdown();
          }
+         entrance_xservers_shutdown();
          PT("restarting X server(s)");
          _entrance_xserver_pids = _entrance_xservers_init();
          for(int i = 0; i < _entrance_seat_count; i++)
@@ -701,6 +702,7 @@ main (int argc, char ** argv)
             entrance_xserver_shutdown(i);
             PT("xserver shutdown for seat%d", i);
         }
+        entrance_xservers_shutdown();
      }
 #ifdef HAVE_LOGIND
    entrance_logind_monitor_stop();
