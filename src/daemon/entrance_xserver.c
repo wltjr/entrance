@@ -122,10 +122,7 @@ _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED)
 void
 entrance_xservers_init(int count)
 {
-    _xserver_count = 0;
     _xservers = (Entrance_Xserver**) calloc(count, sizeof(Entrance_Xserver*));
-    for(int i = 0; i < count; i++)
-        _xservers[i] = calloc(1, sizeof(Entrance_Xserver));
     _xserver_count = count;
     PT("Allocated memory for %d X servers", _xserver_count);
 }
@@ -143,6 +140,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
         entrance_xservers_init(1);
         id = 0;
     }
+   _xservers[id] = calloc(1, sizeof(Entrance_Xserver));
    _xservers[id]->dname = eina_stringshare_add(display);
    _xservers[id]->start = start;
    pid = _xserver_start(display);  /* Returns child X server PID */
