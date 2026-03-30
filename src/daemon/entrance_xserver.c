@@ -4,6 +4,7 @@
 
 typedef struct Entrance_Xserver_
 {
+    int vt;
     long id;
     const char *display;
     Entrance_X_Cb start;
