@@ -4,8 +4,9 @@
 
 typedef struct Entrance_Xserver_
 {
-   const char *dname;
-   Entrance_X_Cb start;
+    long id;
+    const char *dname;
+    Entrance_X_Cb start;
     Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
@@ -109,10 +110,8 @@ xserver_error:
 static Eina_Bool
 _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED)
 {
-    int id;
-
-    id = *((int *)data);
-    PT("xserver %d started on %s", id, _xservers[id]->dname);
+    const long id = *(int *)data;
+    PT("xserver %ld started on %s", id, _xservers[id]->dname);
     setenv("DISPLAY", _xservers[id]->dname, 1);
     if(!entrance_auto_login_enabled())
         _xservers[id]->start(_xservers[id]->dname);
@@ -141,6 +140,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
         id = 0;
     }
    _xservers[id] = calloc(1, sizeof(Entrance_Xserver));
+   _xservers[id]->id = id;
    _xservers[id]->dname = eina_stringshare_add(display);
    _xservers[id]->start = start;
    pid = _xserver_start(display);  /* Returns child X server PID */
@@ -148,7 +148,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
    PT("xserver adding signal user handler");
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                                           _xserver_started,
-                                                          &id);
+                                                           &(_xservers[id]->id));
    return pid;
 }
 
