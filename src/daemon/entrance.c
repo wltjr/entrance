@@ -395,6 +395,7 @@ _entrance_uid_gid_init()
 static pid_t *
 _entrance_xservers_init()
 {
+    int vt;
     pid_t *pids;
 #ifdef HAVE_LOGIND
     char **seats;
@@ -415,14 +416,17 @@ _entrance_xservers_init()
     /* initialize memory, needs modification for only graphical seats */
     entrance_xservers_init(_entrance_seat_count);
 
-    for(int i = 0; i < _entrance_seat_count ; i++)
+    /* initial dynamic vt, starting value from config file */
+    vt = entrance_config->command.vtnr;
+
+    for(int i = 0; i < _entrance_seat_count ; i++, vt++)
     {
         /* this needs to be modified to support per display/seat session */
         PT("session init for seat%d", i);
         entrance_session_display_set(entrance_display);
         entrance_session_cookie();
 
-        pids[i] = entrance_xserver_start(i, _entrance_start_client, entrance_display);
+        pids[i] = entrance_xserver_start(i, _entrance_start_client, entrance_display, vt);
     }
 
 #ifdef HAVE_LOGIND
