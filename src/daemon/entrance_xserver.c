@@ -24,7 +24,7 @@ Entrance_Xserver **_xservers;
  * the server is possible.
  * */
 static int
-_xserver_start(char *display)
+_xserver_start(Entrance_Xserver *_xserver)
 {
    char *abuf = NULL;
    char *buf = NULL;
@@ -76,10 +76,10 @@ _xserver_start(char *display)
                args[i] = token;
              token = strtok_r(NULL, " ", &saveptr);
           }
-        snprintf(vt, sizeof(vt), "vt%d", entrance_config->command.vtnr);
+        snprintf(vt, sizeof(vt), "vt%d", _xserver->vt);
         args[num_token] = vt;
         num_token++;
-        args[num_token] = display;
+        args[num_token] = (char *)_xserver->display;
         num_token++;
         args[num_token] = NULL;
      }
@@ -93,8 +93,8 @@ _xserver_start(char *display)
    PT("Executing: %s %s vt%d %s",
       entrance_config->command.xinit_path,
       entrance_config->command.xinit_args,
-      entrance_config->command.vtnr,
-      display);
+      _xserver->vt,
+      _xserver->display);
    // ideally close on success, otherwise proceeding PT is never outputted
    entrance_close_log();
    execv(args[0], args);
@@ -145,7 +145,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt)
    _xservers[id]->display = eina_stringshare_add(display);
    _xservers[id]->start = start;
    _xservers[id]->vt = vt;
-   pid = _xserver_start(display);  /* Returns child X server PID */
+   pid = _xserver_start(_xservers[id]);  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
