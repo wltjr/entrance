@@ -16,9 +16,10 @@ void entrance_xservers_init(int count);
  * @param id the id of the X server, array index for now, could be seat id later
  * @param start callback function to invoke when the X server is started
  * @param display the display number with colon
+ * @param vt the virtual terminal number
  * @return int PID of the X server process
  */
-int entrance_xserver_start(int id, Entrance_X_Cb start, char *display);
+int entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt);
 
 /**
  * @brief Shutdown a specific X server
