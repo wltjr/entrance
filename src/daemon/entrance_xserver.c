@@ -128,7 +128,7 @@ entrance_xservers_init(int count)
 }
 
 int
-entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
+entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt)
 {
    int pid;
    sigset_t newset;
@@ -144,6 +144,7 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display)
    _xservers[id]->id = id;
    _xservers[id]->display = eina_stringshare_add(display);
    _xservers[id]->start = start;
+   _xservers[id]->vt = vt;
    pid = _xserver_start(display);  /* Returns child X server PID */
    PT("X server process started with pid %d", pid);
    PT("xserver adding signal user handler");
