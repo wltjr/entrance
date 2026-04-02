@@ -33,16 +33,16 @@ _xserver_start(Entrance_Xserver *_xserver)
    char vt[128] = {0};
    pid_t pid;
 
-   PT("Launching xserver");
+   PT("Launching X server %ld", _xserver->id);
    pid = fork();
    if (pid)
      {
-        PT("Parent process: X server child pid %d", pid);
+        PT("Parent process: X server %ld child pid %d", _xserver->id, pid);
         return pid;  /* Parent returns child's PID */
      }
 
    /* Child process (pid == 0): will exec X server */
-   PT("Child process: executing X server");
+   PT("Child process: executing X server %ld", _xserver->id);
    char *token;
    int num_token = 0;
    signal(SIGTTIN, SIG_IGN);
@@ -100,11 +100,11 @@ _xserver_start(Entrance_Xserver *_xserver)
    execv(args[0], args);
    if (abuf) free(abuf);
    free(args);
-   PT("Failed to launch Xserver ...");
+   PT("Failed to launch X server %ld ...", _xserver->id);
    return pid;
 
 xserver_error:
-   PT("Failed to launch Xserver ...");
+   PT("Failed to launch X server %ld ...", _xserver->id);
    _exit(EXIT_FAILURE);
 }
 
@@ -146,8 +146,8 @@ entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt)
    _xservers[id]->start = start;
    _xservers[id]->vt = vt;
    pid = _xserver_start(_xservers[id]);  /* Returns child X server PID */
-   PT("X server process started with pid %d", pid);
-   PT("xserver adding signal user handler");
+   PT("X server %d process started with pid %d", id, pid);
+   PT("X server %d adding signal user handler", id);
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                                           _xserver_started,
                                                            &(_xservers[id]->id));
