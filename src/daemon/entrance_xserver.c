@@ -162,4 +162,5 @@ void
 entrance_xservers_shutdown()
 {
    free(_xservers);
+   _xserver_count = 0;
 }
