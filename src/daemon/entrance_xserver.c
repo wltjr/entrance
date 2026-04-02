@@ -11,6 +11,9 @@ typedef struct Entrance_Xserver_
     Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
+static int _xserver_start(Entrance_Xserver *_xserver);
+static Eina_Bool _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED);
+
 int _xserver_count = 0;
 Entrance_Xserver **_xservers;
 
