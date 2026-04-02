@@ -15,8 +15,8 @@ typedef struct Entrance_Xserver_
 static int _xserver_start(Entrance_Xserver *_xserver);
 static Eina_Bool _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED);
 
-int _xserver_count = 0;
-Entrance_Xserver **_xservers;
+static int _xserver_count = 0;
+static Entrance_Xserver **_xservers;
 
 
 static int
