@@ -14,15 +14,7 @@ typedef struct Entrance_Xserver_
 int _xserver_count = 0;
 Entrance_Xserver **_xservers;
 
-/*
- * man Xserver
- * SIGUSR1 This  signal  is  used  quite  differently  from  either of the
- * above.  When the server starts, it checks to see if it has inherite
- * SIGUSR1 as SIG_IGN instead of the usual SIG_DFL.  In this case, the server
- * sends a SIGUSR1 to its parent process after it has set up the various
- * connection schemes.  Xdm uses this feature to recognize when connecting to
- * the server is possible.
- * */
+
 static int
 _xserver_start(Entrance_Xserver *_xserver)
 {
