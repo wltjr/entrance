@@ -112,7 +112,7 @@ static Eina_Bool
 _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED)
 {
     const long id = *(int *)data;
-    PT("xserver %ld started on %s", id, _xservers[id]->display);
+    PT("X server %ld started on vt%d %s", id, _xservers[id]->vt, _xservers[id]->display);
     setenv("DISPLAY", _xservers[id]->display, 1);
     if(!entrance_auto_login_enabled())
         _xservers[id]->start(_xservers[id]->display);
