@@ -1,6 +1,7 @@
-#include "entrance.h"
 #include <sys/wait.h>
 #include <unistd.h>
+
+#include "entrance.h"
 
 typedef struct Entrance_Xserver_
 {
