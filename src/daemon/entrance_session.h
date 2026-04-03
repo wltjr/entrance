@@ -12,6 +12,12 @@ void entrance_sessions_init(int count);
 void entrance_session_display_set(const char *dname);
 void entrance_session_cookie(void);
 void entrance_session_shutdown(void);
+
+/**
+ * @brief Shutdown all sessions ( free array pointer, may have other usage later )
+ */
+void entrance_sessions_shutdown();
+
 Eina_Bool entrance_session_authenticate(const char *login, const char *pwd);
 void entrance_session_close(Eina_Bool opened);
 Eina_Bool entrance_session_login(const char *command, Eina_Bool push);
