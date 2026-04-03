@@ -39,6 +39,9 @@ static void _entrance_session_desktops_init(void);
 static const char *_entrance_session_find_command(const char *path, const char *session);
 static struct passwd *_entrance_session_session_open();
 
+static int _session_count = 0;
+static Entrance_Session **_sessions;
+
 static int
 _entrance_session_cookie_add(const char *mcookie, const char *display,
                          const char *xauth_cmd, const char *auth_file)
@@ -270,6 +273,14 @@ entrance_session_close(const Eina_Bool opened)
    entrance_pam_end();
    entrance_pam_shutdown();
 #endif
+}
+
+void
+entrance_sessions_init(int count)
+{
+    _sessions = (Entrance_Session**) calloc(count, sizeof(Entrance_Session*));
+    _session_count = count;
+    PT("Allocated memory for %d sessions", _session_count);
 }
 
 void
