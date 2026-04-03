@@ -140,6 +140,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
             entrance_session_shutdown();
          }
          entrance_xservers_shutdown();
+         entrance_sessions_shutdown();
          PT("restarting X server(s)");
          _entrance_xserver_pids = _entrance_xservers_init();
          for(int i = 0; i < _entrance_seat_count; i++)
@@ -415,6 +416,7 @@ _entrance_xservers_init()
 
     /* initialize memory, needs modification for only graphical seats */
     entrance_xservers_init(_entrance_seat_count);
+    entrance_sessions_init(_entrance_seat_count);
 
     /* initial dynamic vt, starting value from config file */
     vt = entrance_config->command.vtnr;
@@ -718,6 +720,7 @@ main (int argc, char ** argv)
         entrance_session_shutdown();
         PT("session shutdown for seat%d", i);
     }
+    entrance_sessions_shutdown();
 #ifdef HAVE_PAM
    entrance_pam_shutdown();
    PT("pam shutdown");
