@@ -12,6 +12,15 @@
 
 #define HAVE_SHADOW 1
 
+typedef struct Entrance_Session_
+{
+    pid_t pid;
+    int vt;
+    char *login;
+    char *mcookie;
+    const char *display;
+} Entrance_Session;
+
 static char *_mcookie = NULL;
 static const char *_dname = NULL;
 static char *_login = NULL;
