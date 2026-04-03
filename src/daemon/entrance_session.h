@@ -11,7 +11,6 @@ Eina_Bool entrance_session_login(const char *command, Eina_Bool push);
 void entrance_session_pid_set(pid_t pid);
 pid_t entrance_session_pid_get(void);
 char *entrance_session_login_get(void);
-int entrance_session_logged_get(void);
 Eina_List *entrance_session_list_get(void);
 
 #endif /* ENTRANCE_SESSION_H_ */
