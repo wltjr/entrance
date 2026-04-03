@@ -392,6 +392,14 @@ entrance_session_shutdown(void)
    _session_pid = 0;
 }
 
+void
+entrance_sessions_shutdown()
+{
+    if(_sessions)
+        free(_sessions);
+    _session_count = 0;
+}
+
 Eina_Bool
 entrance_session_authenticate(const char *login, const char *passwd)
 {
