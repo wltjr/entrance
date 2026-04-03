@@ -2,6 +2,13 @@
 #define ENTRANCE_SESSION_H_
 #include <pwd.h>
 
+/**
+ * @brief Allocate memory for Entrance_Session structs, one per X server/seat
+ *
+ * @param count the number of sessions to allocate memory
+ */
+void entrance_sessions_init(int count);
+
 void entrance_session_display_set(const char *dname);
 void entrance_session_cookie(void);
 void entrance_session_shutdown(void);
