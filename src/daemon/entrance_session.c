@@ -547,12 +547,6 @@ entrance_session_login_get(void)
    return _login;
 }
 
-int
-entrance_session_logged_get(void)
-{
-   return !!_logged;
-}
-
 Eina_List *
 entrance_session_list_get(void)
 {
