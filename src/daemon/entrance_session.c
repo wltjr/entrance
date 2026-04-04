@@ -281,6 +281,9 @@ entrance_sessions_init(int count)
     _sessions = (Entrance_Session**) calloc(count, sizeof(Entrance_Session*));
     _session_count = count;
     PT("Allocated memory for %d sessions", _session_count);
+
+    /* do this once for all sessions not per session, shared xsessions list */
+    _entrance_session_desktops_init();
 }
 
 void
@@ -365,8 +368,6 @@ entrance_session_cookie(void)
    _entrance_session_cookie_add(_mcookie, _dname,
                             entrance_config->command.xauth_path,
                             entrance_config->command.xauth_file);
-
-   _entrance_session_desktops_init();
 }
 
 void
