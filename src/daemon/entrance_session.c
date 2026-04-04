@@ -309,8 +309,6 @@ entrance_session_display_set(const char *dname)
    _dname = dname;
 }
 
-static const char *dig = "0123456789abcdef";
-
 void
 entrance_session_cookie(void)
 {
@@ -318,6 +316,7 @@ entrance_session_cookie(void)
    uint8_t hi;
    uint8_t lo;
    char buf[PATH_MAX];
+   static const char *dig = "0123456789abcdef";
 
    _mcookie = calloc(33, sizeof(char));
    if (!_mcookie)
