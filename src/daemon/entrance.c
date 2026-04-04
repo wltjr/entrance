@@ -137,7 +137,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
             PT("closing session for seat%d", i);
             entrance_session_close(EINA_TRUE);
             PT("session shutdown for seat%d", i);
-            entrance_session_shutdown();
+            entrance_session_shutdown(i);
          }
          entrance_xservers_shutdown();
          entrance_sessions_shutdown();
@@ -153,7 +153,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
             PT("closing session for seat%d", i);
             entrance_session_close(EINA_TRUE);
             PT("session shutdown for seat%d", i);
-            entrance_session_shutdown();
+            entrance_session_shutdown(i);
          }
         ecore_main_loop_quit();
       }
@@ -717,7 +717,7 @@ main (int argc, char ** argv)
     {
         entrance_session_close(EINA_TRUE);
         PT("session closed for seat%d", i);
-        entrance_session_shutdown();
+        entrance_session_shutdown(i);
         PT("session shutdown for seat%d", i);
     }
     entrance_sessions_shutdown();
