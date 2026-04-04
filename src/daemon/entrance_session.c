@@ -370,6 +370,14 @@ entrance_session_cookie(void)
 }
 
 void
+entrance_session_start(int id, const char *display, int vt)
+{
+    _sessions[id] = (Entrance_Session*) calloc(1, sizeof(Entrance_Session));
+    _sessions[id]->display = display;
+    _sessions[id]->vt = vt;
+}
+
+void
 entrance_session_shutdown(void)
 {
    Entrance_Xsession *xsession;
