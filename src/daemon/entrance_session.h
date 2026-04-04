@@ -20,7 +20,13 @@ void entrance_session_start(int id, const char *display, int vt);
 
 void entrance_session_display_set(const char *dname);
 void entrance_session_cookie(void);
-void entrance_session_shutdown(void);
+
+/**
+ * @brief Shutdown a specific session
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ */
+void entrance_session_shutdown(int id);
 
 /**
  * @brief Shutdown all sessions ( free array pointer, may have other usage later )
