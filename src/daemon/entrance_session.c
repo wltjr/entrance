@@ -378,7 +378,7 @@ entrance_session_start(int id, const char *display, int vt)
 }
 
 void
-entrance_session_shutdown(void)
+entrance_session_shutdown(int id)
 {
    /* Free authentication cookie to prevent memory leak on restart */
    if (_mcookie)
