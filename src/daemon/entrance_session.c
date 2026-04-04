@@ -380,16 +380,6 @@ entrance_session_start(int id, const char *display, int vt)
 void
 entrance_session_shutdown(void)
 {
-   Entrance_Xsession *xsession;
-
-   EINA_LIST_FREE(_xsessions, xsession)
-     {
-        eina_stringshare_del(xsession->name);
-        eina_stringshare_del(xsession->icon);
-        if (xsession->command) eina_stringshare_del(xsession->command);
-        free(xsession);
-     }
-   
    /* Free authentication cookie to prevent memory leak on restart */
    if (_mcookie)
      {
@@ -403,6 +393,16 @@ entrance_session_shutdown(void)
 void
 entrance_sessions_shutdown()
 {
+    Entrance_Xsession *xsession;
+
+    EINA_LIST_FREE(_xsessions, xsession)
+    {
+        eina_stringshare_del(xsession->name);
+        eina_stringshare_del(xsession->icon);
+        if (xsession->command) eina_stringshare_del(xsession->command);
+        free(xsession);
+    }
+
     if(_sessions)
         free(_sessions);
     _session_count = 0;
