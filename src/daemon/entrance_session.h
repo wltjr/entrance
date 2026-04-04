@@ -9,6 +9,15 @@
  */
 void entrance_sessions_init(int count);
 
+/**
+ * @brief Start an entrance session, for a X server/seat
+ *
+ * @param id the id of the X server, array index for now, could be seat id later
+ * @param display the display number with colon
+ * @param vt the virtual terminal number
+ */
+void entrance_session_start(int id, const char *display, int vt);
+
 void entrance_session_display_set(const char *dname);
 void entrance_session_cookie(void);
 void entrance_session_shutdown(void);
