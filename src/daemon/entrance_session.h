@@ -19,7 +19,13 @@ void entrance_sessions_init(int count);
 void entrance_session_start(int id, const char *display, int vt);
 
 void entrance_session_display_set(const char *dname);
-void entrance_session_cookie(void);
+
+/**
+ * @brief Create a cookie for a specific session
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ */
+void entrance_session_cookie(int id);
 
 /**
  * @brief Shutdown a specific session
