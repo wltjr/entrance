@@ -311,11 +311,14 @@ entrance_session_display_set(const char *dname)
 void
 entrance_session_cookie(int id)
 {
-   uint16_t word;
-   uint8_t hi;
-   uint8_t lo;
-   char buf[PATH_MAX];
-   static const char *dig = "0123456789abcdef";
+    uint16_t word;
+    uint8_t hi;
+    uint8_t lo;
+    int len;
+    char *xauth_file_ptr;
+    char buf[PATH_MAX];
+    char xauth_file[PATH_MAX] = {0};
+    static const char *dig = "0123456789abcdef";
 
    _sessions[id]->mcookie = calloc(33, sizeof(char));
    if (!_sessions[id]->mcookie)
@@ -351,22 +354,29 @@ entrance_session_cookie(int id)
    if(fp)
      fclose(fp);
 
-   fp = fopen(entrance_config->command.xauth_file,"a+");
+    /* add the session/x server/seat id to the xauth filename   */
+    xauth_file_ptr = xauth_file;
+    len = strlen(entrance_config->command.xauth_file) - 4; // - .auth less 1, assumed
+    snprintf(xauth_file, len, "%s", entrance_config->command.xauth_file);
+    xauth_file_ptr += len - 1;
+    len = PATH_MAX - 10; // padding for snprintf usage file_length-00.auth
+    snprintf(xauth_file_ptr, len, "-%d.auth", id);
+
+   fp = fopen(xauth_file,"a+");
    if(!fp)
      {
-       PT("unable to create xauth %s",entrance_config->command.xauth_file);
+       PT("unable to create xauth %s",xauth_file);
        return;
      }
    fclose(fp);
 
-   snprintf(buf, sizeof(buf), "XAUTHORITY=%s",
-            entrance_config->command.xauth_file);
+   snprintf(buf, sizeof(buf) - strlen(xauth_file), "XAUTHORITY=%s", xauth_file);
    /* Note: putenv takes ownership of string, don't free */
    putenv(strdup(buf));
    _entrance_session_cookie_add(_sessions[id]->mcookie,
                                 _sessions[id]->display,
                                 entrance_config->command.xauth_path,
-                                entrance_config->command.xauth_file);
+                                xauth_file);
 }
 
 void
