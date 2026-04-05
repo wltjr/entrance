@@ -426,7 +426,7 @@ _entrance_xservers_init()
         /* this needs to be modified to support per display/seat session */
         PT("session init for seat%d", i);
         entrance_session_display_set(entrance_display);
-        entrance_session_cookie();
+        entrance_session_cookie(i);
 
         pids[i] = entrance_xserver_start(i, _entrance_start_client, entrance_display, vt);
     }
