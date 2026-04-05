@@ -388,6 +388,9 @@ entrance_session_shutdown(int id)
      }
    
    _session_pid = 0;
+
+    if(_sessions[id])
+        free(_sessions[id]);
 }
 
 void
