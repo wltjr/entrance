@@ -21,7 +21,6 @@ typedef struct Entrance_Session_
     const char *display;
 } Entrance_Session;
 
-static char *_mcookie = NULL;
 static const char *_dname = NULL;
 static char *_login = NULL;
 static unsigned char _logged = 0;
@@ -231,7 +230,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         if (-1 == system(buf))
           PT("Error on session start command");
         if(_entrance_session_userid_set(pwd)) return;
-        _entrance_session_cookie_add(_mcookie, _dname,
+        _entrance_session_cookie_add(_sessions[0]->mcookie, _dname,
                                  entrance_config->command.xauth_path, cookie);
         if (chdir(pwd->pw_dir))
           {
@@ -318,13 +317,13 @@ entrance_session_cookie(int id)
    char buf[PATH_MAX];
    static const char *dig = "0123456789abcdef";
 
-   _mcookie = calloc(33, sizeof(char));
-   if (!_mcookie)
+   _sessions[id]->mcookie = calloc(33, sizeof(char));
+   if (!_sessions[id]->mcookie)
      {
        PT("Failed to allocate memory for cookie");
        return;
      }
-   _mcookie[0] = 'a';
+   _sessions[id]->mcookie[0] = 'a';
 
    long rand = 0;
    size_t read = 0;
@@ -344,10 +343,10 @@ entrance_session_cookie(int id)
         word = rand & 0xffff;
         lo = word & 0xff;
         hi = word >> 8;
-        _mcookie[i] = dig[lo & 0x0f];
-        _mcookie[i+1] = dig[lo >> 4];
-        _mcookie[i+2] = dig[hi & 0x0f];
-        _mcookie[i+3] = dig[hi >> 4];
+        _sessions[id]->mcookie[i] = dig[lo & 0x0f];
+        _sessions[id]->mcookie[i+1] = dig[lo >> 4];
+        _sessions[id]->mcookie[i+2] = dig[hi & 0x0f];
+        _sessions[id]->mcookie[i+3] = dig[hi >> 4];
      }
    if(fp)
      fclose(fp);
@@ -364,9 +363,10 @@ entrance_session_cookie(int id)
             entrance_config->command.xauth_file);
    /* Note: putenv takes ownership of string, don't free */
    putenv(strdup(buf));
-   _entrance_session_cookie_add(_mcookie, _dname,
-                            entrance_config->command.xauth_path,
-                            entrance_config->command.xauth_file);
+   _entrance_session_cookie_add(_sessions[id]->mcookie,
+                                _sessions[id]->display,
+                                entrance_config->command.xauth_path,
+                                entrance_config->command.xauth_file);
 }
 
 void
@@ -380,17 +380,14 @@ entrance_session_start(int id, const char *display, int vt)
 void
 entrance_session_shutdown(int id)
 {
-   /* Free authentication cookie to prevent memory leak on restart */
-   if (_mcookie)
-     {
-        free(_mcookie);
-        _mcookie = NULL;
-     }
-   
    _session_pid = 0;
 
     if(_sessions[id])
+    {
+        if(_sessions[id]->mcookie)
+            free(_sessions[id]->mcookie);
         free(_sessions[id]);
+    }
 }
 
 void
