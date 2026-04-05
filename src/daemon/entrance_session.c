@@ -310,7 +310,7 @@ entrance_session_display_set(const char *dname)
 }
 
 void
-entrance_session_cookie(void)
+entrance_session_cookie(int id)
 {
    uint16_t word;
    uint8_t hi;
