@@ -659,7 +659,15 @@ main (int argc, char ** argv)
             PT("X server started pid %d", _entrance_xserver_pids[i]);
      }
    else
-     _entrance_start_client(entrance_display);
+   {
+        /* no logind seat support under xephyr values from config id = 0 */
+        entrance_sessions_init(1);
+        entrance_session_start(0,
+                               entrance_config->command.xdisplay,
+                               entrance_config->command.vtnr);
+        entrance_session_cookie(0);
+        _entrance_start_client(entrance_config->command.xdisplay);
+   }
 
    PT("history init");
    entrance_history_init();
