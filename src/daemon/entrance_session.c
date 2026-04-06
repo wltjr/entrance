@@ -23,7 +23,6 @@ typedef struct Entrance_Session_
 
 static const char *_dname = NULL;
 static char *_login = NULL;
-static unsigned char _logged = 0;
 static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
@@ -501,7 +500,6 @@ entrance_session_login(const char *session, Eina_Bool push)
    pwd = _entrance_session_session_open();
    endpwent();
    if (!pwd) return ECORE_CALLBACK_CANCEL;
-   _logged = EINA_TRUE;
    
    /* Detect shell in parent - env setup happens in child after session */
    _entrance_session_shell_set(pwd);
