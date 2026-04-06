@@ -21,7 +21,6 @@ typedef struct Entrance_Session_
     const char *display;
 } Entrance_Session;
 
-static const char *_dname = NULL;
 static char *_login = NULL;
 static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
@@ -299,12 +298,6 @@ pid_t
 entrance_session_pid_get(void)
 {
    return _session_pid;
-}
-
-void
-entrance_session_display_set(const char *dname)
-{
-   _dname = dname;
 }
 
 void
