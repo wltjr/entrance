@@ -131,7 +131,7 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina
    entrance_pam_env_set("USER", pwd->pw_name);
    entrance_pam_env_set("LOGNAME", pwd->pw_name);
    entrance_pam_env_set("PATH", entrance_config->session_path);
-   entrance_pam_env_set("DISPLAY", _dname);
+   entrance_pam_env_set("DISPLAY", _sessions[0]->display);
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
@@ -204,7 +204,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "PATH=%s", entrance_config->session_path);
         env[n++]=strdup(buf);
-        snprintf(buf, sizeof(buf), "DISPLAY=%s", _dname);
+        snprintf(buf, sizeof(buf), "DISPLAY=%s", _sessions[0]->display);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "MAIL=/var/mail/%s", pwd->pw_name);
         env[n++]=strdup(buf);
@@ -224,12 +224,12 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         snprintf(buf, sizeof(buf),
                  "%s %s %s",
                  entrance_config->command.session_start,
-                 _dname,
+                 _sessions[0]->display,
                  pwd->pw_name);
         if (-1 == system(buf))
           PT("Error on session start command");
         if(_entrance_session_userid_set(pwd)) return;
-        _entrance_session_cookie_add(_sessions[0]->mcookie, _dname,
+        _entrance_session_cookie_add(_sessions[0]->mcookie, _sessions[0]->display,
                                  entrance_config->command.xauth_path, cookie);
         if (chdir(pwd->pw_dir))
           {
