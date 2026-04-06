@@ -18,8 +18,6 @@ void entrance_sessions_init(int count);
  */
 void entrance_session_start(int id, const char *display, int vt);
 
-void entrance_session_display_set(const char *dname);
-
 /**
  * @brief Create a cookie for a specific session
  *
