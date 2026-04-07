@@ -254,7 +254,8 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
      }
    else if (pid > 0)
      {
-        entrance_session_pid_set(pid);
+        PT("%s: session %d pid %d", PACKAGE, 0, pid);
+        _sessions[0]->pid = pid;
      }
    else
      {
