@@ -1,7 +1,13 @@
 #ifndef ENTRANCE_XSERVER_H_
 #define ENTRANCE_XSERVER_H_
 
-typedef void (*Entrance_X_Cb)(const char *data);
+/**
+ * @brief X callback to start entrance_clients
+ *
+ * @param id the id of the entrance_client, array index for now, could be seat id later
+ * @param data the display number with colon
+ */
+typedef void (*Entrance_X_Cb)(int id, const char *data);
 
 /**
  * @brief Allocate memory for Entrance_Xserver structs, one per X server
