@@ -287,7 +287,7 @@ entrance_sessions_init(int count)
 pid_t
 entrance_session_pid_get(void)
 {
-   return _session_pid;
+   return _sessions[0]->pid;
 }
 
 void
