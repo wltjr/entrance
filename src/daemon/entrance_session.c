@@ -284,17 +284,6 @@ entrance_sessions_init(int count)
     _entrance_session_desktops_init();
 }
 
-void
-entrance_session_pid_set(pid_t pid)
-{
-   char buf[PATH_MAX];
-
-   PT("%s: session pid %d", PACKAGE, pid);
-   _session_pid = pid;
-   snprintf(buf, sizeof(buf), "%d", pid);
-   setenv("ENTRANCE_SPID", buf, 1);
-}
-
 pid_t
 entrance_session_pid_get(void)
 {
