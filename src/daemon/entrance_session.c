@@ -22,7 +22,6 @@ typedef struct Entrance_Session_
 } Entrance_Session;
 
 static char *_login = NULL;
-static pid_t _session_pid;
 static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
 static int _entrance_session_userid_set(const struct passwd *pwd);
@@ -372,8 +371,6 @@ entrance_session_start(int id, const char *display, int vt)
 void
 entrance_session_shutdown(int id)
 {
-   _session_pid = 0;
-
     if(_sessions[id])
     {
         if(_sessions[id]->mcookie)
