@@ -21,7 +21,7 @@ static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
 static void _entrance_session_wait();
-static void _entrance_start_client(const char *display);
+static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
 static void _remove_lock();
 static void _signal_cb(int sig);
@@ -264,7 +264,7 @@ _entrance_session_wait()
 }
 
 static void
-_entrance_start_client(const char *display)
+_entrance_start_client(int id, const char *display)
 {
    char *home_path = ENTRANCE_CONFIG_HOME_PATH;
    int home_dir;
@@ -665,7 +665,7 @@ main (int argc, char ** argv)
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
         entrance_session_cookie(0);
-        _entrance_start_client(entrance_config->command.xdisplay);
+        _entrance_start_client(0, entrance_config->command.xdisplay);
    }
 
    PT("history init");
@@ -691,7 +691,7 @@ main (int argc, char ** argv)
           {
              _entrance_auto_login = EINA_FALSE;
              _entrance_uid_gid_init();
-             _entrance_start_client(entrance_display);
+             _entrance_start_client(0, entrance_display);
           }
      }
 
