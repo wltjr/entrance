@@ -150,6 +150,7 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
             PT("session shutdown for seat%d", i);
             entrance_session_shutdown(i);
          }
+         _entrance_clients_shutdown();
          entrance_xservers_shutdown();
          entrance_sessions_shutdown();
          PT("restarting X server(s)");
@@ -442,6 +443,7 @@ _entrance_xservers_init()
     /* initialize memory, needs modification for only graphical seats */
     entrance_xservers_init(_entrance_seat_count);
     entrance_sessions_init(_entrance_seat_count);
+    _entrance_clients_init(_entrance_seat_count);
 
     /* initial dynamic vt, starting value from config file */
     vt = entrance_config->command.vtnr;
@@ -686,6 +688,7 @@ main (int argc, char ** argv)
    {
         /* no logind seat support under xephyr values from config id = 0 */
         entrance_sessions_init(1);
+        _entrance_clients_init(1);
         entrance_session_start(0,
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
@@ -728,6 +731,7 @@ main (int argc, char ** argv)
    ecore_main_loop_begin();
    PT("main loop end");
    _entrance_client_handlers_del();
+   _entrance_clients_shutdown();
    entrance_server_shutdown();
    PT("server shutdown");
    entrance_action_shutdown();
