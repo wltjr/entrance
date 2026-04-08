@@ -39,7 +39,6 @@ static void _signal_log(int sig);
 
 static Eina_Bool _entrance_auto_login = EINA_FALSE;
 static Eina_Bool _xephyr = 0;
-static Ecore_Exe *_entrance_client = NULL;
 static Eina_List *_entrance_client_handlers = NULL;
 static Entrance_Client **_entrance_clients = NULL;
 
@@ -133,10 +132,10 @@ _entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
    const Ecore_Exe_Event_Del *ev;
 
    ev = event;
-   if (ev->exe != _entrance_client)
+   if (ev->exe != _entrance_clients[0]->exe)
      return ECORE_CALLBACK_PASS_ON;
    PT("client terminated");
-   _entrance_client = NULL;
+   _entrance_clients[0]->exe = NULL;
    _entrance_session_wait();
     if(!_entrance_signal && !_xephyr)
       {
@@ -297,17 +296,17 @@ _entrance_start_client(int id, const char *display)
    struct stat st;
    const Ecore_Event_Handler *h;
 
-   if (_entrance_client)
-     return;
+    if (_entrance_clients[id]->exe)
+        return;
 
-   PT("starting client...");
+   PT("starting client %d...", id);
    _entrance_client_handlers_del();
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, NULL);
-   _entrance_client_handlers = eina_list_append(_entrance_client_handlers, h);
+   _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_ERROR, _entrance_client_error, NULL);
-   _entrance_client_handlers = eina_list_append(_entrance_client_handlers, h);
+   _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DATA, _entrance_client_data, NULL);
-   _entrance_client_handlers = eina_list_append(_entrance_client_handlers, h);
+   _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    if(_entrance_home_path)
        home_path = _entrance_home_path;
    home_dir = open(home_path, O_RDONLY);
@@ -343,14 +342,14 @@ _entrance_start_client(int id, const char *display)
                 _entrance_gid,_entrance_uid, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
-       _entrance_client =
-          ecore_exe_pipe_run(buf,
-                             ECORE_EXE_PIPE_READ | ECORE_EXE_PIPE_ERROR,
-                             NULL);
-       if(_entrance_client)
+        _entrance_clients[id]->exe =
+            ecore_exe_pipe_run(buf,
+                               ECORE_EXE_PIPE_READ | ECORE_EXE_PIPE_ERROR,
+                               NULL);
+       if(_entrance_clients[id]->exe)
          {
-           entrance_client_pid = ecore_exe_pid_get(_entrance_client);
-           PT("entrance_client started pid %d", entrance_client_pid);
+           _entrance_clients[id]->pid = ecore_exe_pid_get(_entrance_clients[id]->exe);
+           PT("entrance_client started pid %d", _entrance_clients[id]->pid);
          }
      }
    flock(home_dir, LOCK_UN);
@@ -545,11 +544,17 @@ _signal_cb(int sig)
 
    PT("signal %d received", sig);
    _entrance_signal = sig;
-   if (_entrance_client)
-     {
-       PT("terminate client");
-       _entrance_kill_and_wait("entrance_client", entrance_client_pid);
-     }
+    if (_entrance_clients)
+    {
+        for(int i = 0; i < _entrance_seat_count; i++)
+        {
+            if(_entrance_clients[i]->exe)
+            {
+                PT("terminate client %d", i);
+                _entrance_kill_and_wait("entrance_client", _entrance_clients[i]->pid);
+            }
+        }
+    }
    else
      {
        if((session_pid = entrance_session_pid_get())>0)
