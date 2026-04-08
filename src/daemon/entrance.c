@@ -47,7 +47,6 @@ static char *_entrance_home_path = NULL;
 static const char *_entrance_user = NULL;
 static int _entrance_seat_count = 1;
 static int _entrance_signal = 0;
-static pid_t entrance_client_pid = 0;
 static gid_t _entrance_gid = 0;
 static uid_t _entrance_uid = 0;
 static pid_t *_entrance_xserver_pids = NULL;
@@ -579,7 +578,7 @@ Eina_Bool entrance_auto_login_enabled()
 void
 entrance_client_pid_set(pid_t pid)
 {
-    entrance_client_pid = pid;
+    _entrance_clients[0]->pid = pid;
 }
 
 void
