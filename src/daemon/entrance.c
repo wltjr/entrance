@@ -208,7 +208,11 @@ static void
 _entrance_clients_shutdown()
 {
     if(_entrance_clients)
+    {
+        for(int i = 0; i < _entrance_seat_count; i++)
+            _entrance_client_handlers_del(i);
         free(_entrance_clients);
+    }
 }
 
 static void
@@ -733,7 +737,6 @@ main (int argc, char ** argv)
    PT("starting main loop");
    ecore_main_loop_begin();
    PT("main loop end");
-   _entrance_client_handlers_del(0);
    _entrance_clients_shutdown();
    entrance_server_shutdown();
    PT("server shutdown");
