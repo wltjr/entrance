@@ -22,7 +22,7 @@ typedef struct Entrance_Client_
 static Eina_Bool _entrance_autologin_lock_get(void);
 static Eina_Bool _entrance_client_error(void *data, int type, void *event);
 static Eina_Bool _entrance_client_data(void *data, int type, void *event);
-static Eina_Bool _entrance_client_del(void *data, int type, void *event);
+static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
 static void _entrance_autologin_lock_set(void);
@@ -125,15 +125,16 @@ _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
 }
 
 static Eina_Bool
-_entrance_client_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
+_entrance_client_del(void *data, int type EINA_UNUSED, void *event)
 {
+   const long id = *(int *)data;
    const Ecore_Exe_Event_Del *ev;
 
    ev = event;
-   if (ev->exe != _entrance_clients[0]->exe)
+   if (ev->exe != _entrance_clients[id]->exe)
      return ECORE_CALLBACK_PASS_ON;
-   PT("client terminated");
-   _entrance_clients[0]->exe = NULL;
+   PT("client %ld terminated", id);
+   _entrance_clients[id]->exe = NULL;
    _entrance_session_wait();
     if(!_entrance_signal && !_xephyr)
       {
@@ -313,7 +314,7 @@ _entrance_start_client(int id, const char *display)
 
    PT("starting client %d...", id);
    _entrance_client_handlers_del(id); // maybe unecessary
-   h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, NULL);
+   h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, &id);
    _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_ERROR, _entrance_client_error, NULL);
    _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
