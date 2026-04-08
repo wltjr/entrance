@@ -210,7 +210,13 @@ _entrance_clients_shutdown()
     if(_entrance_clients)
     {
         for(int i = 0; i < _entrance_seat_count; i++)
-            _entrance_client_handlers_del(i);
+        {
+            if(_entrance_clients[i])
+            {
+                _entrance_client_handlers_del(i);
+                free(_entrance_clients[i]);
+            }
+        }
         free(_entrance_clients);
     }
 }
@@ -298,8 +304,12 @@ _entrance_start_client(int id, const char *display)
    struct stat st;
    const Ecore_Event_Handler *h;
 
-    if (_entrance_clients[id]->exe)
+    if (_entrance_clients[id] && _entrance_clients[id]->exe)
+    {
+        PT("started client %d...", id);
         return;
+    }
+    _entrance_clients[id] = calloc(1, sizeof(Entrance_Client));
 
    PT("starting client %d...", id);
    _entrance_client_handlers_del(id); // maybe unecessary
