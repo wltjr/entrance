@@ -26,7 +26,7 @@ static Eina_Bool _entrance_client_del(void *data, int type, void *event);
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
 static void _entrance_autologin_lock_set(void);
-static void _entrance_client_handlers_del();
+static void _entrance_client_handlers_del(int id);
 static void _entrance_clients_init(int count);
 static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
@@ -39,7 +39,6 @@ static void _signal_log(int sig);
 
 static Eina_Bool _entrance_auto_login = EINA_FALSE;
 static Eina_Bool _xephyr = 0;
-static Eina_List *_entrance_client_handlers = NULL;
 static Entrance_Client **_entrance_clients = NULL;
 
 static char *entrance_display = NULL;
@@ -190,12 +189,12 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
 }
 
 static void
-_entrance_client_handlers_del()
+_entrance_client_handlers_del(int id)
 {
-  Ecore_Event_Handler *h;
+    Ecore_Event_Handler *h;
 
-  EINA_LIST_FREE(_entrance_client_handlers, h)
-    ecore_event_handler_del(h);
+    EINA_LIST_FREE(_entrance_clients[id]->handlers, h)
+        ecore_event_handler_del(h);
 }
 
 static void
@@ -299,7 +298,7 @@ _entrance_start_client(int id, const char *display)
         return;
 
    PT("starting client %d...", id);
-   _entrance_client_handlers_del();
+   _entrance_client_handlers_del(id); // maybe unecessary
    h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, NULL);
    _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_ERROR, _entrance_client_error, NULL);
@@ -734,7 +733,7 @@ main (int argc, char ** argv)
    PT("starting main loop");
    ecore_main_loop_begin();
    PT("main loop end");
-   _entrance_client_handlers_del();
+   _entrance_client_handlers_del(0);
    _entrance_clients_shutdown();
    entrance_server_shutdown();
    PT("server shutdown");
