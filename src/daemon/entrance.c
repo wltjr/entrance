@@ -28,6 +28,7 @@ static pid_t * _entrance_xservers_init();
 static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del();
 static void _entrance_clients_init(int count);
+static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
 static void _entrance_session_wait();
 static void _entrance_start_client(int id, const char *display);
@@ -203,6 +204,13 @@ _entrance_clients_init(int count)
 {
     _entrance_clients = (Entrance_Client**) calloc(count, sizeof(Entrance_Client*));
     PT("Allocated memory for %d entrance clients", count);
+}
+
+static void
+_entrance_clients_shutdown()
+{
+    if(_entrance_clients)
+        free(_entrance_clients);
 }
 
 static void
