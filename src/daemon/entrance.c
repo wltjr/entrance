@@ -11,6 +11,14 @@
 
 #define ENTRANCE_CONFIG_HOME_PATH PACKAGE_CACHE"/client"
 
+typedef struct Entrance_Client_
+{
+    pid_t pid;
+    const char *display;
+    Ecore_Exe *exe;
+    Eina_List *handlers;
+} Entrance_Client;
+
 static Eina_Bool _entrance_autologin_lock_get(void);
 static Eina_Bool _entrance_client_error(void *data, int type, void *event);
 static Eina_Bool _entrance_client_data(void *data, int type, void *event);
@@ -31,6 +39,7 @@ static Eina_Bool _entrance_auto_login = EINA_FALSE;
 static Eina_Bool _xephyr = 0;
 static Ecore_Exe *_entrance_client = NULL;
 static Eina_List *_entrance_client_handlers = NULL;
+static Entrance_Client **_entrance_clients = NULL;
 
 static char *entrance_display = NULL;
 static char *_entrance_home_path = NULL;
