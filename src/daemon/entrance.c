@@ -25,6 +25,7 @@ static Eina_Bool _entrance_client_data(void *data, int type, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
+static pid_t _entrance_xserver_start(int id);
 static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del(int id);
 static void _entrance_clients_init(int count);
@@ -477,6 +478,27 @@ _entrance_xservers_init()
 #endif
 
     return pids;
+}
+
+static pid_t
+_entrance_xserver_start(int id)
+{
+    char display[6] = {0};
+    char *e_ptr;
+    pid_t pid;
+    int vtnr;
+
+    /* initial dynamic display & vt, starting values from config file */
+    snprintf(display, 6, ":%.1f", strtof((char *)entrance_config->command.xdisplay + 1, &e_ptr) + id);
+    vtnr = entrance_config->command.vtnr + id;
+
+    PT("session init for seat%d", id);
+    entrance_session_start(id, display, vtnr);
+    entrance_session_cookie(id);
+
+    pid = entrance_xserver_start(id, _entrance_start_client, display, vtnr);
+
+    return pid;
 }
 
 static Eina_Bool
