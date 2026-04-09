@@ -42,7 +42,6 @@ static Eina_Bool _entrance_auto_login = EINA_FALSE;
 static Eina_Bool _xephyr = 0;
 static Entrance_Client **_entrance_clients = NULL;
 
-static char *entrance_display = NULL;
 static char *_entrance_home_path = NULL;
 static const char *_entrance_user = NULL;
 static int _entrance_seat_count = 1;
@@ -657,7 +656,6 @@ main (int argc, char ** argv)
 
 
    _entrance_auto_login = entrance_config->autologin;
-   entrance_display = strdup(entrance_config->command.xdisplay);
 
    if (!_xephyr && !_get_lock())
         exit(1);
@@ -723,7 +721,7 @@ main (int argc, char ** argv)
      {
         PT("autologin init");
         xcb_connection_t *disp = NULL;
-        disp = xcb_connect(entrance_display, NULL);
+        disp = xcb_connect(entrance_config->command.xdisplay, NULL);
 #ifdef HAVE_PAM
         PT("pam init");
         char tty_name[16];
@@ -740,7 +738,7 @@ main (int argc, char ** argv)
           {
              _entrance_auto_login = EINA_FALSE;
              _entrance_uid_gid_init();
-             _entrance_start_client(0, entrance_display);
+             _entrance_start_client(0, entrance_config->command.xdisplay);
           }
      }
 
@@ -792,7 +790,6 @@ main (int argc, char ** argv)
    eet_shutdown();
    if(_entrance_home_path)
      free(_entrance_home_path);
-   free(entrance_display);
    if (!_xephyr)
      {
         for(int i = 0; i < _entrance_seat_count; i++)
