@@ -139,33 +139,25 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
    _entrance_session_wait();
     if(!_entrance_signal && !_xephyr)
       {
-         for(int i = 0; i < _entrance_seat_count; i++)
-         {
-            PT("stopping X server for seat%d", i);
-            entrance_xserver_shutdown(i);
-            _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
-            PT("closing session for seat%d", i);
-            entrance_session_close(EINA_TRUE);
-            PT("session shutdown for seat%d", i);
-            entrance_session_shutdown(i);
-         }
-         _entrance_clients_shutdown();
-         entrance_xservers_shutdown();
-         entrance_sessions_shutdown();
-         PT("restarting X server(s)");
-         _entrance_xserver_pids = _entrance_xservers_init();
-         for(int i = 0; i < _entrance_seat_count; i++)
-            PT("X server restarted pid %d", _entrance_xserver_pids[i]);
+        PT("stopping X server for seat%ld", id);
+        entrance_xserver_shutdown(id);
+        _entrance_kill_and_wait("xserver", _entrance_xserver_pids[id]);
+        PT("closing session for seat%ld", id);
+        entrance_session_close(EINA_TRUE);
+        PT("session shutdown for seat%ld", id);
+        entrance_session_shutdown(id);
+        _entrance_client_handlers_del(id);
+        free(_entrance_clients[id]);
+        PT("restarting X server %ld", id);
+        _entrance_xserver_pids[id] = _entrance_xserver_start(id);
+        PT("X server restarted pid %d", _entrance_xserver_pids[id]);
       }
     else
       {
-         for(int i = 0; i < _entrance_seat_count; i++)
-         {
-            PT("closing session for seat%d", i);
-            entrance_session_close(EINA_TRUE);
-            PT("session shutdown for seat%d", i);
-            entrance_session_shutdown(i);
-         }
+        PT("closing session for seat%ld", id);
+        entrance_session_close(EINA_TRUE);
+        PT("session shutdown for seat%ld", id);
+        entrance_session_shutdown(id);
         ecore_main_loop_quit();
       }
    return ECORE_CALLBACK_DONE;
