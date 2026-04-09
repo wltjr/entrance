@@ -729,6 +729,10 @@ main (int argc, char ** argv)
         entrance_pam_init("entrance-autologin", tty_name, entrance_config->userlogin);
 #endif
         PT("login user");
+        entrance_session_start(0,
+                               entrance_config->command.xdisplay,
+                               entrance_config->command.vtnr);
+        entrance_session_cookie(0);
         entrance_session_login(entrance_config->session, EINA_FALSE);
         sleep(30);
         xcb_disconnect(disp);
