@@ -137,7 +137,7 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
    else if (eev->type == ENTRANCE_EVENT_PID)
      {
         PT("PID received");
-        entrance_client_pid_set(eev->event.pid.pid);
+        entrance_client_pid_set(eev->event.pid.id, eev->event.pid.pid);
      }
    else
      PT("UNKNOWN signal server");
