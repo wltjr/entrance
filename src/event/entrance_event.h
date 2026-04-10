@@ -82,6 +82,7 @@ typedef struct Entrance_Maxtries_Event_
 
 typedef struct Entrance_Pid_Event_
 {
+   int id;
    pid_t pid;
 } Entrance_Pid_Event;
 
