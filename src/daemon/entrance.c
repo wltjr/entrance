@@ -592,9 +592,9 @@ Eina_Bool entrance_auto_login_enabled()
 }
 
 void
-entrance_client_pid_set(pid_t pid)
+entrance_client_pid_set(int id, pid_t pid)
 {
-    _entrance_clients[0]->pid = pid;
+    _entrance_clients[id]->pid = pid;
 }
 
 void
