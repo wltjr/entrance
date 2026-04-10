@@ -40,6 +40,13 @@ do                                           \
 
 Eina_Bool entrance_auto_login_enabled();
 void entrance_close_log();
-void entrance_client_pid_set(pid_t pid);
+
+/**
+ * @brief Set client id sent from client received by server
+ *
+ * @param id the id of the client, to identify which client it is to server
+ * @param pid client pid
+ */
+void entrance_client_pid_set(int id, pid_t pid);
 
 #endif /* ENTRANCE_H_ */
