@@ -226,7 +226,7 @@ entrance_connect_auth_cb_del(void *auth)
 }
 
 Eina_Bool
-entrance_connect(int port)
+entrance_connect(int id, int port)
 {
    const Ecore_Event_Handler *h;
    ecore_con_init();
@@ -237,11 +237,11 @@ entrance_connect(int port)
                                                 "entrance", port, NULL);
    if (!_entrance_connect)
      {
-       PT("client failed to connect to server");
+       PT("client #%d failed to connect to server", id);
        return(EINA_FALSE);
      }
 
-   PT("client connected to server");
+   PT("client #%d connected to server", id);
    h = ecore_event_handler_add(ECORE_CON_EVENT_SERVER_ADD,
                                _entrance_connect_add, NULL);
    _handlers = eina_list_append(_handlers, h);
