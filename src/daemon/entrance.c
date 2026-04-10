@@ -341,10 +341,10 @@ _entrance_start_client(int id, const char *display)
        snprintf(buf, sizeof(buf),
                 "export HOME='%s'; export USER='%s';"
                 "export LD_LIBRARY_PATH='"PACKAGE_LIB_DIR"';%s "
-                PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -p %d",
+                PACKAGE_BIN_DIR"/entrance_client -d '%s' -t '%s' -g %d -u %d -i %d -p %d",
                 home_path, _entrance_user, entrance_config->command.session_login ? entrance_config->command.session_login : "",
                 display, entrance_config->theme,
-                _entrance_gid,_entrance_uid, entrance_config->port);
+                _entrance_gid,_entrance_uid, id, entrance_config->port);
        PT("Exec entrance_client: %s", buf);
 
         _entrance_clients[id]->exe =
