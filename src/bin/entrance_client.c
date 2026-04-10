@@ -23,6 +23,7 @@ static const Ecore_Getopt options =
    {
       ECORE_GETOPT_STORE_STR('d', "display", "specify the display to use"),
       ECORE_GETOPT_STORE_INT('g', "gid", "specify the group to run under"),
+      ECORE_GETOPT_STORE_INT('i', "id", "specify the client id"),
       ECORE_GETOPT_STORE_USHORT('p', "port", "specify the port to use"),
       ECORE_GETOPT_STORE_STR('t', "theme", "specify the theme to use"),
       ECORE_GETOPT_STORE_INT('u', "uid", "specify the user to run under"),
@@ -61,6 +62,7 @@ main(int argc, char **argv)
    char *theme = NULL;
    int args;
    int gid = 0;
+   int id = 0;
    int port = 0;
    int uid = 0;
    unsigned char quit_option = 0;
@@ -69,6 +71,7 @@ main(int argc, char **argv)
      {
         ECORE_GETOPT_VALUE_STR(display),
         ECORE_GETOPT_VALUE_INT(gid),
+        ECORE_GETOPT_VALUE_INT(id),
         ECORE_GETOPT_VALUE_INT(port),
         ECORE_GETOPT_VALUE_STR(theme),
         ECORE_GETOPT_VALUE_INT(uid),
@@ -119,6 +122,11 @@ main(int argc, char **argv)
    eina_init();
    if (!display)
      display = ":0";
+   if(id < 0)
+   {
+        id = 0;
+        PT("client id not specified, defaulting to client id 0");
+   }
    if(!port)
      port = 42;
    if (!theme)
