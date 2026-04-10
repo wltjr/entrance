@@ -12,6 +12,7 @@ static Eina_Bool _entrance_connect_del(void *data, int type, void *event);
 static Eina_Bool _entrance_connect_data(void *data, int type, void *event);
 static void _entrance_connect_auth(const char *login, Eina_Bool granted);
 
+static int _client_id = 0;
 static Ecore_Con_Server *_entrance_connect;
 static Eina_List *_handlers = NULL;
 static Eina_List *_auth_list = NULL;
@@ -23,10 +24,11 @@ _entrance_connect_add(void *data EINA_UNUSED,
 {
    Entrance_Event eev;
 
-   PT("connected");
-   PT("Sending pid");
+   PT("client #%d connected", _client_id);
    eev.type = ENTRANCE_EVENT_PID;
+   eev.event.pid.id = _client_id;
    eev.event.pid.pid = getpid();
+   PT("client #%d sending pid %d", _client_id, eev.event.pid.pid);
    entrance_event_send(&eev);
    return ECORE_CALLBACK_RENEW;
 }
@@ -242,6 +244,7 @@ entrance_connect(int id, int port)
      }
 
    PT("client #%d connected to server", id);
+   _client_id = id;
    h = ecore_event_handler_add(ECORE_CON_EVENT_SERVER_ADD,
                                _entrance_connect_add, NULL);
    _handlers = eina_list_append(_handlers, h);
