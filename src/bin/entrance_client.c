@@ -143,7 +143,7 @@ main(int argc, char **argv)
    PT("gui init");
    if (!entrance_gui_init(theme)) return EXIT_FAILURE;
    PT("connect init");
-   if(entrance_connect(port))
+   if(entrance_connect(id, port))
      elm_run();
    PT("stop server monitor");
    ecore_timer_del(check_timer);
