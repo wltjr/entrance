@@ -325,6 +325,7 @@ _entrance_event_pid_dd(void)
    Eet_Data_Descriptor_Class eddc;
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Pid_Event);
    edd = eet_data_descriptor_stream_new(&eddc);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Pid_Event, "id", id, EET_T_INT);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Pid_Event, "pid", pid, EET_T_INT);
    return edd;
 }
