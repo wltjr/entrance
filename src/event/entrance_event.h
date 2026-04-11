@@ -37,6 +37,7 @@ typedef struct Entrance_Actions_Event_
 
 typedef struct Entrance_Auth_Event_
 {
+   int id;
    const char *login;
    const char *password;
    const char *session;
