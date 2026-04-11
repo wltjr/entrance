@@ -39,7 +39,18 @@ void entrance_sessions_shutdown();
 
 Eina_Bool entrance_session_authenticate(const char *login, const char *pwd);
 void entrance_session_close(Eina_Bool opened);
-Eina_Bool entrance_session_login(const char *command, Eina_Bool push);
+
+/**
+ * @brief Start a x11 or wayland desktop shell login session
+ *
+ * @param id of client/session in array, index value for now, could be seat id later
+ * @param session x11 or wayland desktop session to start
+ * @param history add session to history
+ *
+ * @return Eina_Bool true of login session start succeeds, false if it fails
+ */
+Eina_Bool entrance_session_login(int id, const char *session, Eina_Bool history);
+
 pid_t entrance_session_pid_get(void);
 char *entrance_session_login_get(void);
 Eina_List *entrance_session_list_get(void);
