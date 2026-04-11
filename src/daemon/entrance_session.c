@@ -472,7 +472,7 @@ _entrance_session_session_open(void)
 }
 
 Eina_Bool
-entrance_session_login(const char *session, Eina_Bool push)
+entrance_session_login(int id, const char *session, Eina_Bool history)
 {
    struct passwd *pwd;
    const char *cmd;
@@ -486,7 +486,7 @@ entrance_session_login(const char *session, Eina_Bool push)
    _entrance_session_shell_set(pwd);
    
    snprintf(buf, sizeof(buf), "%s/.Xauthority", pwd->pw_dir);
-   if (push) entrance_history_push(pwd->pw_name, session);
+   if (history) entrance_history_push(pwd->pw_name, session);
    cmd = _entrance_session_find_command(pwd->pw_dir, session);
    if (!cmd)
      {
