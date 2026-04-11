@@ -157,6 +157,7 @@ entrance_connect_auth_send(const char *login,
    Entrance_Event eev;
 
    PT("Request auth for %s", login);
+   eev.event.auth.id = _client_id;
    eev.event.auth.login = login;
    eev.event.auth.password = password;
    eev.event.auth.session = session;
