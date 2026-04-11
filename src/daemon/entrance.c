@@ -733,7 +733,7 @@ main (int argc, char ** argv)
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
         entrance_session_cookie(0);
-        entrance_session_login(entrance_config->session, EINA_FALSE);
+        entrance_session_login(0, entrance_config->session, EINA_FALSE);
         sleep(30);
         xcb_disconnect(disp);
         _entrance_session_wait();
