@@ -150,6 +150,7 @@ _entrance_event_auth_dd(void)
    Eet_Data_Descriptor_Class eddc;
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Auth_Event);
    edd = eet_data_descriptor_stream_new(&eddc);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Auth_Event, "id", id, EET_T_INT);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Auth_Event, "login",
                                  login, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Auth_Event, "password",
