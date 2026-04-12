@@ -113,9 +113,12 @@ _entrance_session_shell_set(struct passwd *pwd)
 
 #ifdef HAVE_PAM
 static void
-_entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina_Bool is_wayland)
+_entrance_session_pam_env_set(int id,
+                              struct passwd *pwd,
+                              const char *cookie,
+                              Eina_Bool is_wayland)
 {
-   PT("Setting PAM environment");
+   PT("Setting PAM environment for session #%d", id);
    const char *term = NULL;
 #ifndef HAVE_LOGIND
    char vtnr[128] = {0};
@@ -133,7 +136,7 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina
    entrance_pam_env_set("USER", pwd->pw_name);
    entrance_pam_env_set("LOGNAME", pwd->pw_name);
    entrance_pam_env_set("PATH", entrance_config->session_path);
-   entrance_pam_env_set("DISPLAY", _sessions[0]->display);
+   entrance_pam_env_set("DISPLAY", _sessions[id]->display);
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
@@ -176,7 +179,7 @@ _entrance_session_run(int id,
              exit(1);
           }
 
-        _entrance_session_pam_env_set(pwd, cookie, is_wayland);
+        _entrance_session_pam_env_set(id, pwd, cookie, is_wayland);
 
         /* Retrieve final PAM environment with our vars */
         env = entrance_pam_env_list_get();
