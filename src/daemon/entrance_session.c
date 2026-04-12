@@ -292,9 +292,9 @@ entrance_sessions_init(int count)
 }
 
 pid_t
-entrance_session_pid_get(void)
+entrance_session_pid_get(int id)
 {
-   return _sessions[0]->pid;
+   return _sessions[id]->pid;
 }
 
 void
