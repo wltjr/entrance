@@ -26,7 +26,11 @@ static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
 static int _entrance_session_userid_set(const struct passwd *pwd);
 
-static void _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland);
+static void _entrance_session_run(int id,
+                                  struct passwd *pwd,
+                                  const char *cmd,
+                                  const char *cookie,
+                                  Eina_Bool is_wayland);
 static Eina_Bool _entrance_session_is_wayland(const char *session);
 
 static void _entrance_session_desktops_scan_file(const char *path);
@@ -142,7 +146,11 @@ _entrance_session_pam_env_set(const struct passwd *pwd, const char *cookie, Eina
 #endif
 
 static void
-_entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, Eina_Bool is_wayland)
+_entrance_session_run(int id,
+                      struct passwd *pwd,
+                      const char *cmd,
+                      const char *cookie,
+                      Eina_Bool is_wayland)
 {
    char **env;
    pid_t pid;
@@ -151,12 +159,12 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
      {
         char buf[PATH_MAX];
 
-        PT("Session Run (%s)", is_wayland ? "wayland" : "x11");
+        PT("Session #%d Run (%s)", id, is_wayland ? "wayland" : "x11");
         
         /* Create new session - MUST be done before PAM  */
         if (setsid() < 0)
           {
-             PT("Failed to create new session");
+             PT("Failed to create new session #%d", id);
              exit(1);
           }
         
@@ -202,7 +210,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "PATH=%s", entrance_config->session_path);
         env[n++]=strdup(buf);
-        snprintf(buf, sizeof(buf), "DISPLAY=%s", _sessions[0]->display);
+        snprintf(buf, sizeof(buf), "DISPLAY=%s", _sessions[id]->display);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "MAIL=/var/mail/%s", pwd->pw_name);
         env[n++]=strdup(buf);
@@ -222,12 +230,12 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
         snprintf(buf, sizeof(buf),
                  "%s %s %s",
                  entrance_config->command.session_start,
-                 _sessions[0]->display,
+                 _sessions[id]->display,
                  pwd->pw_name);
         if (-1 == system(buf))
           PT("Error on session start command");
         if(_entrance_session_userid_set(pwd)) return;
-        _entrance_session_cookie_add(_sessions[0]->mcookie, _sessions[0]->display,
+        _entrance_session_cookie_add(_sessions[id]->mcookie, _sessions[id]->display,
                                  entrance_config->command.xauth_path, cookie);
         if (chdir(pwd->pw_dir))
           {
@@ -254,7 +262,7 @@ _entrance_session_run(struct passwd *pwd, const char *cmd, const char *cookie, E
    else if (pid > 0)
      {
         PT("%s: session %d pid %d", PACKAGE, 0, pid);
-        _sessions[0]->pid = pid;
+        _sessions[id]->pid = pid;
      }
    else
      {
@@ -498,7 +506,7 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
    PT("launching session %s for user %s", cmd, _login);
    
    Eina_Bool is_wayland = _entrance_session_is_wayland(session);
-   _entrance_session_run(pwd, cmd, buf, is_wayland);
+   _entrance_session_run(id, pwd, cmd, buf, is_wayland);
    free(_login);
    _login = NULL;
    return EINA_TRUE;
