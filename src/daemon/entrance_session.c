@@ -120,16 +120,11 @@ _entrance_session_pam_env_set(int id,
 {
    PT("Setting PAM environment for session #%d", id);
    const char *term = NULL;
-#ifndef HAVE_LOGIND
-   char vtnr[128] = {0};
-#endif
-   
+   char vtnr[64] = {0};
+
    term = getenv("TERM");
-   
-#ifndef HAVE_LOGIND
-   eina_convert_xtoa(entrance_config->command.vtnr, vtnr);
-#endif
-   
+   snprintf(vtnr, sizeof(vtnr), "%d", id);
+
    if (term) entrance_pam_env_set("TERM", term);
    entrance_pam_env_set("HOME", pwd->pw_dir);
    entrance_pam_env_set("SHELL", pwd->pw_shell);
@@ -141,10 +136,8 @@ _entrance_session_pam_env_set(int id,
    entrance_pam_env_set("XAUTHORITY", cookie);
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
-#ifndef HAVE_LOGIND
    entrance_pam_env_set("XDG_SEAT", "seat0");
    entrance_pam_env_set("XDG_VTNR", vtnr);
-#endif
 }
 #endif
 
@@ -221,7 +214,7 @@ _entrance_session_run(int id,
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_SESSION_CLASS=user");
         env[n++]=strdup(buf);
-        snprintf(buf, sizeof(buf), "XDG_VTNR=%d", entrance_config->command.vtnr);
+        snprintf(buf, sizeof(buf), "XDG_VTNR=%d", _sessions[id]->vt);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_SESSION_TYPE=%s", is_wayland ? "wayland" : "x11");
         env[n++]=strdup(buf);
