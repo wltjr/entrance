@@ -31,7 +31,7 @@ static void _entrance_client_handlers_del(int id);
 static void _entrance_clients_init(int count);
 static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
-static void _entrance_session_wait();
+static void _entrance_session_wait(int id);
 static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
 static void _remove_lock();
@@ -135,7 +135,7 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
      return ECORE_CALLBACK_PASS_ON;
    PT("client %ld terminated", id);
    _entrance_clients[id]->exe = NULL;
-   _entrance_session_wait();
+   _entrance_session_wait(id);
     if(!_entrance_signal && !_xephyr)
       {
         PT("stopping X server for seat%ld", id);
@@ -237,7 +237,7 @@ _entrance_logind_monitor_cb(void *data EINA_UNUSED)
 #endif
 
 static void
-_entrance_session_wait()
+_entrance_session_wait(int id)
 {
   pid_t session_pid = 0;
   char proc_path[64];
@@ -245,7 +245,7 @@ _entrance_session_wait()
 
   if((session_pid = entrance_session_pid_get())>0)
     {
-      PT("session running pid %d, waiting...", session_pid);
+      PT("session #%d running pid %d, waiting...", id, session_pid);
       snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
       
       /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
@@ -257,7 +257,7 @@ _entrance_session_wait()
           if (wait_result > 0)
             {
               /* Child terminated */
-              PT("session pid %d exited", session_pid);
+              PT("session #%d pid %d exited", id, session_pid);
               break;
             }
           else if (wait_result < 0)
@@ -265,12 +265,12 @@ _entrance_session_wait()
               if (errno == ECHILD)
                 {
                   /* Not a direct child (backgrounded by OpenRC), poll /proc instead */
-                  PT("session not direct child, polling /proc/%d", session_pid);
+                  PT("session #%d not direct child, polling /proc/%d", id, session_pid);
                   while (!_entrance_signal)
                     {
                       if (access(proc_path, F_OK) != 0)
                         {
-                          PT("session pid %d terminated", session_pid);
+                          PT("session #%d pid %d terminated", id, session_pid);
                           break;
                         }
                       nanosleep(&request, NULL); /* Check every 500ms */
@@ -279,7 +279,7 @@ _entrance_session_wait()
               else
                 {
                   /* Other error */
-                  PT("waitpid error: %d", errno);
+                  PT("session #%d waitpid error: %d", id, errno);
                 }
               break;
             }
@@ -736,7 +736,7 @@ main (int argc, char ** argv)
         entrance_session_login(0, entrance_config->session, EINA_FALSE);
         sleep(30);
         xcb_disconnect(disp);
-        _entrance_session_wait();
+        _entrance_session_wait(0);
  
         if(!_entrance_signal)
           {
