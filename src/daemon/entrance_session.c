@@ -120,8 +120,10 @@ _entrance_session_pam_env_set(int id,
 {
    PT("Setting PAM environment for session #%d", id);
    const char *term = NULL;
+   char seat[64] = {0};
    char vtnr[64] = {0};
 
+   snprintf(seat, sizeof(seat), "seat%d", id);
    term = getenv("TERM");
    snprintf(vtnr, sizeof(vtnr), "%d", id);
 
@@ -134,9 +136,9 @@ _entrance_session_pam_env_set(int id,
    entrance_pam_env_set("DISPLAY", _sessions[id]->display);
    entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
    entrance_pam_env_set("XAUTHORITY", cookie);
+   entrance_pam_env_set("XDG_SEAT", seat);
    entrance_pam_env_set("XDG_SESSION_CLASS", "user");
    entrance_pam_env_set("XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
-   entrance_pam_env_set("XDG_SEAT", "seat0");
    entrance_pam_env_set("XDG_VTNR", vtnr);
 }
 #endif
@@ -211,6 +213,8 @@ _entrance_session_run(int id,
         snprintf(buf, sizeof(buf), "MAIL=/var/mail/%s", pwd->pw_name);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XAUTHORITY=%s", cookie);
+        env[n++]=strdup(buf);
+        snprintf(buf, sizeof(buf), "XDG_SEAT=seat%d", id);
         env[n++]=strdup(buf);
         snprintf(buf, sizeof(buf), "XDG_SESSION_CLASS=user");
         env[n++]=strdup(buf);
