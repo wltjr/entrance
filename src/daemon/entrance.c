@@ -243,7 +243,7 @@ _entrance_session_wait(int id)
   char proc_path[64];
   int wait_result;
 
-  if((session_pid = entrance_session_pid_get())>0)
+  if((session_pid = entrance_session_pid_get(id))>0)
     {
       PT("session #%d running pid %d, waiting...", id, session_pid);
       snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
@@ -572,8 +572,11 @@ _signal_cb(int sig)
     }
    else
      {
-       if((session_pid = entrance_session_pid_get())>0)
-           _entrance_kill_and_wait("session", session_pid);
+        for(int i = 0; i < _entrance_seat_count; i++)
+        {
+            if((session_pid = entrance_session_pid_get(i))>0)
+                _entrance_kill_and_wait("session", session_pid);
+        }
      }
    ecore_main_loop_quit();
 }
