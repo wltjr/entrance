@@ -91,7 +91,8 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
    if (eev->type == ENTRANCE_EVENT_AUTH)
      {
         neev.type = ENTRANCE_EVENT_STATUS;
-        if (entrance_session_authenticate(eev->event.auth.login,
+        if (entrance_session_authenticate(eev->event.auth.id,
+                                          eev->event.auth.login,
                                           eev->event.auth.password))
           {
              PT("server authenticate granted");
