@@ -448,7 +448,11 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
 }
 
 static struct passwd *
+#ifdef HAVE_PAM
+_entrance_session_session_open(int id EINA_UNUSED)
+#else
 _entrance_session_session_open(int id)
+#endif
 {
    static struct passwd pwd_buf;
    static char buf[4096];
