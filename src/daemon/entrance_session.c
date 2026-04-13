@@ -37,7 +37,7 @@ static void _entrance_session_desktops_scan_file(const char *path);
 static void _entrance_session_desktops_scan(const char *dir);
 static void _entrance_session_desktops_init(void);
 static const char *_entrance_session_find_command(const char *path, const char *session);
-static struct passwd *_entrance_session_session_open();
+static struct passwd *_entrance_session_session_open(int id);
 
 static int _session_count = 0;
 static Entrance_Session **_sessions;
@@ -449,7 +449,7 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
 }
 
 static struct passwd *
-_entrance_session_session_open(void)
+_entrance_session_session_open(int id)
 {
    static struct passwd pwd_buf;
    static char buf[4096];
@@ -486,7 +486,7 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
    const char *cmd;
    char buf[PATH_MAX];
 
-   pwd = _entrance_session_session_open();
+   pwd = _entrance_session_session_open(id);
    endpwent();
    if (!pwd) return ECORE_CALLBACK_CANCEL;
    
