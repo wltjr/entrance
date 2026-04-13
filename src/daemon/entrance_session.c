@@ -21,7 +21,6 @@ typedef struct Entrance_Session_
     const char *display;
 } Entrance_Session;
 
-static char *_login = NULL;
 static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
 static int _entrance_session_userid_set(const struct passwd *pwd);
@@ -468,7 +467,7 @@ _entrance_session_session_open(int id)
      }
    return NULL;
 #else
-   user = entrance_session_login_get();
+   user = entrance_session_login_get(id);
    if (user)
      {
        result = getpwnam_r(user, &pwd_buf, buf, sizeof(buf), &pwd);
@@ -575,9 +574,9 @@ _entrance_session_find_command(const char *path, const char *session)
 }
 
 char *
-entrance_session_login_get(void)
+entrance_session_login_get(int id)
 {
-   return _login;
+   return _sessions[id]->login;
 }
 
 Eina_List *
