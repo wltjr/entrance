@@ -407,11 +407,11 @@ entrance_sessions_shutdown()
 }
 
 Eina_Bool
-entrance_session_authenticate(const char *login, const char *passwd)
+entrance_session_authenticate(int id, const char *login, const char *passwd)
 {
    Eina_Bool auth;
-   _login = strdup(login);
-   if (!_login)
+   _sessions[id]->login = strdup(login);
+   if (!_sessions[id]->login)
      return EINA_FALSE;
 #ifdef HAVE_PAM
    char tty_name[16];
