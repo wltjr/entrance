@@ -501,14 +501,14 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
         PT("Error !!! No command to launch, can't open a session :'(");
         return EINA_FALSE;
      }
-   if(!_login && entrance_auto_login_enabled())
-     _login = strdup(entrance_config->userlogin);
-   PT("launching session %s for user %s", cmd, _login);
+   if(!_sessions[id]->login && entrance_auto_login_enabled())
+     _sessions[id]->login = strdup(entrance_config->userlogin);
+   PT("launching session %s for user %s", cmd, _sessions[id]->login);
    
    Eina_Bool is_wayland = _entrance_session_is_wayland(session);
    _entrance_session_run(id, pwd, cmd, buf, is_wayland);
-   free(_login);
-   _login = NULL;
+   free(_sessions[id]->login);
+   _sessions[id]->login = NULL;
    return EINA_TRUE;
 }
 
