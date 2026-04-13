@@ -69,7 +69,15 @@ Eina_Bool entrance_session_login(int id, const char *session, Eina_Bool history)
  */
 pid_t entrance_session_pid_get(int id);
 
-char *entrance_session_login_get(void);
+/**
+ * @brief Get session login user name
+ *
+ * @param id of client/session in array, index value for now, could be seat id later
+ *
+ * @return char* session login user name
+ */
+char *entrance_session_login_get(int id);
+
 Eina_List *entrance_session_list_get(void);
 
 #endif /* ENTRANCE_SESSION_H_ */
