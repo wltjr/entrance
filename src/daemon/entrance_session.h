@@ -37,7 +37,17 @@ void entrance_session_shutdown(int id);
  */
 void entrance_sessions_shutdown();
 
-Eina_Bool entrance_session_authenticate(const char *login, const char *pwd);
+/**
+ * @brief Authenticate a login session
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ * @param login user login name
+ * @param pwd user password
+ *
+ * @return Eina_Bool true on successful login, false if it fails
+ */
+Eina_Bool entrance_session_authenticate(int id, const char *login, const char *pwd);
+
 void entrance_session_close(Eina_Bool opened);
 
 /**
