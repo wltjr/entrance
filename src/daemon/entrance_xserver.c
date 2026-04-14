@@ -12,7 +12,7 @@ typedef struct Entrance_Xserver_
     Ecore_Event_Handler *handler_start;
 } Entrance_Xserver;
 
-static int _xserver_start(Entrance_Xserver *_xserver);
+static int _xserver_start(const Entrance_Xserver *_xserver);
 static Eina_Bool _xserver_started(void *data, int type EINA_UNUSED, void *event EINA_UNUSED);
 
 static int _xserver_count = 0;
@@ -20,7 +20,7 @@ static Entrance_Xserver **_xservers;
 
 
 static int
-_xserver_start(Entrance_Xserver *_xserver)
+_xserver_start(const Entrance_Xserver *_xserver)
 {
    char *abuf = NULL;
    char *buf = NULL;
@@ -124,7 +124,7 @@ entrance_xservers_init(int count)
 }
 
 int
-entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt)
+entrance_xserver_start(int id, Entrance_X_Cb start, const char *display, int vt)
 {
    int pid;
    sigset_t newset;
