@@ -25,7 +25,7 @@ void entrance_xservers_init(int count);
  * @param vt the virtual terminal number
  * @return int PID of the X server process
  */
-int entrance_xserver_start(int id, Entrance_X_Cb start, char *display, int vt);
+int entrance_xserver_start(int id, Entrance_X_Cb start, const char *display, int vt);
 
 /**
  * @brief Shutdown a specific X server
