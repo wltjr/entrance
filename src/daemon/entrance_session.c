@@ -113,7 +113,7 @@ _entrance_session_shell_set(struct passwd *pwd)
 #ifdef HAVE_PAM
 static void
 _entrance_session_pam_env_set(int id,
-                              struct passwd *pwd,
+                              const struct passwd *pwd,
                               const char *cookie,
                               Eina_Bool is_wayland)
 {
