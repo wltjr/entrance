@@ -28,7 +28,8 @@ _entrance_system_distro_detect(void)
    
    while (fgets(line, sizeof(line), f))
      {
-        char key[64], value[128];
+        char key[64];
+        char value[128];
         
         if (sscanf(line, "%63[^=]=%127[^\n]", key, value) == 2)
           {
