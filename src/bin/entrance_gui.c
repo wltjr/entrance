@@ -437,7 +437,7 @@ _entrance_gui_users_populate(void)
    Evas_Object *ol;
    Entrance_Fill *ef;
    const char *style;
-   Entrance_Login *first_user = NULL;
+   const Entrance_Login *first_user = NULL;
 
    screen = eina_list_data_get(_gui->screens);
 
