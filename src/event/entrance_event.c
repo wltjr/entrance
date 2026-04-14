@@ -3,7 +3,7 @@
 #include "entrance_event.h"
 
 #define EET_LOGIN_ADD(NAME, TYPE) \
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, # NAME, NAME, TYPE);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, # NAME, NAME, TYPE)
 
 #define ENTRANCE_EVENT_ACTION_NAME "EntranceEventAction"
 #define ENTRANCE_EVENT_ACTIONS_NAME "EntranceEventActions"
