@@ -135,20 +135,20 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
      return ECORE_CALLBACK_PASS_ON;
    PT("client %ld terminated", id);
    _entrance_clients[id]->exe = NULL;
-   _entrance_session_wait(id);
+   _entrance_session_wait((int)id);
     if(!_entrance_signal && !_xephyr)
       {
         PT("stopping X server for seat%ld", id);
-        entrance_xserver_shutdown(id);
+        entrance_xserver_shutdown((int)id);
         _entrance_kill_and_wait("xserver", _entrance_xserver_pids[id]);
         PT("closing session for seat%ld", id);
         entrance_session_close(EINA_TRUE);
         PT("session shutdown for seat%ld", id);
-        entrance_session_shutdown(id);
-        _entrance_client_handlers_del(id);
+        entrance_session_shutdown((int)id);
+        _entrance_client_handlers_del((int)id);
         free(_entrance_clients[id]);
         PT("restarting X server %ld", id);
-        _entrance_xserver_pids[id] = _entrance_xserver_start(id);
+        _entrance_xserver_pids[id] = _entrance_xserver_start((int)id);
         PT("X server restarted pid %d", _entrance_xserver_pids[id]);
       }
     else
@@ -156,7 +156,7 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
         PT("closing session for seat%ld", id);
         entrance_session_close(EINA_TRUE);
         PT("session shutdown for seat%ld", id);
-        entrance_session_shutdown(id);
+        entrance_session_shutdown((int)id);
         ecore_main_loop_quit();
       }
    return ECORE_CALLBACK_DONE;
