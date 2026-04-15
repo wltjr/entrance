@@ -302,7 +302,7 @@ entrance_session_cookie(int id)
     uint16_t word;
     uint8_t hi;
     uint8_t lo;
-    int len;
+    size_t len;
     char *xauth_file_ptr;
     char buf[PATH_MAX];
     char xauth_file[PATH_MAX] = {0};
