@@ -89,7 +89,7 @@ _entrance_connect_read_cb(const void *data,
              else
                PT("Auth error :(");
              _entrance_connect_auth(eev->event.status.login,
-                                    eev->event.status.granted);
+                                    (Eina_Bool)eev->event.status.granted);
           }
         else if (eev->type == ENTRANCE_EVENT_MAXTRIES)
           {
@@ -144,7 +144,7 @@ _entrance_connect_write_cb(const void *data,
                            size_t size,
                            void *user_data EINA_UNUSED)
 {
-   ecore_con_server_send(_entrance_connect, data, size);
+   ecore_con_server_send(_entrance_connect, data, (int)size);
    return ECORE_CALLBACK_RENEW;
 }
 
