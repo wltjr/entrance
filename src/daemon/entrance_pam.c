@@ -22,6 +22,8 @@ static pam_handle_t* _pam_handle = NULL;
 static int last_result;
 static char *_passwd = NULL;
 
+static Entrance_Pam **_pams;
+
 static int
 _entrance_pam_conv(int num_msg,
                    const struct pam_message **msg,
@@ -170,6 +172,13 @@ entrance_pam_authenticate(void)
      }
 
    return 0;
+}
+
+void
+entrance_pams_init(int count)
+{
+    _pams = (Entrance_Pam**) calloc(count, sizeof(Entrance_Pam*));
+    PT("Allocated memory for %d pam sessions", count);
 }
 
 Eina_Bool
