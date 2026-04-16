@@ -447,6 +447,9 @@ _entrance_xservers_init()
     entrance_xservers_init(_entrance_seat_count);
     entrance_sessions_init(_entrance_seat_count);
     _entrance_clients_init(_entrance_seat_count);
+#ifdef HAVE_PAM
+    entrance_pams_init(_entrance_seat_count);
+#endif
 
     for(int i = 0; i < _entrance_seat_count ; i++)
         pids[i] = _entrance_xserver_start(i);
@@ -711,6 +714,9 @@ main (int argc, char ** argv)
         /* no logind seat support under xephyr values from config id = 0 */
         entrance_sessions_init(1);
         _entrance_clients_init(1);
+#ifdef HAVE_PAM
+        entrance_pams_init(1);
+#endif
         entrance_session_start(0,
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
@@ -785,6 +791,7 @@ main (int argc, char ** argv)
     entrance_sessions_shutdown();
 #ifdef HAVE_PAM
    entrance_pam_shutdown();
+   entrance_pams_shutdown();
    PT("pam shutdown");
 #endif
    _entrance_autologin_lock_set();
