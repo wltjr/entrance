@@ -797,12 +797,15 @@ main (int argc, char ** argv)
    eet_shutdown();
    if(_entrance_home_path)
      free(_entrance_home_path);
-   if (!_xephyr)
+   if (!_xephyr && _entrance_xserver_pids)
      {
         for(int i = 0; i < _entrance_seat_count; i++)
         {
-            PT("ending xserver for seat%d", i);
-            _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
+            if(_entrance_xserver_pids[i])
+            {
+                PT("ending xserver for seat%d", i);
+                _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
+            }
         }
         free(_entrance_xserver_pids);
      }
