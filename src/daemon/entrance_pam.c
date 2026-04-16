@@ -164,8 +164,8 @@ entrance_pam_authenticate(void)
    return 0;
 }
 
-int
-entrance_pam_init(const char *service, const char *tty, const char *user)
+Eina_Bool
+entrance_pam_start(const char *service, const char *tty, const char *user)
 {
    int status;
 
