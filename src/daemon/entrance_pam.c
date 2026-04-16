@@ -5,6 +5,14 @@
 #include "entrance.h"
 #include "entrance_pam.h"
 
+typedef struct Entrance_Pam_
+{
+    char *passwd;
+    int last_result;
+    Eina_Bool opened;
+    pam_handle_t* handle;
+} Entrance_Pam;
+
 static int _entrance_pam_conv(int num_msg,
                               const struct pam_message **msg,
                               struct pam_response **resp,
