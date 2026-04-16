@@ -259,6 +259,13 @@ entrance_pam_shutdown(void)
     _passwd = NULL;
 }
 
+void
+entrance_pams_shutdown()
+{
+    if(_pams)
+        free(_pams);
+}
+
 int
 entrance_pam_passwd_set(const char *passwd)
 {
