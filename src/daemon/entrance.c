@@ -469,7 +469,7 @@ _entrance_xserver_start(int id)
     int vtnr;
 
     /* initial dynamic display & vt, starting values from config file */
-    snprintf(display, 6, ":%.1f", strtof((char *)entrance_config->command.xdisplay + 1, &e_ptr) + id);
+    snprintf(display, 6, ":%.1f", strtof((char *)entrance_config->command.xdisplay + 1, &e_ptr) + (float)id);
     vtnr = entrance_config->command.vtnr + id;
 
     PT("session init for seat%d", id);
