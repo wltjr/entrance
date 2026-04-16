@@ -418,7 +418,7 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
    char tty_name[16];
 
     snprintf(tty_name, sizeof(tty_name), "tty%u", _sessions[id]->vt);
-    entrance_pam_init(PACKAGE, tty_name, login);
+    entrance_pam_start(PACKAGE, tty_name, login);
     auth = !!(!entrance_pam_passwd_set(passwd) &&
               !entrance_pam_authenticate());
 #else
