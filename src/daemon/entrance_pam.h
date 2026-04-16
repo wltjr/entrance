@@ -19,6 +19,13 @@ int entrance_pam_env_set(const char *env, const char *value);
 char **entrance_pam_env_list_get(void);
 
 /**
+ * @brief Allocate memory for Entrance_Pam structs, one per X server/seat
+ *
+ * @param count the number of pam structs to allocate memory
+ */
+void entrance_pams_init(int count);
+
+/**
  * @brief Start a new pam conversation session
  *
  * @param service the name of the service for PAM_SERVICE
