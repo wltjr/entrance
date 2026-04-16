@@ -37,6 +37,12 @@ void entrance_pams_init(int count);
 Eina_Bool entrance_pam_start(const char *service, const char *tty, const char *user);
 
 void entrance_pam_shutdown(void);
+
+/**
+ * @brief Shutdown all pams ( free array pointer, may have other usage later )
+ */
+void entrance_pams_shutdown();
+
 int entrance_pam_open_session(void);
 void entrance_pam_close_session(Eina_Bool opened);
 int entrance_pam_authenticate(void);
