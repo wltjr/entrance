@@ -113,10 +113,10 @@ entrance_pam_end(void)
 }
 
 int
-entrance_pam_authenticate(void)
+entrance_pam_authenticate(int id)
 {
-   _pams[0]->last_result = pam_authenticate(_pams[0]->handle, 0);
-   switch (_pams[0]->last_result)
+   _pams[id]->last_result = pam_authenticate(_pams[id]->handle, 0);
+   switch (_pams[id]->last_result)
      {
       case PAM_ABORT:
       case PAM_AUTHINFO_UNAVAIL:
@@ -145,8 +145,8 @@ entrance_pam_authenticate(void)
          PT("PAM auth warning unknown error");
          return 1;
      }
-   _pams[0]->last_result=pam_acct_mgmt(_pams[0]->handle, PAM_SILENT);
-   switch(_pams[0]->last_result)
+   _pams[id]->last_result=pam_acct_mgmt(_pams[id]->handle, PAM_SILENT);
+   switch(_pams[id]->last_result)
      {
       case PAM_ACCT_EXPIRED:
          PT("PAM user acct expired error");
