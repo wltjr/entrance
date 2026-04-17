@@ -28,13 +28,14 @@ void entrance_pams_init(int count);
 /**
  * @brief Start a new pam conversation session
  *
+ * @param id of session in array, index value for now, could be seat id later
  * @param service the name of the service for PAM_SERVICE
  * @param tty terminal name tty or vt
  * @param user user name for login
  *
  * @return Eina_Bool true on success, false on failure
  */
-Eina_Bool entrance_pam_start(const char *service, const char *tty, const char *user);
+Eina_Bool entrance_pam_start(int id, const char *service, const char *tty, const char *user);
 
 void entrance_pam_shutdown(void);
 
