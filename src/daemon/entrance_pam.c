@@ -55,10 +55,10 @@ _entrance_pam_conv(int num_msg,
 }
 
 int
-entrance_pam_open_session(void)
+entrance_pam_session_open(int id)
 {
-   _pams[0]->last_result = pam_setcred(_pams[0]->handle, PAM_ESTABLISH_CRED);
-   switch (_pams[0]->last_result)
+   _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_ESTABLISH_CRED);
+   switch (_pams[id]->last_result)
      {
       case PAM_CRED_ERR:
       case PAM_USER_UNKNOWN:
@@ -74,12 +74,13 @@ entrance_pam_open_session(void)
          PT("PAM open warning unknown error");
          return 1;
      }
-   _pams[0]->last_result = pam_open_session(_pams[0]->handle, 0);
-   if(_pams[0]->last_result!=PAM_SUCCESS)
+   _pams[id]->last_result = pam_open_session(_pams[id]->handle, 0);
+   if(_pams[id]->last_result!=PAM_SUCCESS)
      {
-       pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
+       pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
        entrance_pam_end();
      }
+   _pams[id]->opened = EINA_TRUE;
    return 0;
 }
 
