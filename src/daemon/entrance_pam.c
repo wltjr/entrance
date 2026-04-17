@@ -24,8 +24,9 @@ static int
 _entrance_pam_conv(int num_msg,
                    const struct pam_message **msg,
                    struct pam_response **resp,
-                   void *appdata_ptr EINA_UNUSED)
+                   void *appdata_ptr)
 {
+   const long id = *(int *)appdata_ptr;
    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
    if (!*resp) return PAM_CONV_ERR;
    for (int i = 0; i < num_msg; i++)
@@ -38,7 +39,7 @@ _entrance_pam_conv(int num_msg,
            case PAM_PROMPT_ECHO_OFF:
               PT("echo off");
               /* PAM will free this, so we must duplicate it */
-              (*resp)[i].resp = _pams[0]->passwd ? strdup(_pams[0]->passwd) : NULL;
+              (*resp)[i].resp = _pams[id]->passwd ? strdup(_pams[id]->passwd) : NULL;
               break;
            case PAM_ERROR_MSG:
               PT("error msg %s", msg[i]->msg);
@@ -184,7 +185,7 @@ entrance_pam_start(int id, const char *service, const char *tty, const char *use
 
    if (!tty || !*tty) goto pam_error;
 
-   struct pam_conv pam_conversation = { _entrance_pam_conv, NULL };
+   struct pam_conv pam_conversation = { _entrance_pam_conv, &id };
 
    if (_pams[id] && _pams[id]->handle) entrance_pam_end();
    _pams[id] = calloc(1, sizeof(Entrance_Pam));
