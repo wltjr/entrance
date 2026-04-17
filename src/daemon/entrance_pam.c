@@ -18,7 +18,6 @@ static int _entrance_pam_conv(int num_msg,
                               struct pam_response **resp,
                               void *appdata_ptr);
 
-static int last_result;
 static char *_passwd = NULL;
 
 static Entrance_Pam **_pams;
@@ -59,8 +58,8 @@ _entrance_pam_conv(int num_msg,
 int
 entrance_pam_open_session(void)
 {
-   last_result = pam_setcred(_pams[0]->handle, PAM_ESTABLISH_CRED);
-   switch (last_result)
+   _pams[0]->last_result = pam_setcred(_pams[0]->handle, PAM_ESTABLISH_CRED);
+   switch (_pams[0]->last_result)
      {
       case PAM_CRED_ERR:
       case PAM_USER_UNKNOWN:
@@ -76,8 +75,8 @@ entrance_pam_open_session(void)
          PT("PAM open warning unknown error");
          return 1;
      }
-   last_result = pam_open_session(_pams[0]->handle, 0);
-   if(last_result!=PAM_SUCCESS)
+   _pams[0]->last_result = pam_open_session(_pams[0]->handle, 0);
+   if(_pams[0]->last_result!=PAM_SUCCESS)
      {
        pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
        entrance_pam_end();
@@ -89,8 +88,8 @@ void
 entrance_pam_close_session(const Eina_Bool opened)
 {
    PT("PAM close session");
-   last_result = pam_close_session(_pams[0]->handle, PAM_SILENT);
-   if(last_result!=PAM_SUCCESS)
+   _pams[0]->last_result = pam_close_session(_pams[0]->handle, PAM_SILENT);
+   if(_pams[0]->last_result!=PAM_SUCCESS)
      {
        PT("error on close session");
        pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
@@ -98,8 +97,8 @@ entrance_pam_close_session(const Eina_Bool opened)
      }
    else if (opened)
      {
-       last_result = pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
-       if(last_result!=PAM_SUCCESS)
+       _pams[0]->last_result = pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
+       if(_pams[0]->last_result!=PAM_SUCCESS)
          entrance_pam_end();
      }
 }
@@ -108,7 +107,7 @@ int
 entrance_pam_end(void)
 {
    int result;
-   result = pam_end(_pams[0]->handle, last_result);
+   result = pam_end(_pams[0]->handle, _pams[0]->last_result);
    _pams[0]->handle = NULL;
    return result;
 }
@@ -116,8 +115,8 @@ entrance_pam_end(void)
 int
 entrance_pam_authenticate(void)
 {
-   last_result = pam_authenticate(_pams[0]->handle, 0);
-   switch (last_result)
+   _pams[0]->last_result = pam_authenticate(_pams[0]->handle, 0);
+   switch (_pams[0]->last_result)
      {
       case PAM_ABORT:
       case PAM_AUTHINFO_UNAVAIL:
@@ -146,8 +145,8 @@ entrance_pam_authenticate(void)
          PT("PAM auth warning unknown error");
          return 1;
      }
-   last_result=pam_acct_mgmt(_pams[0]->handle, PAM_SILENT);
-   switch(last_result)
+   _pams[0]->last_result=pam_acct_mgmt(_pams[0]->handle, PAM_SILENT);
+   switch(_pams[0]->last_result)
      {
       case PAM_ACCT_EXPIRED:
          PT("PAM user acct expired error");
@@ -208,12 +207,12 @@ pam_error:
 int
 entrance_pam_item_set(ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 {
-   last_result = pam_set_item(_pams[0]->handle, type, value);
-   if (last_result == PAM_SUCCESS) {
+   _pams[0]->last_result = pam_set_item(_pams[0]->handle, type, value);
+   if (_pams[0]->last_result == PAM_SUCCESS) {
       return 0;
    }
 
-   PT("PAM error: %d on %d", last_result, type);
+   PT("PAM error: %d on %d", _pams[0]->last_result, type);
    return 1;
 }
 
@@ -221,8 +220,8 @@ const void *
 entrance_pam_item_get(ENTRANCE_PAM_ITEM_TYPE type)
 {
    const void *data;
-   last_result = pam_get_item(_pams[0]->handle, type, &data);
-   if(last_result!=PAM_SUCCESS)
+   _pams[0]->last_result = pam_get_item(_pams[0]->handle, type, &data);
+   if(_pams[0]->last_result!=PAM_SUCCESS)
      {
         PT("error on pam item get");
         entrance_pam_end();
@@ -236,8 +235,8 @@ entrance_pam_env_set(const char *env, const char *value)
    char buf[1024];
    if (!env || !value) return 1;
    snprintf(buf, sizeof(buf), "%s=%s", env, value);
-   last_result = pam_putenv(_pams[0]->handle, buf);
-   if(last_result!=PAM_SUCCESS)
+   _pams[0]->last_result = pam_putenv(_pams[0]->handle, buf);
+   if(_pams[0]->last_result!=PAM_SUCCESS)
      {
        entrance_pam_end();
        return 1;
