@@ -167,7 +167,7 @@ _entrance_session_run(int id,
         
 #ifdef HAVE_PAM
         /* Open PAM session in child process */
-        if (entrance_pam_open_session())
+        if (entrance_pam_session_open(id))
           {
              PT("Failed to open PAM session in child");
              exit(1);
