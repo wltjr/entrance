@@ -18,7 +18,6 @@ static int _entrance_pam_conv(int num_msg,
                               struct pam_response **resp,
                               void *appdata_ptr);
 
-static pam_handle_t* _pam_handle = NULL;
 static int last_result;
 static char *_passwd = NULL;
 
@@ -60,7 +59,7 @@ _entrance_pam_conv(int num_msg,
 int
 entrance_pam_open_session(void)
 {
-   last_result = pam_setcred(_pam_handle, PAM_ESTABLISH_CRED);
+   last_result = pam_setcred(_pams[0]->handle, PAM_ESTABLISH_CRED);
    switch (last_result)
      {
       case PAM_CRED_ERR:
@@ -77,10 +76,10 @@ entrance_pam_open_session(void)
          PT("PAM open warning unknown error");
          return 1;
      }
-   last_result = pam_open_session(_pam_handle, 0);
+   last_result = pam_open_session(_pams[0]->handle, 0);
    if(last_result!=PAM_SUCCESS)
      {
-       pam_setcred(_pam_handle, PAM_DELETE_CRED);
+       pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
        entrance_pam_end();
      }
    return 0;
@@ -90,16 +89,16 @@ void
 entrance_pam_close_session(const Eina_Bool opened)
 {
    PT("PAM close session");
-   last_result = pam_close_session(_pam_handle, PAM_SILENT);
+   last_result = pam_close_session(_pams[0]->handle, PAM_SILENT);
    if(last_result!=PAM_SUCCESS)
      {
        PT("error on close session");
-       pam_setcred(_pam_handle, PAM_DELETE_CRED);
+       pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
        entrance_pam_end();
      }
    else if (opened)
      {
-       last_result = pam_setcred(_pam_handle, PAM_DELETE_CRED);
+       last_result = pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
        if(last_result!=PAM_SUCCESS)
          entrance_pam_end();
      }
@@ -109,15 +108,15 @@ int
 entrance_pam_end(void)
 {
    int result;
-   result = pam_end(_pam_handle, last_result);
-   _pam_handle = NULL;
+   result = pam_end(_pams[0]->handle, last_result);
+   _pams[0]->handle = NULL;
    return result;
 }
 
 int
 entrance_pam_authenticate(void)
 {
-   last_result = pam_authenticate(_pam_handle, 0);
+   last_result = pam_authenticate(_pams[0]->handle, 0);
    switch (last_result)
      {
       case PAM_ABORT:
@@ -147,7 +146,7 @@ entrance_pam_authenticate(void)
          PT("PAM auth warning unknown error");
          return 1;
      }
-   last_result=pam_acct_mgmt(_pam_handle, PAM_SILENT);
+   last_result=pam_acct_mgmt(_pams[0]->handle, PAM_SILENT);
    switch(last_result)
      {
       case PAM_ACCT_EXPIRED:
@@ -190,8 +189,10 @@ entrance_pam_start(const char *service, const char *tty, const char *user)
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, NULL };
 
-   if (_pam_handle) entrance_pam_end();
-   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pam_handle);
+   if (_pams[0] && _pams[0]->handle) entrance_pam_end();
+   _pams[0] = calloc(1, sizeof(Entrance_Pam));
+   _pams[0]->opened = EINA_FALSE;
+   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[0]->handle);
    if (status != 0) goto pam_error;
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_TTY, tty);
    if (status != 0) goto pam_error;
@@ -207,7 +208,7 @@ pam_error:
 int
 entrance_pam_item_set(ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 {
-   last_result = pam_set_item(_pam_handle, type, value);
+   last_result = pam_set_item(_pams[0]->handle, type, value);
    if (last_result == PAM_SUCCESS) {
       return 0;
    }
@@ -220,7 +221,7 @@ const void *
 entrance_pam_item_get(ENTRANCE_PAM_ITEM_TYPE type)
 {
    const void *data;
-   last_result = pam_get_item(_pam_handle, type, &data);
+   last_result = pam_get_item(_pams[0]->handle, type, &data);
    if(last_result!=PAM_SUCCESS)
      {
         PT("error on pam item get");
@@ -235,7 +236,7 @@ entrance_pam_env_set(const char *env, const char *value)
    char buf[1024];
    if (!env || !value) return 1;
    snprintf(buf, sizeof(buf), "%s=%s", env, value);
-   last_result = pam_putenv(_pam_handle, buf);
+   last_result = pam_putenv(_pams[0]->handle, buf);
    if(last_result!=PAM_SUCCESS)
      {
        entrance_pam_end();
@@ -248,7 +249,7 @@ entrance_pam_env_set(const char *env, const char *value)
 char **
 entrance_pam_env_list_get(void)
 {
-   return pam_getenvlist(_pam_handle);
+   return pam_getenvlist(_pams[0]->handle);
 }
 
 void
