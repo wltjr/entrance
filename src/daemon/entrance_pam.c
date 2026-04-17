@@ -254,6 +254,9 @@ entrance_pam_env_list_get(void)
 void
 entrance_pam_shutdown(void)
 {
+    if(_pams[0])
+        free(_pams[0]);
+
    if(_passwd)
       free(_passwd);
     _passwd = NULL;
