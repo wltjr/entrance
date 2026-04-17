@@ -420,7 +420,7 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
     snprintf(tty_name, sizeof(tty_name), "tty%u", _sessions[id]->vt);
     entrance_pam_start(id, PACKAGE, tty_name, login);
     auth = !!(!entrance_pam_passwd_set(passwd) &&
-              !entrance_pam_authenticate());
+              !entrance_pam_authenticate(id));
 #else
    char *enc, *v;
    struct passwd pwd_buf;
