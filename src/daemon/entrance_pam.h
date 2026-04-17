@@ -12,6 +12,14 @@ typedef enum ENTRANCE_PAM_ITEM_TYPE_ {
    ENTRANCE_PAM_ITEM_CONV = PAM_CONV
 } ENTRANCE_PAM_ITEM_TYPE;
 
+/**
+ * @brief Authenticate account using PAM
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return int 0 on successful login, 1 if it fails
+ */
+int entrance_pam_authenticate(int id);
 
 int entrance_pam_item_set(ENTRANCE_PAM_ITEM_TYPE type, const void *value);
 const void *entrance_pam_item_get(ENTRANCE_PAM_ITEM_TYPE);
@@ -54,7 +62,6 @@ void entrance_pams_shutdown();
 int entrance_pam_session_open(int id);
 
 void entrance_pam_close_session(Eina_Bool opened);
-int entrance_pam_authenticate(void);
 int entrance_pam_passwd_set(const char *passwd);
 int entrance_pam_end(void);
 
