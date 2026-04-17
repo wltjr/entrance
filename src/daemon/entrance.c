@@ -735,7 +735,7 @@ main (int argc, char ** argv)
         PT("pam init");
         char tty_name[16];
         snprintf(tty_name, sizeof(tty_name), "tty%u", entrance_config->command.vtnr);
-        entrance_pam_start("entrance-autologin", tty_name, entrance_config->userlogin);
+        entrance_pam_start(0, "entrance-autologin", tty_name, entrance_config->userlogin);
 #endif
         PT("login user");
         entrance_session_start(0,
