@@ -18,8 +18,6 @@ static int _entrance_pam_conv(int num_msg,
                               struct pam_response **resp,
                               void *appdata_ptr);
 
-static char *_passwd = NULL;
-
 static Entrance_Pam **_pams;
 
 static int
@@ -40,7 +38,7 @@ _entrance_pam_conv(int num_msg,
            case PAM_PROMPT_ECHO_OFF:
               PT("echo off");
               /* PAM will free this, so we must duplicate it */
-              (*resp)[i].resp = _passwd ? strdup(_passwd) : NULL;
+              (*resp)[i].resp = _pams[0]->passwd ? strdup(_pams[0]->passwd) : NULL;
               break;
            case PAM_ERROR_MSG:
               PT("error msg %s", msg[i]->msg);
@@ -255,11 +253,11 @@ void
 entrance_pam_shutdown(void)
 {
     if(_pams[0])
+    {
+        free(_pams[0]->passwd);
+        _pams[0]->passwd = NULL;
         free(_pams[0]);
-
-   if(_passwd)
-      free(_passwd);
-    _passwd = NULL;
+    }
 }
 
 void
@@ -272,9 +270,9 @@ entrance_pams_shutdown()
 int
 entrance_pam_passwd_set(const char *passwd)
 {
-   _passwd = strdup(passwd);
-   if (!_passwd)
-     return 1;
-   return 0;
+    _pams[0]->passwd = strdup(passwd);
+    if (!_pams[0]->passwd)
+        return 1;
+    return 0;
 }
 
