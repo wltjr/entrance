@@ -44,7 +44,15 @@ void entrance_pam_shutdown(void);
  */
 void entrance_pams_shutdown();
 
-int entrance_pam_open_session(void);
+/**
+ * @brief Start pam session management
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return int 0 on successful login, 1 if it fails
+ */
+int entrance_pam_session_open(int id);
+
 void entrance_pam_close_session(Eina_Bool opened);
 int entrance_pam_authenticate(void);
 int entrance_pam_passwd_set(const char *passwd);
