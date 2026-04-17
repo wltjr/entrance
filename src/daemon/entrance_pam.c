@@ -178,7 +178,7 @@ entrance_pams_init(int count)
 }
 
 Eina_Bool
-entrance_pam_start(const char *service, const char *tty, const char *user)
+entrance_pam_start(int id, const char *service, const char *tty, const char *user)
 {
    int status;
 
@@ -186,10 +186,10 @@ entrance_pam_start(const char *service, const char *tty, const char *user)
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, NULL };
 
-   if (_pams[0] && _pams[0]->handle) entrance_pam_end();
-   _pams[0] = calloc(1, sizeof(Entrance_Pam));
-   _pams[0]->opened = EINA_FALSE;
-   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[0]->handle);
+   if (_pams[id] && _pams[id]->handle) entrance_pam_end();
+   _pams[id] = calloc(1, sizeof(Entrance_Pam));
+   _pams[id]->opened = EINA_FALSE;
+   status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[id]->handle);
    if (status != 0) goto pam_error;
    status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_TTY, tty);
    if (status != 0) goto pam_error;
