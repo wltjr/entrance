@@ -269,10 +269,10 @@ entrance_pams_shutdown()
 }
 
 int
-entrance_pam_passwd_set(const char *passwd)
+entrance_pam_passwd_set(int id, const char *passwd)
 {
-    _pams[0]->passwd = strdup(passwd);
-    if (!_pams[0]->passwd)
+    _pams[id]->passwd = strdup(passwd);
+    if (!_pams[id]->passwd)
         return 1;
     return 0;
 }
