@@ -142,7 +142,7 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
         entrance_xserver_shutdown((int)id);
         _entrance_kill_and_wait("xserver", _entrance_xserver_pids[id]);
         PT("closing session for seat%ld", id);
-        entrance_session_close(EINA_TRUE);
+        entrance_session_close((int)id);
         PT("session shutdown for seat%ld", id);
         entrance_session_shutdown((int)id);
         _entrance_client_handlers_del((int)id);
@@ -154,7 +154,7 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
     else
       {
         PT("closing session for seat%ld", id);
-        entrance_session_close(EINA_TRUE);
+        entrance_session_close((int)id);
         PT("session shutdown for seat%ld", id);
         entrance_session_shutdown((int)id);
         ecore_main_loop_quit();
@@ -783,7 +783,7 @@ main (int argc, char ** argv)
 #endif
     for(int i = 0; i < _entrance_seat_count; i++)
     {
-        entrance_session_close(EINA_TRUE);
+        entrance_session_close(i);
         PT("session closed for seat%d", i);
         entrance_session_shutdown(i);
         PT("session shutdown for seat%d", i);
