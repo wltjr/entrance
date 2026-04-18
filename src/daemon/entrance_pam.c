@@ -217,11 +217,11 @@ entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 }
 
 const void *
-entrance_pam_item_get(ENTRANCE_PAM_ITEM_TYPE type)
+entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type)
 {
    const void *data;
-   _pams[0]->last_result = pam_get_item(_pams[0]->handle, type, &data);
-   if(_pams[0]->last_result!=PAM_SUCCESS)
+   _pams[id]->last_result = pam_get_item(_pams[id]->handle, type, &data);
+   if(_pams[id]->last_result!=PAM_SUCCESS)
      {
         PT("error on pam item get");
         entrance_pam_end();
