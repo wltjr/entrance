@@ -230,19 +230,18 @@ entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type)
 }
 
 int
-entrance_pam_env_set(const char *env, const char *value)
+entrance_pam_env_set(int id, const char *env, const char *value)
 {
    char buf[1024];
    if (!env || !value) return 1;
    snprintf(buf, sizeof(buf), "%s=%s", env, value);
-   _pams[0]->last_result = pam_putenv(_pams[0]->handle, buf);
-   if(_pams[0]->last_result!=PAM_SUCCESS)
+   _pams[id]->last_result = pam_putenv(_pams[id]->handle, buf);
+   if(_pams[id]->last_result!=PAM_SUCCESS)
      {
        entrance_pam_end();
        return 1;
      }
    return 0;
-
 }
 
 char **
