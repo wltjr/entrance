@@ -56,6 +56,16 @@ int entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value
 char **entrance_pam_env_list_get(void);
 
 /**
+ * @brief Set the password for PAM authentication
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ * @param passwd user password for login
+ *
+ * @return int 0 on successful login, 1 if it fails
+ */
+int entrance_pam_passwd_set(int id, const char *passwd);
+
+/**
  * @brief Allocate memory for Entrance_Pam structs, one per X server/seat
  *
  * @param count the number of pam structs to allocate memory
@@ -91,7 +101,6 @@ void entrance_pams_shutdown();
 int entrance_pam_session_open(int id);
 
 void entrance_pam_close_session(Eina_Bool opened);
-int entrance_pam_passwd_set(const char *passwd);
 int entrance_pam_end(void);
 
 #endif /* ENTRANCE_PAM_H_ */
