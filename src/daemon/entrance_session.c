@@ -270,10 +270,10 @@ _entrance_session_run(int id,
 }
 
 void
-entrance_session_close(const Eina_Bool opened)
+entrance_session_close(int id)
 {
 #ifdef HAVE_PAM
-   entrance_pam_close_session(opened);
+   entrance_pam_close_session(EINA_TRUE);
    entrance_pam_end();
    entrance_pam_shutdown();
 #endif
