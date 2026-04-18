@@ -193,9 +193,9 @@ entrance_pam_start(int id, const char *service, const char *tty, const char *use
    _pams[id]->opened = EINA_FALSE;
    status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[id]->handle);
    if (status != 0) goto pam_error;
-   status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_TTY, tty);
+   status = entrance_pam_item_set(id, ENTRANCE_PAM_ITEM_TTY, tty);
    if (status != 0) goto pam_error;
-   status = entrance_pam_item_set(ENTRANCE_PAM_ITEM_RUSER, user);
+   status = entrance_pam_item_set(id, ENTRANCE_PAM_ITEM_RUSER, user);
    if (status != 0) goto pam_error;
    return 0;
 
@@ -205,14 +205,14 @@ pam_error:
 }
 
 int
-entrance_pam_item_set(ENTRANCE_PAM_ITEM_TYPE type, const void *value)
+entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 {
-   _pams[0]->last_result = pam_set_item(_pams[0]->handle, type, value);
-   if (_pams[0]->last_result == PAM_SUCCESS) {
+   _pams[id]->last_result = pam_set_item(_pams[id]->handle, type, value);
+   if (_pams[id]->last_result == PAM_SUCCESS) {
       return 0;
    }
 
-   PT("PAM error: %d on %d", _pams[0]->last_result, type);
+   PT("PAM error: %d on %d", _pams[id]->last_result, type);
    return 1;
 }
 
