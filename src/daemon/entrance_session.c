@@ -126,19 +126,19 @@ _entrance_session_pam_env_set(int id,
    term = getenv("TERM");
    snprintf(vtnr, sizeof(vtnr), "%d", id);
 
-   if (term) entrance_pam_env_set("TERM", term);
-   entrance_pam_env_set("HOME", pwd->pw_dir);
-   entrance_pam_env_set("SHELL", pwd->pw_shell);
-   entrance_pam_env_set("USER", pwd->pw_name);
-   entrance_pam_env_set("LOGNAME", pwd->pw_name);
-   entrance_pam_env_set("PATH", entrance_config->session_path);
-   entrance_pam_env_set("DISPLAY", _sessions[id]->display);
-   entrance_pam_env_set("MAIL=/var/mail/%s", pwd->pw_name);
-   entrance_pam_env_set("XAUTHORITY", cookie);
-   entrance_pam_env_set("XDG_SEAT", seat);
-   entrance_pam_env_set("XDG_SESSION_CLASS", "user");
-   entrance_pam_env_set("XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
-   entrance_pam_env_set("XDG_VTNR", vtnr);
+   if (term) entrance_pam_env_set(id, "TERM", term);
+   entrance_pam_env_set(id, "HOME", pwd->pw_dir);
+   entrance_pam_env_set(id, "SHELL", pwd->pw_shell);
+   entrance_pam_env_set(id, "USER", pwd->pw_name);
+   entrance_pam_env_set(id, "LOGNAME", pwd->pw_name);
+   entrance_pam_env_set(id, "PATH", entrance_config->session_path);
+   entrance_pam_env_set(id, "DISPLAY", _sessions[id]->display);
+   entrance_pam_env_set(id, "MAIL=/var/mail/%s", pwd->pw_name);
+   entrance_pam_env_set(id, "XAUTHORITY", cookie);
+   entrance_pam_env_set(id, "XDG_SEAT", seat);
+   entrance_pam_env_set(id, "XDG_SESSION_CLASS", "user");
+   entrance_pam_env_set(id, "XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
+   entrance_pam_env_set(id, "XDG_VTNR", vtnr);
 }
 #endif
 
