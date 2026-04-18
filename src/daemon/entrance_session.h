@@ -48,7 +48,12 @@ void entrance_sessions_shutdown();
  */
 Eina_Bool entrance_session_authenticate(int id, const char *login, const char *pwd);
 
-void entrance_session_close(Eina_Bool opened);
+/**
+ * @brief Close a specific session
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ */
+void entrance_session_close(int id);
 
 /**
  * @brief Start a x11 or wayland desktop shell login session
