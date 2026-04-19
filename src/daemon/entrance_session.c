@@ -273,7 +273,7 @@ void
 entrance_session_close(int id)
 {
 #ifdef HAVE_PAM
-   entrance_pam_close_session(EINA_TRUE);
+   entrance_pam_session_close(id);
    entrance_pam_end();
    entrance_pam_shutdown();
 #endif
