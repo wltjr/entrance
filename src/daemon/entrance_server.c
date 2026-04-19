@@ -107,13 +107,13 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
                }
 #ifdef HAVE_PAM
              else
-               entrance_pam_end();
+               entrance_pam_end(eev->event.auth.id);
 #endif
           }
         else
           {
 #ifdef HAVE_PAM
-             entrance_pam_end();
+             entrance_pam_end(eev->event.auth.id);
 #endif
              neev.event.status.login = NULL;
              neev.event.status.granted = EINA_FALSE;
