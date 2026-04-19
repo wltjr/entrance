@@ -92,6 +92,13 @@ void entrance_pam_shutdown(void);
 void entrance_pams_shutdown();
 
 /**
+ * @brief Close a specific PAM session
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ */
+void entrance_pam_session_close(int id);
+
+/**
  * @brief Start pam session management
  *
  * @param id of session in array, index value for now, could be seat id later
@@ -100,7 +107,6 @@ void entrance_pams_shutdown();
  */
 int entrance_pam_session_open(int id);
 
-void entrance_pam_close_session(Eina_Bool opened);
 int entrance_pam_end(void);
 
 #endif /* ENTRANCE_PAM_H_ */
