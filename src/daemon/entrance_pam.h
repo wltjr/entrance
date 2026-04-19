@@ -22,6 +22,15 @@ typedef enum ENTRANCE_PAM_ITEM_TYPE_ {
 int entrance_pam_authenticate(int id);
 
 /**
+ * @brief termination of PAM transaction
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return int 0 on successful login, 1 if it fails
+ */
+int entrance_pam_end(int id);
+
+/**
  * @brief Get PAM environment variables list
  *
  * @param id of session in array, index value for now, could be seat id later
@@ -118,7 +127,5 @@ int entrance_pam_session_open(int id);
  * @param id of session in array, index value for now, could be seat id later
  */
 void entrance_pam_shutdown(int id);
-
-int entrance_pam_end(void);
 
 #endif /* ENTRANCE_PAM_H_ */
