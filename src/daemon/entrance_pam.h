@@ -22,6 +22,15 @@ typedef enum ENTRANCE_PAM_ITEM_TYPE_ {
 int entrance_pam_authenticate(int id);
 
 /**
+ * @brief Get PAM environment variables list
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return char** list of environment variables
+ */
+char **entrance_pam_env_list_get(int id);
+
+/**
  * @brief Set PAM session environment variable
  *
  * @param id of session in array, index value for now, could be seat id later
@@ -52,8 +61,6 @@ const void *entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type);
  * @return int 0 on successful login, 1 if it fails
  */
 int entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value);
-
-char **entrance_pam_env_list_get(void);
 
 /**
  * @brief Set the password for PAM authentication
