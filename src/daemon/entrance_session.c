@@ -244,7 +244,7 @@ _entrance_session_run(int id,
         
         /* Clean up PAM in child before exec */
 #ifdef HAVE_PAM
-        entrance_pam_end();
+        entrance_pam_end(id);
 #endif
         
         snprintf(buf, sizeof(buf), "%s/.entrance_session.log", pwd->pw_dir);
@@ -274,7 +274,7 @@ entrance_session_close(int id)
 {
 #ifdef HAVE_PAM
    entrance_pam_session_close(id);
-   entrance_pam_end();
+   entrance_pam_end(id);
    entrance_pam_shutdown(id);
 #endif
 }
