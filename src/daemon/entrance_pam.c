@@ -251,13 +251,13 @@ entrance_pam_env_list_get(void)
 }
 
 void
-entrance_pam_shutdown(void)
+entrance_pam_shutdown(int id)
 {
-    if(_pams[0])
+    if(_pams[id])
     {
-        free(_pams[0]->passwd);
-        _pams[0]->passwd = NULL;
-        free(_pams[0]);
+        free(_pams[id]->passwd);
+        _pams[id]->passwd = NULL;
+        free(_pams[id]);
     }
 }
 
