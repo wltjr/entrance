@@ -245,9 +245,9 @@ entrance_pam_env_set(int id, const char *env, const char *value)
 }
 
 char **
-entrance_pam_env_list_get(void)
+entrance_pam_env_list_get(int id)
 {
-   return pam_getenvlist(_pams[0]->handle);
+   return pam_getenvlist(_pams[id]->handle);
 }
 
 void
