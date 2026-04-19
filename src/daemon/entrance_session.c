@@ -176,7 +176,7 @@ _entrance_session_run(int id,
         _entrance_session_pam_env_set(id, pwd, cookie, is_wayland);
 
         /* Retrieve final PAM environment with our vars */
-        env = entrance_pam_env_list_get();
+        env = entrance_pam_env_list_get(id);
 #else
         int n = 0;
         char *term = getenv("TERM");
