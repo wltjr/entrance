@@ -85,20 +85,20 @@ entrance_pam_session_open(int id)
 }
 
 void
-entrance_pam_close_session(const Eina_Bool opened)
+entrance_pam_session_close(int id)
 {
-   PT("PAM close session");
-   _pams[0]->last_result = pam_close_session(_pams[0]->handle, PAM_SILENT);
-   if(_pams[0]->last_result!=PAM_SUCCESS)
+   PT("PAM close session #%d", id);
+   _pams[id]->last_result = pam_close_session(_pams[id]->handle, PAM_SILENT);
+   if(_pams[id]->last_result!=PAM_SUCCESS)
      {
-       PT("error on close session");
-       pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
+       PT("error on close session #%d", id);
+       pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
        entrance_pam_end();
      }
-   else if (opened)
+   else if (_pams[id]->opened)
      {
-       _pams[0]->last_result = pam_setcred(_pams[0]->handle, PAM_DELETE_CRED);
-       if(_pams[0]->last_result!=PAM_SUCCESS)
+       _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
+       if(_pams[id]->last_result!=PAM_SUCCESS)
          entrance_pam_end();
      }
 }
