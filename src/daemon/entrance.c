@@ -790,7 +790,6 @@ main (int argc, char ** argv)
     }
     entrance_sessions_shutdown();
 #ifdef HAVE_PAM
-   entrance_pam_shutdown();
    entrance_pams_shutdown();
    PT("pam shutdown");
 #endif
