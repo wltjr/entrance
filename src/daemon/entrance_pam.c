@@ -78,7 +78,7 @@ entrance_pam_session_open(int id)
    if(_pams[id]->last_result!=PAM_SUCCESS)
      {
        pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
-       entrance_pam_end();
+       entrance_pam_end(id);
      }
    _pams[id]->opened = EINA_TRUE;
    return 0;
@@ -93,22 +93,22 @@ entrance_pam_session_close(int id)
      {
        PT("error on close session #%d", id);
        pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
-       entrance_pam_end();
+       entrance_pam_end(id);
      }
    else if (_pams[id]->opened)
      {
        _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
        if(_pams[id]->last_result!=PAM_SUCCESS)
-         entrance_pam_end();
+         entrance_pam_end(id);
      }
 }
 
 int
-entrance_pam_end(void)
+entrance_pam_end(int id)
 {
    int result;
-   result = pam_end(_pams[0]->handle, _pams[0]->last_result);
-   _pams[0]->handle = NULL;
+   result = pam_end(_pams[id]->handle, _pams[id]->last_result);
+   _pams[id]->handle = NULL;
    return result;
 }
 
@@ -121,7 +121,7 @@ entrance_pam_authenticate(int id)
       case PAM_ABORT:
       case PAM_AUTHINFO_UNAVAIL:
          PT("PAM error !");
-         entrance_pam_end();
+         entrance_pam_end(id);
          return 1;
       case PAM_USER_UNKNOWN:
          PT("PAM user unknown error !");
@@ -150,11 +150,11 @@ entrance_pam_authenticate(int id)
      {
       case PAM_ACCT_EXPIRED:
          PT("PAM user acct expired error");
-         entrance_pam_end();
+         entrance_pam_end(id);
          return 1;
       case PAM_USER_UNKNOWN:
          PT("PAM user unknown error");
-         entrance_pam_end();
+         entrance_pam_end(id);
          return 1;
       case PAM_AUTH_ERR:
          PT("PAM auth error");
@@ -188,7 +188,7 @@ entrance_pam_start(int id, const char *service, const char *tty, const char *use
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, &id };
 
-   if (_pams[id] && _pams[id]->handle) entrance_pam_end();
+   if (_pams[id] && _pams[id]->handle) entrance_pam_end(id);
    _pams[id] = calloc(1, sizeof(Entrance_Pam));
    _pams[id]->opened = EINA_FALSE;
    status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[id]->handle);
@@ -224,7 +224,7 @@ entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type)
    if(_pams[id]->last_result!=PAM_SUCCESS)
      {
         PT("error on pam item get");
-        entrance_pam_end();
+        entrance_pam_end(id);
      }
    return data;
 }
@@ -238,7 +238,7 @@ entrance_pam_env_set(int id, const char *env, const char *value)
    _pams[id]->last_result = pam_putenv(_pams[id]->handle, buf);
    if(_pams[id]->last_result!=PAM_SUCCESS)
      {
-       entrance_pam_end();
+       entrance_pam_end(id);
        return 1;
      }
    return 0;
