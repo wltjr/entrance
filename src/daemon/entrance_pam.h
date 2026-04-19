@@ -84,8 +84,6 @@ void entrance_pams_init(int count);
  */
 Eina_Bool entrance_pam_start(int id, const char *service, const char *tty, const char *user);
 
-void entrance_pam_shutdown(void);
-
 /**
  * @brief Shutdown all pams ( free array pointer, may have other usage later )
  */
@@ -106,6 +104,13 @@ void entrance_pam_session_close(int id);
  * @return int 0 on successful login, 1 if it fails
  */
 int entrance_pam_session_open(int id);
+
+/**
+ * @brief Shutdown PAM, free's per pam memory, password and struct pointer
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ */
+void entrance_pam_shutdown(int id);
 
 int entrance_pam_end(void);
 
