@@ -13,6 +13,7 @@
 
 typedef struct Entrance_Client_
 {
+    long id;
     pid_t pid;
     const char *display;
     Ecore_Exe *exe;
@@ -303,10 +304,11 @@ _entrance_start_client(int id, const char *display)
         return;
     }
     _entrance_clients[id] = calloc(1, sizeof(Entrance_Client));
+    _entrance_clients[id]->id = id;
 
    PT("starting client %d...", id);
    _entrance_client_handlers_del(id); // maybe unecessary
-   h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, &id);
+   h = ecore_event_handler_add(ECORE_EXE_EVENT_DEL, _entrance_client_del, &_entrance_clients[id]->id);
    _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
    h = ecore_event_handler_add(ECORE_EXE_EVENT_ERROR, _entrance_client_error, NULL);
    _entrance_clients[id]->handlers = eina_list_append(_entrance_clients[id]->handlers, h);
