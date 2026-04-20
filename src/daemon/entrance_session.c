@@ -368,6 +368,8 @@ entrance_session_start(int id, const char *display, int vt)
     _sessions[id]->display = display;
     _sessions[id]->vt = vt;
     _sessions[id]->pid = 0;
+
+    entrance_session_cookie(id);
 }
 
 void
