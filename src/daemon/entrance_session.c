@@ -272,16 +272,6 @@ _entrance_session_run(int id,
 }
 
 void
-entrance_session_close(int id)
-{
-#ifdef HAVE_PAM
-   entrance_pam_session_close(id);
-   entrance_pam_end(id);
-   entrance_pam_shutdown(id);
-#endif
-}
-
-void
 entrance_sessions_init(int count)
 {
     _sessions = (Entrance_Session**) calloc(count, sizeof(Entrance_Session*));
