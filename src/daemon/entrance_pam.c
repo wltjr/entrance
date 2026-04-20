@@ -7,6 +7,7 @@
 
 typedef struct Entrance_Pam_
 {
+    long id;
     char *passwd;
     int last_result;
     Eina_Bool opened;
@@ -186,11 +187,13 @@ entrance_pam_start(int id, const char *service, const char *tty, const char *use
 
    if (!tty || !*tty) goto pam_error;
 
-   struct pam_conv pam_conversation = { _entrance_pam_conv, &id };
-
    if (_pams[id] && _pams[id]->handle) entrance_pam_end(id);
    _pams[id] = calloc(1, sizeof(Entrance_Pam));
+   _pams[id]->id = id;
    _pams[id]->opened = EINA_FALSE;
+
+   struct pam_conv pam_conversation = { _entrance_pam_conv, &_pams[id]->id };
+
    status = pam_start(service ? service : PACKAGE, user, &pam_conversation, &_pams[id]->handle);
    if (status != 0) goto pam_error;
    status = entrance_pam_item_set(id, ENTRANCE_PAM_ITEM_TTY, tty);
