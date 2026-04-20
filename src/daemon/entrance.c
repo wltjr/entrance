@@ -475,7 +475,6 @@ _entrance_xserver_start(int id)
 
     PT("session init for seat%d", id);
     entrance_session_start(id, display, vtnr);
-    entrance_session_cookie(id);
 
     pid = entrance_xserver_start(id, _entrance_start_client, display, vtnr);
 
@@ -718,7 +717,6 @@ main (int argc, char ** argv)
         entrance_session_start(0,
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
-        entrance_session_cookie(0);
         _entrance_start_client(0, entrance_config->command.xdisplay);
    }
 
@@ -739,7 +737,6 @@ main (int argc, char ** argv)
         entrance_session_start(0,
                                entrance_config->command.xdisplay,
                                entrance_config->command.vtnr);
-        entrance_session_cookie(0);
         entrance_session_login(0, entrance_config->session, EINA_FALSE);
         sleep(30);
         xcb_disconnect(disp);
