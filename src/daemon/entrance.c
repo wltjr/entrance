@@ -757,6 +757,9 @@ main (int argc, char ** argv)
    entrance_server_init(_entrance_uid, _entrance_gid);
    PT("starting main loop");
    ecore_main_loop_begin();
+#ifdef HAVE_LOGIND
+   entrance_logind_monitor_stop();
+#endif
    PT("main loop end");
    _entrance_clients_shutdown();
    entrance_server_shutdown();
@@ -774,9 +777,6 @@ main (int argc, char ** argv)
         }
         entrance_xservers_shutdown();
      }
-#ifdef HAVE_LOGIND
-   entrance_logind_monitor_stop();
-#endif
     for(int i = 0; i < _entrance_seat_count; i++)
     {
         entrance_session_shutdown(i);
