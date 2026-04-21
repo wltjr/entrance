@@ -640,6 +640,7 @@ main (int argc, char ** argv)
      return 0;
 
    eina_init();
+   eina_log_color_disable_set(EINA_FALSE); // force color logging
    eina_log_threads_enable();
    ecore_init();
    _entrance_log = eina_log_domain_register("entrance", EINA_COLOR_CYAN);
