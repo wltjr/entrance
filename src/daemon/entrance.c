@@ -77,26 +77,12 @@ static const Ecore_Getopt options =
 static Eina_Bool
 _entrance_autologin_lock_get(void)
 {
-   FILE *f;
-   double sleep_time;
-   double uptime;
-   struct stat st_login;
+    struct stat st_login;
 
-   f = fopen("/proc/uptime", "r");
-   if (f)
-     {
-        char buf[4096];
-
-        fgets(buf,  sizeof(buf), f);
-        if(sscanf(buf, "%lf %lf", &uptime, &sleep_time) <= 0)
-          PT("Could not read uptime input stream");
-        fclose(f);
-        if (stat("/var/run/entrance/login", &st_login) > 0)
-           return EINA_FALSE;
-        else
-           return EINA_TRUE;
-     }
-   return EINA_FALSE;
+    if (stat("/var/run/entrance/login", &st_login) == 0)
+        return EINA_TRUE;
+    else
+        return EINA_FALSE;
 }
 
 static void
