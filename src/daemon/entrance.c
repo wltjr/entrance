@@ -88,7 +88,7 @@ _entrance_autologin_lock_get(void)
         char buf[4096];
 
         fgets(buf,  sizeof(buf), f);
-        if(fscanf(f, "%lf %lf", &uptime, &sleep_time) <= 0)
+        if(sscanf(buf, "%lf %lf", &uptime, &sleep_time) <= 0)
           PT("Could not read uptime input stream");
         fclose(f);
         if (stat("/var/run/entrance/login", &st_login) > 0)
