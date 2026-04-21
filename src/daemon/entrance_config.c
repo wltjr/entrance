@@ -134,7 +134,6 @@ _cache_get(void)
 static void
 _config_free(Entrance_Config *config)
 {
-   PT("Config free");
    eina_stringshare_del(config->session);
    eina_stringshare_del(config->session_path);
    eina_stringshare_del(config->command.xinit_path);
