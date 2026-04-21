@@ -79,7 +79,7 @@ _entrance_autologin_lock_get(void)
 {
     struct stat st_login;
 
-    if (stat("/var/run/entrance/login", &st_login) == 0)
+    if (stat(PACKAGE_CACHE"/login", &st_login) == 0)
         return EINA_TRUE;
     else
         return EINA_FALSE;
