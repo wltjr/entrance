@@ -71,7 +71,7 @@ fi
 
 echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
-/usr/sbin/entrance &>/dev/null & disown
+/usr/sbin/entrance & disown
 
 sleep_and_kill
 cat_and_rm
@@ -95,7 +95,7 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|Enlightenment|Xsession|" \
 	/etc/entrance/entrance.conf
 
-/usr/sbin/entrance &>/dev/null & disown
+/usr/sbin/entrance & disown
 
 sleep_and_kill
 cat_and_rm
