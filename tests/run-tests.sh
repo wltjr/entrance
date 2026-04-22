@@ -1,5 +1,7 @@
 #!/bin/bash
-# wrapper to run entrance with env vars
+#
+# Script to run and test various components of both entrance and entrance_client
+# binaries, and when under CI, generate code coverage reports for use.
 
 cat_and_rm() {
     LOG="/var/log/entrance.log"
