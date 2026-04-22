@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Script to run entrance under Xephyr, intended to be run inside a docker
+# container. It can be used outside, but may interfere with local system.
 
 SOCKET="/tmp/.ecore_service|entrance|43"
 
@@ -18,7 +21,7 @@ ENTRANCE=${ENTRANCE:-/usr/sbin/entrance}
 [[ -d build ]] && cd build
 
 if [[ ! -f /usr/sbin/entrance ]]; then
-	echo "/usr/sbin/entrance does not exist, run ./utils/local_build_docker.sh"
+	echo "/usr/sbin/entrance does not exist, run ./utils/build_in_docker.sh"
 	exit 1
 fi
 
