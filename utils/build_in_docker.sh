@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Script to build all variations of entrance and install one in docker for use
+# in development with or without Xephyr. This script is not used in CI.
 
 if [[ ! -f /.dockerenv ]]; then
  	echo "Only meant to be run inside docker container"
