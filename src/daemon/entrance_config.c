@@ -122,8 +122,7 @@ _cache_get(void)
      {
         PT(": Warning no configuration found! This must "
            "not append, we will go back to default configuration");
-        config = (Entrance_Config *) calloc(1, sizeof(Entrance_Config));
-        _defaults_set(config);
+        entrance_config_defaults_set(config);
      }
 
    eet_close(file);
@@ -152,6 +151,13 @@ _config_free(Entrance_Config *config)
    eina_stringshare_del(config->logfile);
    eina_stringshare_del(config->theme);
    free(config);
+}
+
+void
+entrance_config_defaults_set()
+{
+   entrance_config = (Entrance_Config *) calloc(1, sizeof(Entrance_Config));
+   _defaults_set(entrance_config);
 }
 
 void
