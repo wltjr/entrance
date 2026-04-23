@@ -9,3 +9,4 @@ rm -v /tmp/.ecore_service\|entrance\|*
 rm -v -r /tmp/.X11-unix/
 rm -v /var/run/entrance.*
 rm -v /var/log/entrance.log
+rm -v -r /var/cache/entrance/
