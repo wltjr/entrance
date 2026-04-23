@@ -640,6 +640,11 @@ main (int argc, char ** argv)
    entrance_config_init();
    if (!entrance_config)
      {
+        PT("No config file, setting defaults");
+        entrance_config_defaults_set();
+     }
+   if (!entrance_config)
+     {
         PT("No config loaded, sorry must quit ...");
         exit(1);
      }
