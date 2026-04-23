@@ -46,6 +46,11 @@ struct _Entrance_Config
    const char *start_user;
 };
 
+/**
+ * @brief Sets default configuration values
+ */
+void entrance_config_defaults_set();
+
 void entrance_config_init(void);
 void entrance_config_shutdown(void);
 void entrance_config_set(const Entrance_Conf_Gui_Event *conf);
