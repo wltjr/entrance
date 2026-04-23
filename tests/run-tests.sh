@@ -64,6 +64,9 @@ cp -v "$(dirname $0)/xorg.conf" /etc/X11/
 # create xsession, directory and desktop file
 "$(dirname $0)/../utils/create_xsession.sh"
 
+# rename config file to test error handling and defaults
+mv -v /etc/entrance/entrance.conf /etc/entrance/entrance.conf.tmp
+
 #Fix permissions for CI code coverage to allow entrance user/nobody access
 umask 000
 if [[ -d "./build" ]]; then
@@ -92,6 +95,7 @@ cat_and_rm
 
 echo -e "\e[1;35m${0} Test autologin\e[0m"
 export HOME=/home/ubuntu
+mv -v /etc/entrance/entrance.conf.tmp /etc/entrance/entrance.conf
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	-e "s|Enlightenment|Xsession|" \
