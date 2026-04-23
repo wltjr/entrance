@@ -8,7 +8,7 @@ cat_and_rm() {
 
     if [[ -f ${LOG} ]]; then
         cat ${LOG}
-        rm -v ${LOG}
+        "$(dirname $0)/../utils/cleanup.sh"
         echo
         echo
     fi
