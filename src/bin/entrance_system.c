@@ -79,7 +79,7 @@ _entrance_system_logo_detect(void)
    if (strstr(_distro, "Gentoo"))
      icon_name = "distributor-logo-gentoo";
    else if (strstr(_distro, "Ubuntu"))
-     icon_name = "ubuntu";
+     icon_name = "ubuntu-logo";
    else if (strstr(_distro, "Debian"))
      icon_name = "debian";
    else if (strstr(_distro, "Arch"))
