@@ -682,7 +682,9 @@ main (int argc, char ** argv)
 
    PT("entrance init");
 
-   if(!_entrance_auto_login)
+   if(_entrance_auto_login)
+     _entrance_autologin_lock_set();
+   else
      _entrance_uid_gid_init();
 
 #ifdef HAVE_LOGIND
