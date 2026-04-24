@@ -82,7 +82,10 @@ _entrance_autologin_lock_get(void)
     if (stat(PACKAGE_CACHE"/login", &st_login) == 0)
         return EINA_TRUE;
     else
+    {
+        PT("Failed to get lock for autologin");
         return EINA_FALSE;
+    }
 }
 
 static void
