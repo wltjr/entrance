@@ -59,6 +59,8 @@ static void
 _entrance_system_logo_detect(void)
 {
    const char *paths[] = {
+      "/usr/share/icons/gentoo/64x64/",
+      "/usr/share/icons/gentoo/48x48/",
       "/usr/share/icons/hicolor/128x128/apps/",
       "/usr/share/icons/hicolor/64x64/apps/",
       "/usr/share/icons/Papirus/64x64/apps/",
@@ -77,7 +79,7 @@ _entrance_system_logo_detect(void)
    
    /* Map distro name to icon name */
    if (strstr(_distro, "Gentoo"))
-     icon_name = "distributor-logo-gentoo";
+     icon_name = "gentoo";
    else if (strstr(_distro, "Ubuntu"))
      icon_name = "ubuntu-logo";
    else if (strstr(_distro, "Debian"))
