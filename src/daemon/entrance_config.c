@@ -63,7 +63,7 @@ _conf_get(void)
    f = fopen(SYSTEM_CONFIG_DIR"/entrance/entrance.conf", "rb");
    if (!f)
      {
-        PT(PACKAGE": Could not open "SYSTEM_CONFIG_DIR"/entrance/entrance.conf");
+        PT("Failed to open "SYSTEM_CONFIG_DIR"/entrance/entrance.conf");
         return;
      }
 
@@ -97,7 +97,7 @@ _conf_get(void)
 
    fclose(f);
    if (eet_data_undump(ef, ENTRANCE_CONFIG_KEY, text, textlen, 1))
-     PT(PACKAGE": Updating configuration");
+     PT("Generating config cache file");
    free(text);
    eet_close(ef);
 }
@@ -112,7 +112,7 @@ _cache_get(void)
                    EET_FILE_MODE_READ);
    if (!file)
      {
-        PT("Error!!! On read "PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE);
+        PT("Failed to open "PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE);
         return NULL;
      }
 
@@ -120,8 +120,8 @@ _cache_get(void)
                           ENTRANCE_CONFIG_KEY);
    if (!config)
      {
-        PT(": Warning no configuration found! This must "
-           "not append, we will go back to default configuration");
+        PT("Warning no configuration found! This should "
+           "not happen, setting internal defaults.");
         entrance_config_defaults_set(config);
      }
 
