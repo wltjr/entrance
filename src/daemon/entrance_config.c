@@ -5,7 +5,7 @@
 #define ENTRANCE_CONFIG_KEY "config"
 
 static void _defaults_set(Entrance_Config *config);
-static void _users_get(void);
+static void _conf_get(void);
 static void _config_free(Entrance_Config *config);
 static Entrance_Config *_cache_get(void);
 
@@ -46,7 +46,7 @@ _defaults_set(Entrance_Config *config)
 
 
 static void
-_users_get(void)
+_conf_get(void)
 {
    Eet_File *ef;
    FILE *f;
@@ -205,12 +205,12 @@ entrance_config_init()
    _entrance_config_descriptor = edd;
 
    if (stat( PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE, &cache) == -1)
-     _users_get();
+     _conf_get();
    else
      {
        int stat_cache = stat(SYSTEM_CONFIG_DIR"/entrance/entrance.conf", &conf);
        if (stat_cache == 0 && cache.st_mtime < conf.st_mtime)
-         _users_get();
+         _conf_get();
      }
    entrance_config = _cache_get();
 }
