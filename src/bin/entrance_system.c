@@ -81,7 +81,7 @@ _entrance_system_logo_detect(void)
    else if (strstr(_distro, "Ubuntu"))
      icon_name = "ubuntu-logo";
    else if (strstr(_distro, "Debian"))
-     icon_name = "debian";
+     icon_name = "debian-logo";
    else if (strstr(_distro, "Arch"))
      icon_name = "archlinux";
    else if (strstr(_distro, "Fedora"))
