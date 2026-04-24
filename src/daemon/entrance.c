@@ -792,7 +792,6 @@ main (int argc, char ** argv)
    entrance_pams_shutdown();
    PT("pam shutdown");
 #endif
-   _entrance_autologin_lock_set();
    PT("ecore shutdown");
    ecore_shutdown();
    _remove_lock();
