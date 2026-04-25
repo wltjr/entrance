@@ -34,10 +34,6 @@ group "Entrance_Config" struct {
     value "suspend" string: "/usr/sbin/pm-suspend";
 
 
-   /** Start in daemon mode. This can be overriden by the command line
-     *  1 = True, 0 = False */
-    value "daemonize" uchar: 1;
-
     /* Enable numlock TODO support it */
     value "numlock" uchar: 1;
 
