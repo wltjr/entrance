@@ -61,10 +61,10 @@ group "Entrance_Config" struct {
     /* Log file */
     value "logfile" string: "/var/log/entrance.log";
 
-    /* Theme to use. This one could be overided if you permit setting below */
+    /* Theme to use. This one could be overridden if you permit setting below */
     value "theme" string: "default";
 
-    /* Allow settings in gui, who overides this one until it's updated */
+    /* Allow settings in gui, who overrides this one until it's updated */
     value "custom_conf" uchar: 1;
 
     /* background */
