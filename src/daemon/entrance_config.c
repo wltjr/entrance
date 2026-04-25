@@ -31,7 +31,6 @@ _defaults_set(Entrance_Config *config)
    config->command.shutdown = eina_stringshare_add("/usr/bin/shutdown -h now");
    config->command.reboot = eina_stringshare_add("/usr/bin/shutdown -r now");
    config->command.suspend = eina_stringshare_add("/usr/sbin/suspend");
-   config->daemonize = EINA_TRUE;
    config->numlock = EINA_FALSE;
    config->xsessions = EINA_TRUE;
    config->autologin = EINA_FALSE;
@@ -186,7 +185,6 @@ entrance_config_init()
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "shutdown", command.shutdown, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "reboot", command.reboot, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "suspend", command.suspend, EET_T_STRING);
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "daemonize", daemonize, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "numlock", numlock, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "xsessions", xsessions, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "autologin", autologin, EET_T_UCHAR);
