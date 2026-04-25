@@ -655,7 +655,7 @@ main (int argc, char ** argv)
 
    _entrance_auto_login = entrance_config->autologin;
 
-   if (!_xephyr && !_get_lock())
+   if (!_get_lock())
         exit(1);
 
    if (!_open_log())
