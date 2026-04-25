@@ -36,7 +36,6 @@ struct _Entrance_Config
         const char *group;
      } bg;
    Eina_Bool xsessions;
-   Eina_Bool daemonize;
    Eina_Bool numlock;
    Eina_Bool autologin;
    Eina_Bool custom_conf;
