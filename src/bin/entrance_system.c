@@ -36,8 +36,7 @@ _entrance_system_distro_detect(void)
              /* Remove quotes */
              char *v = value;
              if (*v == '"') v++;
-             v[sizeof(v) - 1] = '\0'; // guarantee null-terminated for strlen
-             char *end = v + strlen(v) - 1;
+             char *end = v + strnlen(v, 128) - 1;
              if (*end == '"') *end = '\0';
              
              if (!strcmp(key, "NAME"))
