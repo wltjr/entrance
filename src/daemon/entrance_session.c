@@ -337,8 +337,8 @@ entrance_session_cookie(int id)
     /* add the session/x server/seat id to the xauth filename   */
     xauth_file_ptr = xauth_file;
     snprintf(buf, sizeof(buf), "%s", entrance_config->command.xauth_file);  // copy for guarantee null-terminated for strlen
-    len = strlen(buf) - 4; // - .auth less 1, assumed
-    snprintf(xauth_file, len, "%s", entrance_config->command.xauth_file);
+    len = strnlen(buf, sizeof(buf)) - 4; // - .auth less 1, assumed
+    snprintf(xauth_file, len, "%s", buf);
     xauth_file_ptr += len - 1;
     len = PATH_MAX - 10; // padding for snprintf usage file_length-00.auth
     snprintf(xauth_file_ptr, len, "-%d.auth", id);
@@ -351,8 +351,7 @@ entrance_session_cookie(int id)
      }
    fclose(fp);
 
-   xauth_file[sizeof(buf) - 1] = '\0'; // guarantee null-terminated for strlen
-   snprintf(buf, sizeof(buf) - strlen(xauth_file), "XAUTHORITY=%s", xauth_file);
+   snprintf(buf, sizeof(buf) - strnlen(xauth_file, PATH_MAX), "XAUTHORITY=%s", xauth_file);
    /* Note: putenv takes ownership of string, don't free */
    putenv(strdup(buf));
    _entrance_session_cookie_add(_sessions[id]->mcookie,
