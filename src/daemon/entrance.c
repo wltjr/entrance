@@ -489,7 +489,7 @@ _get_lock()
              return (EINA_FALSE);
           }
         snprintf(buf, sizeof(buf), "%d", my_pid);
-        if (!fwrite(buf, strlen(buf), 1, f))
+        if (!fwrite(buf, strnlen(buf, sizeof(buf)), 1, f))
           {
              fclose(f);
              PT("Could not write the lockfile");
