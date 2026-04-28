@@ -628,6 +628,11 @@ main (int argc, char ** argv)
    if (quit_option)
      return 0;
 
+   /* force use of PACKAGE_CACHE, ECORE_CON_LOCAL_SYSTEM defaults to /tmp
+      ECORE_CON_LOCAL_USER defaults to order XDG_RUNTIME_DIR, HOME, TMPDIR */
+   setenv("XDG_RUNTIME_DIR", PACKAGE_CACHE, 1); // .ecore/entrance/port socket file
+   setenv("HOME", PACKAGE_CACHE, 1);            // .cache/ files and other
+
    eina_init();
    eina_log_color_disable_set(EINA_FALSE); // force color logging
    eina_log_threads_enable();
