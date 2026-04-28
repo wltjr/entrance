@@ -236,15 +236,15 @@ entrance_connect(int id, int port)
    entrance_event_init(_entrance_connect_read_cb,
                        _entrance_connect_write_cb,
                        NULL);
-   _entrance_connect = ecore_con_server_connect(ECORE_CON_LOCAL_SYSTEM,
+   _entrance_connect = ecore_con_server_connect(ECORE_CON_LOCAL_USER,
                                                 "entrance", port, NULL);
    if (!_entrance_connect)
      {
-       PT("client #%d failed to connect to server", id);
+       PT("client #%d failed to connect to server %d", id, port);
        return(EINA_FALSE);
      }
 
-   PT("client #%d connected to server", id);
+   PT("client #%d connected to server %d", id, port);
    _client_id = id;
    h = ecore_event_handler_add(ECORE_CON_EVENT_SERVER_ADD,
                                _entrance_connect_add, NULL);
