@@ -119,6 +119,11 @@ main(int argc, char **argv)
            return EXIT_FAILURE;
          }
      }
+
+   /* force use of PACKAGE_CACHE, ECORE_CON_LOCAL_SYSTEM defaults to /tmp
+      ECORE_CON_LOCAL_USER defaults to order XDG_RUNTIME_DIR, HOME, TMPDIR */
+   setenv("XDG_RUNTIME_DIR", PACKAGE_CACHE, 1); // .ecore/entrance/port socket file
+
    eina_init();
    if (!display)
      display = ":0";
