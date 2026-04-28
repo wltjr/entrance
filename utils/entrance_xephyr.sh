@@ -3,7 +3,7 @@
 # Script to run entrance under Xephyr, intended to be run inside a docker
 # container. It can be used outside, but may interfere with local system.
 
-SOCKET="/tmp/.ecore_service|entrance|43"
+SOCKET="/var/cache/entrance/.ecore/entrance/43"
 
 [[ -e "${SOCKET}" ]] && rm -v "${SOCKET}"
 
