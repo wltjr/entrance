@@ -178,20 +178,6 @@ entrance_connect_action_send(unsigned char id)
 }
 
 void
-entrance_connect_conf_gui_send(const Entrance_Conf_Gui_Event *ev)
-{
-   Entrance_Event eev;
-   PT("Send gui config");
-   eev.event.conf_gui.bg.path = ev->bg.path;
-   eev.event.conf_gui.bg.group = ev->bg.group;
-   eev.event.conf_gui.req_passwd = ev->req_passwd;
-   eev.event.conf_gui.theme = ev->theme;
-
-   eev.type = ENTRANCE_EVENT_CONF_GUI;
-   entrance_event_send(&eev);
-}
-
-void
 entrance_connect_conf_user_send(const Entrance_Login *el)
 {
    Entrance_Event eev;
