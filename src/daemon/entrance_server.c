@@ -139,11 +139,6 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
         PT("Action received");
         entrance_action_run(eev->event.action.action);
      }
-   else if (eev->type == ENTRANCE_EVENT_CONF_USER)
-     {
-        PT("Conf user received");
-        entrance_history_user_update(&eev->event.conf_user);
-     }
    else if (eev->type == ENTRANCE_EVENT_PID)
      {
         PT("PID received");
