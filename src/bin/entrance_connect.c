@@ -177,24 +177,6 @@ entrance_connect_action_send(unsigned char id)
    entrance_event_send(&eev);
 }
 
-void
-entrance_connect_conf_user_send(const Entrance_Login *el)
-{
-   Entrance_Event eev;
-   PT("Send user config");
-   eev.event.conf_user.login = el->login;
-   eev.event.conf_user.lsess = el->lsess;
-   eev.event.conf_user.image.group = el->image.group;
-   eev.event.conf_user.image.path = el->image.path;
-   eev.event.conf_user.bg.path = el->bg.path;
-   eev.event.conf_user.bg.group = el->bg.group;
-   eev.event.conf_user.icon_pool = NULL;
-   eev.event.conf_user.background_pool = NULL;
-   eev.event.conf_user.remember_session = el->remember_session;
-   eev.type = ENTRANCE_EVENT_CONF_USER;
-   entrance_event_send(&eev);
-}
-
 void *
 entrance_connect_auth_cb_add(Entrance_Connect_Auth_Cb func, void *data)
 {
