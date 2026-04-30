@@ -12,32 +12,6 @@ entire EFL community has repeatedly shunned entrance for years. Many incorrectly
 assume this version is the same as past versions, when many have never run or
 seen this version, please see [History](#history).
 
-There has been talk of making Enlightenment a login manager as many under
-Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
-has never been any efforts, and you are reduced to starting Enlightenment with
-some other DM like Light-DM, SDDM, etc, or startx. However, this is reliant on
-one person as so much of EFL and Enlightenment has been for decades, and the
-developer community has never grown.
-
-Maybe someday Enlightenment can log into itself, but in the years since 2017 to
-2026, and in foreseeable future in 2026, the way to log into Enlightenment
-Desktop is?
-
-Sadly, while EFL has much potential, its toxic community has shunned developers
-for years. All efforts with entrance have been frowned upon and discouraged
-since 2017, and development has continued, despite it all! It took almost
-10 years to get [another's](https://github.com/thewaiter)
-improved [efforts](https://github.com/wltjr/clipboard) into Enlightenment,
-and
-[re-written](https://github.com/Enlightenment/enlightenment/tree/master/src/modules/clipboard) upon addition.
-
-If entrance development will continue remains to be seen, there is new interest
-in entrance development, but like all other EFL app efforts, the future is
-unknown. Hopefully, this version of entrance will not face abandonment as past
-versions, and most EFL applications.
-
-The best tech does not always win, it can rise or fall based on communities!
-
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
 ## About
@@ -189,6 +163,34 @@ becomes more well defined.
   - [ ] Full wayland compositor support needed
 - theme for cursor
 - [ ] clean up codebase
+
+## Development Discouraged
+
+There has been talk of making Enlightenment a login manager as many under
+Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
+has never been any efforts, and you are reduced to starting Enlightenment with
+some other DM like Light-DM, SDDM, etc, or startx. However, this is reliant on
+one person as so much of EFL and Enlightenment has been for decades, and the
+developer community has never grown.
+
+Maybe someday Enlightenment can log into itself, but in the years since 2017 to
+2026, and in foreseeable future in 2026, the way to log into Enlightenment
+Desktop is?
+
+Sadly, while EFL has much potential, its toxic community has shunned developers
+for years. All efforts with entrance have been frowned upon and discouraged
+since 2017, and development has continued, despite it all! It took almost
+10 years to get [another's](https://github.com/thewaiter)
+improved [efforts](https://github.com/wltjr/clipboard) into Enlightenment,
+and
+[re-written](https://github.com/Enlightenment/enlightenment/tree/master/src/modules/clipboard) upon addition.
+
+If entrance development will continue remains to be seen, there is new interest
+in entrance development, but like all other EFL app efforts, the future is
+unknown. Hopefully, this version of entrance will not face abandonment as past
+versions, and most EFL applications.
+
+The best tech does not always win, it can rise or fall based on communities!
 
 ## History
 
