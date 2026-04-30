@@ -10,7 +10,7 @@ It is ALIVE! IT WORKS! (for me™).
 This version of entrance has worked in some form or another since 2017. The
 entire EFL community has repeatedly shunned entrance for years. Many incorrectly
 assume this version is the same as past versions, when many have never run or
-seen this version.
+seen this version, please see [History](#history).
 
 There has been talk of making Enlightenment a login manager as many under
 Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
@@ -48,42 +48,6 @@ session to launch upon successful login. Entrance is alive and working
 again for logging into X sessions and eventually Wayland sessions!
 
 The project has been resurrected from the dead to live on once again...
-
-## History
-
-Entrance is a long story. There have been 2 different code bases and
-projects both using the name entrance.
-
-### 3rd Generation
-
-This project is the 3rd generation, fork of the 2nd Generation code
-base, with a lot of fixes, and initial removal of incomplete and/or
-broken code. Rather than fix as is, we are looking to replace functionality
-with new code and finding different ways of accomplishing similar functionality.
-
-This generation is currently in development, and should be usable. Please open
-an [issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
-
-### 2nd Generation
-
-Sometime later another came along, [Michael Bouchaud](https://github.com/eyoz)/@eyoz
-who renamed his project elsa to Entrance, which is where the current code base
-came from. It is not known if this was ever completed or worked, it did not
-function correctly, if it is even usable to log in at all.
-
-The broken, incomplete, unmaintained 2nd Generation Entrance resides in Enlightenment's
-[entrance git repository](https://git.enlightenment.org/old/entrance).
-A branch may be added to this repository for historical purposes.
-
-### 1st Generation
-
-There was a project long ago that worked, and went
-[MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html).
-Copies of the sources for some releases are in some distro repositories. A copy
-has  been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a
-copy of the old entrance repo to add to this one for historical purposes. If you
-have a copy of the old Entrance repository, please  open an issue and provide a
-link. That would be greatly appreciated!
 
 ## Build
 
@@ -225,3 +189,39 @@ becomes more well defined.
   - [ ] Full wayland compositor support needed
 - theme for cursor
 - [ ] clean up codebase
+
+## History
+
+Entrance is a long story. There have been 2 different code bases and
+projects both using the name entrance.
+
+### 3rd Generation
+
+This project is the 3rd generation, fork of the 2nd Generation code
+base, with a lot of fixes, and initial removal of incomplete and/or
+broken code. Rather than fix as is, we are looking to replace functionality
+with new code and finding different ways of accomplishing similar functionality.
+
+This generation is currently in development, and should be usable. Please open
+an [issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
+
+### 2nd Generation
+
+Sometime later another came along, [Michael Bouchaud](https://github.com/eyoz)/@eyoz
+who renamed his project elsa to Entrance, which is where the current code base
+came from. It is not known if this was ever completed or worked, it did not
+function correctly, if it is even usable to log in at all.
+
+The broken, incomplete, unmaintained 2nd Generation Entrance resides in Enlightenment's
+[entrance git repository](https://git.enlightenment.org/old/entrance).
+A branch may be added to this repository for historical purposes.
+
+### 1st Generation
+
+There was a project long ago that worked, and went
+[MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html).
+Copies of the sources for some releases are in some distro repositories. A copy
+has  been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a
+copy of the old entrance repo to add to this one for historical purposes. If you
+have a copy of the old Entrance repository, please  open an issue and provide a
+link. That would be greatly appreciated!
