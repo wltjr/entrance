@@ -23,6 +23,45 @@ again for logging into X sessions and eventually Wayland sessions!
 
 The project has been resurrected from the dead to live on once again...
 
+## To-do
+
+Current todo list, this maybe revised for more accuracy as project direction
+becomes more well defined.
+
+### Primary
+
+- [ ] settings UI
+  - [ ] for user icon/bg/session
+  - [ ] for entrance.conf
+- [ ] refactor
+  - [ ] Uncalled code, identify never fired code paths
+  - [ ] User history and pretty much all of history
+  - [ ] Look over user icon/background
+  - [ ] Split desktop and session code in entrance_sessions
+  - [ ] Name uniformity on user/login/conf functions, vars etc.
+- [ ] max tries, need to uncomment code and check it works with theme/UI?
+- [-] [logind integration](#logindelogind-aka-systemd)
+  - [x] Multi-seat awareness (xserver/client per seat on start)
+    - [ ] Test > 1 seat
+    - [ ] Seat detection and management (add/remove seats)
+  - [-] VT number auto-detection (dynamic config value + seat id #)
+- [-] [wayland support](#wayland-display-sessions)
+  - [x] Basic detection and XDG_SESSION_TYPE=wayland set
+  - [x] Session type (X11/Wayland) support
+  - [ ] Full wayland compositor (entrance client)
+- [ ] virtual keyboard support
+- [ ] theme for cursor
+- [ ] write tests for uncovered code (may require test binaries)
+
+### Housekeeping
+
+- [ ] log output
+  - [ ] Standardize seat, #, port, etc.
+  - [ ] Ensure client/seat # in client/server communication log (passed in callback data)
+- [ ] clean up codebase
+  - [ ] Refactor imports system -> libs -> local
+  - [ ] Comment code (add comments to headers)
+
 ## Build
 
 Entrance presently uses meson build system.
@@ -144,25 +183,6 @@ mesa issues are resolved.
 
 It is not known how well this will work to launch other Desktop environments,
 but testing is welcomed!
-
-## To-do
-
-This isn't really an accurate todo list, but merging in legacy external TODO
-file contents, this maybe revised for more accuracy as project direction
-becomes more well defined.
-
-- [ ] logind integration (IN PROGRESS - core implementation done, needs testing, CI passing)
-  - [ ] Session tracking via sd_login APIs
-  - [ ] Seat detection and management
-  - [ ] VT number auto-detection
-  - [x] Session type (X11/Wayland) support
-  - [ ] Multi-seat awareness
-- virtual keyboard support
-- [-] Wayland support, client for DM and session
-  - [x] Basic detection and XDG_SESSION_TYPE=wayland set
-  - [ ] Full wayland compositor support needed
-- theme for cursor
-- [ ] clean up codebase
 
 ## Development Discouraged
 
