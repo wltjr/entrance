@@ -230,6 +230,9 @@ void
 entrance_connect_shutdown(void)
 {
    Ecore_Event_Handler *h;
+
+    if (_entrance_connect)
+        ecore_con_server_del(_entrance_connect);
    EINA_LIST_FREE(_handlers, h)
       ecore_event_handler_del(h);
    entrance_event_shutdown();
