@@ -57,8 +57,6 @@ _entrance_event_type_set(const char *type, void *data, Eina_Bool unknown)
      *ev = ENTRANCE_EVENT_AUTH;
    else if (!strcmp(type, ENTRANCE_EVENT_CONF_GUI_NAME))
      *ev = ENTRANCE_EVENT_CONF_GUI;
-   else if (!strcmp(type, ENTRANCE_EVENT_CONF_USER_NAME))
-     *ev = ENTRANCE_EVENT_CONF_USER;
    else if (!strcmp(type, ENTRANCE_EVENT_MAXTRIES_NAME))
      *ev = ENTRANCE_EVENT_MAXTRIES;
    else if (!strcmp(type, ENTRANCE_EVENT_PID_NAME))
@@ -96,8 +94,6 @@ _entrance_event_type_get(const void *data, Eina_Bool *unknown)
         return ENTRANCE_EVENT_AUTH_NAME;
       case ENTRANCE_EVENT_CONF_GUI:
         return ENTRANCE_EVENT_CONF_GUI_NAME;
-      case ENTRANCE_EVENT_CONF_USER:
-        return ENTRANCE_EVENT_CONF_USER_NAME;
       case ENTRANCE_EVENT_MAXTRIES:
         return ENTRANCE_EVENT_MAXTRIES_NAME;
       case ENTRANCE_EVENT_PID:
