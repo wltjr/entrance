@@ -16,6 +16,7 @@ struct Entrance_Fill_
 };
 
 ///////////////// LIST ///////////////////////////////
+/* Commented out until used in a theme
 static void
 _entrance_fill_list(Evas_Object *obj,
                     const Entrance_Fill *ef,
@@ -41,8 +42,10 @@ _entrance_fill_list(Evas_Object *obj,
      }
    elm_list_go(obj);
 }
+*/
 
 ///////////////// GENLIST /////////////////////////////
+/* Commented out until used in a theme
 static void
 _entrance_fill_genlist(Evas_Object *obj,
                        Entrance_Fill *ef,
@@ -78,6 +81,7 @@ _entrance_fill_genlist(Evas_Object *obj,
           fill_cb(content, it);
      }
 }
+*/
 
 ///////////////// GENGRID /////////////////////////////
 static void
@@ -212,13 +216,19 @@ entrance_fill(Evas_Object *obj,
    if (!obj) return;
    if ((type = elm_object_widget_type_get(obj)))
      {
+
+        /* Commented out until used in a theme
+
         if (!strcasecmp(type, "Elm.list") ||
             !strcasecmp(type, "Elm_List"))
           _entrance_fill_list(obj, ef, contents, fill_cb, func, data);
         else if (!strcasecmp(type, "Elm.Genlist") ||
                  !strcasecmp(type, "Elm_Genlist"))
           _entrance_fill_genlist(obj, ef, contents, fill_cb, func, data);
-        else if (!strcasecmp(type, "Elm.Gengrid") ||
+        else
+
+        */ 
+        if (!strcasecmp(type, "Elm.Gengrid") ||
                  !strcasecmp(type, "Elm_Gengrid"))
           _entrance_fill_gengrid(obj, ef, contents, fill_cb, func, data);
         else if (!strcasecmp(type, "Elm.Hoversel") ||
