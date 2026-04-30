@@ -9,7 +9,6 @@
 #define ENTRANCE_EVENT_ACTIONS_NAME "EntranceEventActions"
 #define ENTRANCE_EVENT_AUTH_NAME "EntranceEventAuth"
 #define ENTRANCE_EVENT_CONF_GUI_NAME "EntranceEventConfGui"
-#define ENTRANCE_EVENT_CONF_USER_NAME "EntranceEventConfUser"
 #define ENTRANCE_EVENT_MAXTRIES_NAME "EntranceEventMaxtries"
 #define ENTRANCE_EVENT_PID_NAME "EntranceEventPid"
 #define ENTRANCE_EVENT_POOLS_NAME "EntranceEventPools"
@@ -368,8 +367,6 @@ _entrance_event_new(void)
                                    _entrance_event_auth_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_CONF_GUI_NAME,
                                    _entrance_event_conf_gui_dd());
-   EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_CONF_USER_NAME,
-                                   _entrance_event_conf_user_dd(EINA_TRUE));
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_MAXTRIES_NAME,
                                    _entrance_event_maxtries_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_PID_NAME,
