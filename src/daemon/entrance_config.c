@@ -59,10 +59,10 @@ _conf_get(void)
    if (!ef)
      ef = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE,
                    EET_FILE_MODE_WRITE);
-   f = fopen(SYSTEM_CONFIG_DIR"/entrance/entrance.conf", "rb");
+   f = fopen(SYSTEM_CONFIG_DIR"/entrance/"ENTRANCE_CONFIG_FILE, "rb");
    if (!f)
      {
-        PT("Failed to open "SYSTEM_CONFIG_DIR"/entrance/entrance.conf");
+        PT("Failed to open "SYSTEM_CONFIG_DIR"/entrance/"ENTRANCE_CONFIG_FILE);
         return;
      }
 
@@ -206,7 +206,7 @@ entrance_config_init()
      _conf_get();
    else
      {
-       int stat_cache = stat(SYSTEM_CONFIG_DIR"/entrance/entrance.conf", &conf);
+       int stat_cache = stat(SYSTEM_CONFIG_DIR"/entrance/"ENTRANCE_CONFIG_FILE, &conf);
        if (stat_cache == 0 && cache.st_mtime < conf.st_mtime)
          _conf_get();
      }
