@@ -688,7 +688,6 @@ _entrance_gui_update(void)
         Evas_Object *bg = NULL;
         if (_gui->changed & ENTRANCE_CONF_WALLPAPER)
           {
-             PT("Set background %s - %s", _gui->bg.path, _gui->bg.group);
              bg = _entrance_gui_background_obj_get(screen->transition,
                                                    _gui->bg.path,
                                                    _gui->bg.group);
@@ -701,6 +700,7 @@ _entrance_gui_update(void)
                   eina_stringshare_replace(&_gui->bg.path, path);
                   eina_stringshare_replace(&_gui->bg.group, group);
                }
+             PT("Set background %s - %s", _gui->bg.path, _gui->bg.group);
              elm_object_part_content_set(screen->transition,
                                          ENTRANCE_EDJE_PART_WALLPAPER, bg);
              evas_object_del(screen->background);
