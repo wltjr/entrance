@@ -1,7 +1,8 @@
 #ifndef ENTRANCE_CONFIG_H_
 #define ENTRANCE_CONFIG_H_
 
-#define ENTRANCE_CONFIG_FILE        "entrance.cfg"
+#define ENTRANCE_CONFIG_CACHE_FILE  "entrance.cfg"
+#define ENTRANCE_CONFIG_FILE        "entrance.conf"
 
 typedef struct _Entrance_Config Entrance_Config;
 
