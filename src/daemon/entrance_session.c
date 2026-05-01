@@ -93,7 +93,6 @@ _entrance_session_userid_set(const struct passwd *pwd)
 static void
 _entrance_session_shell_set(struct passwd *pwd)
 {
-   PT("Detecting shell");
    if (pwd->pw_shell[0] == '\0')
      {
         const char *shell;
@@ -108,6 +107,7 @@ _entrance_session_shell_set(struct passwd *pwd)
           }
         endusershell();
      }
+   PT("User shell %s", pwd->pw_shell);
 }
 
 #ifdef HAVE_PAM
