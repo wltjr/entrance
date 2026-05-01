@@ -100,20 +100,6 @@ _entrance_history_write(void)
      }
 }
 
-const char *
-entrance_history_user_session_get(const char *login)
-{
-   Eina_List *l;
-   const Entrance_Login *el;
-
-   EINA_LIST_FOREACH(_entrance_history->history, l, el)
-     {
-        if (!strcmp(login, el->login))
-          return el->lsess;
-     }
-   return NULL;
-}
-
 void
 entrance_history_push(const char *login, const char *session)
 {
