@@ -54,10 +54,10 @@ _conf_get(void)
 
    if (!ecore_file_is_dir(PACKAGE_CACHE))
      ecore_file_mkdir(PACKAGE_CACHE);
-   ef = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE,
+   ef = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE,
                  EET_FILE_MODE_READ_WRITE);
    if (!ef)
-     ef = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE,
+     ef = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE,
                    EET_FILE_MODE_WRITE);
    f = fopen(SYSTEM_CONFIG_DIR"/entrance/entrance.conf", "rb");
    if (!f)
@@ -107,11 +107,11 @@ _cache_get(void)
    Entrance_Config *config = NULL;
    Eet_File *file;
 
-   file = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE,
+   file = eet_open(PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE,
                    EET_FILE_MODE_READ);
    if (!file)
      {
-        PT("Failed to open "PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE);
+        PT("Failed to open "PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE);
         return NULL;
      }
 
@@ -202,7 +202,7 @@ entrance_config_init()
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "autoselect_last_user", autoselect_last_user, EET_T_UCHAR);
    _entrance_config_descriptor = edd;
 
-   if (stat( PACKAGE_CACHE"/"ENTRANCE_CONFIG_FILE, &cache) == -1)
+   if (stat( PACKAGE_CACHE"/"ENTRANCE_CONFIG_CACHE_FILE, &cache) == -1)
      _conf_get();
    else
      {
