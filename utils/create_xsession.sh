@@ -11,10 +11,10 @@ done
 # create desktop file
 if [[ ! -f "${DESKTOP_FILE}"  ]]; then
     echo "[Desktop Entry]
-Name=XSession
+Name=Xsession
 Comment=Xsession
-Exec=/etc/entrance/Xsession /usr/bin/xeyes
-TryExec=/etc/entrance/Xsession /usr/bin/xeyes
+Exec=/usr/bin/xeyes
+TryExec=/usr/bin/xeyes
 Icon=user-desktop
 Type=Application
 " > "${DESKTOP_FILE}"
