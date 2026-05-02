@@ -1,14 +1,28 @@
-#include "entrance_client.h"
 #include <sys/utsname.h>
 #include <unistd.h>
+
+#include "entrance_client.h"
+
+/**
+ * Detect distro from /etc/os-release
+ */
+static void _entrance_system_distro_detect();
+
+/**
+ * Find distro logo in standard paths
+ */
+static void _entrance_system_logo_detect(void);
+
+/**
+ * Initialize system detection
+ */
+static void _entrance_system_init(void);
 
 static char *_hostname = NULL;
 static char *_distro = NULL;
 static char *_logo_path = NULL;
 
-/**
- * Detect distro from /etc/os-release
- */
+
 static void
 _entrance_system_distro_detect(void)
 {
@@ -51,9 +65,6 @@ _entrance_system_distro_detect(void)
    _distro = name ? name : strdup("Linux");
 }
 
-/**
- * Find distro logo in standard paths
- */
 static void
 _entrance_system_logo_detect(void)
 {
@@ -111,9 +122,6 @@ _entrance_system_logo_detect(void)
    _logo_path = NULL;
 }
 
-/**
- * Initialize system detection
- */
 static void
 _entrance_system_init(void)
 {
@@ -139,10 +147,6 @@ _entrance_system_init(void)
       _logo_path ? _logo_path : "none");
 }
 
-
-/**
- * Get distro name (lazy init)
- */
 const char *
 entrance_system_distro_get(void)
 {
@@ -152,9 +156,6 @@ entrance_system_distro_get(void)
    return _distro;
 }
 
-/**
- * Get distro logo path (lazy init)
- */
 const char *
 entrance_system_logo_get(void)
 {
