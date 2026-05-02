@@ -139,17 +139,6 @@ _entrance_system_init(void)
       _logo_path ? _logo_path : "none");
 }
 
-/**
- * Get system hostname (lazy init)
- */
-const char *
-entrance_system_hostname_get(void)
-{
-   if (!_hostname)
-     _entrance_system_init();
-   
-   return _hostname;
-}
 
 /**
  * Get distro name (lazy init)
