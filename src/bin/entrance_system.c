@@ -163,3 +163,14 @@ entrance_system_logo_get(void)
    
    return _logo_path;
 }
+
+void
+entrance_system_shutdown()
+{
+    if(_distro)
+        free(_distro);
+    if(_hostname)
+        free(_hostname);
+    if(_logo_path)
+        free(_logo_path);
+}
