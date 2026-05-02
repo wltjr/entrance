@@ -167,6 +167,7 @@ entrance_gui_init(const char *theme)
                        PT("Distro logo: %s (%s)", entrance_system_distro_get(), logo_path);
                     }
                }
+             entrance_system_shutdown();
 
              o = entrance_login_add(ol, screen);
              if (!o)
