@@ -103,6 +103,9 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 
 /usr/sbin/entrance & disown
 
+sleep 5
+killall -v xeyes
+
 sleep_and_kill
 cat_and_rm
 
