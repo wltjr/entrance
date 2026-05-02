@@ -77,18 +77,18 @@ _entrance_system_logo_detect(void)
      }
    
    /* Map distro name to icon name */
-   if (strstr(_distro, "Gentoo"))
-     icon_name = "gentoo";
-   else if (strstr(_distro, "Ubuntu"))
-     icon_name = "ubuntu-logo";
+   if (strstr(_distro, "Arch"))
+     icon_name = "archlinux";
    else if (strstr(_distro, "Debian"))
      icon_name = "debian-logo";
-   else if (strstr(_distro, "Arch"))
-     icon_name = "archlinux";
    else if (strstr(_distro, "Fedora"))
      icon_name = "fedora";
+   else if (strstr(_distro, "Gentoo"))
+     icon_name = "gentoo";
    else if (strstr(_distro, "openSUSE"))
      icon_name = "opensuse";
+   else if (strstr(_distro, "Ubuntu"))
+     icon_name = "ubuntu-logo";
    else
      icon_name = "distributor-logo";
    
