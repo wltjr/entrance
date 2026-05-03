@@ -8,6 +8,7 @@
 typedef struct Entrance_Gui_ Entrance_Gui;
 typedef struct Entrance_Screen_ Entrance_Screen;
 
+static Eina_List* _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile);
 static void _entrance_gui_user_sel_cb(void *data, Evas_Object *obj, void *event_info);
 static char *_entrance_gui_user_text_get(void *data, Evas_Object *obj, const char *part);
 static Evas_Object *_entrance_gui_user_content_get(void *data, Evas_Object *obj, const char *part);
@@ -277,9 +278,9 @@ entrance_gui_shutdown(void)
 }
 
 static Eina_List*
-_entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile, const char *mask)
+_entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile)
 {
-   //If srdfile is NULL we will set the src string to file, if not we will set the stdfile. And the src as group.
+   // If stdfile is NULL we will set the src string to file, if not we will set the stdfile. And the src as group.
    Eina_List *result = NULL;
    char *src_str;
 
@@ -290,16 +291,11 @@ _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile, cons
         img = calloc(1, sizeof(Entrance_Image));
         if (stdfile)
           {
-            if (mask)
-              {
-                 char path[PATH_MAX];
+            char path[PATH_MAX];
 
-                 snprintf(path, PATH_MAX, mask, src_str);
-                 img->group = eina_stringshare_add(path);
-                 eina_stringshare_del(src_str);
-              }
-            else
-              img->group = src_str;
+            snprintf(path, PATH_MAX, "entrance/user/%s", src_str);
+            img->group = eina_stringshare_add(path);
+            eina_stringshare_del(src_str);
             img->path = eina_stringshare_add(stdfile);
           }
         else
@@ -340,7 +336,7 @@ _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename)
    if (!o) return NULL;
    icons = entrance_gui_stringlist_get(edje_object_data_get(o, "items"));
    evas_object_del(edje);
-   return _entrance_gui_string_to_entrance_image(icons, buf, "entrance/user/%s");
+   return _entrance_gui_string_to_entrance_image(icons, buf);
 }
 
 Evas_Object *
