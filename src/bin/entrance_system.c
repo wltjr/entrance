@@ -49,10 +49,10 @@ _entrance_system_distro_detect(void)
           {
              /* Remove quotes */
              char *v = value;
-             if (*v == '"') v++;
-             char *end = v + strnlen(v, 128) - 1;
+             if (*v == '"') v++;                    // move from v[0] to v[1]
+             char *end = v + strnlen(v, 127) - 1;   // only 127 elements remain
              if (*end == '"') *end = '\0';
-             
+
              if (!strcmp(key, "NAME"))
                {
                   name = strdup(v);
