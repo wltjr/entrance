@@ -26,7 +26,9 @@ _xserver_start(const Entrance_Xserver *_xserver)
    char *buf = NULL;
    char **args = NULL;
    char *saveptr = NULL;
-   char vt[128] = {0};
+   char display[64] = {0};
+   char vt[64] = {0};
+   char xinit_path[PATH_MAX] = {0};
    pid_t pid;
 
    PT("Launching X server %ld", _xserver->id);
@@ -54,6 +56,11 @@ _xserver_start(const Entrance_Xserver *_xserver)
        token = strtok_r(NULL, " ", &saveptr);
      }
    free(buf);
+
+   // prevent cast from 'const char *' to 'char *' drops const qualifier
+   snprintf(display, sizeof(display), "%s", _xserver->display);
+   snprintf(xinit_path, sizeof(xinit_path), "%s", entrance_config->command.xinit_path);
+
    if (num_token)
      {
         if (!(abuf = strdup(entrance_config->command.xinit_args)))
@@ -63,7 +70,7 @@ _xserver_start(const Entrance_Xserver *_xserver)
              free(abuf);
              goto xserver_error;
           }
-        args[0] = (char *)entrance_config->command.xinit_path;
+        args[0] = xinit_path;
         token = strtok_r(abuf, " ", &saveptr);
         ++num_token;
         for(int i = 1; i < num_token; ++i)
@@ -75,7 +82,7 @@ _xserver_start(const Entrance_Xserver *_xserver)
         snprintf(vt, sizeof(vt), "vt%d", _xserver->vt);
         args[num_token] = vt;
         num_token++;
-        args[num_token] = (char *)_xserver->display;
+        args[num_token] = display;
         num_token++;
         args[num_token] = NULL;
      }
@@ -83,7 +90,7 @@ _xserver_start(const Entrance_Xserver *_xserver)
      {
         if (!(args = calloc(2, sizeof(char*))))
           goto xserver_error;
-        args[0] = (char *)entrance_config->command.xinit_path;
+        args[0] = xinit_path;
         args[1] = NULL;
      }
    PT("Executing: %s %s vt%d %s",
