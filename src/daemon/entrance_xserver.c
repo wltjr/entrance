@@ -160,6 +160,7 @@ entrance_xserver_shutdown(int id)
 void
 entrance_xservers_shutdown()
 {
-   free(_xservers);
+   if(_xservers)
+      free(_xservers);
    _xserver_count = 0;
 }
