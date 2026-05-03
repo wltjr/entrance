@@ -142,11 +142,10 @@ entrance_xserver_start(int id, Entrance_X_Cb start, const char *display, int vt)
    _xservers[id]->start = start;
    _xservers[id]->vt = vt;
    pid = _xserver_start(_xservers[id]);  /* Returns child X server PID */
-   PT("X server %d process started with pid %d", id, pid);
-   PT("X server %d adding signal user handler", id);
    _xservers[id]->handler_start = ecore_event_handler_add(ECORE_EVENT_SIGNAL_USER,
                                                           _xserver_started,
                                                            &(_xservers[id]->id));
+   PT("X server %d process started with pid %d", id, pid);
    return pid;
 }
 
