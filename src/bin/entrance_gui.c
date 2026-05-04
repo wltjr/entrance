@@ -608,12 +608,6 @@ entrance_gui_theme_name_set(const char *theme)
    _entrance_gui_theme_update();
 }
 
-const char *
-entrance_gui_theme_name_get(void)
-{
-   return _gui->theme;
-}
-
 Eina_List*
 entrance_gui_icon_pool_get(void)
 {
