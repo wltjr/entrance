@@ -598,16 +598,6 @@ entrance_gui_themes_get(void)
    return _gui->themes;
 }
 
-void
-entrance_gui_theme_name_set(const char *theme)
-{
-   if (!_gui->theme)
-     _gui->theme = eina_stringshare_add(theme);
-   else
-     eina_stringshare_replace(&_gui->theme, theme);
-   _entrance_gui_theme_update();
-}
-
 Eina_List*
 entrance_gui_icon_pool_get(void)
 {
