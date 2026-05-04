@@ -213,27 +213,6 @@ entrance_gui_init(const char *theme)
    return j;
 }
 
-static void
-_entrance_gui_theme_update(void)
-{
-   Eina_List *node;
-   Entrance_Screen *screen;
-   char buf[PATH_MAX];
-   snprintf(buf, sizeof(buf),
-            PACKAGE_DATA_DIR"/themes/%s.edj", _gui->theme);
-   EINA_LIST_FOREACH(_gui->screens, node, screen)
-     {
-        elm_layout_file_set(screen->transition, buf, ENTRANCE_EDJE_GROUP_WALLPAPER);
-        elm_layout_file_set(screen->edj, buf, ENTRANCE_EDJE_GROUP_ENTRANCE);
-        elm_layout_file_set(screen->login, buf, ENTRANCE_EDJE_GROUP_LOGIN);
-     }
-   _gui->theme_icon_pool =
-          _entrance_gui_theme_icons_cache_fill(_gui->win, _gui->theme);
-   _entrance_gui_actions_populate();
-   _entrance_gui_users_populate();
-
-}
-
 void
 entrance_gui_shutdown(void)
 {
