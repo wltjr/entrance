@@ -21,7 +21,6 @@ void entrance_gui_xsessions_set(Eina_List *users);
 const Eina_List *entrance_gui_xsessions_get(void);
 void entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf);
 Eina_List *entrance_gui_stringlist_get(const char *name);
-const char *entrance_gui_theme_name_get(void);
 void entrance_gui_theme_name_set(const char *theme);
 Eina_Bool entrance_gui_req_passwd_get(void);
 Eina_Bool entrance_gui_vkbd_enabled_get(void);
