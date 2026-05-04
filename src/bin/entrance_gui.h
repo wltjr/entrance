@@ -21,7 +21,6 @@ void entrance_gui_xsessions_set(Eina_List *users);
 const Eina_List *entrance_gui_xsessions_get(void);
 void entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf);
 Eina_List *entrance_gui_stringlist_get(const char *name);
-void entrance_gui_stringlist_free(Eina_List *list);
 const char *entrance_gui_theme_name_get(void);
 void entrance_gui_theme_name_set(const char *theme);
 void entrance_gui_background_get(const char **path, const char **group);
