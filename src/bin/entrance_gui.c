@@ -388,15 +388,6 @@ entrance_gui_stringlist_get(const char *str)
 }
 
 void
-entrance_gui_stringlist_free(Eina_List *list)
-{
-   const char *s;
-   EINA_LIST_FREE(list, s)
-      eina_stringshare_del(s);
-}
-
-
-void
 entrance_gui_actions_set(Eina_List *actions)
 {
    if (!actions) return;
