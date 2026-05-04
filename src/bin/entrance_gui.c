@@ -629,15 +629,6 @@ entrance_gui_theme_path_get(void)
    return eina_stringshare_add(buf);
 }
 
-void
-entrance_gui_background_get(const char **path, const char **group)
-{
-   if (path)
-     *path = _gui->bg.path;
-   if (group)
-     *group = _gui->bg.group;
-}
-
 Eina_Bool
 entrance_gui_req_passwd_get(void)
 {
