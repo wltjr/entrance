@@ -73,31 +73,21 @@ _conf_get(void)
      {
        text = (char *)malloc(textlen);
        if (!text)
-         {
-           fclose(f);
-           eet_close(ef);
-           return;
-         }
+         goto cleanup;
      }
    else
-     {
-       fclose(f);
-       eet_close(ef);
-       return;
-     }
+       goto cleanup;
 
    if (fread(text, textlen, 1, f) != 1)
-     {
-        free(text);
-        fclose(f);
-        eet_close(ef);
-        return;
-     }
+       goto cleanup;
 
-   fclose(f);
    if (eet_data_undump(ef, ENTRANCE_CONFIG_KEY, text, textlen, 1))
      PT("Generating config cache file");
-   free(text);
+
+   cleanup:
+   fclose(f);
+   if(text)
+      free(text);
    eet_close(ef);
 }
 
