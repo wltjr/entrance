@@ -256,14 +256,7 @@ _entrance_user_init(void)
             if (eu)
               {
                 eu->login = eina_stringshare_add(user);
-                if (!eu->login)
-                  {
-                    /* Failed to add login, cleanup */
-                    free(eu);
-                    eu = NULL;
-                  }
-                else
-                  eu->remember_session = EINA_TRUE;
+                eu->remember_session = EINA_TRUE;
               }
           }
         eina_stringshare_del(user);
