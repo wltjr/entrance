@@ -110,13 +110,6 @@ entrance_gui_init(const char *theme)
              const char *logo_path;
 
              ol = entrance_gui_theme_get(_gui->win, ENTRANCE_EDJE_GROUP_ENTRANCE);
-             if (!ol)
-               {
-                  PT("Tut Tut Tut no theme for entrance");
-                  evas_object_del(screen->transition);
-                  free(screen);
-                  return j;
-               }
              screen->edj = ol;
              elm_object_part_content_set(o, ENTRANCE_EDJE_PART_SCREEN, ol);
 
