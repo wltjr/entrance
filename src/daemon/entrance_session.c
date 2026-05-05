@@ -67,11 +67,6 @@ _entrance_session_cookie_add(const char *mcookie, const char *display,
 static int
 _entrance_session_userid_set(const struct passwd *pwd)
 {
-   if (!pwd)
-     {
-        PT("no passwd !");
-        return 1;
-     }
    if (initgroups(pwd->pw_name, pwd->pw_gid) != 0)
      {
         PT("can't init group");
