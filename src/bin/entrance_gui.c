@@ -81,11 +81,6 @@ entrance_gui_init(const char *theme)
 
    PT("Gui init: %s", theme);
    _gui = calloc(1, sizeof(Entrance_Gui));
-   if (!_gui)
-     {
-        PT("Not Enough memory");
-        return 1;
-     }
    _gui->theme = eina_stringshare_add(theme);
    _gui->autoselect_last_user = EINA_TRUE; /* Default to enabled */
 
@@ -100,7 +95,6 @@ entrance_gui_init(const char *theme)
         Evas_Object *o;
 
         screen = calloc(1, sizeof(Entrance_Screen));
-        if (!screen) return 1;
 
         /* layout */
          o = entrance_gui_theme_get(_gui->win, ENTRANCE_EDJE_GROUP_WALLPAPER);
