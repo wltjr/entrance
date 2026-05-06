@@ -18,7 +18,7 @@ typedef struct Entrance_Session_
     int vt;
     char *login;
     char *mcookie;
-    const char *display;
+    char *display;
 } Entrance_Session;
 
 static Eina_List *_xsessions = NULL;
@@ -359,7 +359,7 @@ void
 entrance_session_start(int id, const char *display, int vt)
 {
     _sessions[id] = (Entrance_Session*) calloc(1, sizeof(Entrance_Session));
-    _sessions[id]->display = display;
+    _sessions[id]->display = strdup(display);
     _sessions[id]->vt = vt;
     _sessions[id]->pid = 0;
 
@@ -371,6 +371,8 @@ entrance_session_shutdown(int id)
 {
     if(_sessions[id])
     {
+        if(_sessions[id]->display)
+            free(_sessions[id]->display);
         if(_sessions[id]->mcookie)
             free(_sessions[id]->mcookie);
         free(_sessions[id]);
