@@ -39,7 +39,7 @@ executable('entrance',
 	sources			: entrance_srcs,
 	include_directories	: entrance_incs,
 	dependencies		: entrance_deps,
-	gui_app			: true,
+	win_subsystem			: 'windows',
 	install			: true,
 	install_dir             : dir_sbin
 )
