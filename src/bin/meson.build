@@ -11,7 +11,7 @@ executable('entrance_client', [
 	],
 	include_directories	: [inc, top_inc],
 	dependencies		: [deps, ecore_x, ecore_file],
-	gui_app			: true,
+	win_subsystem			: 'windows',
 	install			: true,
 	install_dir             : dir_lib
 )
