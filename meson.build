@@ -3,7 +3,7 @@ project('entrance', 'c',
         version        : '3.0.0_alpha7',
         license        : 'GPL-3.0',
         default_options: [ 'c_std=gnu17' ],
-        meson_version  : '>= 0.40.0')
+        meson_version  : '>= 1.3.0')
 base_url = 'https://github.com/wltjr/'
 
 # global arguments
@@ -13,7 +13,7 @@ add_global_arguments('-W', language : 'c')
 cc       = meson.get_compiler('c')
 proj     = meson.project_name()
 ver      = meson.project_version()
-chmod    = join_paths(meson.source_root(), 'meson-chmod.sh')
+chmod    = join_paths(meson.project_source_root(), 'meson-chmod.sh')
 top_inc  = include_directories('.')
 
 # dependencies
@@ -37,7 +37,7 @@ endif
 ##### edje_cc binary compiler tool
 edje_cmd = get_option('edje-cc')
 if edje_cmd == ''
-  edje_cmd = join_paths(edje.get_pkgconfig_variable('prefix'),
+  edje_cmd = join_paths(edje.get_variable(pkgconfig : 'prefix'),
                         'bin', 'edje_cc')
 endif
 
@@ -89,7 +89,7 @@ configure_file(input  : 'data/entrance.conf.in',
 # OpenRC/Gentoo users should use their own init scripts
 systemd = dependency('systemd', required: false)
 if has_logind and systemd.found()
-	systemd_system_unit_dir = systemd.get_pkgconfig_variable('systemdsystemunitdir')
+	systemd_system_unit_dir = systemd.get_variable(pkgconfig : 'systemdsystemunitdir')
 	configure_file(input  : 'data/entrance.service.in',
                        output : 'entrance.service',
                        install_dir : systemd_system_unit_dir,
