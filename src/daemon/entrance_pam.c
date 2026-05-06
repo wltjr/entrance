@@ -90,13 +90,7 @@ entrance_pam_session_close(int id)
 {
    PT("PAM close session #%d", id);
    _pams[id]->last_result = pam_close_session(_pams[id]->handle, PAM_SILENT);
-   if(_pams[id]->last_result!=PAM_SUCCESS)
-     {
-       PT("error on close session #%d", id);
-       pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
-       entrance_pam_end(id);
-     }
-   else if (_pams[id]->opened)
+   if(_pams[id]->opened || _pams[id]->last_result!=PAM_SUCCESS)
      {
        _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_DELETE_CRED);
        if(_pams[id]->last_result!=PAM_SUCCESS)
