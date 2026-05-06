@@ -137,12 +137,6 @@ entrance_xserver_start(int id, Entrance_X_Cb start, const char *display, int vt)
    sigset_t newset;
    sigemptyset(&newset);
 
-   /* ensure we have at least 1 X server allocated, legacy support*/
-    if(!_xserver_count)
-    {
-        entrance_xservers_init(1);
-        id = 0;
-    }
    _xservers[id] = calloc(1, sizeof(Entrance_Xserver));
    _xservers[id]->id = id;
    _xservers[id]->display = eina_stringshare_add(display);
