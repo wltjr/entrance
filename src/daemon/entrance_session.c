@@ -296,11 +296,6 @@ entrance_session_cookie(int id)
     static const char *dig = "0123456789abcdef";
 
    _sessions[id]->mcookie = calloc(33, sizeof(char));
-   if (!_sessions[id]->mcookie)
-     {
-       PT("Failed to allocate memory for cookie");
-       return;
-     }
    _sessions[id]->mcookie[0] = 'a';
 
    long rand = 0;
