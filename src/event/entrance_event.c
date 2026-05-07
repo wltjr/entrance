@@ -2,9 +2,6 @@
 #include <Eet.h>
 #include "entrance_event.h"
 
-#define EET_LOGIN_ADD(NAME, TYPE) \
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, # NAME, NAME, TYPE)
-
 #define ENTRANCE_EVENT_ACTION_NAME "EntranceEventAction"
 #define ENTRANCE_EVENT_ACTIONS_NAME "EntranceEventActions"
 #define ENTRANCE_EVENT_AUTH_NAME "EntranceEventAuth"
@@ -262,13 +259,13 @@ _entrance_event_conf_user_dd(Eina_Bool stream)
    eddi = _entrance_event_image_dd();
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Login);
    edd = eet_data_descriptor_stream_new(&eddc);
-   EET_LOGIN_ADD(login, EET_T_STRING);
-   EET_LOGIN_ADD(image.path, EET_T_STRING);
-   EET_LOGIN_ADD(image.group, EET_T_STRING);
-   EET_LOGIN_ADD(bg.path, EET_T_STRING);
-   EET_LOGIN_ADD(bg.group, EET_T_STRING);
-   EET_LOGIN_ADD(lsess, EET_T_STRING);
-   EET_LOGIN_ADD(remember_session, EET_T_INT);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "login", login, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "image.path", image.path, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "image.group", image.group, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "bg.path", bg.path, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "bg.group", bg.group, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "lsess", lsess, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "remember_session", remember_session, EET_T_INT);
 
    if (stream)
      {
