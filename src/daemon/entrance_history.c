@@ -106,12 +106,11 @@ entrance_history_push(const char *login, const char *session)
    Eina_List *l;
    Entrance_Login *el;
 
-   PT("history push for user %s session %s", login, session);
    EINA_LIST_FOREACH(_entrance_history->history, l, el)
      {
         if (!strcmp(login, el->login))
           {
-             PT("History updating");
+             PT("History update entry for user %s session %s", login, session);
              if (el->remember_session)
                {
                   if (!session)
@@ -130,7 +129,7 @@ entrance_history_push(const char *login, const char *session)
      }
    if (!el)
      {
-        PT("History create a new entry for %s", login);
+        PT("History add entry for user %s session %s", login, session);
         el = calloc(1, sizeof(Entrance_Login));
         el->login = eina_stringshare_add(login);
         if (session)
