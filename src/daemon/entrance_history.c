@@ -157,40 +157,6 @@ _entrance_history_user_set(Entrance_Login *el, const Entrance_Login *eu)
      el->remember_session = eu->remember_session;
 }
 
-void
-entrance_history_user_update(const Entrance_Login *eu)
-{
-   Eina_List *l;
-   Entrance_Login *el;
-
-   PT("Updating user info");
-
-   EINA_LIST_FOREACH(_entrance_history->history, l, el)
-     {
-        if (!strcmp(eu->login, el->login))
-          {
-             PT("Find user in history");
-             _entrance_history_user_set(el, eu);
-            break;
-          }
-     }
-   if (!l)
-     {
-        EINA_LIST_FOREACH(_lusers, l, el)
-          {
-             if (!strcmp(eu->login, el->login))
-               {
-                  PT("Append user in history");
-                  _entrance_history_user_set(el, eu);
-                  _entrance_history->history = eina_list_append(_entrance_history->history, el);
-                  break;
-               }
-          }
-     }
-   _history_update = !!l;
-   _entrance_history_write();
-}
-
 Entrance_Login *
 _entrance_history_match(const char *login)
 {
