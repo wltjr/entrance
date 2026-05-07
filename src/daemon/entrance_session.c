@@ -484,7 +484,7 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
    _entrance_session_shell_set(pwd);
    
    snprintf(buf, sizeof(buf), "%s/.Xauthority", pwd->pw_dir);
-   if (history) entrance_history_push(pwd->pw_name, session);
+   if (history) entrance_history_check(pwd->pw_name, session);
    cmd = _entrance_session_find_command(pwd->pw_dir, session);
    if (!cmd)
      {
