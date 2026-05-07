@@ -131,23 +131,13 @@ entrance_history_push(const char *login, const char *session)
    if (!el)
      {
         PT("History create a new entry for %s", login);
-        if ((el = calloc(1, sizeof(Entrance_Login))))
-          {
-             el->login = eina_stringshare_add(login);
-             if (session) el->lsess = eina_stringshare_add(session);
-             el->remember_session = EINA_TRUE;
-             if (el->login)
-               {
-                 _entrance_history->history =
-                    eina_list_append(_entrance_history->history, el);
-                 _history_update = EINA_TRUE;
-               }
-             else
-               {
-                 /* Failed to add login, cleanup */
-                 free(el);
-               }
-          }
+        el = calloc(1, sizeof(Entrance_Login));
+        el->login = eina_stringshare_add(login);
+        if (session)
+            el->lsess = eina_stringshare_add(session);
+        el->remember_session = EINA_TRUE;
+        _entrance_history->history = eina_list_append(_entrance_history->history, el);
+        _history_update = EINA_TRUE;
      }
 }
 
