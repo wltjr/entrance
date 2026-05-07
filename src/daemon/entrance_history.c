@@ -8,7 +8,6 @@ static void _entrance_history_write(void);
 static void _entrance_user_init(void);
 static void _entrance_user_shutdown(void);
 Entrance_Login *_entrance_history_match(const char *login);
-static void _entrance_history_user_set(Entrance_Login *el, const Entrance_Login *eu);
 
 
 static Eet_Data_Descriptor *_eddh;
@@ -138,23 +137,6 @@ entrance_history_check(const char *login, const char *session)
         _entrance_history->history = eina_list_append(_entrance_history->history, el);
         _history_update = EINA_TRUE;
      }
-}
-
-static void
-_entrance_history_user_set(Entrance_Login *el, const Entrance_Login *eu)
-{
-   if (eu->lsess != el->lsess)
-     eina_stringshare_replace(&el->lsess, eu->lsess);
-   if (eu->image.path != el->image.path)
-     eina_stringshare_replace(&el->image.path, eu->image.path);
-   if (eu->image.group != el->image.group)
-     eina_stringshare_replace(&el->image.group, eu->image.group);
-   if (eu->bg.path != el->bg.path)
-     eina_stringshare_replace(&el->bg.path, eu->bg.path);
-   if (eu->bg.group != el->bg.group)
-     eina_stringshare_replace(&el->bg.group, eu->bg.group);
-   if (eu->remember_session != el->remember_session)
-     el->remember_session = eu->remember_session;
 }
 
 Entrance_Login *
