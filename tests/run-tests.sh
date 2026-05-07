@@ -107,6 +107,17 @@ sleep 5
 killall -v xeyes
 
 sleep_and_kill
+cat /var/log/entrance.log
+rm /var/log/entrance.log
+
+echo -e "\e[1;35m${0} Test autologin again\e[0m"
+
+/usr/sbin/entrance & disown
+
+sleep 5
+killall -v xeyes
+
+sleep_and_kill
 cat_and_rm
 
 echo -e "\e[1;35m${0} End Entrance Tests\e[0m"
