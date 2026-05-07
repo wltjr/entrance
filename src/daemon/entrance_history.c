@@ -101,7 +101,7 @@ _entrance_history_write(void)
 }
 
 void
-entrance_history_push(const char *login, const char *session)
+entrance_history_check(const char *login, const char *session)
 {
    Eina_List *l;
    Entrance_Login *el;
