@@ -106,6 +106,7 @@ entrance_gui_init(const char *theme)
              struct tm local_tm;
              struct tm tm;
              char date[64];
+             char version[64];
              struct utsname uname_str;
              const char *logo_path;
 
@@ -137,6 +138,10 @@ entrance_gui_init(const char *theme)
                          uname_str.machine);
                  elm_object_part_text_set (ol, ENTRANCE_EDJE_PART_UNAME, uname_value);
                }
+
+             /* version */
+             snprintf(version, sizeof(version), "v%s", VERSION);
+             elm_object_part_text_set (ol, ENTRANCE_EDJE_PART_VERSION, version);
 
              /* distro logo */
              logo_path = entrance_system_logo_get();
