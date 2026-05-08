@@ -51,14 +51,7 @@ entrance_logind_seat_get(const char *seat_name)
    if (!seat_name) seat_name = "seat0";
 
    seat = calloc(1, sizeof(Entrance_Logind_Seat));
-   if (!seat) return NULL;
-
    seat->name = strdup(seat_name);
-   if (!seat->name)
-     {
-       free(seat);
-       return NULL;
-     }
 
    /* Check capabilities */
    ret = sd_seat_can_graphical(seat_name);
