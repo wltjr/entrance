@@ -143,10 +143,9 @@ collections {
                fixed: 1 1;
                max: 0 0;
                min: BUTTON_ICON_SIZE;
-               align: 0 0;
-               rel1.offset: OFFSET 0;
-               rel2.relative: 0 0;
-               rel2.offset: 0 -OFFSET;
+               align: 0.5 1;
+               rel1.relative: 0 1;
+               rel2.offset: 0 14;
                params {
                   string: "icon" "system-log-out";
                }
@@ -154,10 +153,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
-                align: 0 1;
-                rel1.offset: OFFSET 0;
-                rel2.relative: 0 1;
-                rel2.offset: 0 -OFFSET;
+               rel2.offset: 0 -14;
             }
             description { state: "enabled" 0.0;
                inherit: "default" 0.5;
@@ -188,9 +184,12 @@ collections {
             effect: SOFT_SHADOW;
             description { state: "default" 0.0;
                fixed: 1 1;
-               align: 0.5 1;
+               align: 0 1;
+               color: 55 55 55 255;
                rel1.relative: 0 1;
-               rel2.offset: 0 OFFSET;
+               rel2.offset: 0 16;
+               max: 0 0;
+               min: 280 32;
                text {
                     size: 16;
                }
@@ -198,7 +197,7 @@ collections {
             description {
                state: "default" 0.5;
                inherit: "default" 0.0;
-               rel2.offset: 0 -OFFSET*3;
+               rel2.offset: 0 -16;
             }
          }
          text { name: ENTRANCE_EDJE_PART_VERSION;
