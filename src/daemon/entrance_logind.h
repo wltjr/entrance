@@ -14,9 +14,6 @@ typedef struct _Entrance_Logind_Seat
    char *active_session;        /* Currently active session ID */
 } Entrance_Logind_Seat;
 
-/* Shutdown logind integration */
-void entrance_logind_shutdown(void);
-
 /* Get seat information */
 Entrance_Logind_Seat *entrance_logind_seat_get(const char *seat_name);
 
