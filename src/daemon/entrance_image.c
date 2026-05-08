@@ -32,7 +32,7 @@ static Eina_List *
 _entrance_image_get(Eina_List *src)
 {
    Eina_List *result = NULL;
-   char *src_str;
+   const char *src_str;
    EINA_LIST_FREE(src, src_str)
      {
         Entrance_Image *img;
