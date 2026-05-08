@@ -24,6 +24,7 @@
 #define ENTRANCE_EDJE_PART_SCREEN               "entrance.screen"
 #define ENTRANCE_EDJE_PART_UNAME                "entrance.uname"
 #define ENTRANCE_EDJE_PART_USERS                "entrance.users"
+#define ENTRANCE_EDJE_PART_VERSION              "entrance.version"
 #define ENTRANCE_EDJE_PART_WALLPAPER            "entrance.wallpaper.default"
 #define ENTRANCE_EDJE_PART_XSESSIONS            "entrance.xsessions"
 
