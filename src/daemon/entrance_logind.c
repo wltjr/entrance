@@ -31,15 +31,6 @@ _entrance_logind_monitor_cb(void *data EINA_UNUSED, Ecore_Fd_Handler *fd_handler
    return ECORE_CALLBACK_RENEW;
 }
 
-void
-entrance_logind_shutdown(void)
-{
-   PT("Shutting down logind integration");
-   entrance_logind_monitor_stop();
-   
-   /* Note: Active session cleanup is handled by entrance_session_shutdown() */
-}
-
 Entrance_Logind_Seat *
 entrance_logind_seat_get(const char *seat_name)
 {
