@@ -68,10 +68,12 @@ collections {
             }
          }
          text { name: ENTRANCE_EDJE_PART_DATE;
-            description { state: "default" 0.0;
+            effect: SOFT_SHADOW;
+            description {
+               state: "default" 0.0;
                fixed: 1 1;
                align: 0 0;
-               color: 51 153 255 255;
+               color: 155 155 155 255;
                rel1.relative: 0 0;
                rel1.offset: -400 0;
                max: 400 72;
