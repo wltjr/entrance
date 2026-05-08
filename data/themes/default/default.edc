@@ -201,6 +201,27 @@ collections {
                rel2.offset: 0 -OFFSET*3;
             }
          }
+         text { name: ENTRANCE_EDJE_PART_VERSION;
+            effect: SOFT_SHADOW;
+            description {
+                state: "default" 0.0;
+                fixed: 1 1;
+                align: 0.5 1;
+                color: 55 55 55 255;
+                rel1.relative: 1 1;
+                rel2.offset: -150 16;
+                max: 140 32;
+                min: 140 32;
+                text {
+                    size: 16;
+                }
+            }
+            description {
+                state: "default" 0.5;
+                inherit: "default" 0.0;
+                rel2.offset: -150 -16;
+            }
+         }
 
       }
       programs {
@@ -213,6 +234,7 @@ collections {
             target: ENTRANCE_EDJE_PART_CLOCK;
             target: ENTRANCE_EDJE_PART_ACTIONS;
             target: ENTRANCE_EDJE_PART_UNAME;
+            target: ENTRANCE_EDJE_PART_VERSION;
          }
          program {
             name: "user_enabled";
