@@ -135,6 +135,7 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
         entrance_session_shutdown((int)id);
         _entrance_client_handlers_del((int)id);
         free(_entrance_clients[id]);
+        _entrance_clients[id] = NULL;
         PT("restarting X server %ld", id);
         _entrance_xserver_pids[id] = _entrance_xserver_start((int)id);
         PT("X server restarted pid %d", _entrance_xserver_pids[id]);
