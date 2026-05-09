@@ -290,7 +290,6 @@ entrance_session_cookie(int id)
     uint8_t hi;
     uint8_t lo;
     size_t len;
-    char *xauth_file_ptr;
     char buf[PATH_MAX];
     char xauth_file[PATH_MAX] = {0};
     static const char *dig = "0123456789abcdef";
@@ -325,13 +324,11 @@ entrance_session_cookie(int id)
      fclose(fp);
 
     /* add the session/x server/seat id to the xauth filename   */
-    xauth_file_ptr = xauth_file;
-    snprintf(buf, sizeof(buf), "%s", entrance_config->command.xauth_file);  // copy for guarantee null-terminated for strlen
-    len = strnlen(buf, sizeof(buf)) - 4; // - .auth less 1, assumed
-    snprintf(xauth_file, len, "%s", buf);
-    xauth_file_ptr += len - 1;
-    len = PATH_MAX - 10; // padding for snprintf usage file_length-00.auth
-    snprintf(xauth_file_ptr, len, "-%d.auth", id);
+    snprintf(xauth_file, sizeof(xauth_file), "%s", entrance_config->command.xauth_file);  // copy for guarantee null-terminated for strlen
+    len = strnlen(xauth_file, sizeof(xauth_file)) - 4; // - .auth less 1, assumed
+    snprintf(buf, len, "%s", xauth_file);
+    len = PATH_MAX - len - 10; // padding for snprintf usage file_length-00.auth
+    snprintf(xauth_file, len, "%s-%d.auth", buf, id);
 
    fp = fopen(xauth_file,"a+");
    if(!fp)
