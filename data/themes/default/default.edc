@@ -146,9 +146,9 @@ collections {
                fixed: 1 1;
                max: 0 0;
                min: BUTTON_ICON_SIZE;
-               align: 0.5 1;
+               align: 0.5 0;
                rel1.relative: 0 1;
-               rel2.offset: 0 14;
+               rel1.offset: 0 112;
                params {
                   string: "icon" "system-log-out";
                }
@@ -156,7 +156,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
-               rel2.offset: 0 -14;
+                rel1.relative: 0 0.5;
             }
             description { state: "enabled" 0.0;
                inherit: "default" 0.5;
