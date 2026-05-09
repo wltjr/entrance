@@ -168,9 +168,9 @@ collections {
                fixed: 1 1;
                align: 0.5 1;
                rel1.relative: 0.5 1;
-               rel1.offset: 0 -64;
+               rel1.offset: 0 96;
                rel2.relative: 0.5 1;
-               rel2.offset: 0 -64;
+               rel2.offset: 0 96;
                min: 48 48;
                max: 64 64;
                aspect: 1.0 1.0;
@@ -179,8 +179,8 @@ collections {
             description {
                state: "default" 0.5;
                inherit: "default" 0.0;
-               rel1.offset: 0 -54;
-               rel2.offset: 0 -54;
+               rel1.offset: 0 -96;
+               rel2.offset: 0 -96;
             }
          }
          text { name: ENTRANCE_EDJE_PART_UNAME;
@@ -235,6 +235,7 @@ collections {
             target: ENTRANCE_EDJE_PART_DATE;
             target: ENTRANCE_EDJE_PART_CLOCK;
             target: ENTRANCE_EDJE_PART_ACTIONS;
+            target: ENTRANCE_EDJE_PART_ICON;
             target: ENTRANCE_EDJE_PART_UNAME;
             target: ENTRANCE_EDJE_PART_VERSION;
          }
