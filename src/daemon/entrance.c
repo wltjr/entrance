@@ -104,8 +104,7 @@ _entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
    ev = event;
    size = ev->size;
 
-
-   if ((unsigned int)ev->size > sizeof(buf) - 1)
+   if (size > sizeof(buf) - 1)
      size = sizeof(buf) - 1;
 
    memcpy(buf, ev->data, size);
@@ -158,7 +157,7 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
    ev = event;
    size = ev->size;
 
-   if ((unsigned int)ev->size > sizeof(buf) - 1)
+   if (size > sizeof(buf) - 1)
      size = sizeof(buf) - 1;
 
    memcpy(buf, ev->data, size);
