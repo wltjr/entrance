@@ -13,6 +13,7 @@
 #define BUTTON_SIZE 120 36
 #define ENTRY_SIZE 360 36
 #define OFFSET 10
+#define TEXT_COLOR 155 155 155 255
 
 externals {
     external: "elm";
@@ -73,7 +74,7 @@ collections {
                state: "default" 0.0;
                fixed: 1 1;
                align: 0 0;
-               color: 155 155 155 255;
+               color: TEXT_COLOR;
                rel1.relative: 0 0;
                rel1.offset: -400 0;
                max: 400 72;
@@ -187,7 +188,7 @@ collections {
             description { state: "default" 0.0;
                fixed: 1 1;
                align: 0 1;
-               color: 55 55 55 255;
+               color: TEXT_COLOR;
                rel1.relative: 0 1;
                rel2.offset: 0 16;
                max: 0 0;
@@ -208,7 +209,7 @@ collections {
                 state: "default" 0.0;
                 fixed: 1 1;
                 align: 0.5 1;
-                color: 55 55 55 255;
+                color: TEXT_COLOR;
                 rel1.relative: 1 1;
                 rel2.offset: -150 16;
                 max: 140 32;
