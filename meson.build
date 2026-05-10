@@ -29,6 +29,16 @@ has_pam = get_option('pam')
 has_nls = get_option('nls')
 has_logind = get_option('logind')
 
+if has_logind
+	logind_dep = dependency('libelogind', required: false)
+	if not logind_dep.found()
+		logind_dep = dependency('libsystemd', required: false)
+	endif
+	if not logind_dep.found()
+		error('logind support requested but neither libelogind nor libsystemd found')
+	endif
+endif
+
 if has_pam
         pam_dep = cc.find_library('pam')
         pam_inc  = include_directories('/usr/include/security')
