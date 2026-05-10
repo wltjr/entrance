@@ -247,6 +247,12 @@ entrance_pam_env_list_get(int id)
    return pam_getenvlist(_pams[id]->handle);
 }
 
+int
+entrance_pam_last_result_get(int id)
+{
+   return _pams[id]->last_result;
+}
+
 void
 entrance_pam_shutdown(int id)
 {
