@@ -123,7 +123,6 @@ entrance_pam_authenticate(int id)
          return 1;
       case PAM_MAXTRIES:
          PT("PAM max tries error !");
-         entrance_server_client_wait();
          return 1;
       case PAM_CRED_INSUFFICIENT:
          PT("PAM don't have sufficient credential to authenticate !");
