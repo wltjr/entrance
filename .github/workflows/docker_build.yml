@@ -23,9 +23,10 @@ jobs:
                     -v ${{ github.workspace }}:/tmp/entrance
                 run: |
                     cd /tmp/entrance
-                    meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=true . build
+                    meson setup --prefix /usr --buildtype=debug -Dcheck=true -Dpam=true -Dlogind=true . build
                     build-wrapper-linux-x86-64 --out-dir bw-output  ninja -C build
                     ninja -C build install
+                    meson test -C build -v
                     ./tests/run-tests.sh
                     cd build ; find . -name '*.gcno' -exec sh -c 'gcov -b -p {} -o $(dirname {})' \;; cd ../
                     export PATH="/sonar-scanner-linux-x64/bin:${PATH}"; sonar-scanner
