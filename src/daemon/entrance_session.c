@@ -403,6 +403,8 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
     entrance_pam_start(id, PACKAGE, tty_name, login);
     auth = !!(!entrance_pam_passwd_set(id, passwd) &&
               !entrance_pam_authenticate(id));
+    if(!auth && entrance_pam_last_result_get(id) == PAM_MAXTRIES)
+        entrance_server_client_wait();
 #else
    char *enc, *v;
    struct passwd pwd_buf;
