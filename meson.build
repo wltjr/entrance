@@ -25,9 +25,14 @@ ecore_x	= dependency('ecore-x',	   version: efl_version)
 edje	= dependency('edje',       version: efl_version)
 xcb	= dependency('xcb')
 
+has_check = get_option('check')
 has_pam = get_option('pam')
 has_nls = get_option('nls')
 has_logind = get_option('logind')
+
+if has_check
+        check_dep = dependency('check')
+endif
 
 if has_logind
 	logind_dep = dependency('libelogind', required: false)
@@ -124,4 +129,7 @@ subdir('src/daemon')
 subdir('data/themes/default')
 if has_nls
   subdir('po')
+endif
+if has_check and get_option('buildtype').startswith('debug')
+    subdir('src/tests/daemon')
 endif
