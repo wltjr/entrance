@@ -61,6 +61,15 @@ int entrance_pam_env_set(int id, const char *env, const char *value);
 const void *entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type);
 
 /**
+ * @brief Get the last result code from the pam session by id
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return int pam result value
+ */
+int entrance_pam_last_result_get(int id);
+
+/**
  * @brief Set PAM information
  *
  * @param id of session in array, index value for now, could be seat id later
