@@ -2,6 +2,10 @@ option('cachedir',
        type       : 'string',
        value      : '/var/cache',
        description: 'Path to cache dir, entrance subdir will be appended')
+option('check',
+       type       : 'boolean',
+       value      : false,
+       description: 'Enable support for libcheck for tests')
 option('edje-cc',
        type       : 'string',
        description: 'A path to a edje_cc. Defaults to system edje_cc')
