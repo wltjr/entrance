@@ -23,16 +23,8 @@ if has_pam
 endif
 
 if has_logind
-	logind_dep = dependency('libelogind', required: false)
-	if not logind_dep.found()
-		logind_dep = dependency('libsystemd', required: false)
-	endif
-	if logind_dep.found()
-		entrance_deps += [logind_dep]
-		entrance_srcs += ['entrance_logind.h', 'entrance_logind.c']
-	else
-		error('logind support requested but neither libelogind nor libsystemd found')
-	endif
+	entrance_deps += [logind_dep]
+	entrance_srcs += ['entrance_logind.h', 'entrance_logind.c']
 endif
 
 executable('entrance',
