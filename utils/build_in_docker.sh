@@ -26,7 +26,7 @@ ninja -C build
 
 # configure and build
 rm -r build/
-meson setup --prefix /usr --buildtype=debug -Dpam=true -Dlogind=true . build
+meson setup --prefix /usr --buildtype=debug -Dcheck=true -Dpam=true -Dlogind=true . build
 ninja -C build install
 
 # prevent local X11 conflicts, vt, display, and socket port
