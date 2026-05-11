@@ -14,12 +14,48 @@ typedef struct Entrance_Pam_
     pam_handle_t* handle;
 } Entrance_Pam;
 
+static int _entrance_pam_result_check(const char *event, int last_result);
 static int _entrance_pam_conv(int num_msg,
                               const struct pam_message **msg,
                               struct pam_response **resp,
                               void *appdata_ptr);
 
 static Entrance_Pam **_pams;
+
+static int
+_entrance_pam_result_check(const char *event, int last_result)
+{
+    switch (last_result)
+    {
+        case PAM_SUCCESS:
+            return 0;
+        case PAM_ABORT:
+        case PAM_AUTHINFO_UNAVAIL:
+            PT("PAM error!");
+            break;
+        case PAM_PERM_DENIED:
+            PT("PAM permission denied!");
+            break;
+        case PAM_AUTH_ERR:
+            PT("PAM authenticate error!");
+            break;
+        case PAM_CRED_INSUFFICIENT:
+            PT("PAM insufficient credentials to authenticate!");
+            break;
+        case PAM_USER_UNKNOWN:
+            PT("PAM user unknown error!");
+            break;
+        case PAM_MAXTRIES:
+            PT("PAM max tries error !");
+            break;
+        case PAM_ACCT_EXPIRED:
+            PT("PAM user acct expired error");
+            break;
+        default:
+            PT("PAM %s unknown error %d", event, last_result);
+    }
+    return 1;
+}
 
 static int
 _entrance_pam_conv(int num_msg,
@@ -111,57 +147,11 @@ int
 entrance_pam_authenticate(int id)
 {
    _pams[id]->last_result = pam_authenticate(_pams[id]->handle, 0);
-   switch (_pams[id]->last_result)
-     {
-      case PAM_ABORT:
-      case PAM_AUTHINFO_UNAVAIL:
-         PT("PAM error !");
-         entrance_pam_end(id);
-         return 1;
-      case PAM_USER_UNKNOWN:
-         PT("PAM user unknown error !");
-         return 1;
-      case PAM_MAXTRIES:
-         PT("PAM max tries error !");
-         return 1;
-      case PAM_CRED_INSUFFICIENT:
-         PT("PAM don't have sufficient credential to authenticate !");
-         return 1;
-      case PAM_AUTH_ERR:
-         PT("PAM authenticate error !");
-         return 1;
-      case PAM_PERM_DENIED:
-         PT("PAM permission denied !");
-         return 1;
-      case PAM_SUCCESS:
-         break;
-      default:
-         PT("PAM auth warning unknown error %d", _pams[id]->last_result);
-         return 1;
-     }
+   if(_entrance_pam_result_check("auth", _pams[id]->last_result))
+      return 1;
    _pams[id]->last_result=pam_acct_mgmt(_pams[id]->handle, PAM_SILENT);
-   switch(_pams[id]->last_result)
-     {
-      case PAM_ACCT_EXPIRED:
-         PT("PAM user acct expired error");
-         entrance_pam_end(id);
-         return 1;
-      case PAM_USER_UNKNOWN:
-         PT("PAM user unknown error");
-         entrance_pam_end(id);
-         return 1;
-      case PAM_AUTH_ERR:
-         PT("PAM auth error");
-         return 1;
-      case PAM_PERM_DENIED:
-         PT("PAM perm_denied error");
-         return 1;
-      case PAM_SUCCESS:
-         break;
-      default:
-         PT("PAM auth warning unknown error %d", _pams[id]->last_result);
-         return 1;
-     }
+   if(_entrance_pam_result_check("auth", _pams[id]->last_result))
+      return 1;
 
    return 0;
 }
