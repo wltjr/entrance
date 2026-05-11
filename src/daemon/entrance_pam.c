@@ -51,6 +51,9 @@ _entrance_pam_result_check(const char *event, int last_result)
         case PAM_ACCT_EXPIRED:
             PT("PAM user acct expired error");
             break;
+        case PAM_CRED_ERR:
+            PT("PAM failure setting credentials");
+            break;
         default:
             PT("PAM %s unknown error %d", event, last_result);
     }
@@ -95,22 +98,8 @@ int
 entrance_pam_session_open(int id)
 {
    _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_ESTABLISH_CRED);
-   switch (_pams[id]->last_result)
-     {
-      case PAM_CRED_ERR:
-      case PAM_USER_UNKNOWN:
-         PT("PAM user unknow");
-         return 1;
-      case PAM_AUTH_ERR:
-      case PAM_PERM_DENIED:
-         PT("PAM error on login password");
-         return 1;
-      case PAM_SUCCESS:
-         break;
-      default:
-         PT("PAM open warning unknown error %d", _pams[id]->last_result);
-         return 1;
-     }
+   if(_entrance_pam_result_check("session", _pams[id]->last_result))
+      return 1;
    _pams[id]->last_result = pam_open_session(_pams[id]->handle, 0);
    if(_pams[id]->last_result!=PAM_SUCCESS)
      {
