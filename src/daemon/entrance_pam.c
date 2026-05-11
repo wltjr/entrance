@@ -72,7 +72,7 @@ entrance_pam_session_open(int id)
       case PAM_SUCCESS:
          break;
       default:
-         PT("PAM open warning unknown error");
+         PT("PAM open warning unknown error %d", _pams[id]->last_result);
          return 1;
      }
    _pams[id]->last_result = pam_open_session(_pams[id]->handle, 0);
@@ -136,7 +136,7 @@ entrance_pam_authenticate(int id)
       case PAM_SUCCESS:
          break;
       default:
-         PT("PAM auth warning unknown error");
+         PT("PAM auth warning unknown error %d", _pams[id]->last_result);
          return 1;
      }
    _pams[id]->last_result=pam_acct_mgmt(_pams[id]->handle, PAM_SILENT);
@@ -159,7 +159,7 @@ entrance_pam_authenticate(int id)
       case PAM_SUCCESS:
          break;
       default:
-         PT("PAM auth warning unknown error");
+         PT("PAM auth warning unknown error %d", _pams[id]->last_result);
          return 1;
      }
 
