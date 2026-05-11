@@ -29,6 +29,9 @@ _entrance_pam_result_check(const char *event, int last_result)
     {
         case PAM_SUCCESS:
             return 0;
+        case PAM_SYSTEM_ERR:
+            PT("PAM system error!");
+            break;
         case PAM_ABORT:
         case PAM_AUTHINFO_UNAVAIL:
             PT("PAM error!");
