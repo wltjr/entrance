@@ -63,6 +63,27 @@ START_TEST(entrance_pam_test_user_good)
 }
 END_TEST
 
+START_TEST(entrance_pam_test_user_nobody)
+{
+    int id = 0;
+    int result = 0;
+
+    /* test valid user */
+    result = entrance_pam_start(id, _service, _tty, "nobody");
+    ck_assert_int_eq(result, 0);
+    result = entrance_pam_session_open(id);
+    ck_assert_int_eq(result, 0);
+
+    /* test auth error */
+    result = entrance_pam_passwd_set(id, _passwd_good);
+    ck_assert_int_eq(result, 0);
+    result = entrance_pam_authenticate(id);
+    ck_assert_int_eq(result, 1);
+
+    _entrance_pam_cleanup(id);
+}
+END_TEST
+
 Suite *pam_suite(void)
 {
     Suite *s;
@@ -73,6 +94,7 @@ Suite *pam_suite(void)
 
     tcase_add_test(tc_pam, entrance_pam_test_user_bad);
     tcase_add_test(tc_pam, entrance_pam_test_user_good);
+    tcase_add_test(tc_pam, entrance_pam_test_user_nobody);
     suite_add_tcase(s, tc_pam);
 
     return s;
