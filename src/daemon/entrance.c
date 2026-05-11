@@ -59,9 +59,9 @@ static const Ecore_Getopt options =
   PACKAGE,
   "%prog [options]",
   VERSION,
-  "(C) 2025 William L Thomson Jr, see AUTHORS.",
+  "(C) 2026 William L Thomson Jr, see AUTHORS.",
   "GPL, see COPYING",
-  "Entrance is a login manager, written using core efl libraries",
+  "Entrance is a X11 & Wayland display manager, written using EFL libraries.",
   EINA_TRUE,
   {
     ECORE_GETOPT_STORE_TRUE('x', "xephyr", "run under Xephyr."),
