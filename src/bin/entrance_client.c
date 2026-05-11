@@ -16,9 +16,9 @@ static const Ecore_Getopt options =
    "entrance_client",
    "%prog [options]",
    VERSION,
-   "(C) 2025 William L Thomson Jr, see AUTHORS.",
+   "(C) 2026 William L Thomson Jr, see AUTHORS.",
    "GPL, see COPYING",
-   "Launch gui client.",
+   "Entrance Client is a X11 GUI greeter, written using EFL libraries.",
    EINA_TRUE,
    {
       ECORE_GETOPT_STORE_STR('d', "display", "specify the display to use"),
