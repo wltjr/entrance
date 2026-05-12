@@ -175,8 +175,6 @@ _entrance_event_conf_gui_dd(void)
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc,
                                              Entrance_Conf_Gui_Event);
    edd = eet_data_descriptor_stream_new(&eddc);
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "enabled",
-                                 enabled, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "bg.path",
                                  bg.path, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "bg.group",
