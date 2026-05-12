@@ -37,7 +37,6 @@ _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event E
      {
         PT("Sending custom settings is enabled");
         eev.type = ENTRANCE_EVENT_CONF_GUI;
-        eev.event.conf_gui.enabled = EINA_TRUE;
         eev.event.conf_gui.bg.path = entrance_config->bg.path;
         eev.event.conf_gui.bg.group = entrance_config->bg.group;
         eev.event.conf_gui.req_passwd = entrance_config->req_passwd;
