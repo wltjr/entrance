@@ -251,8 +251,8 @@ _entrance_session_run(int id,
         snprintf(buf, sizeof(buf), "%s %s > \"%s/.entrance_session.log\" 2>&1",
                  entrance_config->command.session_login, cmd, pwd->pw_dir);
 
-        PT("Executing: %s --login -c %s ", pwd->pw_shell, buf);
-        execle(pwd->pw_shell, pwd->pw_shell, "--login", "-c", buf, NULL, env);
+        PT("Executing: %s -c %s ", pwd->pw_shell, buf);
+        execle(pwd->pw_shell, pwd->pw_shell, "-c", buf, NULL, env);
         PT("The Xsessions are not launched :(");
      }
    else if (pid > 0)
