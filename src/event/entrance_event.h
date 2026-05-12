@@ -53,6 +53,7 @@ typedef struct Entrance_Conf_Gui_Event_
         const char *path;
      } bg;
    Eina_Bool req_passwd;
+   Eina_Bool showlogin;
    Eina_Bool vkbd_enabled;
    Eina_Bool autoselect_last_user;
 } Entrance_Conf_Gui_Event;
