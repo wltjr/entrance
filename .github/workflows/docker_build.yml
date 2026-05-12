@@ -28,5 +28,5 @@ jobs:
                     ninja -C build install
                     meson test -C build -v
                     ./tests/run-tests.sh
-                    cd build ; find . -name '*.gcno' -exec sh -c 'gcov -b -p {} -o $(dirname {})' \;; cd ../
+                    gcovr --sonarqube build/coverage.xml build/
                     export PATH="/sonar-scanner-linux-x64/bin:${PATH}"; sonar-scanner
