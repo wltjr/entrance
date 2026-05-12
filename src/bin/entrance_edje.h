@@ -34,6 +34,7 @@
 #define ENTRANCE_EDJE_SIGNAL_AUTH_CHECKING      "entrance,auth,checking"
 #define ENTRANCE_EDJE_SIGNAL_AUTH_ERROR         "entrance,auth,error"
 #define ENTRANCE_EDJE_SIGNAL_AUTH_VALID         "entrance,auth,valid"
+#define ENTRANCE_EDJE_SIGNAL_LOGIN_SHOW         "entrance,login,show"
 #define ENTRANCE_EDJE_SIGNAL_USERS_ENABLED      "entrance,users,enabled"
 #define ENTRANCE_EDJE_SIGNAL_USERS_DISABLED     "entrance,users,disabled"
 #define ENTRANCE_EDJE_SIGNAL_WALLPAPER_DEFAULT  "entrance,wallpaper,default"
