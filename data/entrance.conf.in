@@ -49,6 +49,9 @@ group "Entrance_Config" struct {
     /* The name of the user to use when autologin are enabled */
     value "userlogin" string: "myusername";
 
+    /* Bool to control if user name login entry is hidden or not */
+    value "showlogin" uchar: 0;
+
     /* Bool to control if password entry is required or not */
     value "require_password" uchar: 1;
 
