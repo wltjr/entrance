@@ -39,6 +39,7 @@ struct _Entrance_Config
    Eina_Bool xsessions;
    Eina_Bool numlock;
    Eina_Bool autologin;
+   Eina_Bool showlogin;
    Eina_Bool custom_conf;
    Eina_Bool vkbd_enabled;
    Eina_Bool req_passwd;
