@@ -34,6 +34,7 @@ _defaults_set(Entrance_Config *config)
    config->numlock = EINA_FALSE;
    config->xsessions = EINA_TRUE;
    config->autologin = EINA_FALSE;
+   config->showlogin = EINA_TRUE;
    config->custom_conf = EINA_FALSE;
    config->req_passwd = EINA_TRUE;
    config->autoselect_last_user = EINA_TRUE;
@@ -179,6 +180,7 @@ entrance_config_init()
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "xsessions", xsessions, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "autologin", autologin, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "userlogin", userlogin, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "showlogin", showlogin, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "lockfile", lockfile, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "logfile", logfile, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "theme", theme, EET_T_STRING);
