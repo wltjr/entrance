@@ -27,6 +27,7 @@ static int _entrance_session_userid_set(const struct passwd *pwd);
 
 static void _entrance_session_run(int id,
                                   struct passwd *pwd,
+                                  const char *session,
                                   const char *cmd,
                                   const char *cookie,
                                   Eina_Bool is_wayland);
@@ -109,6 +110,7 @@ _entrance_session_shell_set(struct passwd *pwd)
 static void
 _entrance_session_pam_env_set(int id,
                               const struct passwd *pwd,
+                              const char *session,
                               const char *cookie,
                               Eina_Bool is_wayland)
 {
@@ -139,6 +141,7 @@ _entrance_session_pam_env_set(int id,
    entrance_pam_env_set(id, "XDG_SEAT", seat);
    entrance_pam_env_set(id, "XDG_SEAT_PATH", seat_path);
    entrance_pam_env_set(id, "XDG_SESSION_CLASS", "user");
+   entrance_pam_env_set(id, "XDG_SESSION_DESKTOP", session);
    entrance_pam_env_set(id, "XDG_SESSION_PATH", session_path);
    entrance_pam_env_set(id, "XDG_SESSION_TYPE", is_wayland ? "wayland" : "x11");
    entrance_pam_env_set(id, "XDG_VTNR", vtnr);
@@ -148,6 +151,7 @@ _entrance_session_pam_env_set(int id,
 static void
 _entrance_session_run(int id,
                       struct passwd *pwd,
+                      const char *session,
                       const char *cmd,
                       const char *cookie,
                       Eina_Bool is_wayland)
@@ -164,7 +168,7 @@ _entrance_session_run(int id,
         /* Create new session - MUST be done before PAM  */
         if (setsid() < 0)
           {
-             PT("Failed to create new session #%d", id);
+             PT("Failed to create new session #%d %s", id, session);
              exit(1);
           }
         
@@ -176,7 +180,7 @@ _entrance_session_run(int id,
              exit(1);
           }
 
-        _entrance_session_pam_env_set(id, pwd, cookie, is_wayland);
+        _entrance_session_pam_env_set(id, pwd, session, cookie, is_wayland);
 
         /* Retrieve final PAM environment with our vars */
         env = entrance_pam_env_list_get(id);
@@ -503,7 +507,7 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
    PT("launching session %s for user %s", cmd, _sessions[id]->login);
    
    Eina_Bool is_wayland = _entrance_session_is_wayland(session);
-   _entrance_session_run(id, pwd, cmd, buf, is_wayland);
+   _entrance_session_run(id, pwd, session, cmd, buf, is_wayland);
    free(_sessions[id]->login);
    _sessions[id]->login = NULL;
    return EINA_TRUE;
