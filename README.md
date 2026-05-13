@@ -7,10 +7,9 @@
 This is a fork and current development version.
 It is ALIVE! IT WORKS! (for me™).
 
-This version of entrance has worked in some form or another since 2017. The
-entire EFL community has repeatedly shunned entrance for years. Many incorrectly
-assume this version is the same as past versions, when many have never run or
-seen this version, please see [History](#history).
+This version of entrance has worked in some form or another since 2017. Many
+incorrectly assume this version is the same as past versions, when many have
+never run or seen this version, please see [History](#history).
 
 [![A video of Entrance 3.0.0 Beta 1](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)
 
@@ -190,6 +189,7 @@ but testing is welcomed!
 
 ## Development Discouraged
 
+The entire EFL community has repeatedly shunned entrance for years.
 There has been talk of making Enlightenment a login manager as many under
 Wayland have no choice to do, such as Gnome and GDM, soon KDE and SDDM. There
 has never been any efforts, and you are reduced to starting Enlightenment with
