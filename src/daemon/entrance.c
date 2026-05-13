@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <libgen.h>
 #include <unistd.h>
 #include <errno.h>
 #include <Eina.h>
@@ -354,6 +355,7 @@ _entrance_uid_gid_init()
 {
    struct passwd pwd_buf;
    struct passwd *pwd = NULL;
+   char *parent;
    char buf[4096];
    int result;
 
@@ -409,6 +411,17 @@ _entrance_uid_gid_init()
    else
      _entrance_home_path = strdup(pwd->pw_dir);
    PT("Home directory %s", _entrance_home_path);
+
+    parent = dirname(strdup(_entrance_home_path));
+    if(chown(parent, _entrance_uid, _entrance_gid) != 0)
+    {
+        if(errno==ENOENT)
+            PT("chown failed, file does not exist %s", parent);
+        else
+            PT("chown failed %s", parent);
+    }
+    PT("chown %d:%d %s", _entrance_uid, _entrance_gid, parent);
+    free(parent);
 }
 
 static pid_t *
