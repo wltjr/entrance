@@ -114,9 +114,11 @@ _entrance_session_pam_env_set(int id,
 {
    PT("Setting PAM environment for session #%d", id);
    const char *term = NULL;
+   char mail[PATH_MAX] = {0};
    char seat[64] = {0};
    char vtnr[64] = {0};
 
+   snprintf(mail, sizeof(mail), "/var/mail/%s", pwd->pw_name);
    snprintf(seat, sizeof(seat), "seat%d", id);
    term = getenv("TERM");
    snprintf(vtnr, sizeof(vtnr), "%d", id);
@@ -128,7 +130,7 @@ _entrance_session_pam_env_set(int id,
    entrance_pam_env_set(id, "LOGNAME", pwd->pw_name);
    entrance_pam_env_set(id, "PATH", entrance_config->session_path);
    entrance_pam_env_set(id, "DISPLAY", _sessions[id]->display);
-   entrance_pam_env_set(id, "MAIL=/var/mail/%s", pwd->pw_name);
+   entrance_pam_env_set(id, "MAIL", mail);
    entrance_pam_env_set(id, "XAUTHORITY", cookie);
    entrance_pam_env_set(id, "XDG_SEAT", seat);
    entrance_pam_env_set(id, "XDG_SESSION_CLASS", "user");
