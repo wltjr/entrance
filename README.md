@@ -12,6 +12,10 @@ entire EFL community has repeatedly shunned entrance for years. Many incorrectly
 assume this version is the same as past versions, when many have never run or
 seen this version, please see [History](#history).
 
+[![A video of Entrance 3.0.0 Beta 1](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)
+
+[![A screenshot of Entrance 3.0.0 Beta 1](https://github.com/user-attachments/assets/d3b5f451-8b01-4136-af9f-deaee28d54db)](https://github.com/user-attachments/assets/d3b5f451-8b01-4136-af9f-deaee28d54db)
+
 ![A screenshot of Entrance](https://user-images.githubusercontent.com/12835340/31921581-1c2f0d7c-b83e-11e7-8d90-1dac94ae8e5c.jpg)
 
 ## About
