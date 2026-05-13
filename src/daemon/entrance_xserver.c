@@ -22,11 +22,14 @@ static Entrance_Xserver **_xservers;
 static int
 _xserver_start(const Entrance_Xserver *_xserver)
 {
+   int num_token = 0;
    char *abuf = NULL;
    char *buf = NULL;
    char **args = NULL;
    char *saveptr = NULL;
+   char *token;
    char display[64] = {0};
+   char seat[64] = {0};
    char vt[64] = {0};
    char xinit_path[PATH_MAX] = {0};
    pid_t pid;
@@ -41,8 +44,6 @@ _xserver_start(const Entrance_Xserver *_xserver)
 
    /* Child process (pid == 0): will exec X server */
    PT("Child process: executing X server %ld", _xserver->id);
-   char *token;
-   int num_token = 0;
    signal(SIGTTIN, SIG_IGN);
    signal(SIGTTOU, SIG_IGN);
    signal(SIGUSR1, SIG_IGN);
@@ -63,28 +64,30 @@ _xserver_start(const Entrance_Xserver *_xserver)
 
    if (num_token)
      {
+        num_token += 6;
+
         if (!(abuf = strdup(entrance_config->command.xinit_args)))
           goto xserver_error;
-        if (!(args = calloc(num_token + 4, sizeof(char *))))
+        if (!(args = calloc(num_token, sizeof(char *))))
           {
              free(abuf);
              goto xserver_error;
           }
         args[0] = xinit_path;
+        args[1] = display;
+        args[2] = "-seat";
+        snprintf(seat, sizeof(seat), "seat%ld", _xserver->id);
+        args[3] = seat;
+        snprintf(vt, sizeof(vt), "vt%d", _xserver->vt);
+        args[4] = vt;
         token = strtok_r(abuf, " ", &saveptr);
-        ++num_token;
-        for(int i = 1; i < num_token; ++i)
+        for(int i = 5; i < num_token; ++i)
           {
              if (token)
                args[i] = token;
              token = strtok_r(NULL, " ", &saveptr);
           }
-        snprintf(vt, sizeof(vt), "vt%d", _xserver->vt);
-        args[num_token] = vt;
-        num_token++;
-        args[num_token] = display;
-        num_token++;
-        args[num_token] = NULL;
+        args[num_token - 1] = NULL;
      }
    else
      {
@@ -93,11 +96,12 @@ _xserver_start(const Entrance_Xserver *_xserver)
         args[0] = xinit_path;
         args[1] = NULL;
      }
-   PT("Executing: %s %s vt%d %s",
+   PT("Executing: %s %s -seat seat%ld vt%d %s",
       entrance_config->command.xinit_path,
-      entrance_config->command.xinit_args,
+      _xserver->display,
+      _xserver->id,
       _xserver->vt,
-      _xserver->display);
+      entrance_config->command.xinit_args);
    // ideally close on success, otherwise proceeding PT is never outputted
    entrance_close_log();
    execv(args[0], args);
