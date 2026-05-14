@@ -26,6 +26,8 @@ START_TEST(entrance_pam_test_user_bad)
     int id = 0;
     int result = 0;
 
+    PT("Test unknown user");
+
     /* test unknown user */
     result = entrance_pam_start(id, _service, _tty, _user_bad);
     ck_assert_int_eq(result, 0);
@@ -46,6 +48,8 @@ START_TEST(entrance_pam_test_user_good)
 {
     int id = 0;
     int result = 0;
+
+    PT("Test known user");
 
     /* test known user */
     result = entrance_pam_start(id, _service, _tty, _user_good);
@@ -68,6 +72,8 @@ START_TEST(entrance_pam_test_user_nobody)
     int id = 0;
     int result = 0;
 
+    PT("Test valid user");
+
     /* test valid user */
     result = entrance_pam_start(id, _service, _tty, "nobody");
     ck_assert_int_eq(result, 0);
@@ -89,6 +95,8 @@ START_TEST(entrance_pam_test_item_get_error)
     int id = 0;
     int result = 0;
 
+    PT("Test get item error");
+
     /* test get item error nothing set */
     result = entrance_pam_start(id, _service, _tty, _user_good);
     ck_assert_int_eq(result, 0);
@@ -105,6 +113,8 @@ START_TEST(entrance_pam_test_item_set_error)
 {
     int id = 0;
     int result = 0;
+
+    PT("Test set item error");
 
     /* test set item silent error */
     result = entrance_pam_start(id, _service, _tty, _user_good);
