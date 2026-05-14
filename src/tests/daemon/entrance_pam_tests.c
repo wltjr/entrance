@@ -63,6 +63,10 @@ START_TEST(entrance_pam_test_user_good)
     result = entrance_pam_authenticate(id);
     ck_assert_int_eq(result, 0);
 
+    /* needless call just for code coverage */
+    result = entrance_pam_last_result_get(id);
+    ck_assert_int_eq(result, 0);
+
     _entrance_pam_cleanup(id);
 }
 END_TEST
