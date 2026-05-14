@@ -147,6 +147,30 @@ START_TEST(entrance_pam_test_item_set_error)
 }
 END_TEST
 
+START_TEST(entrance_pam_test_result_check)
+{
+    int result = 0;
+
+    PT("Test result check");
+
+    /* pathetic tests, but getting pam to return such codes is non-trivial */
+    result = entrance_pam_result_check("test",PAM_ABORT);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_PERM_DENIED);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_CRED_INSUFFICIENT);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_USER_UNKNOWN);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_ACCT_EXPIRED);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_CRED_ERR);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_INCOMPLETE); // not handled
+    ck_assert_int_eq(result, 1);
+}
+END_TEST
+
 Suite *pam_suite(void)
 {
     Suite *s;
@@ -161,6 +185,7 @@ Suite *pam_suite(void)
     tcase_add_test(tc_pam, entrance_pam_test_env_set_error);
     tcase_add_test(tc_pam, entrance_pam_test_item_get_error);
     tcase_add_test(tc_pam, entrance_pam_test_item_set_error);
+    tcase_add_test(tc_pam, entrance_pam_test_result_check);
     suite_add_tcase(s, tc_pam);
 
     return s;
