@@ -98,6 +98,16 @@ int entrance_pam_passwd_set(int id, const char *passwd);
 void entrance_pams_init(int count);
 
 /**
+ * @brief Check the PAM return code from a pam_* function call
+ *
+ * @param event string name of the event auth, session, etc. used in output
+ * @param last_result last result returned from pam to be checked
+ *
+ * @return int 0 on success, 1 for all other codes
+ */
+int entrance_pam_result_check(const char *event, int last_result);
+
+/**
  * @brief Start a new pam conversation session
  *
  * @param id of session in array, index value for now, could be seat id later
