@@ -158,6 +158,8 @@ START_TEST(entrance_pam_test_result_check)
     PT("Test result check");
 
     /* pathetic tests, but getting pam to return such codes is non-trivial */
+    result = entrance_pam_result_check("test",PAM_BUF_ERR);
+    ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_ABORT);
     ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_PERM_DENIED);
