@@ -14,7 +14,6 @@ typedef struct Entrance_Pam_
     pam_handle_t* handle;
 } Entrance_Pam;
 
-static int _entrance_pam_result_check(const char *event, int last_result);
 static int _entrance_pam_conv(int num_msg,
                               const struct pam_message **msg,
                               struct pam_response **resp,
@@ -22,8 +21,8 @@ static int _entrance_pam_conv(int num_msg,
 
 static Entrance_Pam **_pams;
 
-static int
-_entrance_pam_result_check(const char *event, int last_result)
+int
+entrance_pam_result_check(const char *event, int last_result)
 {
     switch (last_result)
     {
@@ -101,7 +100,7 @@ int
 entrance_pam_session_open(int id)
 {
    _pams[id]->last_result = pam_setcred(_pams[id]->handle, PAM_ESTABLISH_CRED);
-   if(_entrance_pam_result_check("session", _pams[id]->last_result))
+   if(entrance_pam_result_check("session", _pams[id]->last_result))
       return 1;
    _pams[id]->last_result = pam_open_session(_pams[id]->handle, 0);
    if(_pams[id]->last_result!=PAM_SUCCESS)
@@ -139,10 +138,10 @@ int
 entrance_pam_authenticate(int id)
 {
    _pams[id]->last_result = pam_authenticate(_pams[id]->handle, 0);
-   if(_entrance_pam_result_check("auth", _pams[id]->last_result))
+   if(entrance_pam_result_check("auth", _pams[id]->last_result))
       return 1;
    _pams[id]->last_result=pam_acct_mgmt(_pams[id]->handle, PAM_SILENT);
-   if(_entrance_pam_result_check("auth", _pams[id]->last_result))
+   if(entrance_pam_result_check("auth", _pams[id]->last_result))
       return 1;
 
    return 0;
