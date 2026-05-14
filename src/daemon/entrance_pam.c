@@ -197,7 +197,8 @@ entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 const void *
 entrance_pam_item_get(int id, ENTRANCE_PAM_ITEM_TYPE type)
 {
-   const void *data;
+   const void *data = NULL;
+
    _pams[id]->last_result = pam_get_item(_pams[id]->handle, type, &data);
    if(_pams[id]->last_result!=PAM_SUCCESS)
      {
