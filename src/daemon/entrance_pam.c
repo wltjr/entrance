@@ -34,7 +34,6 @@ entrance_pam_result_check(const char *event, int last_result)
         case PAM_BUF_ERR:
             PT("PAM memory buffer error!");
             break;
-        case PAM_ABORT:
         case PAM_AUTHINFO_UNAVAIL:
             PT("PAM error!");
             break;
@@ -58,6 +57,9 @@ entrance_pam_result_check(const char *event, int last_result)
             break;
         case PAM_CRED_ERR:
             PT("PAM failure setting credentials");
+            break;
+        case PAM_ABORT:
+            PT("PAM critical error aborting!");
             break;
         case PAM_BAD_ITEM:
             PT("PAM bad item passed!");
