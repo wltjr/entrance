@@ -84,6 +84,23 @@ START_TEST(entrance_pam_test_user_nobody)
 }
 END_TEST
 
+START_TEST(entrance_pam_test_item_get_error)
+{
+    int id = 0;
+    int result = 0;
+
+    /* test get item error nothing set */
+    result = entrance_pam_start(id, _service, _tty, _user_good);
+    ck_assert_int_eq(result, 0);
+    result = entrance_pam_end(id);
+    ck_assert_int_eq(result, 0);
+    const void *item = entrance_pam_item_get(id, ENTRANCE_PAM_ITEM_USER);
+    ck_assert_ptr_null(item);
+
+    _entrance_pam_cleanup(id);
+}
+END_TEST
+
 Suite *pam_suite(void)
 {
     Suite *s;
@@ -95,6 +112,7 @@ Suite *pam_suite(void)
     tcase_add_test(tc_pam, entrance_pam_test_user_bad);
     tcase_add_test(tc_pam, entrance_pam_test_user_good);
     tcase_add_test(tc_pam, entrance_pam_test_user_nobody);
+    tcase_add_test(tc_pam, entrance_pam_test_item_get_error);
     suite_add_tcase(s, tc_pam);
 
     return s;
