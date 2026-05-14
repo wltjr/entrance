@@ -185,12 +185,13 @@ int
 entrance_pam_item_set(int id, ENTRANCE_PAM_ITEM_TYPE type, const void *value)
 {
    _pams[id]->last_result = pam_set_item(_pams[id]->handle, type, value);
-   if (_pams[id]->last_result == PAM_SUCCESS) {
-      return 0;
+   if (_pams[id]->last_result != PAM_SUCCESS) {
+      /* ouput error text from code, drops type, may need to output if fired */
+      entrance_pam_result_check("set item", _pams[id]->last_result);
+      return 1;
    }
 
-   PT("PAM error: %d on %d", _pams[id]->last_result, type);
-   return 1;
+   return 0;
 }
 
 const void *
