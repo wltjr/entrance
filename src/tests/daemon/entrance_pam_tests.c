@@ -1,6 +1,4 @@
-#include <check.h>
-
-#include "../../../src/daemon/entrance.h"
+#include "entrance_tests.h"
 #include "../../../src/daemon/entrance_pam.h"
 
 static const char *_user_good = "ubuntu";
@@ -19,14 +17,17 @@ _entrance_pam_cleanup(int id)
     entrance_pam_session_close(id);
     entrance_pam_end(id);
     entrance_pam_shutdown(id);
+    entrance_pams_shutdown();
 }
 
 START_TEST(entrance_pam_test_user_bad)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test unknown user");
+    entrance_pams_init(count);
 
     /* test unknown user */
     result = entrance_pam_start(id, _service, _tty, _user_bad);
@@ -47,9 +48,11 @@ END_TEST
 START_TEST(entrance_pam_test_user_good)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test known user");
+    entrance_pams_init(count);
 
     /* test known user */
     result = entrance_pam_start(id, _service, _tty, _user_good);
@@ -74,9 +77,11 @@ END_TEST
 START_TEST(entrance_pam_test_user_nobody)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test valid user");
+    entrance_pams_init(count);
 
     /* test valid user */
     result = entrance_pam_start(id, _service, _tty, "nobody");
@@ -97,9 +102,11 @@ END_TEST
 START_TEST(entrance_pam_test_env_set_error)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test set env error");
+    entrance_pams_init(count);
 
     /* test set item silent error */
     result = entrance_pam_start(id, _service, _tty, _user_good);
@@ -116,9 +123,11 @@ END_TEST
 START_TEST(entrance_pam_test_item_get_error)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test get item error");
+    entrance_pams_init(count);
 
     /* test get item error nothing set */
     result = entrance_pam_start(id, _service, _tty, _user_good);
@@ -135,9 +144,11 @@ END_TEST
 START_TEST(entrance_pam_test_item_set_error)
 {
     int id = 0;
+    int count = 1;
     int result = 0;
 
     PT("Test set item error");
+    entrance_pams_init(count);
 
     /* test set item silent error */
     result = entrance_pam_start(id, _service, _tty, _user_good);
@@ -214,13 +225,9 @@ int main(void)
     _entrance_log = eina_log_domain_register("entrance", EINA_COLOR_CYAN);
     eina_log_domain_level_set("entrance", 5);
 
-    entrance_pams_init(count);
-
     srunner_run_all(runner, CK_NORMAL);
     failed = srunner_ntests_failed(runner);
     srunner_free(runner);
-
-    entrance_pams_shutdown();
 
     return (failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
