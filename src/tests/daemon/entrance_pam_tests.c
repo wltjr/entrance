@@ -166,11 +166,15 @@ START_TEST(entrance_pam_test_result_check)
     ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_CRED_INSUFFICIENT);
     ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_AUTHINFO_UNAVAIL);
+    ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_USER_UNKNOWN);
     ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_ACCT_EXPIRED);
     ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_CRED_ERR);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_result_check("test",PAM_BAD_ITEM);
     ck_assert_int_eq(result, 1);
     result = entrance_pam_result_check("test",PAM_INCOMPLETE); // not handled
     ck_assert_int_eq(result, 1);
