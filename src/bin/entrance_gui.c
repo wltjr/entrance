@@ -651,8 +651,8 @@ _entrance_gui_update(void)
           {
             primary = EINA_FALSE;
             if(_gui->showlogin)
-            elm_object_signal_emit(screen->login,
-                                    ENTRANCE_EDJE_SIGNAL_LOGIN_SHOW, "");
+                elm_object_signal_emit(screen->login,
+                                        ENTRANCE_EDJE_SIGNAL_LOGIN_SHOW, "");
           }
      }
    _gui->changed = 0;
