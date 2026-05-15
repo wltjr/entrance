@@ -1,6 +1,6 @@
 # project
 project('entrance', 'c',
-        version        : '3.0.0_beta2',
+        version        : '3.0.0_beta3',
         license        : 'GPL-3.0',
         default_options: [ 'c_std=gnu17' ],
         meson_version  : '>= 1.3.0')
