@@ -7,6 +7,7 @@ entrance_srcs = [
 	'../../src/event/entrance_event.h',	'../../src/event/entrance_event.c',
 	'entrance_config.h',	'entrance_config.c',
 	'entrance_session.h',	'entrance_session.c',
+	'entrance_session_utils.h', 'entrance_session_utils.c',
 	'entrance_xserver.h',	'entrance_xserver.c',
 	'entrance_server.h',	'entrance_server.c',
 	'entrance_history.h',	'entrance_history.c',
