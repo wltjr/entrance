@@ -11,10 +11,12 @@ int main(void)
     _entrance_log = eina_log_domain_register("entrance", EINA_COLOR_CYAN);
     eina_log_domain_level_set("entrance", 5);
 
+#ifdef HAVE_PAM
     runner = srunner_create(pam_suite());
     srunner_run_all(runner, CK_NORMAL);
     failed = srunner_ntests_failed(runner);
     srunner_free(runner);
+#endif
 
     return (failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
