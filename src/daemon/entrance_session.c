@@ -9,6 +9,7 @@
 #endif
 
 #include "entrance.h"
+#include "entrance_session_utils.h"
 
 #define HAVE_SHADOW 1
 
@@ -23,7 +24,6 @@ typedef struct Entrance_Session_
 
 static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
-static int _entrance_session_userid_set(const struct passwd *pwd);
 
 static void _entrance_session_run(int id,
                                   struct passwd *pwd,
@@ -63,47 +63,6 @@ _entrance_session_cookie_add(const char *mcookie, const char *display,
     fprintf(cmd, "exit\n");
     pclose(cmd);
     return 0;
-}
-
-static int
-_entrance_session_userid_set(const struct passwd *pwd)
-{
-   if (initgroups(pwd->pw_name, pwd->pw_gid) != 0)
-     {
-        PT("can't init group");
-        return 1;
-     }
-   if (setgid(pwd->pw_gid) != 0)
-     {
-        PT("can't set gid");
-        return 1;
-     }
-   if (setuid(pwd->pw_uid) != 0)
-     {
-        PT("can't set uid");
-        return 1;
-     }
-   return 0;
-}
-
-static void
-_entrance_session_shell_set(struct passwd *pwd)
-{
-   if (pwd->pw_shell[0] == '\0')
-     {
-        const char *shell;
-        static char default_shell[PATH_MAX];
-
-        setusershell();
-        shell = getusershell();
-        if (shell)
-          {
-             snprintf(default_shell, sizeof(default_shell), "%s", shell);
-             pwd->pw_shell = default_shell;
-          }
-        endusershell();
-     }
-   PT("User shell %s", pwd->pw_shell);
 }
 
 #ifdef HAVE_PAM
@@ -240,7 +199,7 @@ _entrance_session_run(int id,
                  pwd->pw_name);
         if (-1 == system(buf))
           PT("Error on session start command");
-        if(_entrance_session_userid_set(pwd)) return;
+        if(entrance_session_userid_set(pwd)) return;
         _entrance_session_cookie_add(_sessions[id]->mcookie, _sessions[id]->display,
                                  entrance_config->command.xauth_path, cookie);
         if (chdir(pwd->pw_dir))
@@ -492,7 +451,7 @@ entrance_session_login(int id, const char *session, Eina_Bool history)
    if (!pwd) return ECORE_CALLBACK_CANCEL;
    
    /* Detect shell in parent - env setup happens in child after session */
-   _entrance_session_shell_set(pwd);
+   entrance_session_shell_set(pwd);
    
    snprintf(buf, sizeof(buf), "%s/.Xauthority", pwd->pw_dir);
    if (history) entrance_history_check(pwd->pw_name, session);
