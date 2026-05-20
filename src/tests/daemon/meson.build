@@ -2,7 +2,13 @@ inc = include_directories('.')
 
 test_deps = [check_dep, deps, ecore_x]
 test_incs = [inc, top_inc]
-test_sources = ['entrance_tests.h', 'entrance_tests.c']
+test_sources = [
+    '../../../src/daemon/entrance_session_utils.h',
+    '../../../src/daemon/entrance_session_utils.c',
+    'entrance_tests.h',
+    'entrance_tests.c',
+    'entrance_session_tests.c'
+]
 
 if has_pam
 	test_deps += [pam_dep]
