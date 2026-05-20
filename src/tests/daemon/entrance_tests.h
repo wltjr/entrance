@@ -12,4 +12,11 @@
  */
 Suite *pam_suite(void);
 
+/**
+ * @brief Entrance Session functions test suite
+ *
+ * @return Suite* suite containing test functions
+ */
+Suite *session_suite(void);
+
 #endif /* ENTRANCE_TESTS_H_ */
