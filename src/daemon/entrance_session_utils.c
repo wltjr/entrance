@@ -1,4 +1,3 @@
-#include <grp.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
@@ -14,11 +13,6 @@
 int
 entrance_session_userid_set(const struct passwd *pwd)
 {
-    if (initgroups(pwd->pw_name, pwd->pw_gid) != 0)
-    {
-        PT("can't init group");
-        return 1;
-    }
     if (setgid(pwd->pw_gid) != 0)
     {
         PT("can't set gid");
