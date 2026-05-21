@@ -418,7 +418,6 @@ _entrance_session_session_open(int id)
    int result;
 
 #ifdef HAVE_PAM
-   /* Just get user info - session will be opened in child process (spawny pattern) */
    user = entrance_pam_item_get(id, ENTRANCE_PAM_ITEM_USER);
    if (user)
      {
