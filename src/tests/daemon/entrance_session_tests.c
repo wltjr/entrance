@@ -4,6 +4,22 @@
 #include "../../../src/daemon/entrance_session_utils.h"
 
 
+START_TEST(entrance_session_test_shell_set_unset)
+{
+    static char name[] = "ubuntu";
+    static char shell[] = {0};
+    struct passwd pwd;
+
+    PT("Test unset shell");
+
+    pwd.pw_name = name;
+    pwd.pw_gid = 1000;
+    pwd.pw_uid = 1000;
+    pwd.pw_shell = shell;
+    entrance_session_shell_set(&pwd);
+}
+END_TEST
+
 START_TEST(entrance_session_test_userid_set_bad)
 {
     static char name[] = "notauser";
@@ -48,6 +64,7 @@ Suite *session_suite(void)
     s = suite_create("Entrance Session Tests");
     tc = tcase_create("session");
 
+    tcase_add_test(tc, entrance_session_test_shell_set_unset);
     tcase_add_test(tc, entrance_session_test_userid_set_bad);
     tcase_add_test(tc, entrance_session_test_userid_set_good);
     suite_add_tcase(s, tc);
