@@ -98,12 +98,6 @@ entrance_logind_monitor_start(Entrance_Logind_Cb callback, void *data)
    int fd;
    int ret;
 
-   if (_logind_monitor)
-     {
-        PT("Logind monitor already started");
-        return EINA_FALSE;
-     }
-
    ret = sd_login_monitor_new("seat", &_logind_monitor);
    if (ret < 0)
      {
