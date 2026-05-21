@@ -49,6 +49,9 @@ START_TEST(entrance_session_test_userid_set_good)
 
     PT("Test set user id valid");
 
+    // ensure user can write to coverage files, otherwise, whats the point?
+    system("chown -R ubuntu:ubuntu /entrance/build/src/tests/daemon/entrance_tests.p/");
+
     result = getpwnam_r("ubuntu", &pwd_buf, buf, sizeof(buf), &pwd);
     ck_assert_int_eq(result, 0);
     result = entrance_session_userid_set(pwd);
