@@ -159,7 +159,7 @@ void
 entrance_pams_init(int count)
 {
     _pams = (Entrance_Pam**) calloc(count, sizeof(Entrance_Pam*));
-    PT("Allocated memory for %d pam sessions", count);
+    PT("init %d pam sessions", count);
 }
 
 Eina_Bool
