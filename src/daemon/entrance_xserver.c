@@ -131,7 +131,7 @@ entrance_xservers_init(int count)
 {
     _xservers = (Entrance_Xserver**) calloc(count, sizeof(Entrance_Xserver*));
     _xserver_count = count;
-    PT("Allocated memory for %d X servers", _xserver_count);
+    PT("init %d X servers", _xserver_count);
 }
 
 int
