@@ -182,7 +182,7 @@ static void
 _entrance_clients_init(int count)
 {
     _entrance_clients = (Entrance_Client**) calloc(count, sizeof(Entrance_Client*));
-    PT("Allocated memory for %d entrance clients", count);
+    PT("init %d entrance clients", count);
 }
 
 static void
