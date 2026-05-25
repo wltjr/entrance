@@ -1,14 +1,16 @@
-#include "entrance.h"
+#include <errno.h>
+#include <libgen.h>
+#include <fcntl.h>
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <fcntl.h>
-#include <libgen.h>
 #include <unistd.h>
-#include <errno.h>
+#include <xcb/xcb.h>
+
 #include <Eina.h>
 #include "Ecore_Getopt.h"
-#include <xcb/xcb.h>
+
+#include "entrance.h"
 
 #define ENTRANCE_CONFIG_HOME_PATH PACKAGE_CACHE"/client"
 
@@ -22,8 +24,8 @@ typedef struct Entrance_Client_
 } Entrance_Client;
 
 static Eina_Bool _entrance_autologin_lock_get(void);
-static Eina_Bool _entrance_client_error(void *data, int type, void *event);
-static Eina_Bool _entrance_client_data(void *data, int type, void *event);
+static Eina_Bool _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
+static Eina_Bool _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
@@ -38,7 +40,7 @@ static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
 static void _remove_lock();
 static void _signal_cb(int sig);
-static void _signal_log(int sig);
+static void _signal_log(int sig EINA_UNUSED);
 
 static Eina_Bool _entrance_auto_login = EINA_FALSE;
 static Eina_Bool _xephyr = 0;
@@ -96,7 +98,7 @@ _entrance_autologin_lock_set(void)
 }
 
 static Eina_Bool
-_entrance_client_data(void *d EINA_UNUSED, int t EINA_UNUSED, void *event)
+_entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
    char buf[4096];
    const Ecore_Exe_Event_Data *ev;
