@@ -1,9 +1,11 @@
-#include "entrance_client.h"
+#include <errno.h>
+#include <string.h>
+
 #include <Ecore.h>
 #include <Ecore_X.h>
 #include <Ecore_Getopt.h>
-#include <errno.h>
-#include <string.h>
+
+#include "entrance_client.h"
 
 #define NOBODY 65534
 
