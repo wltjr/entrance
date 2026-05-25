@@ -7,9 +7,11 @@ typedef struct
    void *data;
 } Entrance_Connect_Auth;
 
-static Eina_Bool _entrance_connect_add(void *data, int type, void *event);
-static Eina_Bool _entrance_connect_del(void *data, int type, void *event);
-static Eina_Bool _entrance_connect_data(void *data, int type, void *event);
+static Eina_Bool _entrance_connect_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
+static Eina_Bool _entrance_connect_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
+static Eina_Bool _entrance_connect_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
+static Eina_Bool _entrance_connect_read_cb(const void *data, size_t size EINA_UNUSED, void *user_data EINA_UNUSED);
+static Eina_Bool _entrance_connect_write_cb(const void *data, size_t size, void *user_data EINA_UNUSED);
 static void _entrance_connect_auth(const char *login, Eina_Bool granted);
 
 static int _client_id = 0;
