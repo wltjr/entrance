@@ -1,12 +1,18 @@
-#include "entrance.h"
 #include <ctype.h>
+
+#include "entrance.h"
 
 typedef void (*Entrance_Action_Cb)(void *data);
 
-static void _entrance_action_shutdown(void *data);
-static void _entrance_action_reboot(void *data);
-static void _entrance_action_suspend(void *data);
-static Eina_Bool _entrance_action_exe_event_del_cb(void *data, int type, void *event);
+static void _entrance_action_shutdown(void *data EINA_UNUSED);
+static void _entrance_action_reboot(void *data EINA_UNUSED);
+static void _entrance_action_suspend(void *data EINA_UNUSED);
+static Eina_Bool _entrance_action_exe_event_del_cb(void *data EINA_UNUSED,
+                                                   int type EINA_UNUSED,
+                                                   void *event);
+static Entrance_Action_Data * _entrance_action_add(const char *label,
+                                                   Entrance_Action_Cb func,
+                                                   void *data);
 
 static Eina_List *_entrance_actions = NULL;
 
