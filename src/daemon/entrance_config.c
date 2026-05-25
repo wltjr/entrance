@@ -1,6 +1,7 @@
-#include "entrance.h"
-#include <sys/stat.h>
 #include <dirent.h>
+#include <sys/stat.h>
+
+#include "entrance.h"
 
 #define ENTRANCE_CONFIG_KEY "config"
 
