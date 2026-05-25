@@ -3,9 +3,9 @@
 #include "../event/entrance_event.h"
 
 static void _entrance_server_chown(gid_t uid, uid_t gid, const char *path);
-static Eina_Bool _entrance_server_add(void *data, int type, void *event);
-static Eina_Bool _entrance_server_del(void *data, int type, void *event);
-static Eina_Bool _entrance_server_data(void *data, int type, void *event);
+static Eina_Bool _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
+static Eina_Bool _entrance_server_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
+static Eina_Bool _entrance_server_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 
 
 Ecore_Con_Server *_entrance_server = NULL;
