@@ -3,6 +3,14 @@
 #include "entrance.h"
 
 typedef void (*Entrance_Action_Cb)(void *data);
+typedef struct Entrance_Action_Data__
+{
+   unsigned char id;
+   const char *label;
+   const char *icon;
+   Entrance_Action_Cb func;
+   void *data;
+} Entrance_Action_Data;
 
 static void _entrance_action_shutdown(void *data EINA_UNUSED);
 static void _entrance_action_reboot(void *data EINA_UNUSED);
@@ -15,16 +23,6 @@ static Entrance_Action_Data * _entrance_action_add(const char *label,
                                                    void *data);
 
 static Eina_List *_entrance_actions = NULL;
-
-typedef struct Entrance_Action_Data__
-{
-   unsigned char id;
-   const char *label;
-   const char *icon;
-   Entrance_Action_Cb func;
-   void *data;
-} Entrance_Action_Data;
-
 static Ecore_Exe *_action_exe = NULL;
 
 static Entrance_Action_Data *
