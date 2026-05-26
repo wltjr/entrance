@@ -9,7 +9,6 @@ Eina_List* entrance_gui_theme_icons(void);
 Eina_List* entrance_gui_theme_backgrounds(void);
 Evas_Object *entrance_gui_theme_get (Evas_Object *win, const char *group);
 void entrance_gui_auth_max_tries(void);
-void entrance_gui_xsession_set(Eina_List *xsessions);
 void entrance_gui_actions_set(Eina_List *actions);
 void entrance_gui_users_set(Eina_List *users);
 const Eina_List *entrance_gui_users_get(void);
