@@ -117,6 +117,11 @@ if has_pam
                        install_dir : join_paths(dir_syscfg, 'pam.d'),
                        configuration : cfg
 	)
+	configure_file(input  : 'data/entrance-autologin.pam.d',
+                       output : 'entrance-autologin',
+                       install_dir : join_paths(dir_syscfg, 'pam.d'),
+                       configuration : cfg
+	)
 endif
 
 install_data(sources : 'data/Xsession',
