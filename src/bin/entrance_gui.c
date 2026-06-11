@@ -762,10 +762,7 @@ _entrance_gui_user_content_get(void *data EINA_UNUSED,
           {
              o = _entrance_gui_user_icon_random_get(obj, eu->login);
              if(eu->image.path || eu->image.group)
-               {
                  elm_image_file_get(o,&(eu->image.path),&(eu->image.group));
-                 eu->tmp_icon = EINA_TRUE;
-               }
           }
         else if(eu->image.path && (!eu->image.group))
           {
