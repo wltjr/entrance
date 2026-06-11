@@ -71,7 +71,6 @@ typedef struct Entrance_Login_
    Entrance_Image bg;
    Entrance_Image image;
    Eina_Bool remember_session;
-   Eina_Bool tmp_icon;
    Eina_List *icon_pool;
    Eina_List *background_pool;
 } Entrance_Login;
