@@ -84,7 +84,7 @@ _entrance_session_pam_env_set(int id,
    snprintf(mail, sizeof(mail), "/var/mail/%s", pwd->pw_name);
    snprintf(seat, sizeof(seat), "seat%d", id);
    snprintf(seat_path, sizeof(seat_path), "/org/freedesktop/DisplayManager/Seat%d", id);
-   snprintf(session_path, sizeof(session_path), "/org/freedesktop/DisplayManager/Session%d", id + 1);
+   snprintf(session_path, sizeof(session_path), "/org/freedesktop/DisplayManager/Session%d", id);
    term = getenv("TERM");
    snprintf(vtnr, sizeof(vtnr), "%d", _sessions[id]->vt);
 
