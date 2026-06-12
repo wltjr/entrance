@@ -52,7 +52,7 @@ entrance_history_shutdown(void)
         eina_stringshare_del(el->image.group);
         eina_stringshare_del(el->bg.path);
         eina_stringshare_del(el->bg.group);
-        eina_stringshare_del(el->lsess);
+        eina_stringshare_del(el->session);
         free(el);
      }
    free(_entrance_history);
@@ -114,12 +114,12 @@ entrance_history_check(const char *login, const char *session)
                {
                   if (!session)
                     {
-                       eina_stringshare_del(el->lsess);
-                       el->lsess = NULL;
+                       eina_stringshare_del(el->session);
+                       el->session = NULL;
                     }
-                  else if (el->lsess && strcmp(session, el->lsess))
+                  else if (el->session && strcmp(session, el->session))
                     {
-                       eina_stringshare_replace(&el->lsess, session);
+                       eina_stringshare_replace(&el->session, session);
                        _history_update = EINA_TRUE;
                     }
                }
@@ -132,7 +132,7 @@ entrance_history_check(const char *login, const char *session)
         el = calloc(1, sizeof(Entrance_Login));
         el->login = eina_stringshare_add(login);
         if (session)
-            el->lsess = eina_stringshare_add(session);
+            el->session = eina_stringshare_add(session);
         el->remember_session = EINA_TRUE;
         _entrance_history->history = eina_list_append(_entrance_history->history, el);
         _history_update = EINA_TRUE;
@@ -216,7 +216,7 @@ _entrance_user_shutdown(void)
         if (!_entrance_history_match(eu->login))
           {
              eina_stringshare_del(eu->login);
-             eina_stringshare_del(eu->lsess);
+             eina_stringshare_del(eu->session);
              eina_stringshare_del(eu->image.path);
              eina_stringshare_del(eu->image.group);
              eina_stringshare_del(eu->bg.path);
