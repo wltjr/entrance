@@ -264,7 +264,7 @@ _entrance_event_conf_user_dd(Eina_Bool stream)
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "image.group", image.group, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "bg.path", bg.path, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "bg.group", bg.group, EET_T_STRING);
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "lsess", lsess, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "session", session, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Login, "remember_session", remember_session, EET_T_INT);
 
    if (stream)
