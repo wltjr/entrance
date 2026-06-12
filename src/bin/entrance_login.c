@@ -198,7 +198,7 @@ _login_xsession_guess(void *data, const char *user)
      {
         if (!strcmp(eu->login, user))
           {
-             _entrance_login_session_set(data, eu->lsess);
+             _entrance_login_session_set(data, eu->session);
              break;
           }
      }
