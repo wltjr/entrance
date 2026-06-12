@@ -736,8 +736,8 @@ _entrance_gui_user_text_get(void *data,
    const Entrance_Login *eu;
    eu = data;
    if (part && !strcmp(part, "elm.text.sub"))
-     if (eu->lsess)
-       return strdup(eu->lsess);
+     if (eu->session)
+       return strdup(eu->session);
      else
        return NULL;
    else
