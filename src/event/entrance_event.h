@@ -67,7 +67,7 @@ typedef struct Entrance_Image_
 typedef struct Entrance_Login_
 {
    const char *login;
-   const char *lsess;
+   const char *session;
    Entrance_Image bg;
    Entrance_Image image;
    Eina_Bool remember_session;
