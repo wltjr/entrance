@@ -67,6 +67,8 @@ entrance_history_init(void)
 {
    Eet_Data_Descriptor *edd;
    Eet_Data_Descriptor_Class eddc;
+   struct stat cache;
+   struct stat conf;
 
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Login);
    edd = entrance_event_user_dd();
@@ -74,6 +76,15 @@ entrance_history_init(void)
    EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_History);
    _eddh = eet_data_descriptor_stream_new(&eddc);
    EET_DATA_DESCRIPTOR_ADD_LIST(_eddh, Entrance_History, "history", history, edd);
+
+    if (stat( PACKAGE_CACHE"/"ENTRANCE_HISTORY_FILE, &cache) == -1)
+        _entrance_users_conf_get();
+    else
+    {
+        int stat_conf = stat(SYSTEM_CONFIG_DIR"/entrance/"ENTRANCE_USERS_CONFIG_CONF_FILE, &conf);
+        if (stat_conf == 0 && cache.st_mtime < conf.st_mtime)
+            _entrance_users_conf_get();
+    }
 
    _entrance_history_read();
    _entrance_user_init();
