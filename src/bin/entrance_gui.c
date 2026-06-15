@@ -719,6 +719,18 @@ _entrance_gui_user_sel_cb(void *data,
    const Entrance_Login *eu;
    eu = elm_object_item_data_get(event_info);
    entrance_login_login_set(data, eu->login);
+
+    eina_stringshare_del(_gui->bg.path);
+    eina_stringshare_replace(&_gui->bg.path, eu->bg.path);
+    _gui->bg.path = eu->bg.path;
+
+    eina_stringshare_del(_gui->bg.group);
+    eina_stringshare_replace(&_gui->bg.group, eu->bg.group);
+    _gui->bg.group = eu->bg.group;
+
+    _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+    _gui->changed = ~ENTRANCE_CONF_NONE;
+    _entrance_gui_update();
 }
 
 
