@@ -2,9 +2,11 @@
 
 #define ENTRANCE_SESSION_KEY "session"
 #define ENTRANCE_HISTORY_FILE "entrance.hst"
+#define ENTRANCE_USERS_CONFIG_CONF_FILE "users.conf"
 
 static void _entrance_history_read(void);
 static void _entrance_history_write(void);
+static void _entrance_users_conf_get(void);
 static void _entrance_user_init(void);
 static void _entrance_user_shutdown(void);
 Entrance_Login *_entrance_history_match(const char *login);
@@ -14,6 +16,51 @@ static Eet_Data_Descriptor *_eddh;
 static Entrance_History *_entrance_history;
 static Eina_List *_lusers = NULL;
 static Eina_Bool _history_update = EINA_FALSE;
+
+static void
+_entrance_users_conf_get(void)
+{
+    Eet_File *ef;
+    FILE *f;
+    int textlen;
+    char *text = NULL;
+
+    ef = eet_open(PACKAGE_CACHE "/" ENTRANCE_HISTORY_FILE,
+                  EET_FILE_MODE_READ_WRITE);
+    if (!ef)
+        ef = eet_open(PACKAGE_CACHE "/" ENTRANCE_HISTORY_FILE,
+                      EET_FILE_MODE_WRITE);
+    f = fopen(SYSTEM_CONFIG_DIR "/entrance/" ENTRANCE_USERS_CONFIG_CONF_FILE, "rb");
+    if (!f)
+    {
+        PT("Failed to open " SYSTEM_CONFIG_DIR "/entrance/" ENTRANCE_USERS_CONFIG_CONF_FILE);
+        return;
+    }
+
+    fseek(f, 0, SEEK_END);
+    textlen = (int)ftell(f);
+    rewind(f);
+    if (textlen > 0)
+    {
+        text = (char *)malloc(textlen);
+        if (!text)
+            goto cleanup;
+    }
+    else
+        goto cleanup;
+
+    if (fread(text, textlen, 1, f) != 1)
+        goto cleanup;
+
+    if (eet_data_undump(ef, ENTRANCE_SESSION_KEY, text, textlen, 1))
+        PT("Generating users history cache file");
+
+cleanup:
+    fclose(f);
+    if (text)
+        free(text);
+    eet_close(ef);
+}
 
 void
 entrance_history_init(void)
