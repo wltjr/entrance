@@ -500,24 +500,18 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
    if (_gui->bg.path != conf->bg.path)
      {
         if ((conf->bg.path) && (*conf->bg.path))
-          eina_stringshare_replace(&_gui->bg.path, conf->bg.path);
-        else
-          {
-             eina_stringshare_del(_gui->bg.path);
-             _gui->bg.path = NULL;
-          }
-        _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        {
+            eina_stringshare_replace(&_gui->bg.path, conf->bg.path);
+            _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        }
      }
    if (_gui->bg.group != conf->bg.group)
      {
         if ((conf->bg.group) && (*conf->bg.group))
-          eina_stringshare_replace(&_gui->bg.group, conf->bg.group);
-        else
-          {
-             eina_stringshare_del(_gui->bg.group);
-             _gui->bg.group = NULL;
-          }
-        _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        {
+            eina_stringshare_replace(&_gui->bg.group, conf->bg.group);
+            _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        }
      }
 
    if (_gui->req_passwd != conf->req_passwd)
