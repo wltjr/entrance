@@ -257,6 +257,13 @@ _entrance_user_init(void)
         eina_stringshare_del(user);
         if(eu)
           {
+            struct stat path;
+
+            if(stat(eu->bg.path, &path) != 0)
+              {
+                eina_stringshare_del(eu->bg.path);
+                eu->bg.path = NULL;
+              }
             eu->icon_pool = entrance_image_user_icons(eu->login);
             eu->background_pool = entrance_image_user_backgrounds(eu->login);
             _lusers = eina_list_append(_lusers, eu);
