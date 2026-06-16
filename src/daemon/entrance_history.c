@@ -259,6 +259,12 @@ _entrance_user_init(void)
           {
             struct stat path;
 
+            if(stat(eu->image.path, &path) != 0)
+              {
+                eina_stringshare_del(eu->image.path);
+                eu->image.path = NULL;
+              }
+
             if(stat(eu->bg.path, &path) != 0)
               {
                 eina_stringshare_del(eu->bg.path);
