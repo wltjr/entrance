@@ -127,6 +127,9 @@ endif
 install_data(sources : 'data/Xsession',
              install_dir : join_paths(dir_syscfg, proj)
 )
+install_data(sources : 'data/users.conf',
+             install_dir : join_paths(dir_syscfg, proj)
+)
 
 ##### subdirs
 subdir('src/bin')
