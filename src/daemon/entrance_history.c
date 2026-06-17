@@ -1,3 +1,5 @@
+#include <errno.h>
+
 #include "entrance.h"
 
 #define ENTRANCE_SESSION_KEY "session"
@@ -259,14 +261,16 @@ _entrance_user_init(void)
           {
             struct stat path;
 
-            if(stat(eu->image.path, &path) != 0)
+            if(eu->image.path && stat(eu->image.path, &path) == -1)
               {
+                PT("User image path %s error %s", eu->image.path, strerror(errno));
                 eina_stringshare_del(eu->image.path);
                 eu->image.path = NULL;
               }
 
-            if(stat(eu->bg.path, &path) != 0)
+            if(eu->bg.path && stat(eu->bg.path, &path) == -1)
               {
+                PT("User background path %s error %s", eu->bg.path, strerror(errno));
                 eina_stringshare_del(eu->bg.path);
                 eu->bg.path = NULL;
               }
