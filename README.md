@@ -33,13 +33,14 @@ becomes more well defined.
 
 ### Primary
 
-- [ ] settings UI
-  - [ ] for user icon/bg/session
+- [x] User settings icon/bg/session control via users.conf
+- [ ] Settings UI
   - [ ] for entrance.conf
+  - [ ] for user icon/bg/session users.conf
 - [ ] refactor
   - [ ] Uncalled code, identify never fired code paths
-  - [ ] User history and pretty much all of history
-  - [ ] Look over user icon/background
+  - [-] User history and pretty much all of history
+  - [-] Look over user icon/background
   - [ ] Split desktop and session code in entrance_sessions
   - [ ] Name uniformity on user/login/conf functions, vars etc.
 - [ ] max tries, need to uncomment code and check it works with theme/UI?
@@ -51,10 +52,12 @@ becomes more well defined.
 - [-] [wayland support](#wayland-display-sessions)
   - [x] Basic detection and XDG_SESSION_TYPE=wayland set
   - [x] Session type (X11/Wayland) support
+  - [ ] Disable X11 specific env and software (xserver, xauth, etc)
   - [ ] Full wayland compositor (entrance client)
-- [ ] virtual keyboard support
-- [ ] theme for cursor
-- [ ] write tests for uncovered code (may require test binaries)
+  - [ ] Test wayland sessions
+- [ ] Theme for cursor
+- [ ] Virtual keyboard support
+- [-] Write tests for uncovered code (may require test binaries)
 
 ### Housekeeping
 
