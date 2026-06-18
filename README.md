@@ -69,7 +69,7 @@ becomes more well defined.
 
 Entrance presently uses meson build system.
 
-### Build using meson
+### Build using meson and ninja
 
 ```sh
 prefix=/usr/share
@@ -82,18 +82,21 @@ meson \
     -Dpam=true \
     -Dlogind=true \
     . build
-ninja -C build
+ninja -C build install
 ```
 
-On most systems you likely need a pam file. Meson will install this file.
+Entrance provides it's own pam.d files for direct use which can be modified
+as necessary for operating system integration; using system pam.d files instead
+of Entrance specific.
 
 ```sh
 cp data/entrance.pam.d /etc/pam.d/entrance
+cp data/entrance-autologin.pam.d /etc/pam.d/entrance-autologin
 ```
 
-The systemd service file is presently not installed. It may or may not
-be usable and/or correct. Please see the section on logind/elogind for
-further information.
+The systemd service file is installed on systemd based systems. It should be
+usable and/or correct. Please, open an issue if you experience any problems,
+as Entrance is not developed nor run in a systemd based development environment.
 
 ## Configuration
 
