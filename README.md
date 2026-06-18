@@ -175,7 +175,7 @@ mentioned monitors section.
 ## logind/elogind aka systemd
 
 Initial logind/elogind code has been added to entrance thanks to
-[@OxusByte45](https://github.com/OxusByte45), and has been further extended
+[@Javed](https://github.com/fourty5), and has been further extended
 to detecting seats via logind/elogind on start and launching a xserver/client
 per seat from a single entrance server. There is no support for seat events,
 adding/removing seats, or related actions, which requires additional coding.
@@ -186,7 +186,7 @@ in CI. Any testing of Entrance multi-seat code and/or functionality is welcomed!
 
 ## wayland display sessions
 
-Once again thanks to [@OxusByte45](https://github.com/OxusByte45), entrance now
+Once again thanks to [@Javed](https://github.com/fourty5), entrance now
 has initial support for launching Wayland sessions! This is not as heavily
 tested, and is not being presently tested in CI. Please report any issues with
 launching Wayland sessions, preferable, Enlightenment under Wayland, when the
