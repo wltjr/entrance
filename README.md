@@ -22,7 +22,7 @@ never run or seen this version, please see [History](#history).
 Entrance is a Unix Display/Login Manager written in Enlightenment Foundation
 Libraries (EFL). Entrance allows a user to choose a X WM/Desktop
 session to launch upon successful login. Entrance is alive and working
-again for logging into X sessions and eventually Wayland sessions!
+again for logging into X sessions and initial support for Wayland sessions!
 
 The project has been resurrected from the dead to live on once again...
 
@@ -180,9 +180,9 @@ to detecting seats via logind/elogind on start and launching a xserver/client
 per seat from a single entrance server. There is no support for seat events,
 adding/removing seats, or related actions, which requires additional coding.
 
-This is untested code, but should work in theory. Need access to a multi-seat
-system, if such exists... Or device a way to test multi-seat in CI. Testing
-multi-seat is welcomed!
+This is untested code, but should work in theory. Testing requires access to a
+multi-seat system, if such systems exist... Or devise a way to test multi-seat
+in CI. Any testing of Entrance multi-seat code and/or functionality is welcomed!
 
 ## wayland display sessions
 
@@ -231,20 +231,20 @@ projects both using the name entrance.
 
 ### 3rd Generation
 
-This project is the 3rd generation, fork of the 2nd Generation code
-base, with a lot of fixes, and initial removal of incomplete and/or
-broken code. Rather than fix as is, we are looking to replace functionality
-with new code and finding different ways of accomplishing similar functionality.
+This project is the 3rd generation, a fork of the 2nd Generation code
+base, with a lot of fixes, and removal of incomplete and/or broken code. Rather
+than fix as is, we are looking to replace functionality with novel code and
+solutions providing similar functionality.
 
-This generation is currently in development, and should be usable. Please open
-an [issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
+This generation is currently in development and is usable. Please open an
+[issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
 
 ### 2nd Generation
 
 Sometime later another came along, [Michael Bouchaud](https://github.com/eyoz)/@eyoz
 who renamed his project elsa to Entrance, which is where the current code base
 came from. It is not known if this was ever completed or worked, it did not
-function correctly, if it is even usable to log in at all.
+function correctly, if it was even usable to log in at all.
 
 The broken, incomplete, unmaintained 2nd Generation Entrance resides in Enlightenment's
 [entrance git repository](https://git.enlightenment.org/old/entrance).
