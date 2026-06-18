@@ -17,6 +17,10 @@ _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event E
    Entrance_Event eev;
 
    PT("server client connected");
+   PT("Sending pid");
+   eev.type = ENTRANCE_EVENT_PID;
+   eev.event.pid.pid = getpid();
+   entrance_event_send(&eev);
    PT("Sending actions");
    eev.type = ENTRANCE_EVENT_ACTIONS;
    eev.event.actions.actions = entrance_action_get();
@@ -40,10 +44,6 @@ _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event E
         eev.event.conf_gui.theme = entrance_config->theme;
         entrance_event_send(&eev);
      }
-   PT("Sending pid");
-   eev.type = ENTRANCE_EVENT_PID;
-   eev.event.pid.pid = getpid();
-   entrance_event_send(&eev);
    PT("Sending users");
    eev.type = ENTRANCE_EVENT_USERS;
    eev.event.users.users = entrance_history_get();
