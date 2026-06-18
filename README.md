@@ -101,6 +101,11 @@ Most things can be configured in entrance.conf at `/etc/entrance/entrance.conf`.
 Some settings may not work. Please file issues for anything that is not
 configurable or does not work.
 
+### User Configuration
+
+Entrance user configuration allows for Entrance to be customized per user, with
+icons/images and/or backgrounds set per user in `/etc/entrance/users.conf`.
+
 ## Usage
 
 In order to start entrance, you need a system init script or systemd (untested).
