@@ -188,18 +188,6 @@ _entrance_event_conf_gui_dd(void)
 }
 
 static Eet_Data_Descriptor *
-_entrance_event_themes_dd(void)
-{
-   Eet_Data_Descriptor *edd;
-   Eet_Data_Descriptor_Class eddc;
-   EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Themes);
-   edd = eet_data_descriptor_stream_new(&eddc);
-   EET_DATA_DESCRIPTOR_ADD_LIST_STRING(edd, Entrance_Themes, "themes",
-                                 themes);
-   return edd;
-}
-
-static Eet_Data_Descriptor *
 _entrance_event_status_dd(void)
 {
    Eet_Data_Descriptor *edd;
