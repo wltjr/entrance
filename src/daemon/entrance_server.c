@@ -53,10 +53,6 @@ _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event E
    eev.event.pools.icon_pool = entrance_image_system_icons();
    eev.event.pools.background_pool = entrance_image_system_backgrounds();
    entrance_event_send(&eev);
-   PT("Sending themes");
-   eev.type = ENTRANCE_EVENT_THEMES;
-   eev.event.themes.themes = entrance_theme_themes_get();
-   entrance_event_send(&eev);
    return ECORE_CALLBACK_RENEW;
 }
 
