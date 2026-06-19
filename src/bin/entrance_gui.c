@@ -566,12 +566,6 @@ entrance_gui_themes_set(Eina_List *list)
 }
 
 Eina_List*
-entrance_gui_themes_get(void)
-{
-   return _gui->themes;
-}
-
-Eina_List*
 entrance_gui_icon_pool_get(void)
 {
   return _gui->icon_pool;
