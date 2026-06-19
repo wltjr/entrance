@@ -22,6 +22,5 @@ const char *entrance_gui_theme_path_get(void);
 Eina_List* entrance_gui_icon_pool_get(void);
 void entrance_gui_pools_set(const Entrance_Pools *pool);
 void entrance_gui_themes_set(Eina_List *list);
-Eina_List* entrance_gui_themes_get(void);
 
 #endif /* ENTRANCE_GUI_H_ */
