@@ -11,7 +11,6 @@ typedef enum Entrance_Event_Type_
    ENTRANCE_EVENT_PID,
    ENTRANCE_EVENT_POOLS,
    ENTRANCE_EVENT_STATUS,
-   ENTRANCE_EVENT_THEMES,
    ENTRANCE_EVENT_UNKNOWN,
    ENTRANCE_EVENT_USERS,
    ENTRANCE_EVENT_XSESSIONS
@@ -98,11 +97,6 @@ typedef struct Entrance_Status_Event_
    int granted;
 } Entrance_Status_Event;
 
-typedef struct Entrance_Themes_
-{
-   Eina_List *themes;
-} Entrance_Themes;
-
 typedef struct Entrance_Users_Event_
 {
    Eina_List *users;
@@ -135,7 +129,6 @@ typedef struct Entrance_Event_
         Entrance_Pid_Event pid;
         Entrance_Pools pools;
         Entrance_Status_Event status;
-        Entrance_Themes themes;
         Entrance_Users_Event users;
         Entrance_Xsessions_Event xsessions;
      } event;
