@@ -10,7 +10,6 @@
 #define ENTRANCE_EVENT_PID_NAME "EntranceEventPid"
 #define ENTRANCE_EVENT_POOLS_NAME "EntranceEventPools"
 #define ENTRANCE_EVENT_STATUS_NAME "EntranceEventStatus"
-#define ENTRANCE_EVENT_THEMES_NAME "EntranceEventThemes"
 #define ENTRANCE_EVENT_USERS_NAME "EntranceEventUsers"
 #define ENTRANCE_EVENT_XSESSIONS_NAME "EntranceEventSession"
 
@@ -61,8 +60,6 @@ _entrance_event_type_set(const char *type, void *data, Eina_Bool unknown)
      *ev = ENTRANCE_EVENT_POOLS;
    else if (!strcmp(type, ENTRANCE_EVENT_STATUS_NAME))
      *ev = ENTRANCE_EVENT_STATUS;
-   else if (!strcmp(type, ENTRANCE_EVENT_THEMES_NAME))
-     *ev = ENTRANCE_EVENT_THEMES;
    else if (!strcmp(type, ENTRANCE_EVENT_USERS_NAME))
      *ev = ENTRANCE_EVENT_USERS;
    else if (!strcmp(type, ENTRANCE_EVENT_XSESSIONS_NAME))
@@ -98,8 +95,6 @@ _entrance_event_type_get(const void *data, Eina_Bool *unknown)
         return ENTRANCE_EVENT_POOLS_NAME;
       case ENTRANCE_EVENT_STATUS:
         return ENTRANCE_EVENT_STATUS_NAME;
-      case ENTRANCE_EVENT_THEMES:
-        return ENTRANCE_EVENT_THEMES_NAME;
       case ENTRANCE_EVENT_USERS:
         return ENTRANCE_EVENT_USERS_NAME;
       case ENTRANCE_EVENT_XSESSIONS:
@@ -374,8 +369,6 @@ _entrance_event_new(void)
                                    _entrance_event_status_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_USERS_NAME,
                                    _entrance_event_users_dd());
-   EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_THEMES_NAME,
-                                   _entrance_event_themes_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_XSESSIONS_NAME,
                                    _entrance_event_xsessions_dd());
 
