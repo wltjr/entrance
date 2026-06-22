@@ -13,7 +13,6 @@ entrance_srcs = [
 	'entrance_history.h',	'entrance_history.c',
 	'entrance_action.h',	'entrance_action.c',
 	'entrance_image.h',	'entrance_image.c',
-	'entrance_theme.h',	'entrance_theme.c',
 	'entrance.h',		'entrance.c'
 ]
 
