@@ -27,7 +27,6 @@
 #include "entrance_history.h"
 #include "entrance_action.h"
 #include "entrance_image.h"
-#include "entrance_theme.h"
 
 extern int _entrance_log;
 extern int _entrance_client_log;
