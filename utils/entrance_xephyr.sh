@@ -71,5 +71,3 @@ elif [[ ${VALGRIND} ]]; then
 else
 	"${ENTRANCE}" -x
 fi
-
-rm -r "${XDG_RUNTIME_DIR}"
