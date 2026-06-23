@@ -20,7 +20,7 @@ int main(void)
 
     runner = srunner_create(session_suite());
     srunner_run_all(runner, CK_NORMAL);
-    failed = srunner_ntests_failed(runner);
+    failed += srunner_ntests_failed(runner);
     srunner_free(runner);
 
     return (failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
