@@ -14,6 +14,8 @@ meson \
 	--datadir "${MY_PWD}/test" \
 	--sysconfdir "${MY_PWD}/test" \
 	-Dcachedir="${MY_PWD}/test" \
+	-Dpam=true \
+	-Dlogind=true \
 	$@ . build
 scan-build ninja -C build
 
