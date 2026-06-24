@@ -1,149 +1,197 @@
-#include <sys/utsname.h>
+#include <ctype.h>
 #include <unistd.h>
 
 #include "entrance_client.h"
 
-/**
- * Detect distro from /etc/os-release
- */
-static void _entrance_system_distro_detect();
-
-/**
- * Find distro logo in standard paths
- */
-static void _entrance_system_logo_detect(void);
-
-/**
- * Initialize system detection
- */
-static void _entrance_system_init(void);
-
-static char *_hostname = NULL;
 static char *_distro = NULL;
+static char *_distro_id = NULL;
+static char *_distro_logo = NULL;
 static char *_logo_path = NULL;
 
+static char *
+_entrance_system_value_get(const char *value)
+{
+   const char *start;
+   const char *end;
+   size_t len;
+
+   if (!value) return NULL;
+
+   start = value;
+   while (*start && isspace((unsigned char)*start))
+     start++;
+   if (!*start) return NULL;
+
+   end = start + strlen(start);
+   while ((end > start) && isspace((unsigned char)*(end - 1)))
+     end--;
+
+   if (((end - start) >= 2) &&
+       (((*start == '"') && (*(end - 1) == '"')) ||
+        ((*start == '\'') && (*(end - 1) == '\''))))
+     {
+        start++;
+        end--;
+     }
+
+   len = end - start;
+   if (!len) return NULL;
+
+   return eina_strndup(start, len);
+}
+
+static void
+_entrance_system_value_set(char **dst, const char *value)
+{
+   if (*dst) return;
+   *dst = _entrance_system_value_get(value);
+}
+
+static Eina_Bool
+_entrance_system_icon_name_valid(const char *name)
+{
+   const char *p;
+
+   if (!name || !name[0]) return EINA_FALSE;
+
+   for (p = name; *p; p++)
+     {
+        if (!isalnum((unsigned char)*p) &&
+            (*p != '-') && (*p != '_') && (*p != '.'))
+          return EINA_FALSE;
+     }
+
+   return EINA_TRUE;
+}
+
+static Eina_Bool
+_entrance_system_logo_lookup(const char *name)
+{
+   static const unsigned int sizes[] = { 128, 96, 64, 48, 32 };
+   const char *themes[2];
+   unsigned int theme_count = 0;
+   unsigned int i;
+   unsigned int j;
+
+   if (!_entrance_system_icon_name_valid(name))
+     return EINA_FALSE;
+
+   themes[theme_count++] = elm_config_icon_theme_get();
+   if (!themes[0] || strcmp(themes[0], "hicolor"))
+     themes[theme_count++] = "hicolor";
+
+   for (i = 0; i < theme_count; i++)
+     {
+        const char *path;
+
+        if (!themes[i]) continue;
+        for (j = 0; j < sizeof(sizes) / sizeof(sizes[0]); j++)
+          {
+             path = efreet_icon_path_find(themes[i], name, sizes[j]);
+             if (path)
+               {
+                  _logo_path = strdup(path);
+                  return _logo_path ? EINA_TRUE : EINA_FALSE;
+               }
+          }
+     }
+
+   return EINA_FALSE;
+}
+
+static Eina_Bool
+_entrance_system_logo_lookup_id(const char *id)
+{
+   char name[256];
+   int len;
+
+   if (!_entrance_system_icon_name_valid(id))
+     return EINA_FALSE;
+
+   len = snprintf(name, sizeof(name), "distributor-logo-%s", id);
+   if ((len >= 0) && ((size_t)len < sizeof(name)) &&
+       _entrance_system_logo_lookup(name))
+     return EINA_TRUE;
+
+   len = snprintf(name, sizeof(name), "start-here-%s", id);
+   if ((len >= 0) && ((size_t)len < sizeof(name)) &&
+       _entrance_system_logo_lookup(name))
+     return EINA_TRUE;
+
+   return EINA_FALSE;
+}
 
 static void
 _entrance_system_distro_detect(void)
 {
    FILE *f;
-   char line[256];
+   char line[512];
    char *name = NULL;
-   
+
    f = fopen("/etc/os-release", "r");
    if (!f)
      f = fopen("/usr/lib/os-release", "r");
-   
+
    if (!f)
      {
         _distro = strdup("Linux");
         return;
      }
-   
+
    while (fgets(line, sizeof(line), f))
      {
         char key[64];
-        char value[128];
-        
-        if (sscanf(line, "%63[^=]=%127[^\n]", key, value) == 2)
-          {
-             /* Remove quotes */
-             char *v = value;
-             if (*v == '"') v++;                    // move from v[0] to v[1]
-             char *end = v + strnlen(v, 127) - 1;   // only 127 elements remain
-             if (*end == '"') *end = '\0';
+        char value[448];
 
-             if (!strcmp(key, "NAME"))
-               {
-                  name = strdup(v);
-                  break;
-               }
-          }
+        if (sscanf(line, "%63[^=]=%447[^\n]", key, value) != 2)
+          continue;
+
+        if (!strcmp(key, "NAME"))
+          _entrance_system_value_set(&name, value);
+        else if (!strcmp(key, "ID"))
+          _entrance_system_value_set(&_distro_id, value);
+        else if (!strcmp(key, "LOGO"))
+          _entrance_system_value_set(&_distro_logo, value);
      }
    fclose(f);
-   
-   _distro = name ? name : strdup("Linux");
+
+   _distro = name ? name : strdup(_distro_id ? _distro_id : "Linux");
 }
 
 static void
 _entrance_system_logo_detect(void)
 {
-   const char *paths[] = {
-      "/usr/share/icons/gentoo/64x64/",
-      "/usr/share/icons/gentoo/48x48/",
-      "/usr/share/icons/hicolor/128x128/apps/",
-      "/usr/share/icons/hicolor/64x64/apps/",
-      "/usr/share/icons/Papirus/64x64/apps/",
-      "/usr/share/icons/Papirus/48x48/apps/",
-      "/usr/share/icons/Vertex/places/symbolic/",
-      "/usr/share/pixmaps/"
-   };
-   const char *exts[] = {".svg", ".png", ""};
-   const char *icon_name = NULL;
-   
-   if (!_distro)
-     {
-        _logo_path = NULL;
-        return;
-     }
-   
-   /* Map distro name to icon name */
-   if (strstr(_distro, "Arch"))
-     icon_name = "archlinux";
-   else if (strstr(_distro, "Debian"))
-     icon_name = "debian-logo";
-   else if (strstr(_distro, "Fedora"))
-     icon_name = "fedora";
-   else if (strstr(_distro, "Gentoo"))
-     icon_name = "gentoo";
-   else if (strstr(_distro, "openSUSE"))
-     icon_name = "opensuse";
-   else if (strstr(_distro, "Ubuntu"))
-     icon_name = "ubuntu-logo";
-   else
-     icon_name = "distributor-logo";
-   
-   /* Search for logo */
-   for (size_t i = 0; i < sizeof(paths)/sizeof(paths[0]); i++)
-     {
-        for (int j = 0; j < (int)(sizeof(exts)/sizeof(exts[0])); j++)
-          {
-             char path[512];
-             snprintf(path, sizeof(path), "%s%s%s", paths[i], icon_name, exts[j]);
-             
-             if (ecore_file_exists(path))
-               {
-                  _logo_path = strdup(path);
-                  return;
-               }
-          }
-     }
-   
    _logo_path = NULL;
+
+   if (!elm_need_efreet())
+     return;
+
+   if (_entrance_system_logo_lookup(_distro_logo))
+     return;
+   if (_entrance_system_logo_lookup_id(_distro_id))
+     return;
 }
 
 static void
 _entrance_system_init(void)
 {
-   char hostname[256];
-   
-   /* Get hostname */
+   char hostname[256] = "localhost";
+
    if (gethostname(hostname, sizeof(hostname)) == 0)
      {
-        char *dot = strchr(hostname, '.');
+        char *dot;
+
+        hostname[sizeof(hostname) - 1] = '\0';
+        dot = strchr(hostname, '.');
         if (dot) *dot = '\0';
-        _hostname = strdup(hostname);
      }
-   else
-     _hostname = strdup("localhost");
-   
-   /* Detect distro and logo */
+
    _entrance_system_distro_detect();
    _entrance_system_logo_detect();
-   
-   PT("System: %s on %s, logo: %s", 
+
+   PT("System: %s on %s, logo: %s",
       _distro ? _distro : "unknown",
-      _hostname ? _hostname : "unknown",
+      hostname,
       _logo_path ? _logo_path : "none");
 }
 
@@ -152,26 +200,28 @@ entrance_system_distro_get(void)
 {
    if (!_distro)
      _entrance_system_init();
-   
+
    return _distro;
 }
 
 const char *
 entrance_system_logo_get(void)
 {
-   if (!_distro)  /* Use distro as init flag */
+   if (!_distro)
      _entrance_system_init();
-   
+
    return _logo_path;
 }
 
 void
-entrance_system_shutdown()
+entrance_system_shutdown(void)
 {
-    if(_distro)
-        free(_distro);
-    if(_hostname)
-        free(_hostname);
-    if(_logo_path)
-        free(_logo_path);
+   free(_distro);
+   free(_distro_id);
+   free(_distro_logo);
+   free(_logo_path);
+   _distro = NULL;
+   _distro_id = NULL;
+   _distro_logo = NULL;
+   _logo_path = NULL;
 }
