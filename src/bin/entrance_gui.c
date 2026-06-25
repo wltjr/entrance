@@ -710,15 +710,23 @@ _entrance_gui_user_sel_cb(void *data,
                           Evas_Object *obj EINA_UNUSED,
                           void *event_info)
 {
+   const char *path;
+   const char *group;
    const Entrance_Login *eu;
    eu = elm_object_item_data_get(event_info);
    entrance_login_login_set(data, eu->login);
 
-    eina_stringshare_replace(&_gui->bg.path, eu->bg.path);
-    _gui->bg.path = eu->bg.path;
+    path = eu->bg.path;
+    if(!path && (_gui->conf_bg.path))
+        path = _gui->conf_bg.path;
+    eina_stringshare_replace(&_gui->bg.path, path);
+    _gui->bg.path = path;
 
-    eina_stringshare_replace(&_gui->bg.group, eu->bg.group);
-    _gui->bg.group = eu->bg.group;
+    group = eu->bg.group;
+    if(!group && (_gui->conf_bg.group))
+        group = _gui->conf_bg.group;
+    eina_stringshare_replace(&_gui->bg.group, group);
+    _gui->bg.group = group;
 
     _gui->changed &= ENTRANCE_CONF_WALLPAPER;
     _gui->changed = ~ENTRANCE_CONF_NONE;
