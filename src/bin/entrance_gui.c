@@ -68,8 +68,6 @@ struct Entrance_Screen_
    Evas_Object *background;
    Evas_Object *transition;
    Evas_Object *login;
-   Eina_Bool focused:1;
-   Eina_Bool managed:1;
 };
 
 int
