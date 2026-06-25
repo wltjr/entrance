@@ -49,6 +49,11 @@ struct Entrance_Gui_
         const char *path;
         const char *group;
      } bg;
+   struct
+     {
+        const char *path;
+        const char *group;
+     } conf_bg;
    unsigned char changed;
    Eina_Bool req_passwd : 1;
    Eina_Bool showlogin : 1;
@@ -502,6 +507,7 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
         {
             eina_stringshare_replace(&_gui->bg.path, conf->bg.path);
             _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+            _gui->conf_bg.path = conf->bg.path;
         }
      }
    if (_gui->bg.group != conf->bg.group)
@@ -510,6 +516,7 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
         {
             eina_stringshare_replace(&_gui->bg.group, conf->bg.group);
             _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+            _gui->conf_bg.group = conf->bg.group;
         }
      }
 
