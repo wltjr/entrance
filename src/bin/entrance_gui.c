@@ -42,7 +42,6 @@ struct Entrance_Gui_
    Eina_List *background_pool;
    Eina_List *icon_pool;
    Eina_List *theme_icon_pool;
-   Eina_List *themes;
    Entrance_Xsession *selected_session;
    const char *theme;
    struct
