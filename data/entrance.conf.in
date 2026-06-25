@@ -55,6 +55,9 @@ group "Entrance_Config" struct {
     /* Bool to control if password entry is required or not */
     value "require_password" uchar: 1;
 
+    /* Bool to control if last user is auto selected or not */
+    value "autoselect_last_user" uchar: 1;
+
     /* The desktop session to use when autologin is enabled */
     value "session" string: "Enlightenment";
 
