@@ -75,8 +75,12 @@ group "Entrance_Config" struct {
 
     /* background */
     value "background_path" string: "";
+
     /* if it's an edj file */
     value "background_group" string: "";
+
+    /* Bool to control random background */
+    value "background_random" uchar: 0;
 
     /* Elementary profile */
     value "elementary_profile" string: "default";
