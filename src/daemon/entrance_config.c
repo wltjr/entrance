@@ -39,6 +39,7 @@ _defaults_set(Entrance_Config *config)
    config->custom_conf = EINA_FALSE;
    config->req_passwd = EINA_TRUE;
    config->autoselect_last_user = EINA_TRUE;
+   config->bg.random = EINA_FALSE;
    config->userlogin = eina_stringshare_add("mylogintouse");
    config->lockfile = eina_stringshare_add("/var/run/entrance.pid");
    config->logfile = eina_stringshare_add("/var/log/entrance.log");
@@ -187,6 +188,7 @@ entrance_config_init()
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "theme", theme, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "background_path", bg.path, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "background_group", bg.group, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "background_random", bg.random, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "elementary_profile", elm_profile, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "virtual_keyboard", vkbd_enabled, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Config, "custom_conf", custom_conf, EET_T_UCHAR);
