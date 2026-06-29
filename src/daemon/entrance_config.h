@@ -35,6 +35,7 @@ struct _Entrance_Config
      {
         const char *path;
         const char *group;
+        Eina_Bool random;
      } bg;
    Eina_Bool xsessions;
    Eina_Bool numlock;
