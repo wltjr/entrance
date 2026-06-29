@@ -174,6 +174,8 @@ _entrance_event_conf_gui_dd(void)
                                  bg.path, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "bg.group",
                                  bg.group, EET_T_STRING);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "bg.random",
+                                 bg.random, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "req_passwd",
                                  req_passwd, EET_T_UCHAR);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Conf_Gui_Event, "showlogin",
