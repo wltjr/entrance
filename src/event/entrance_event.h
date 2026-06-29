@@ -50,6 +50,7 @@ typedef struct Entrance_Conf_Gui_Event_
      {
         const char *group;
         const char *path;
+        Eina_Bool random;
      } bg;
    Eina_Bool req_passwd;
    Eina_Bool showlogin;
