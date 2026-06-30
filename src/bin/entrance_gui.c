@@ -18,6 +18,7 @@ static void _entrance_gui_actions_populate();
 static void _entrance_gui_update(void);
 static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename);
 static void _entrance_gui_users_populate(void);
+static const char *_entrance_gui_background_random_get(const char *username);
 
 static Entrance_Gui *_gui;
 
@@ -648,6 +649,44 @@ _entrance_gui_update(void)
           }
      }
    _gui->changed = 0;
+}
+
+static const char *
+_entrance_gui_background_random_get(const char *username)
+{
+    unsigned int max = 0;
+    unsigned int rnd = 0;
+    unsigned int user_backgrounds_count = 0;
+    unsigned int sys_backgrounds_count = 0;
+    const Entrance_Image *img;
+    const Entrance_Login *el;
+    const Eina_List *sys_backgrounds = NULL;
+    const Eina_List *user_backgrounds = NULL;
+
+    if (username)
+    {
+        el = entrance_gui_user_get(username);
+        if (el)
+        {
+            user_backgrounds = el->background_pool;
+            user_backgrounds_count = eina_list_count(user_backgrounds);
+        }
+    }
+    sys_backgrounds = _gui->background_pool;
+    sys_backgrounds_count = eina_list_count(sys_backgrounds);
+
+    max = user_backgrounds_count + sys_backgrounds_count;
+    // prevent division by zero
+    if (!max)
+        return NULL;
+
+    rnd = rand() % max;
+    if (el && rnd < user_backgrounds_count)
+        img = eina_list_nth(user_backgrounds, rnd);
+    else if (rnd >= user_backgrounds_count && rnd < max)
+        img = eina_list_nth(sys_backgrounds, (rnd - user_backgrounds_count));
+
+    return img->path;
 }
 
 ///////////////////////////////////////////////////
