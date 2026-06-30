@@ -518,7 +518,11 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
             _gui->conf_bg.group = conf->bg.group;
         }
      }
-
+   if (_gui->conf_bg.random != conf->bg.random)
+     {
+        _gui->conf_bg.random = conf->bg.random;
+        _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+     }
    if (_gui->req_passwd != conf->req_passwd)
      {
         _gui->req_passwd = conf->req_passwd;
