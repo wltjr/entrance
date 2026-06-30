@@ -53,6 +53,7 @@ struct Entrance_Gui_
      {
         const char *path;
         const char *group;
+        Eina_Bool random;
      } conf_bg;
    unsigned char changed;
    Eina_Bool req_passwd : 1;
