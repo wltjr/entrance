@@ -759,8 +759,13 @@ _entrance_gui_user_sel_cb(void *data,
    entrance_login_login_set(data, eu->login);
 
     path = eu->bg.path;
-    if(!path && (_gui->conf_bg.path))
-        path = _gui->conf_bg.path;
+    if(!path)
+    {
+        if(_gui->conf_bg.random)
+            path = _entrance_gui_background_random_get(eu->login);
+        if(!path && _gui->conf_bg.path)
+            path = _gui->conf_bg.path;
+    }
     eina_stringshare_replace(&_gui->bg.path, path);
     _gui->bg.path = path;
 
