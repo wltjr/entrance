@@ -19,12 +19,11 @@ static const char *_entrance_gui_background_random_get(const char *username);
 
 enum {
      ENTRANCE_CONF_NONE = 0,
-     ENTRANCE_CONF_STATE = (1 << 0),
-     ENTRANCE_CONF_WALLPAPER = (1 << 1),
-     ENTRANCE_CONF_REQ_PASSWD = (1 << 2),
-     ENTRANCE_CONF_SHOWLOGIN = (1 << 3),
-     ENTRANCE_CONF_VKBD = (1 << 4),
-     ENTRANCE_CONF_AUTOSELECT = (1 << 5)
+     ENTRANCE_CONF_WALLPAPER = (1 << 0),
+     ENTRANCE_CONF_REQ_PASSWD = (1 << 1),
+     ENTRANCE_CONF_SHOWLOGIN = (1 << 2),
+     ENTRANCE_CONF_VKBD = (1 << 3),
+     ENTRANCE_CONF_AUTOSELECT = (1 << 4)
 };
 
 typedef struct Entrance_Gui_
