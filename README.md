@@ -39,8 +39,8 @@ becomes more well defined.
   - [ ] for user icon/bg/session users.conf
 - [ ] refactor
   - [ ] Uncalled code, identify never fired code paths
-  - [-] User history and pretty much all of history
-  - [-] Look over user icon/background
+  - [+] User history and pretty much all of history
+  - [+] Look over user icon/background
   - [ ] Split desktop and session code in entrance_sessions
   - [ ] Name uniformity on user/login/conf functions, vars etc.
 - [ ] max tries, need to uncomment code and check it works with theme/UI?
@@ -61,12 +61,12 @@ becomes more well defined.
 
 ### Housekeeping
 
-- [ ] log output
-  - [ ] Standardize seat, #, port, etc.
+- [-] log output
+  - [-] Standardize seat, #, port, etc.
   - [ ] Ensure client/seat # in client/server communication log (passed in callback data)
-- [ ] clean up codebase
-  - [ ] Refactor imports system -> libs -> local
-  - [ ] Comment code (add comments to headers)
+- [-] clean up codebase
+  - [-] Refactor imports system -> libs -> local
+  - [-] Comment code (add comments to headers)
 
 ## Build
 
