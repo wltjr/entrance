@@ -708,6 +708,7 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
    const Eina_List *theme_icons = NULL;
    const Eina_List *user_icons = NULL;
 
+   o = elm_icon_add(obj);
    el = entrance_gui_user_get(username);
    if (el)
    {
@@ -724,25 +725,19 @@ _entrance_gui_user_icon_random_get(Evas_Object *obj, const char *username)
        rnd = rand() % max;
    if (el && rnd < user_icons_count)
      {
-        o = elm_icon_add(obj);
         img = eina_list_nth(user_icons, rnd);
         elm_image_file_set(o, img->path, NULL);
-
      }
-   else if((rnd >= user_icons_count) && (rnd < (user_icons_count
-            +eina_list_count(sys_icons))))
+   else if((rnd >= user_icons_count) &&
+           (rnd < (user_icons_count + sys_icons_count)))
      {
-        o = elm_icon_add(obj);
         img = eina_list_nth(sys_icons, (rnd - user_icons_count));
         elm_image_file_set(o, img->path, NULL);
      }
    else
      {
-        img = eina_list_nth(theme_icons, (rnd - (user_icons_count
-                                        + eina_list_count(sys_icons))));
-        o = elm_icon_add(obj);
+        img = eina_list_nth(theme_icons, (rnd - (user_icons_count + sys_icons_count)));
         elm_image_file_set(o, img->path, img->group);
-
      }
    return o;
 }
