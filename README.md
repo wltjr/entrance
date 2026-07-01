@@ -112,6 +112,61 @@ configurable or does not work.
 Entrance user configuration allows for Entrance to be customized per user, with
 icons/images and/or backgrounds set per user in `/etc/entrance/users.conf`.
 
+### Background and User Icon Configuration
+
+Entrance features the ability to configure both background and user icon images,
+set per user, random, via system, or theme default. By default, user icons are
+selected randomly, and the background is the theme default; the current default
+Enlightenment desktop background.
+
+For Background image selection, the order is as follows,
+
+1. user specified background via users.conf (image file can reside anywhere);
+2. random if enabled in configuration, overrides system if set;
+3. system specified background via entrance.conf;
+4. default background from theme.
+
+For User Icon image selection, the order is as follows,
+
+1. user specified icon via users.conf (image file can reside anywhere);
+2. random from theme.
+
+#### Random Background
+
+Entrance might be the only display/login manager that has native support for
+random background images, both user and system levels. Each user can add to the
+available pool of system backgrounds, or have their own, if no system
+backgrounds are available. Backgrounds are set upon user selection and are
+randomized with each selection.
+
+#### Random User Icon
+
+Entrance supports random user icons/avatars by default with images provided via
+the theme, user, and system levels. Each user can add to the available pool of
+system and theme icon images, or have their own, if no system icons are
+available; theme icons are always part of the pool. Icons are set upon start
+and are not randomized with each selection, only once per login session.
+
+##### System Random Background and User Icon Images
+
+Entrance looks for system wide random backgrounds in
+`PACKAGE_DATA_DIR/images/backgrounds/` and random icons in
+`PACKAGE_DATA_DIR/images/icons/` where `PACKAGE_DATA_DIR` is typically
+`/usr/share/entrance`. These can be a directory or a symlink but subdirectories
+will not be traversed, just the topmost level. These directories are only used
+for random background pools are are not required for single background set
+in `entrance.conf` or `users.conf`.
+
+##### User Random Background and User Icon Images
+
+Entrance looks for  user specific random backgrounds in
+`$HOME/.config/entrance/images/backgrounds/` and random icons in
+`$HOME/.config/entrance/images/icons/` where `$HOME` is typically the
+user's home directory, typically `/home/username`. These can be a directory or a
+symlink but subdirectories will not be traversed, just the topmost level. These
+directories are only used for random icon pools are are not required for single
+icon set in `users.conf`.
+
 ## Usage
 
 In order to start entrance, you need a system init script or systemd (untested).
