@@ -6,9 +6,6 @@
 #include "entrance_client.h"
 #include "entrance_edje.h"
 
-typedef struct Entrance_Gui_ Entrance_Gui;
-typedef struct Entrance_Screen_ Entrance_Screen;
-
 static Eina_List* _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile);
 static void _entrance_gui_user_sel_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event_info);
 static char *_entrance_gui_user_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part);
@@ -20,8 +17,6 @@ static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const c
 static void _entrance_gui_users_populate(void);
 static const char *_entrance_gui_background_random_get(const char *username);
 
-static Entrance_Gui *_gui;
-
 enum {
      ENTRANCE_CONF_NONE = 0,
      ENTRANCE_CONF_STATE = (1 << 0),
@@ -32,8 +27,7 @@ enum {
      ENTRANCE_CONF_AUTOSELECT = (1 << 5)
 };
 
-
-struct Entrance_Gui_
+typedef struct Entrance_Gui_
 {
    Evas_Object *win;
    Eina_List *screens;
@@ -62,15 +56,17 @@ struct Entrance_Gui_
    Eina_Bool vkbd_enabled : 1;
    Eina_Bool autoselect_last_user : 1;
 
-};
+} Entrance_Gui;
 
-struct Entrance_Screen_
+typedef struct Entrance_Screen_
 {
    Evas_Object *edj;
    Evas_Object *background;
    Evas_Object *transition;
    Evas_Object *login;
-};
+} Entrance_Screen;
+
+static Entrance_Gui *_gui;
 
 int
 entrance_gui_init(const char *theme)
