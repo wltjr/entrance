@@ -12,6 +12,7 @@ typedef struct Entrance_Pam_
     int last_result;
     Eina_Bool opened;
     pam_handle_t* handle;
+    Eina_Strbuf *msgs;
 } Entrance_Pam;
 
 static int _entrance_pam_conv(int num_msg,
