@@ -96,6 +96,7 @@ typedef struct Entrance_Status_Event_
 {
    const char *login;
    int granted;
+   const char *msgs;
 } Entrance_Status_Event;
 
 typedef struct Entrance_Users_Event_
