@@ -97,6 +97,7 @@ _entrance_pam_conv(int num_msg,
               break;
            case PAM_TEXT_INFO:
               PT("info %s", msg[i]->msg);
+              eina_strbuf_append(_pams[id]->msgs, msg[i]->msg);
               break;
            default:
               break;
@@ -140,6 +141,7 @@ entrance_pam_end(int id)
    int result;
    result = pam_end(_pams[id]->handle, _pams[id]->last_result);
    _pams[id]->handle = NULL;
+   eina_strbuf_string_free(_pams[id]->msgs);
    return result;
 }
 
@@ -174,6 +176,7 @@ entrance_pam_start(int id, const char *service, const char *tty, const char *use
    _pams[id] = calloc(1, sizeof(Entrance_Pam));
    _pams[id]->id = id;
    _pams[id]->opened = EINA_FALSE;
+   _pams[id]->msgs = eina_strbuf_new();
 
    struct pam_conv pam_conversation = { _entrance_pam_conv, &_pams[id]->id };
 
@@ -249,6 +252,7 @@ entrance_pam_shutdown(int id)
 {
     if(_pams[id])
     {
+        eina_strbuf_free(_pams[id]->msgs);
         free(_pams[id]->passwd);
         _pams[id]->passwd = NULL;
         free(_pams[id]);
