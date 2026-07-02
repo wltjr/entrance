@@ -200,6 +200,8 @@ _entrance_event_status_dd(void)
                                  login, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Status_Event, "granted",
                                  granted, EET_T_INT);
+   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Status_Event, "msgs",
+                                 msgs, EET_T_STRING);
    return edd;
 
 }
