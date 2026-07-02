@@ -93,10 +93,10 @@ _entrance_pam_conv(int num_msg,
               (*resp)[i].resp = _pams[id]->passwd ? strdup(_pams[id]->passwd) : NULL;
               break;
            case PAM_ERROR_MSG:
-              PT("error msg %s", msg[i]->msg);
+              PT("error: %s", msg[i]->msg);
               break;
            case PAM_TEXT_INFO:
-              PT("info %s", msg[i]->msg);
+              PT("info: %s", msg[i]->msg);
               eina_strbuf_append(_pams[id]->msgs, msg[i]->msg);
               break;
            default:
