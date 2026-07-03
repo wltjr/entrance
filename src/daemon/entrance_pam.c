@@ -106,6 +106,12 @@ _entrance_pam_conv(int num_msg,
    return PAM_SUCCESS;
 }
 
+Eina_Strbuf *
+entrance_pam_conv_msgs_get(int id)
+{
+    return _pams[id]->msgs;
+}
+
 int
 entrance_pam_session_open(int id)
 {
