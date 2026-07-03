@@ -98,6 +98,8 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
    eev = data;
    if (eev->type == ENTRANCE_EVENT_AUTH)
      {
+        char *msgs;
+
         neev.type = ENTRANCE_EVENT_STATUS;
         if (entrance_session_authenticate(eev->event.auth.id,
                                           eev->event.auth.login,
@@ -121,6 +123,10 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
         else
           {
 #ifdef HAVE_PAM
+             // temp var as string buffer is free'd in call to entrance_pam_end
+             msgs =
+                strdup(eina_strbuf_string_get(entrance_pam_conv_msgs_get(eev->event.auth.id)));
+             neev.event.status.msgs = msgs;
              entrance_pam_end(eev->event.auth.id);
 #endif
              neev.event.status.login = NULL;
@@ -128,7 +134,8 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
              PT("server authenticate error");
           }
         entrance_event_send(&neev);
-
+        if(msgs)
+           free(msgs);
      }
    else if (eev->type == ENTRANCE_EVENT_ACTION)
      {
