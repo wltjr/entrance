@@ -12,7 +12,9 @@
 #
 auth        required        pam_nologin.so
 auth        required        pam_env.so
+auth        requisite       pam_faillock.so preauth
 auth        required        pam_unix.so nullok
+auth        [default=die]   pam_faillock.so authfail
 auth        optional        pam_cap.so
 -auth       optional        pam_gnome_keyring.so
 -auth       optional        pam_kwallet6.so
@@ -23,6 +25,7 @@ auth        optional        pam_cap.so
 account     required        pam_access.so
 account     required        pam_nologin.so
 account     required        pam_unix.so
+account     required        pam_faillock.so
 
 #
 # Password - not typically needed for display manager but included for completeness
