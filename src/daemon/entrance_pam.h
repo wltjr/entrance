@@ -22,6 +22,15 @@ typedef enum ENTRANCE_PAM_ITEM_TYPE_ {
 int entrance_pam_authenticate(int id);
 
 /**
+ * @brief Get the messages from pam_conv
+ *
+ * @param id of session in array, index value for now, could be seat id later
+ *
+ * @return Eina_Strbuf * pam conversation messages string
+ */
+Eina_Strbuf *entrance_pam_conv_msgs_get(int id);
+
+/**
  * @brief termination of PAM transaction
  *
  * @param id of session in array, index value for now, could be seat id later
