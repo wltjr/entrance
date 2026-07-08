@@ -10,7 +10,7 @@ static void _login_xsession_clicked_cb(void *data, Evas_Object *obj EINA_UNUSED,
 static void _login_login_unfocused_cb(void *data , Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSED);
 static void _login_login_activated_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSED);
 static char *_login_xsession_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part);
-static void _login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted);
+static void _login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted, const char *msgs);
 static void _entrance_login_session_set(const Evas_Object *widget, const char *name);
 static void _entrance_login_auth_check_cb(void *data,
                                           Evas_Object *obj EINA_UNUSED,
@@ -217,7 +217,7 @@ _login_xsession_clicked_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event
 }
 
 static void
-_login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted)
+_login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted, const char *msgs)
 {
    if (_login->wait)
      {
