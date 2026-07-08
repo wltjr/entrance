@@ -1,7 +1,7 @@
 #ifndef ENTRANCE_LOGIN_H
 #define ENTRANCE_LOGIN_H
 
-typedef void (*Entrance_Login_Cb) (void *data, const char *user, Eina_Bool granted);
+typedef void (*Entrance_Login_Cb) (void *data, const char *user, Eina_Bool granted, const char *msgs);
 
 void entrance_login_init(void);
 void entrance_login_shutdown(void);
