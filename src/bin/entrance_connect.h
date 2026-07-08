@@ -1,7 +1,7 @@
 #ifndef ENTRANCE_CONNECT_
 #define ENTRANCE_CONNECT_
 
-typedef void (*Entrance_Connect_Auth_Cb)(void *data, const char *login, Eina_Bool granted);
+typedef void (*Entrance_Connect_Auth_Cb)(void *data, const char *login, Eina_Bool granted, const char *msgs);
 
 /**
  * @brief Establish an entrance client connection to the entrance server
