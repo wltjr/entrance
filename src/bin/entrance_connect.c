@@ -69,7 +69,7 @@ _entrance_connect_auth(const char *login, Eina_Bool granted, const char *msgs)
    EINA_LIST_FOREACH_SAFE(_auth_list, l, ll, auth)
      {
         if (auth->func)
-          auth->func(auth->data, login, granted);
+          auth->func(auth->data, login, granted, msgs);
      }
    if(granted)
      elm_exit();
