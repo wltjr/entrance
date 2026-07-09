@@ -97,6 +97,8 @@ _entrance_pam_conv(int num_msg,
               break;
            case PAM_TEXT_INFO:
               PT("info: %s", msg[i]->msg);
+              if(eina_strbuf_length_get(_pams[id]->msgs) > 1)
+                 eina_strbuf_append(_pams[id]->msgs, "<br/>");
               eina_strbuf_append(_pams[id]->msgs, msg[i]->msg);
               break;
            default:
