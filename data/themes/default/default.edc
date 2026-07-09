@@ -260,6 +260,12 @@ collections {
 
    group {
       name : ENTRANCE_EDJE_GROUP_LOGIN;
+      styles {
+         style {
+            name: "textblock_style";
+            base: "align=center font=Sans font_size=20 color=#FFF wrap=word shadow_color=#000 style=soft_shadow,bottom_right";
+         }
+      }
       parts {
          rect {
             name: "error";
@@ -274,18 +280,17 @@ collections {
                visible: 1;
             }
          }
-         text {
+         textblock {
             name: ENTRANCE_EDJE_PART_LABEL;
-            effect: SOFT_SHADOW;
             description {
                 state: "default" 0.0;
                 align: 0.5 0.5;
-                max: 0 0;
-                min: ENTRY_SIZE;
+                max: 0 80;
+                min: 300 0;
                 rel2.offset: 0 -OFFSET*16;
                 visible: 0;
                text {
-                    size: 20;
+                    style: "textblock_style";
                }
             }
             description { state: "visible" 0.0;
