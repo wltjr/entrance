@@ -228,7 +228,14 @@ _login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted, cons
           {
             Evas_Object *o;
 
-            ALERT_ERROR(data, _("Login failed"));
+            if(strnlen(msgs, 1) > 0)
+            {
+                ALERT_ERROR(data, msgs);
+            }
+            else
+            {
+                ALERT_ERROR(data, _("Login failed"));
+            }
             o = elm_object_part_content_get(data, ENTRANCE_EDJE_PART_PASSWORD);
             elm_object_text_set(o, "");
           }
