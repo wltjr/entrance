@@ -269,11 +269,14 @@ collections {
       parts {
          rect {
             name: "error";
-            description { state: "default" 0.0;
-               color: 255 0 0 96;
-               max: 0 0;
-               min: 360 240;
-               visible: 0;
+            description {
+                state: "default" 0.0;
+                align: 0.5 0.5;
+                color: 255 0 0 64;
+                max: 0 0;
+                min: 360 90;
+                rel2.offset: 0 -OFFSET*15;
+                visible: 0;
             }
             description { state: "visible" 0.0;
                inherit: "default" 0.0;
