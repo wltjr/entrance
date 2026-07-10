@@ -369,27 +369,6 @@ entrance_gui_actions_set(Eina_List *actions)
    _entrance_gui_actions_populate();
 }
 
-void
-entrance_gui_auth_max_tries(void)
-{
-   /*
-   Evas_Object *o;
-   Eina_List *l;
-   Entrance_Screen *screen;
-
-   EINA_LIST_FOREACH(_gui->screens, l, screen)
-     {
-        o = ENTRANCE_GUI_GET(screen->edj, "entrance.login");
-        elm_entry_entry_set(o, "");
-        elm_object_disabled_set(o, EINA_TRUE);
-        o = ENTRANCE_GUI_GET(screen->edj, "entrance.password");
-        elm_entry_entry_set(o, "");
-        elm_object_disabled_set(o, EINA_TRUE);
-     }
-   ecore_timer_add(5.0, _entrance_gui_auth_enable, NULL);
-   */
-}
-
 static void
 _entrance_gui_users_populate(void)
 {
