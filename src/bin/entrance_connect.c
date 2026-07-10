@@ -94,11 +94,6 @@ _entrance_connect_read_cb(const void *data,
                                     (Eina_Bool)eev->event.status.granted,
                                     eev->event.status.msgs);
           }
-        else if (eev->type == ENTRANCE_EVENT_MAXTRIES)
-          {
-             PT("Max tries !");
-             entrance_gui_auth_max_tries();
-          }
         else if (eev->type == ENTRANCE_EVENT_XSESSIONS)
           {
              PT("Xsession received");
