@@ -6,7 +6,6 @@
 #define ENTRANCE_EVENT_ACTIONS_NAME "EntranceEventActions"
 #define ENTRANCE_EVENT_AUTH_NAME "EntranceEventAuth"
 #define ENTRANCE_EVENT_CONF_GUI_NAME "EntranceEventConfGui"
-#define ENTRANCE_EVENT_MAXTRIES_NAME "EntranceEventMaxtries"
 #define ENTRANCE_EVENT_PID_NAME "EntranceEventPid"
 #define ENTRANCE_EVENT_POOLS_NAME "EntranceEventPools"
 #define ENTRANCE_EVENT_STATUS_NAME "EntranceEventStatus"
@@ -21,7 +20,6 @@ static Eet_Data_Descriptor *_entrance_event_auth_dd(void);
 static Eet_Data_Descriptor *_entrance_event_conf_gui_dd(void);
 static Eet_Data_Descriptor *_entrance_event_conf_user_dd(Eina_Bool stream);
 static Eet_Data_Descriptor *_entrance_event_image_dd(void);
-static Eet_Data_Descriptor *_entrance_event_maxtries_dd(void);
 static Eet_Data_Descriptor *_entrance_event_new(void);
 static Eet_Data_Descriptor *_entrance_event_pid_dd(void);
 static Eet_Data_Descriptor *_entrance_event_status_dd(void);
@@ -52,8 +50,6 @@ _entrance_event_type_set(const char *type, void *data, Eina_Bool unknown)
      *ev = ENTRANCE_EVENT_AUTH;
    else if (!strcmp(type, ENTRANCE_EVENT_CONF_GUI_NAME))
      *ev = ENTRANCE_EVENT_CONF_GUI;
-   else if (!strcmp(type, ENTRANCE_EVENT_MAXTRIES_NAME))
-     *ev = ENTRANCE_EVENT_MAXTRIES;
    else if (!strcmp(type, ENTRANCE_EVENT_PID_NAME))
      *ev = ENTRANCE_EVENT_PID;
    else if (!strcmp(type, ENTRANCE_EVENT_POOLS_NAME))
@@ -87,8 +83,6 @@ _entrance_event_type_get(const void *data, Eina_Bool *unknown)
         return ENTRANCE_EVENT_AUTH_NAME;
       case ENTRANCE_EVENT_CONF_GUI:
         return ENTRANCE_EVENT_CONF_GUI_NAME;
-      case ENTRANCE_EVENT_MAXTRIES:
-        return ENTRANCE_EVENT_MAXTRIES_NAME;
       case ENTRANCE_EVENT_PID:
         return ENTRANCE_EVENT_PID_NAME;
       case ENTRANCE_EVENT_POOLS:
@@ -148,18 +142,6 @@ _entrance_event_auth_dd(void)
                                  open_session, EET_T_UCHAR);
    return edd;
 
-}
-
-static Eet_Data_Descriptor *
-_entrance_event_maxtries_dd(void)
-{
-   Eet_Data_Descriptor *edd;
-   Eet_Data_Descriptor_Class eddc;
-   EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, Entrance_Maxtries_Event);
-   edd = eet_data_descriptor_stream_new(&eddc);
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Maxtries_Event, "maxtries",
-                                 maxtries, EET_T_INT);
-   return edd;
 }
 
 static Eet_Data_Descriptor *
@@ -351,8 +333,6 @@ _entrance_event_new(void)
                                    _entrance_event_auth_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_CONF_GUI_NAME,
                                    _entrance_event_conf_gui_dd());
-   EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_MAXTRIES_NAME,
-                                   _entrance_event_maxtries_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_PID_NAME,
                                    _entrance_event_pid_dd());
    EET_DATA_DESCRIPTOR_ADD_MAPPING(unified, ENTRANCE_EVENT_POOLS_NAME,
