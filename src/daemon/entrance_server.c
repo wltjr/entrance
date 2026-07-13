@@ -218,13 +218,3 @@ entrance_server_shutdown(void)
    entrance_event_shutdown();
    ecore_con_shutdown();
 }
-
-void
-entrance_server_client_wait(void)
-{
-   Entrance_Event eev;
-   eev.type = ENTRANCE_EVENT_MAXTRIES;
-   eev.event.maxtries.maxtries = EINA_TRUE;
-   entrance_event_send(&eev);
-}
-
