@@ -11,8 +11,6 @@
 #include "entrance.h"
 #include "entrance_session_utils.h"
 
-#define HAVE_SHADOW 1
-
 typedef struct Entrance_Session_
 {
     pid_t pid;
@@ -384,14 +382,12 @@ entrance_session_authenticate(int id, const char *login, const char *passwd)
    result = getpwnam_r(login, &pwd_buf, buf, sizeof(buf), &pwd);
    if (result != 0 || !pwd)
      return EINA_FALSE;
-#ifdef HAVE_SHADOW
    struct spwd *spd;
    spd = getspnam(pwd->pw_name);
    endspent();
    if(spd)
      v = spd->sp_pwdp;
    else
-#endif
      v = pwd->pw_passwd;
    if(!v || *v == '\0')
      return EINA_TRUE;
