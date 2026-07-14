@@ -29,7 +29,6 @@ typedef struct _Entrance_Gui_Login
      } func;
    void *auth;
    Eina_Bool open_session : 1;
-   Eina_Bool selected : 1;
    Eina_Bool error : 1;
    Eina_Bool wait : 1;
 } Entrance_Gui_Login;
