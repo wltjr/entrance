@@ -203,9 +203,7 @@ _login_xsession_guess(void *data, const char *user)
      }
 
    if (!l)
-     {
         _entrance_login_session_set(data, NULL);
-     }
 }
 
 static void
@@ -253,11 +251,8 @@ _entrance_login_session_set(const Evas_Object *widget, const char *name)
      {
         EINA_LIST_FOREACH(entrance_gui_xsessions_get(), l, sess)
           {
-             if ((sess->name) &&
-                 (!strcmp(sess->name, name)))
-               {
-                  break;
-               }
+             if ((sess->name) &&  (!strcmp(sess->name, name)))
+                break;
           }
      }
    if (l)
@@ -268,7 +263,10 @@ _entrance_login_session_set(const Evas_Object *widget, const char *name)
 }
 
 static void
-_entrance_login_auth_check_cb(void *data, Evas_Object *obj EINA_UNUSED, const char *signal EINA_UNUSED, const char *source EINA_UNUSED)
+_entrance_login_auth_check_cb(void *data,
+                              Evas_Object *obj EINA_UNUSED,
+                              const char *signal EINA_UNUSED,
+                              const char *source EINA_UNUSED)
 {
    _login_check_auth(data);
 }
