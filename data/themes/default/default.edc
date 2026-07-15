@@ -144,7 +144,7 @@ collections {
             source: "elm/hoversel";
             description { state: "default" 0.0;
                fixed: 1 1;
-               max: 0 0;
+               max: BUTTON_ICON_SIZE;
                min: BUTTON_ICON_SIZE;
                align: 0.5 0;
                rel1.relative: 0 1;
@@ -331,8 +331,9 @@ collections {
             name: ENTRANCE_EDJE_PART_LOGIN;
             description {
                state: "default" 0.0;
-               min: ENTRY_SIZE;
-               max: 0 0;
+                fixed: 1 1;
+                max: ENTRY_SIZE;
+                min: ENTRY_SIZE;
                 rel1.to: ENTRANCE_EDJE_PART_LOGIN_LABEL;
                 rel1.relative: 0.75 1;
                 rel1.offset: 10 30;
@@ -373,8 +374,9 @@ collections {
             name: ENTRANCE_EDJE_PART_PASSWORD;
             description {
                 state: "default" 0.0;
+                fixed: 1 1;
+                max: ENTRY_SIZE;
                 min: ENTRY_SIZE;
-                max: 0 0;
                 rel1.to: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
                 rel1.relative: 0.75 1;
                 rel1.offset: -30 30;
