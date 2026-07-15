@@ -71,15 +71,6 @@ collections {
       name : ENTRANCE_EDJE_GROUP_ENTRANCE;
 
       parts {
-         rect {
-            name: "clip";
-            description {
-                state: "default" 0.0;
-            }
-            description {
-                state: "show" 0.0;
-            }
-         }
          text {
             name: ENTRANCE_EDJE_PART_DATE;
             effect: SOFT_SHADOW;
@@ -155,7 +146,6 @@ collections {
          }
          swallow {
             name: ENTRANCE_EDJE_PART_LOGIN;
-            clip_to: "clip";
             description {
                 state: "default" 0.0;
             }
