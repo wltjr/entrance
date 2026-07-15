@@ -148,7 +148,7 @@ collections {
                min: BUTTON_ICON_SIZE;
                align: 0.5 0;
                rel1.relative: 0 1;
-               rel1.offset: 0 112;
+               rel1.offset: 0 114;
                params {
                   string: "icon" "system-log-out";
                }
@@ -306,12 +306,11 @@ collections {
             effect: SOFT_SHADOW;
             description {
                 state: "default" 0.0;
-                align: 0 0.5;
                 max: 0 0;
                 min: ENTRY_SIZE;
                 rel1.to: ENTRANCE_EDJE_PART_LABEL;
-                rel1.relative: 0.0 1.0;
-                rel1.offset: -170 50;
+                rel1.relative: -1 1;
+                rel1.offset: 20 50;
                 rel2.to: ENTRANCE_EDJE_PART_LABEL;
                visible: 0;
                text {
@@ -332,12 +331,11 @@ collections {
             name: ENTRANCE_EDJE_PART_LOGIN;
             description {
                state: "default" 0.0;
-               align: 0.5 0.5;
                min: ENTRY_SIZE;
                max: 0 0;
                 rel1.to: ENTRANCE_EDJE_PART_LOGIN_LABEL;
-                rel1.relative: 1.0 1.0;
-                rel1.offset: -80 30;
+                rel1.relative: 0.75 1;
+                rel1.offset: 10 30;
                 rel2.to: ENTRANCE_EDJE_PART_LOGIN_LABEL;
                visible: 0;
             }
@@ -356,12 +354,11 @@ collections {
             effect: SOFT_SHADOW;
             description {
                 state: "default" 0.0;
-                align: 0 0.5;
                 max: 0 0;
                 min: ENTRY_SIZE;
                 rel1.to: ENTRANCE_EDJE_PART_LOGIN;
-                rel1.relative: 0.0 1.0;
-                rel1.offset: -120 40;
+                rel1.relative: -0.75 1;
+                rel1.offset: 30 40;
                 rel2.to: ENTRANCE_EDJE_PART_LOGIN;
                text {
                     size: 20;
@@ -376,12 +373,11 @@ collections {
             name: ENTRANCE_EDJE_PART_PASSWORD;
             description {
                 state: "default" 0.0;
-                align: 0.5 0.5;
                 min: ENTRY_SIZE;
                 max: 0 0;
                 rel1.to: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
-                rel1.relative: 1.0 1.0;
-                rel1.offset: -120 30;
+                rel1.relative: 0.75 1;
+                rel1.offset: -30 30;
                 rel2.to: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
             }
             description {
@@ -394,8 +390,11 @@ collections {
             source: "elm/button";
             description { state: "default" 0.0;
                max: BUTTON_SIZE;
-               rel1.offset: 180 OFFSET*26;
-               align: 0.5 1;
+               min: BUTTON_SIZE;
+                rel1.to: ENTRANCE_EDJE_PART_PASSWORD;
+                rel1.relative: 0.5 1;
+                rel1.offset: 0 50;
+                rel2.to: ENTRANCE_EDJE_PART_PASSWORD;
                 params {
                     string: "label" "Login";
                 }
@@ -403,7 +402,6 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
-                align: 0.5 0.5;
             }
             description { state: "xsessions_disabled" 0.0;
                 inherit: "default" 0.0;
@@ -416,13 +414,15 @@ collections {
             description { state: "default" 0.0;
                fixed: 1 1;
                max: BUTTON_SIZE;
-               rel1.offset: -180 OFFSET*26;
-               align: 0.5 1;
+               min: BUTTON_SIZE;
+                rel1.to: ENTRANCE_EDJE_PART_PASSWORD;
+                rel1.relative: -0.5 1;
+                rel1.offset: 0 50;
+                rel2.to: ENTRANCE_EDJE_PART_PASSWORD;
             }
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
-                align: 0.5 0.5;
             }
             description { state: "xsessions_disabled" 0.0;
                 inherit: "default" 0.5;
