@@ -23,34 +23,43 @@ collections {
    group {
       name: ENTRANCE_EDJE_GROUP_WALLPAPER;
       parts {
-         rect { name: "clip1";
-            description { state: "default" 0.0;
+         rect {
+            name: "clip1";
+            description {
+               state: "default" 0.0;
                rel1 {
                   to: "cur";
                   relative: 1.0 0.0;
                }
             }
          }
-         rect { name: "cur";
-            description { state: "default" 0.0;
+         rect {
+            name: "cur";
+            description {
+               state: "default" 0.0;
                min: 1 0;
                max: 1 99999;
                visible: 0;
                align: 0.0 0.5;
             }
          }
-         swallow { name: ENTRANCE_EDJE_PART_WALLPAPER;
+         swallow {
+            name: ENTRANCE_EDJE_PART_WALLPAPER;
             clip_to: "clip1";
-            description { state: "default" 0.0;
+            description {
+                state: "default" 0.0;
             }
          }
-         swallow { name: ENTRANCE_EDJE_PART_SCREEN;
-            description { state: "default" 0.0;
+         swallow {
+            name: ENTRANCE_EDJE_PART_SCREEN;
+            description {
+                state: "default" 0.0;
             }
          }
       }
       programs {
-         program { name: "wallpaper_default";
+         program {
+            name: "wallpaper_default";
             signal: ENTRANCE_EDJE_SIGNAL_WALLPAPER_DEFAULT;
             action: STATE_SET "default" 0.0;
             target: "cur";
@@ -62,13 +71,17 @@ collections {
       name : ENTRANCE_EDJE_GROUP_ENTRANCE;
 
       parts {
-         rect { name: "clip";
-            description { state: "default" 0.0;
+         rect {
+            name: "clip";
+            description {
+                state: "default" 0.0;
             }
-            description { state: "show" 0.0;
+            description {
+                state: "show" 0.0;
             }
          }
-         text { name: ENTRANCE_EDJE_PART_DATE;
+         text {
+            name: ENTRANCE_EDJE_PART_DATE;
             effect: SOFT_SHADOW;
             description {
                state: "default" 0.0;
@@ -97,8 +110,10 @@ collections {
                 }
             }
          }
-         swallow { name: ENTRANCE_EDJE_PART_CLOCK;
-            description { state: "default" 0.0;
+         swallow {
+            name: ENTRANCE_EDJE_PART_CLOCK;
+            description {
+               state: "default" 0.0;
                fixed: 1 1;
                align: 1 0;
                rel2.relative: 1 0;
@@ -120,9 +135,11 @@ collections {
                 }
             }
          }
-         external { name: ENTRANCE_EDJE_PART_USERS;
+         external {
+            name: ENTRANCE_EDJE_PART_USERS;
             source: "elm/gengrid";
-            description { state: "default" 0.0;
+            description {
+               state: "default" 0.0;
                rel1.relative: 0 -0.5;
                params {
                   bool: "horizontal" 0;
@@ -131,18 +148,23 @@ collections {
                   int: "vertical item size" 96;
                }
             }
-            description { state: "enabled" 0.0;
+            description {
+               state: "enabled" 0.0;
                inherit: "default" 0.0;
             }
          }
-         swallow { name: ENTRANCE_EDJE_PART_LOGIN;
+         swallow {
+            name: ENTRANCE_EDJE_PART_LOGIN;
             clip_to: "clip";
-            description { state: "default" 0.0;
+            description {
+                state: "default" 0.0;
             }
          }
-         external { name: ENTRANCE_EDJE_PART_ACTIONS;
+         external {
+            name: ENTRANCE_EDJE_PART_ACTIONS;
             source: "elm/hoversel";
-            description { state: "default" 0.0;
+            description {
+               state: "default" 0.0;
                fixed: 1 1;
                max: BUTTON_ICON_SIZE;
                min: BUTTON_ICON_SIZE;
@@ -158,13 +180,16 @@ collections {
                 inherit: "default" 0.0;
                 rel1.relative: 0 0.5;
             }
-            description { state: "enabled" 0.0;
+            description {
+               state: "enabled" 0.0;
                inherit: "default" 0.5;
             }
          }
          // Distributor logo part
-         swallow { name: ENTRANCE_EDJE_PART_ICON;
-            description { state: "default" 0.0;
+         swallow {
+            name: ENTRANCE_EDJE_PART_ICON;
+            description {
+               state: "default" 0.0;
                fixed: 1 1;
                align: 0.5 1;
                rel1.relative: 0.5 1;
@@ -183,9 +208,11 @@ collections {
                rel2.offset: 0 -96;
             }
          }
-         text { name: ENTRANCE_EDJE_PART_UNAME;
+         text {
+            name: ENTRANCE_EDJE_PART_UNAME;
             effect: SOFT_SHADOW;
-            description { state: "default" 0.0;
+            description {
+               state: "default" 0.0;
                fixed: 1 1;
                align: 0 1;
                color: TEXT_COLOR;
@@ -203,7 +230,8 @@ collections {
                rel2.offset: 0 -16;
             }
          }
-         text { name: ENTRANCE_EDJE_PART_VERSION;
+         text {
+            name: ENTRANCE_EDJE_PART_VERSION;
             effect: SOFT_SHADOW;
             description {
                 state: "default" 0.0;
@@ -278,7 +306,8 @@ collections {
                 rel2.offset: 0 -OFFSET*15;
                 visible: 0;
             }
-            description { state: "visible" 0.0;
+            description {
+               state: "visible" 0.0;
                inherit: "default" 0.0;
                visible: 1;
             }
@@ -296,7 +325,8 @@ collections {
                     style: "textblock_style";
                }
             }
-            description { state: "visible" 0.0;
+            description {
+               state: "visible" 0.0;
                inherit: "default" 0.0;
                visible: 1;
             }
@@ -390,7 +420,8 @@ collections {
          external {
             name: login_button;
             source: "elm/button";
-            description { state: "default" 0.0;
+            description {
+                state: "default" 0.0;
                max: BUTTON_SIZE;
                min: BUTTON_SIZE;
                 rel1.to: ENTRANCE_EDJE_PART_PASSWORD;
@@ -405,15 +436,18 @@ collections {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
             }
-            description { state: "xsessions_disabled" 0.0;
+            description {
+                state: "xsessions_disabled" 0.0;
                 inherit: "default" 0.0;
                 params {
                     bool: "disabled" 1;
                 }
             }
          }
-         swallow { name: ENTRANCE_EDJE_PART_XSESSIONS;
-            description { state: "default" 0.0;
+         swallow {
+            name: ENTRANCE_EDJE_PART_XSESSIONS;
+            description {
+                state: "default" 0.0;
                fixed: 1 1;
                max: BUTTON_SIZE;
                min: BUTTON_SIZE;
@@ -484,13 +518,15 @@ collections {
       }
    }
 
-   group { name: "entrance/user";
+   group {
+      name: "entrance/user";
       data.item: "items"  "adrielhernandez-cmyk-tux brunocb-tux-1-euro cisoun-tux-coup-de-soleil eliaden-tux-marin fcys14-tux-breton fcys14-tux-croco fcys14-tux-pompier fcys14-yoshi-tux fcys14-yoshi-tux m4r10-tux-crema mybob-calimetux overlord59-astro-tux overlord59-dj-tux-mix-platine overlord59-magic-tux overlord59-tux-pianiste touko-tux-pirate";
       parts {
          swallow {
             name: "entrance.icon";
             mouse_events: 0;
-            description { state: "default" 0.0;
+            description {
+               state: "default" 0.0;
                min: 72 72;
             }
          }
@@ -498,17 +534,21 @@ collections {
    }
 
 #define ADD_USER_ICON(NAME) \
-   group { name: "entrance/user/"NAME; \
+   group { \
+      name: "entrance/user/"NAME; \
       images { \
          image: NAME".png" COMP; \
       } \
       parts { \
-         rect { name: "base"; \
-            description { state: "default" 0.0; \
+         rect { \
+            name: "base"; \
+            description { \
+               state: "default" 0.0; \
                visible: 0; \
             } \
          } \
-         image { name: "icon"; \
+         image { \
+            name: "icon"; \
             description { \
                image { \
                   normal: NAME".png"; \
