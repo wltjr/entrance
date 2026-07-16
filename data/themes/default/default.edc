@@ -445,8 +445,6 @@ collections {
             source: "";
             signal: "load";
             action: STATE_SET "default" 0.5;
-            target: ENTRANCE_EDJE_PART_LOGIN;
-            target: ENTRANCE_EDJE_PART_LOGIN_LABEL;
             target: ENTRANCE_EDJE_PART_PASSWORD;
             target: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
             target: ENTRANCE_EDJE_PART_XSESSIONS;
@@ -476,6 +474,7 @@ collections {
             action: STATE_SET "visible" 0.0;
             target: ENTRANCE_EDJE_PART_LOGIN;
             target: ENTRANCE_EDJE_PART_LOGIN_LABEL;
+            transition: LINEAR 0.5;
          }
          program {
             name: "check_auth";
