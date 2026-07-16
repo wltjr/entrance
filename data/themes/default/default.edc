@@ -158,9 +158,6 @@ collections {
                fixed: 1 1;
                max: BUTTON_ICON_SIZE;
                min: BUTTON_ICON_SIZE;
-               align: 0.5 0;
-               rel1.relative: 0 1;
-               rel1.offset: 0 114;
                params {
                   string: "icon" "system-log-out";
                }
@@ -168,7 +165,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
-                rel1.relative: 0 0.5;
+                rel1.offset: 0 270;
             }
             description {
                state: "enabled" 0.0;
@@ -328,14 +325,11 @@ collections {
                 state: "default" 0.0;
                 max: 0 0;
                 min: ENTRY_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_LABEL;
-                rel1.relative: -1 1;
-                rel1.offset: 20 50;
-                rel2.to: ENTRANCE_EDJE_PART_LABEL;
-               visible: 0;
-               text {
-                    size: 20;
-               }
+                rel1.offset: 0 -30;
+                visible: 0;
+                text {
+                        size: 20;
+                }
             }
             description {
                 state: "default" 0.5;
@@ -350,15 +344,12 @@ collections {
          swallow {
             name: ENTRANCE_EDJE_PART_LOGIN;
             description {
-               state: "default" 0.0;
+                state: "default" 0.0;
                 fixed: 1 1;
                 max: ENTRY_SIZE;
                 min: ENTRY_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_LOGIN_LABEL;
-                rel1.relative: 0.75 1;
-                rel1.offset: 10 30;
-                rel2.to: ENTRANCE_EDJE_PART_LOGIN_LABEL;
-               visible: 0;
+                rel1.offset: 0 40;
+                visible: 0;
             }
             description {
                state: "default" 0.5;
@@ -377,13 +368,10 @@ collections {
                 state: "default" 0.0;
                 max: 0 0;
                 min: ENTRY_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_LOGIN;
-                rel1.relative: -0.75 1;
-                rel1.offset: 30 40;
-                rel2.to: ENTRANCE_EDJE_PART_LOGIN;
-               text {
-                    size: 20;
-               }
+                rel1.offset: 0 120;
+                text {
+                        size: 20;
+                }
             }
             description {
                 state: "default" 0.5;
@@ -397,10 +385,7 @@ collections {
                 fixed: 1 1;
                 max: ENTRY_SIZE;
                 min: ENTRY_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
-                rel1.relative: 0.75 1;
-                rel1.offset: -30 30;
-                rel2.to: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
+                rel1.offset: 0 180;
             }
             description {
                 state: "default" 0.5;
@@ -412,12 +397,9 @@ collections {
             source: "elm/button";
             description {
                 state: "default" 0.0;
-               max: BUTTON_SIZE;
-               min: BUTTON_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_PASSWORD;
-                rel1.relative: 0.5 1;
-                rel1.offset: 0 50;
-                rel2.to: ENTRANCE_EDJE_PART_PASSWORD;
+                max: BUTTON_SIZE;
+                min: BUTTON_SIZE;
+                rel1.offset: 180 270;
                 params {
                     string: "label" "Login";
                 }
@@ -438,13 +420,10 @@ collections {
             name: ENTRANCE_EDJE_PART_XSESSIONS;
             description {
                 state: "default" 0.0;
-               fixed: 1 1;
-               max: BUTTON_SIZE;
-               min: BUTTON_SIZE;
-                rel1.to: ENTRANCE_EDJE_PART_PASSWORD;
-                rel1.relative: -0.5 1;
-                rel1.offset: 0 50;
-                rel2.to: ENTRANCE_EDJE_PART_PASSWORD;
+                fixed: 1 1;
+                max: BUTTON_SIZE;
+                min: BUTTON_SIZE;
+                rel1.offset: -180 270;
             }
             description {
                 state: "default" 0.5;
