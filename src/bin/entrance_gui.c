@@ -506,6 +506,13 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
      {
         _gui->showlogin = conf->showlogin;
         _gui->changed &= ENTRANCE_CONF_SHOWLOGIN;
+        // not the best location but better than in _entrance_gui_update
+        if(_gui->showlogin)
+        {
+            Entrance_Screen *screen = (Entrance_Screen *)_gui->screens->data;
+            elm_object_signal_emit(screen->login,
+                                   ENTRANCE_EDJE_SIGNAL_LOGIN_SHOW, "");
+        }
      }
    if (_gui->vkbd_enabled != conf->vkbd_enabled)
      {
@@ -586,7 +593,6 @@ _entrance_gui_background_obj_get(Evas_Object *par,
 static void
 _entrance_gui_update(void)
 {
-   Eina_Bool primary = EINA_TRUE;
    Eina_List *l;
    Entrance_Screen *screen;
 
@@ -612,13 +618,6 @@ _entrance_gui_update(void)
                                          ENTRANCE_EDJE_PART_WALLPAPER, bg);
              evas_object_del(screen->background);
              screen->background = bg;
-          }
-        if(primary)
-          {
-            primary = EINA_FALSE;
-            if(_gui->showlogin)
-                elm_object_signal_emit(screen->login,
-                                        ENTRANCE_EDJE_SIGNAL_LOGIN_SHOW, "");
           }
      }
    _gui->changed = 0;
