@@ -86,7 +86,7 @@ collections {
                min: 400 72;
                map {
                    on: 1;
-                   rotation.z: 90;
+                   rotation.z: 180;
                    perspective_on: 1;
                }
                text {
@@ -114,7 +114,7 @@ collections {
                min: 240 72;
                 map {
                     on: 1;
-                    rotation.z: -90;
+                    rotation.z: -180;
                     perspective_on: 1;
                 }
             }
