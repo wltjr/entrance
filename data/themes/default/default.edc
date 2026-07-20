@@ -159,6 +159,7 @@ collections {
                fixed: 1 1;
                max: BUTTON_ICON_SIZE;
                min: BUTTON_ICON_SIZE;
+               rel1.relative: 0 1;
                params {
                   string: "icon" "system-log-out";
                }
@@ -167,6 +168,7 @@ collections {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
                 rel1.offset: 0 270;
+                rel1.relative: 0 0;
             }
             description {
                state: "enabled" 0.0;
@@ -326,6 +328,7 @@ collections {
                 state: "default" 0.0;
                 max: 0 0;
                 min: ENTRY_SIZE;
+                rel1.relative: 1 0;
                 rel1.offset: 0 -30;
                 visible: 0;
                 text {
@@ -335,6 +338,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
+                rel1.relative: 0 0;
             }
             description {
                 state: "visible" 0.0;
@@ -349,12 +353,14 @@ collections {
                 fixed: 1 1;
                 max: ENTRY_SIZE;
                 min: ENTRY_SIZE;
+                rel1.relative: -1 0;
                 rel1.offset: 0 40;
                 visible: 0;
             }
             description {
                state: "default" 0.5;
                inherit: "default" 0.0;
+               rel1.relative: 0 0;
             }
             description {
                 state: "visible" 0.0;
@@ -369,6 +375,7 @@ collections {
                 state: "default" 0.0;
                 max: 0 0;
                 min: ENTRY_SIZE;
+                rel1.relative: -1 0;
                 rel1.offset: 0 120;
                 text {
                         size: 20;
@@ -377,6 +384,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
+                rel1.relative: 0 0;
             }
          }
          swallow {
@@ -387,10 +395,12 @@ collections {
                 max: ENTRY_SIZE;
                 min: ENTRY_SIZE;
                 rel1.offset: 0 180;
+                rel1.relative: 1 0;
             }
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
+                rel1.relative: 0 0;
             }
          }
          external {
@@ -400,6 +410,7 @@ collections {
                 state: "default" 0.0;
                 max: BUTTON_SIZE;
                 min: BUTTON_SIZE;
+                rel1.relative: 0 1;
                 rel1.offset: 180 270;
                 params {
                     string: "label" "Login";
@@ -408,6 +419,7 @@ collections {
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
+                rel1.relative: 0 0;
             }
             description {
                 state: "xsessions_disabled" 0.0;
@@ -424,11 +436,13 @@ collections {
                 fixed: 1 1;
                 max: BUTTON_SIZE;
                 min: BUTTON_SIZE;
+                rel1.relative: 0 1;
                 rel1.offset: -180 270;
             }
             description {
                 state: "default" 0.5;
                 inherit: "default" 0.0;
+                rel1.relative: 0 0;
             }
             description { state: "xsessions_disabled" 0.0;
                 inherit: "default" 0.5;
