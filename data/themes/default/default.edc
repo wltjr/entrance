@@ -14,6 +14,7 @@
 #define ENTRY_SIZE 360 36
 #define OFFSET 10
 #define TEXT_COLOR 155 155 155 255
+#define TRANS_TIME 1
 
 externals {
     external: "elm";
@@ -253,7 +254,7 @@ collections {
             target: ENTRANCE_EDJE_PART_ICON;
             target: ENTRANCE_EDJE_PART_UNAME;
             target: ENTRANCE_EDJE_PART_VERSION;
-            transition: LINEAR 0.5;
+            transition: LINEAR TRANS_TIME;
          }
          program {
             name: "user_enabled";
@@ -449,7 +450,7 @@ collections {
             target: ENTRANCE_EDJE_PART_PASSWORD_LABEL;
             target: ENTRANCE_EDJE_PART_XSESSIONS;
             target: "login_button";
-            transition: LINEAR 0.5;
+            transition: LINEAR TRANS_TIME;
          }
          program {
             name: "login_error";
@@ -474,7 +475,7 @@ collections {
             action: STATE_SET "visible" 0.0;
             target: ENTRANCE_EDJE_PART_LOGIN;
             target: ENTRANCE_EDJE_PART_LOGIN_LABEL;
-            transition: LINEAR 0.5;
+            transition: LINEAR TRANS_TIME;
          }
          program {
             name: "check_auth";
