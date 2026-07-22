@@ -284,7 +284,7 @@ _login_auth_check_cb(void *data,
 void
 entrance_login_init(void)
 {
-   _login_fill = entrance_fill_new(NULL, _login_xsession_text_get, NULL, NULL);
+   _login_fill = entrance_fill_new(NULL, _login_xsession_text_get, NULL);
 }
 
 void
