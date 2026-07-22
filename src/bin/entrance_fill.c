@@ -67,7 +67,6 @@ _entrance_fill_genlist(Evas_Object *obj,
    glc->item_style = ef->item_style;
    glc->func.text_get = ef->func.text_get;
    glc->func.content_get = ef->func.content_get;
-   glc->func.state_get = ef->func.state_get;
 
 
    EINA_LIST_FOREACH(contents, l, content)
@@ -106,7 +105,6 @@ _entrance_fill_gengrid(Evas_Object *obj,
    ggc->item_style = ef->item_style;
    ggc->func.text_get = ef->func.text_get;
    ggc->func.content_get = ef->func.content_get;
-   ggc->func.state_get = ef->func.state_get;
 
    EINA_LIST_FOREACH(contents, l, content)
      {
@@ -193,7 +191,6 @@ entrance_fill_new(const char *item_style,
    ef->item_style = eina_stringshare_add(item_style);
    ef->func.text_get = text_get;
    ef->func.content_get = content_get;
-   ef->func.state_get = state_get;
    return ef;
 }
 
