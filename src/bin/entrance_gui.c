@@ -388,8 +388,7 @@ _entrance_gui_users_populate(void)
    PT("Add users list, using item style: %s", style);
    ef = entrance_fill_new(style,
                           _entrance_gui_user_text_get,
-                          _entrance_gui_user_content_get,
-                          _entrance_gui_user_state_get);
+                          _entrance_gui_user_content_get);
 
    /* Get first user (which is the last logged-in from history) */
    first_user = eina_list_data_get(_gui->users);
@@ -853,7 +852,7 @@ _entrance_gui_actions_populate()
    EINA_LIST_FOREACH(_gui->screens, l, screen)
      {
         Entrance_Fill *ef;
-        ef = entrance_fill_new(style, _entrance_gui_action_text_get, NULL, NULL);
+        ef = entrance_fill_new(style, _entrance_gui_action_text_get, NULL);
         o = ENTRANCE_GUI_GET(screen->edj, ENTRANCE_EDJE_PART_ACTIONS);
         entrance_fill(o, ef, _gui->actions, NULL,
                       _entrance_gui_action_clicked_cb, screen);
