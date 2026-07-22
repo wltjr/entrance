@@ -181,8 +181,7 @@ _entrance_fill_hoversell(Evas_Object *obj,
 Entrance_Fill *
 entrance_fill_new(const char *item_style,
                   Entrance_Fill_Text_Get_Func text_get,
-                  Entrance_Fill_Content_Get_Func content_get,
-                  Entrance_Fill_State_Get_Func state_get)
+                  Entrance_Fill_Content_Get_Func content_get)
 {
    Entrance_Fill *ef;
    ef = calloc(1, sizeof(Entrance_Fill));
