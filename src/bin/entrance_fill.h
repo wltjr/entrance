@@ -5,7 +5,6 @@ typedef struct Entrance_Fill_ Entrance_Fill;
 
 typedef char *(*Entrance_Fill_Text_Get_Func) (void *data, Evas_Object *obj, const char *part);
 typedef Evas_Object *(*Entrance_Fill_Content_Get_Func) (void *data, Evas_Object *obj, const char *part);
-typedef Eina_Bool (*Entrance_Fill_State_Get_Func) (void *data, Evas_Object *obj, const char *part);
 typedef Eina_Bool (*Entrance_Fill_Cb_Func) (void *data, Elm_Object_Item *it);
 
 Entrance_Fill *entrance_fill_new(const char *item_style,
