@@ -7,7 +7,6 @@ struct Entrance_Fill_
      {
         Entrance_Fill_Text_Get_Func text_get;
         Entrance_Fill_Content_Get_Func content_get;
-        Entrance_Fill_State_Get_Func state_get;
         Evas_Smart_Cb sel;
         void *data;
      } func;
