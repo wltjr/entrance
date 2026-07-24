@@ -1,19 +1,5 @@
 #include "entrance_client.h"
 
-struct Entrance_Fill_
-{
-   const char *item_style; //maybe need to be provided by theme ?
-   struct
-     {
-        Entrance_Fill_Text_Get_Func text_get;
-        Entrance_Fill_Content_Get_Func content_get;
-        Evas_Smart_Cb sel;
-        void *data;
-     } func;
-   Elm_Genlist_Item_Class *glc;
-   Elm_Gengrid_Item_Class *ggc;
-};
-
 ///////////////// LIST ///////////////////////////////
 /* Commented out until used in a theme
 static void
