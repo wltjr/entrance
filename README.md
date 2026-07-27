@@ -150,8 +150,8 @@ and are not randomized with each selection, only once per login session.
 ##### System Random Background and User Icon Images
 
 Entrance looks for system wide random backgrounds in
-`PACKAGE_DATA_DIR/images/backgrounds/` and random icons in
-`PACKAGE_DATA_DIR/images/icons/` where `PACKAGE_DATA_DIR` is typically
+`PACKAGE_DATA_DIR/backgrounds/` and random icons in
+`PACKAGE_DATA_DIR/icons/` where `PACKAGE_DATA_DIR` is typically
 `/usr/share/entrance`. These can be a directory or a symlink but subdirectories
 will not be traversed, just the topmost level. These directories are only used
 for random background pools are are not required for single background set
@@ -160,8 +160,8 @@ in `entrance.conf` or `users.conf`.
 ##### User Random Background and User Icon Images
 
 Entrance looks for  user specific random backgrounds in
-`$HOME/.config/entrance/images/backgrounds/` and random icons in
-`$HOME/.config/entrance/images/icons/` where `$HOME` is typically the
+`$HOME/.config/entrance/backgrounds/` and random icons in
+`$HOME/.config/entrance/icons/` where `$HOME` is typically the
 user's home directory, typically `/home/username`. These can be a directory or a
 symlink but subdirectories will not be traversed, just the topmost level. These
 directories are only used for random icon pools are are not required for single
