@@ -41,8 +41,7 @@ HOMEDIR="/home/ubuntu"
 if [[ ! -f ${HOMEDIR}/.config/entrance/ ]]; then
     mkdir -v -p ${HOMEDIR}/.config/entrance/
     ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/icons
-    # bad background images, unused, duplicating to increase code coverage
-    ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/backgrounds
+    ln -v -s /usr/share/entrance/backgrounds ${HOMEDIR}/.config/entrance/backgrounds
 fi
 
 # link system backgrounds dir for random background usage
