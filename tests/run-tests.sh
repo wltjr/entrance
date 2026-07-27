@@ -38,11 +38,11 @@ fi
 
 # invokes code under entrance_image_user_{backgrounds,icons} in entrance_image.c
 HOMEDIR="/home/ubuntu"
-if [[ ! -f ${HOMEDIR}/.config/entrance/images/ ]]; then
-    mkdir -v -p ${HOMEDIR}/.config/entrance/images/
-    ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/images/icons
+if [[ ! -f ${HOMEDIR}/.config/entrance/ ]]; then
+    mkdir -v -p ${HOMEDIR}/.config/entrance/
+    ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/icons
     # bad background images, unused, duplicating to increase code coverage
-    ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/images/backgrounds
+    ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/backgrounds
 fi
 
 echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
