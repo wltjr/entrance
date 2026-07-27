@@ -37,4 +37,9 @@ fi
 # create xsession, directory and desktop file
 "$(dirname $0)/create_xsession.sh"
 
+# link system backgrounds dir for random background usage
+if [[ ! -L /usr/share/entrance/backgrounds ]]; then
+    ln -v -s /usr/share/backgrounds /usr/share/entrance/backgrounds
+fi
+
 sed -i -e "s|Enlightenment|Xsession|" /etc/entrance/entrance.conf
