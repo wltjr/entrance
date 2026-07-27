@@ -45,6 +45,9 @@ if [[ ! -f ${HOMEDIR}/.config/entrance/ ]]; then
     ln -v -s /usr/share/icons/Adwaita/16x16/emblems ${HOMEDIR}/.config/entrance/backgrounds
 fi
 
+# link system backgrounds dir for random background usage
+ln -v -s /usr/share/backgrounds /usr/share/entrance/backgrounds
+
 echo -e "\e[1;35m${0} Begin Entrance Tests\e[0m"
 
 /etc/init.d/dbus start
