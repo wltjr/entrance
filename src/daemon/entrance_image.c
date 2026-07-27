@@ -66,14 +66,14 @@ Eina_List *
 entrance_image_system_icons(void)
 {
    return _entrance_image_get(
-      _entrance_image_readdir(PACKAGE_DATA_DIR"/images/icons/"));
+      _entrance_image_readdir(PACKAGE_DATA_DIR"/icons/"));
 }
 
 Eina_List *
  entrance_image_system_backgrounds(void)
 {
    return _entrance_image_get(
-      _entrance_image_readdir(PACKAGE_DATA_DIR"/images/backgrounds/"));
+      _entrance_image_readdir(PACKAGE_DATA_DIR"/backgrounds/"));
 }
 
 Eina_List *
@@ -84,7 +84,7 @@ entrance_image_user_icons(const char *username)
 
    homedir = _entrance_image_homedir_get(username);
    if (!homedir) return NULL;
-   snprintf(path, sizeof(path),"%s/.config/entrance/images/icons/", homedir);
+   snprintf(path, sizeof(path),"%s/.config/entrance/icons/", homedir);
    return _entrance_image_get(_entrance_image_readdir(path));
 }
 
@@ -96,6 +96,6 @@ entrance_image_user_backgrounds(const char *username)
 
    homedir = _entrance_image_homedir_get(username);
    if (!homedir) return NULL;
-   snprintf(path, sizeof(path),"%s/.config/entrance/images/backgrounds/", homedir);
+   snprintf(path, sizeof(path),"%s/.config/entrance/backgrounds/", homedir);
    return _entrance_image_get(_entrance_image_readdir(path));
 }
