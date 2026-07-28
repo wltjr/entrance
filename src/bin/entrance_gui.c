@@ -62,6 +62,7 @@ static void _entrance_gui_update(void);
 static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename);
 static void _entrance_gui_users_populate(void);
 static const char *_entrance_gui_background_random_get(const char *username);
+static void _entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj);
 
 static Entrance_Gui *_gui;
 
@@ -204,6 +205,88 @@ entrance_gui_init(const char *theme)
     * Do not set global cursors as this interferes with text input cursors */
    return j;
 }
+
+static void
+_entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj)
+{
+    Evas_Object *o;
+    Evas_Object *ol;
+    time_t t;
+    struct tm local_tm;
+    struct tm tm;
+    char date[64];
+    char version[64];
+    struct utsname uname_str;
+    const char *logo_path;
+
+    ol = entrance_gui_theme_get(_gui->win, ENTRANCE_EDJE_GROUP_ENTRANCE);
+    screen->edj = ol;
+    elm_object_part_content_set(obj, ENTRANCE_EDJE_PART_SCREEN, ol);
+
+    /* date */
+    t = time(0);
+    tm = *localtime_r(&t, &local_tm);
+    strftime(date,64,"%B %d, %Y",&tm);
+    elm_object_part_text_set(ol, ENTRANCE_EDJE_PART_DATE, date);
+
+    /* clock */
+    o = elm_clock_add(ol);
+    elm_clock_show_am_pm_set(o, EINA_TRUE);
+    elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_CLOCK, o);
+
+    /* uname */
+    if(uname(&uname_str)==0)
+    {
+        char uname_value[1024];
+        snprintf(uname_value,
+                1024,
+                "%s %s %s %s",
+                uname_str.sysname,
+                uname_str.nodename,
+                uname_str.release,
+                uname_str.machine);
+        elm_object_part_text_set (ol, ENTRANCE_EDJE_PART_UNAME, uname_value);
+    }
+
+    /* version */
+    snprintf(version, sizeof(version), "v%s", VERSION);
+    elm_object_part_text_set (ol, ENTRANCE_EDJE_PART_VERSION, version);
+
+    /* distro logo */
+    logo_path = entrance_system_logo_get();
+    if (logo_path)
+    {
+        Evas_Object *logo = elm_icon_add(ol);
+        if (logo)
+        {
+            elm_image_file_set(logo, logo_path, NULL);
+            elm_image_resizable_set(logo, EINA_TRUE, EINA_TRUE);
+            elm_image_aspect_fixed_set(logo, EINA_TRUE);
+            evas_object_size_hint_weight_set(logo, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+            evas_object_size_hint_align_set(logo, EVAS_HINT_FILL, EVAS_HINT_FILL);
+            evas_object_show(logo);
+            elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_ICON, logo);
+            PT("Distro logo: %s (%s)", entrance_system_distro_get(), logo_path);
+        }
+    }
+    entrance_system_shutdown();
+
+    o = entrance_login_add(ol, screen);
+    if (!o)
+    {
+        /* Failed to create login, cleanup screen */
+        evas_object_del(screen->transition);
+        evas_object_del(screen->edj);
+        free(screen);
+        return;
+    }
+    entrance_login_open_session_set(o, EINA_TRUE);
+    screen->login = o;
+    elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_LOGIN, o);
+    evas_object_show(screen->login);
+    evas_object_show(screen->edj);
+}
+
 
 void
 entrance_gui_shutdown(void)
