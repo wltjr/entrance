@@ -6,16 +6,6 @@
 #include "entrance_client.h"
 #include "entrance_edje.h"
 
-static Eina_List* _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile);
-static void _entrance_gui_user_sel_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event_info);
-static char *_entrance_gui_user_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part);
-static Evas_Object *_entrance_gui_user_content_get(void *data EINA_UNUSED, Evas_Object *obj, const char *part);
-static void _entrance_gui_actions_populate();
-static void _entrance_gui_update(void);
-static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename);
-static void _entrance_gui_users_populate(void);
-static const char *_entrance_gui_background_random_get(const char *username);
-
 enum {
      ENTRANCE_CONF_NONE = 0,
      ENTRANCE_CONF_WALLPAPER = (1 << 0),
@@ -62,6 +52,16 @@ typedef struct Entrance_Screen_
    Evas_Object *transition;
    Evas_Object *login;
 } Entrance_Screen;
+
+static Eina_List* _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile);
+static void _entrance_gui_user_sel_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event_info);
+static char *_entrance_gui_user_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part);
+static Evas_Object *_entrance_gui_user_content_get(void *data EINA_UNUSED, Evas_Object *obj, const char *part);
+static void _entrance_gui_actions_populate();
+static void _entrance_gui_update(void);
+static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename);
+static void _entrance_gui_users_populate(void);
+static const char *_entrance_gui_background_random_get(const char *username);
 
 static Entrance_Gui *_gui;
 
