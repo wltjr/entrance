@@ -73,6 +73,9 @@ static Eina_List* _entrance_gui_string_to_entrance_image(Eina_List *src,
 static Eina_List* _entrance_gui_theme_icons_cache_fill(Evas_Object *obj,
                                                        const char *themename);
 static void _entrance_gui_actions_populate();
+static void _entrance_gui_action_clicked_cb(void *data EINA_UNUSED,
+                                            Evas_Object *obj EINA_UNUSED,
+                                            void *event_info);
 static void _entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj);
 static void _entrance_gui_update(void);
 static void _entrance_gui_users_populate(void);
