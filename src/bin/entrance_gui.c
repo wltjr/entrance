@@ -620,11 +620,11 @@ _entrance_gui_update(void)
    Eina_List *l;
    Entrance_Screen *screen;
 
-   EINA_LIST_FOREACH(_gui->screens, l, screen)
-     {
-        Evas_Object *bg = NULL;
-        if (_gui->changed & ENTRANCE_CONF_WALLPAPER)
-          {
+    Evas_Object *bg = NULL;
+    if (_gui->changed & ENTRANCE_CONF_WALLPAPER)
+    {
+        EINA_LIST_FOREACH(_gui->screens, l, screen)
+        {
              bg = _entrance_gui_background_obj_get(screen->transition,
                                                    _gui->bg.path,
                                                    _gui->bg.group);
