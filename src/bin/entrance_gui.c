@@ -408,7 +408,7 @@ _entrance_gui_users_populate(void)
    style = edje_object_data_get(elm_layout_edje_get(screen->edj), "item_style_users");
 
    if (!style)
-     style = "default"; //theme has not settet a style
+     style = "default";
 
    PT("Add users list, using item style: %s", style);
    ef = entrance_fill_new(style,
@@ -864,7 +864,7 @@ _entrance_gui_actions_populate()
    style = edje_object_data_get(elm_layout_edje_get(screen->edj), "item_style_actions");
 
    if (!style)
-     style = "default"; //theme has not setted a style
+     style = "default";
 
    EINA_LIST_FOREACH(_gui->screens, l, screen)
      {
