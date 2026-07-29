@@ -53,6 +53,9 @@ typedef struct Entrance_Screen_
    Evas_Object *login;
 } Entrance_Screen;
 
+static char *_entrance_gui_action_text_get(void *data,
+                                           Evas_Object *obj EINA_UNUSED,
+                                           const char *part EINA_UNUSED);
 static char *_entrance_gui_user_text_get(void *data,
                                          Evas_Object *obj EINA_UNUSED,
                                          const char *part);
