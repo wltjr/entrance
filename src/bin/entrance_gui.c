@@ -60,6 +60,9 @@ static char *_entrance_gui_user_text_get(void *data,
                                          Evas_Object *obj EINA_UNUSED,
                                          const char *part);
 static const char *_entrance_gui_background_random_get(const char *username);
+static Evas_Object *_entrance_gui_background_obj_get(Evas_Object *par,
+                                                     const char *path,
+                                                     const char *group);
 static Evas_Object *_entrance_gui_user_content_get(void *data EINA_UNUSED,
                                                    Evas_Object *obj,
                                                    const char *part);
