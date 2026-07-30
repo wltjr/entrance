@@ -567,12 +567,6 @@ entrance_gui_pools_set(const Entrance_Pools *pool)
    _gui->icon_pool = pool->icon_pool;
 }
 
-Eina_List*
-entrance_gui_icon_pool_get(void)
-{
-  return _gui->icon_pool;
-}
-
 const char *
 entrance_gui_theme_path_get(void)
 {
