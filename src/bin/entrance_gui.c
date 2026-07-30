@@ -310,12 +310,6 @@ _entrance_gui_string_to_entrance_image(Eina_List *src, const char *stdfile)
    return result;
 }
 
-Eina_List*
-entrance_gui_theme_icons(void)
-{
-  return _gui->theme_icon_pool;
-}
-
 static Eina_List*
 _entrance_gui_theme_icons_cache_fill(Evas_Object *obj, const char *themename)
 {
