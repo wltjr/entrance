@@ -167,24 +167,24 @@ entrance_history_check(const char *login, const char *session)
 
    EINA_LIST_FOREACH(_entrance_history->history, l, el)
      {
-        if (!strcmp(login, el->login))
-          {
-             PT("History update entry for user %s session %s", login, session);
-             if (el->remember_session)
-               {
-                  if (!session)
-                    {
-                       eina_stringshare_del(el->session);
-                       el->session = NULL;
-                    }
-                  else if (el->session && strcmp(session, el->session))
-                    {
-                       eina_stringshare_replace(&el->session, session);
-                       _history_update = EINA_TRUE;
-                    }
-               }
-             break;
-          }
+        if (strcmp(login, el->login))
+            continue;
+
+        PT("History update entry for user %s session %s", login, session);
+        if (el->remember_session)
+        {
+            if (!session)
+            {
+                eina_stringshare_del(el->session);
+                el->session = NULL;
+            }
+            else if (el->session && strcmp(session, el->session))
+            {
+                eina_stringshare_replace(&el->session, session);
+                _history_update = EINA_TRUE;
+            }
+        }
+        break;
      }
    if (!el)
      {
