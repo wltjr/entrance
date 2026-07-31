@@ -201,11 +201,11 @@ entrance_connect(int id, int port)
                                                 "entrance", port, NULL);
    if (!_entrance_connect)
      {
-       PT("client #%d failed to connect to server %d", id, port);
+       PT("client #%d failed to connect to server socket port %d", id, port);
        return(EINA_FALSE);
      }
 
-   PT("client #%d connected to server %d", id, port);
+   PT("client #%d connected to server socket port %d", id, port);
    _client_id = id;
    h = ecore_event_handler_add(ECORE_CON_EVENT_SERVER_ADD,
                                _entrance_connect_add, NULL);
