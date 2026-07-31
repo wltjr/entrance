@@ -356,9 +356,13 @@ entrance_gui_theme_get (Evas_Object *win, const char *group)
 Eina_List *
 entrance_gui_stringlist_get(const char *str)
 {
+   const char *b = NULL;
+   const char *s = NULL;
    Eina_List *list = NULL;
+
    if (!str) return NULL;
-   for (const char *s, *b = s = str; 1; s++)
+   b = s = str;
+   for (; 1; s++)
      {
         if ((*s == ' ') || (!*s))
           {
