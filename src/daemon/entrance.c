@@ -248,7 +248,6 @@ _entrance_session_wait(int id)
             {
               /* Child terminated */
               PT("session #%d pid %d exited", id, session_pid);
-              break;
             }
           else if (wait_result < 0)
             {
@@ -271,8 +270,9 @@ _entrance_session_wait(int id)
                   /* Other error */
                   PT("session #%d waitpid error: %d", id, errno);
                 }
-              break;
             }
+          if(wait_result != 0)
+              break;
           /* wait_result == 0: child still running, sleep and check again */
           nanosleep(&request, NULL);
         }
