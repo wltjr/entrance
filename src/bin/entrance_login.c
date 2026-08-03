@@ -3,19 +3,31 @@
 #include "entrance_client.h"
 #include "entrance_edje.h"
 
-static void _login_check_auth(Evas_Object *widget);
-static void _login_xsession_update(const Evas_Object *obj);
-static void _login_xsession_guess(void *data, const char *user);
-static void _login_xsession_clicked_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event_info);
-static void _login_login_unfocused_cb(void *data , Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSED);
-static void _login_login_activated_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSED);
-static char *_login_xsession_text_get(void *data, Evas_Object *obj EINA_UNUSED, const char *part);
-static void _login_auth_cb(void *data, const char *user EINA_UNUSED, Eina_Bool granted, const char *msgs);
-static void _entrance_login_session_set(const Evas_Object *widget, const char *name);
+static char *_login_xsession_text_get(void *data,
+                                      Evas_Object *obj EINA_UNUSED,
+                                      const char *part);
 static void _entrance_login_auth_check_cb(void *data,
                                           Evas_Object *obj EINA_UNUSED,
                                           const char *signal EINA_UNUSED,
                                           const char *source EINA_UNUSED);
+static void _entrance_login_session_set(const Evas_Object *widget,
+                                        const char *name);
+static void _login_auth_cb(void *data,
+                           const char *user EINA_UNUSED,
+                           Eina_Bool granted,
+                           const char *msgs);
+static void _login_check_auth(Evas_Object *widget);
+static void _login_login_activated_cb(void *data,
+                                      Evas_Object *obj EINA_UNUSED,
+                                      void *event EINA_UNUSED);
+static void _login_login_unfocused_cb(void *data,
+                                      Evas_Object *obj EINA_UNUSED,
+                                      void *event EINA_UNUSED);
+static void _login_xsession_clicked_cb(void *data,
+                                       Evas_Object *obj EINA_UNUSED,
+                                       void *event_info);
+static void _login_xsession_guess(void *data, const char *user);
+static void _login_xsession_update(const Evas_Object *obj);
 
 typedef struct _Entrance_Gui_Login
 {
