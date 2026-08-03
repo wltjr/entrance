@@ -34,6 +34,7 @@ static void _login_xsession_clicked_cb(void *data,
                                        void *event_info);
 static void _login_xsession_guess(void *data, const char *user);
 static void _login_xsession_update(const Evas_Object *obj);
+static Eina_Bool _login_login_timer_cb(void *data);
 
 typedef struct _Entrance_Gui_Login
 {
