@@ -17,6 +17,9 @@ static void _login_auth_cb(void *data,
                            Eina_Bool granted,
                            const char *msgs);
 static void _login_check_auth(Evas_Object *widget);
+static void _login_entry_changed_cb(void *data,
+                                    Evas_Object *obj EINA_UNUSED,
+                                    void *event EINA_UNUSED);
 static void _login_login_activated_cb(void *data,
                                       Evas_Object *obj EINA_UNUSED,
                                       void *event EINA_UNUSED);
