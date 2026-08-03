@@ -6,6 +6,9 @@ static void _entrance_fill_gengrid(Evas_Object *obj,
                                    Entrance_Fill_Cb_Func fill_cb,
                                    Evas_Smart_Cb func,
                                    void *data);
+static void _entrance_fill_hoversell_func_cb(void *data EINA_UNUSED,
+                                             Evas_Object *obj,
+                                             void *event_info);
 
 ///////////////// LIST ///////////////////////////////
 /* Commented out until used in a theme
