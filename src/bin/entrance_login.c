@@ -23,6 +23,9 @@ static void _login_entry_changed_cb(void *data,
 static void _login_login_activated_cb(void *data,
                                       Evas_Object *obj EINA_UNUSED,
                                       void *event EINA_UNUSED);
+static void _login_login_changed_cb(void *data,
+                                    Evas_Object *obj EINA_UNUSED,
+                                    void *event EINA_UNUSED);
 static void _login_login_unfocused_cb(void *data,
                                       Evas_Object *obj EINA_UNUSED,
                                       void *event EINA_UNUSED);
