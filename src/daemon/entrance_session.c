@@ -37,6 +37,11 @@ static Eina_Bool _entrance_session_is_wayland(const char *session);
 static void _entrance_session_desktops_scan_file(const char *path);
 static void _entrance_session_desktops_scan(const char *dir);
 static void _entrance_session_desktops_init(void);
+static void _entrance_session_pam_env_set(int id,
+                                          const struct passwd *pwd,
+                                          const char *session,
+                                          const char *cookie,
+                                          Eina_Bool is_wayland);
 static const char *_entrance_session_find_command(const char *path, const char *session);
 static struct passwd *_entrance_session_session_open(int id);
 
