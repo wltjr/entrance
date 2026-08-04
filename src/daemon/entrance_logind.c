@@ -8,6 +8,9 @@
 
 #ifdef HAVE_LOGIND
 
+static Eina_Bool _entrance_logind_monitor_cb(void *data EINA_UNUSED,
+                                             Ecore_Fd_Handler *fd_handler EINA_UNUSED);
+
 static sd_login_monitor *_logind_monitor = NULL;
 static Ecore_Fd_Handler *_logind_handler = NULL;
 static Entrance_Logind_Cb _logind_callback = NULL;
