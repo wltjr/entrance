@@ -6,7 +6,9 @@ static void _entrance_server_chown(gid_t uid, uid_t gid, const char *path);
 static Eina_Bool _entrance_server_add(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
 static Eina_Bool _entrance_server_del(void *data EINA_UNUSED, int type EINA_UNUSED, void *event EINA_UNUSED);
 static Eina_Bool _entrance_server_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
-
+static Eina_Bool _entrance_server_read_cb(const void *data,
+                                          size_t size EINA_UNUSED,
+                                          void *user_data EINA_UNUSED);
 
 Ecore_Con_Server *_entrance_server = NULL;
 Eina_List *_handlers = NULL;
