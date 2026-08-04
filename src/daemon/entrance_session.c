@@ -22,7 +22,10 @@ typedef struct Entrance_Session_
 
 static Eina_List *_xsessions = NULL;
 static int _entrance_session_sort(const Entrance_Xsession *a, const Entrance_Xsession *b);
-
+static int _entrance_session_cookie_add(const char *mcookie,
+                                        const char *display,
+                                        const char *xauth_cmd,
+                                        const char *auth_file);
 static void _entrance_session_run(int id,
                                   struct passwd *pwd,
                                   const char *session,
