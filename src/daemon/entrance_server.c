@@ -9,6 +9,9 @@ static Eina_Bool _entrance_server_data(void *data EINA_UNUSED, int type EINA_UNU
 static Eina_Bool _entrance_server_read_cb(const void *data,
                                           size_t size EINA_UNUSED,
                                           void *user_data EINA_UNUSED);
+static Eina_Bool _entrance_server_write_cb(const void *data,
+                                           size_t size,
+                                           void *user_data EINA_UNUSED);
 
 Ecore_Con_Server *_entrance_server = NULL;
 Eina_List *_handlers = NULL;
