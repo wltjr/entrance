@@ -36,6 +36,9 @@ static void _entrance_client_handlers_del(int id);
 static void _entrance_clients_init(int count);
 static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
+#ifdef HAVE_LOGIND
+static void _entrance_logind_monitor_cb(void *data EINA_UNUSED);
+#endif
 static void _entrance_session_wait(int id);
 static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
