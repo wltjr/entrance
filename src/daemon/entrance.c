@@ -27,6 +27,7 @@ static Eina_Bool _entrance_autologin_lock_get(void);
 static Eina_Bool _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
+static Eina_Bool _get_lock();
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
 static pid_t _entrance_xserver_start(int id);
