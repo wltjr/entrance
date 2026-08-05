@@ -82,9 +82,6 @@ group "Entrance_Config" struct {
     /* Bool to control random background */
     value "background_random" uchar: 0;
 
-    /* Elementary profile */
-    value "elementary_profile" string: "default";
-
     /* Use a virtual keyboard */
     value "virtual_keyboard" uchar: 0;
 
