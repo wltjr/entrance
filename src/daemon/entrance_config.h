@@ -4,9 +4,7 @@
 #define ENTRANCE_CONFIG_CACHE_FILE  "entrance.cfg"
 #define ENTRANCE_CONFIG_FILE        "entrance.conf"
 
-typedef struct _Entrance_Config Entrance_Config;
-
-struct _Entrance_Config
+typedef struct _Entrance_Config
 {
    unsigned short port;
    const char *session;
@@ -45,7 +43,7 @@ struct _Entrance_Config
    Eina_Bool req_passwd;
    Eina_Bool autoselect_last_user;
    const char *start_user;
-};
+} Entrance_Config;
 
 /**
  * @brief Sets default configuration values
