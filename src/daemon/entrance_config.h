@@ -30,7 +30,6 @@ struct _Entrance_Config
    const char *lockfile;
    const char *logfile;
    const char *theme;
-   const char *elm_profile;
    struct
      {
         const char *path;
