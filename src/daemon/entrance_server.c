@@ -113,17 +113,9 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
              PT("server authenticate granted");
              neev.event.status.login = entrance_session_login_get(eev->event.auth.id);
              neev.event.status.granted = EINA_TRUE;
-             if (eev->event.auth.open_session)
-               {
-                  PT("opening session now ...");
-                  entrance_session_login(eev->event.auth.id,
-                                         eev->event.auth.session,
-                                         EINA_TRUE);
-               }
-#ifdef HAVE_PAM
-             else
-               entrance_pam_end(eev->event.auth.id);
-#endif
+             entrance_session_login(eev->event.auth.id,
+                                    eev->event.auth.session,
+                                    EINA_TRUE);
           }
         else
           {
