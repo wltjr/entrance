@@ -224,7 +224,6 @@ _entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj)
         free(screen);
         return;
     }
-    entrance_login_open_session_set(o, EINA_TRUE);
     screen->login = o;
     elm_object_part_content_set(ol, ENTRANCE_EDJE_PART_LOGIN, o);
     evas_object_show(screen->login);
