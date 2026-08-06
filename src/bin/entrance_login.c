@@ -389,15 +389,3 @@ entrance_login_login_set(Evas_Object *widget, const char *user)
 
   _login_xsession_guess(widget, user);
 }
-
-void
-entrance_login_open_session_set(const Evas_Object *widget, Eina_Bool open_session)
-{
-   Evas_Object *o;
-
-   open_session = !!open_session;
-   _login->open_session = open_session;
-   o = elm_object_part_content_get(widget, ENTRANCE_EDJE_PART_XSESSIONS);
-   if (!_login->open_session)
-     elm_object_disabled_set(o, EINA_TRUE);
-}
