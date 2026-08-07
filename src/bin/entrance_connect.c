@@ -144,8 +144,7 @@ _entrance_connect_write_cb(const void *data,
 void
 entrance_connect_auth_send(const char *login,
                            const char *password,
-                           const char *session,
-                           Eina_Bool open_session)
+                           const char *session)
 {
    Entrance_Event eev;
 
@@ -154,7 +153,6 @@ entrance_connect_auth_send(const char *login,
    eev.event.auth.login = login;
    eev.event.auth.password = password;
    eev.event.auth.session = session;
-   eev.event.auth.open_session = open_session;
    eev.type = ENTRANCE_EVENT_AUTH;
    entrance_event_send(&eev);
 }
