@@ -86,10 +86,9 @@ _login_check_auth(Evas_Object *widget)
      _login->auth = entrance_connect_auth_cb_add(_login_auth_cb, widget);
    if (_login->session)
      entrance_connect_auth_send(host, passwd,
-                                _login->session->name,
-                                _login->open_session);
+                                _login->session->name);
    else
-     entrance_connect_auth_send(host, passwd, NULL, _login->open_session);
+     entrance_connect_auth_send(host, passwd, NULL);
 
    elm_object_signal_emit(widget, ENTRANCE_EDJE_SIGNAL_AUTH_CHECKING, "");
 }
