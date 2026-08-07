@@ -38,7 +38,6 @@ typedef struct Entrance_Auth_Event_
    const char *login;
    const char *password;
    const char *session;
-   Eina_Bool open_session;
 } Entrance_Auth_Event;
 
 typedef struct Entrance_Conf_Gui_Event_
