@@ -138,8 +138,6 @@ _entrance_event_auth_dd(void)
                                  password, EET_T_STRING);
    EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Auth_Event, "session",
                                  session, EET_T_STRING);
-   EET_DATA_DESCRIPTOR_ADD_BASIC(edd, Entrance_Auth_Event, "open_session",
-                                 open_session, EET_T_UCHAR);
    return edd;
 
 }
