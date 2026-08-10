@@ -80,7 +80,8 @@ _login_check_auth(Evas_Object *widget)
        ALERT_ERROR(widget, _("Please enter your password"));
        return;
      }
-   if(!_login->session || *(_login->session) == '\0')
+   if(!_login->session &&
+      (!_login->session->name || *(_login->session->name) == '\0'))
      {
        ALERT_ERROR(widget, _("Please choose a login session"));
        return;
@@ -88,12 +89,7 @@ _login_check_auth(Evas_Object *widget)
    _login->wait = EINA_TRUE;
    if (!_login->auth)
      _login->auth = entrance_connect_auth_cb_add(_login_auth_cb, widget);
-   if (_login->session)
-     entrance_connect_auth_send(host, passwd,
-                                _login->session->name);
-   else
-     entrance_connect_auth_send(host, passwd, NULL);
-
+   entrance_connect_auth_send(host, passwd, _login->session->name);
    elm_object_signal_emit(widget, ENTRANCE_EDJE_SIGNAL_AUTH_CHECKING, "");
 }
 /**
