@@ -771,6 +771,7 @@ main (int argc, char ** argv)
         sleep(30);
         xcb_disconnect(disp);
         _entrance_session_wait(0);
+        _entrance_autologin_lock_del();
  
         if(!_entrance_signal)
           {
