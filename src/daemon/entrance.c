@@ -2,6 +2,7 @@
 #include <libgen.h>
 #include <fcntl.h>
 #include <sys/file.h>
+#include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -105,7 +106,16 @@ _entrance_autologin_lock_get(void)
 static void
 _entrance_autologin_lock_set(void)
 {
-   system("touch "PACKAGE_CACHE"/login");
+    FILE *file;
+
+    file = fopen(PACKAGE_CACHE"/login", "w");
+    if(file)
+        fclose(file);
+    else
+    {
+        PT("Failed to create lock for autologin");
+        _entrance_auto_login = EINA_FALSE;
+    }
 }
 
 static Eina_Bool
