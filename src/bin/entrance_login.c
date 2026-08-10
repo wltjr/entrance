@@ -80,6 +80,11 @@ _login_check_auth(Evas_Object *widget)
        ALERT_ERROR(widget, _("Please enter your password"));
        return;
      }
+   if(!_login->session || *(_login->session) == '\0')
+     {
+       ALERT_ERROR(widget, _("Please choose a login session"));
+       return;
+     }
    _login->wait = EINA_TRUE;
    if (!_login->auth)
      _login->auth = entrance_connect_auth_cb_add(_login_auth_cb, widget);
