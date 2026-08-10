@@ -31,6 +31,7 @@ static Eina_Bool _get_lock();
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
 static pid_t _entrance_xserver_start(int id);
+static void _entrance_autologin_lock_del(void);
 static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del(int id);
 static void _entrance_clients_init(int count);
@@ -80,6 +81,12 @@ static const Ecore_Getopt options =
   }
 };
 
+static void
+_entrance_autologin_lock_del(void)
+{
+    if(remove(PACKAGE_CACHE"/login"))
+        PT("Failed to remove autologin lock");
+}
 
 static Eina_Bool
 _entrance_autologin_lock_get(void)
