@@ -287,15 +287,15 @@ The best tech does not always win, it can rise or fall based on communities!
 Entrance is a long story. There have been 2 different code bases and
 projects both using the name entrance.
 
-### 3rd Generation
+### 1st Generation
 
-This project is the 3rd generation, a fork of the 2nd Generation code
-base, with a lot of fixes, and removal of incomplete and/or broken code. Rather
-than fix as is, we are looking to replace functionality with novel code and
-solutions providing similar functionality.
-
-This generation is currently in development and is usable. Please open an
-[issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
+There was a project long ago that worked, and went
+[MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html).
+Copies of the sources for some releases are in some distro repositories. A copy
+has  been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a
+copy of the old entrance repo to add to this one for historical purposes. If you
+have a copy of the old Entrance repository, please  open an issue and provide a
+link. That would be greatly appreciated!
 
 ### 2nd Generation
 
@@ -308,12 +308,12 @@ The broken, incomplete, unmaintained 2nd Generation Entrance resides in Enlighte
 [entrance git repository](https://git.enlightenment.org/old/entrance).
 A branch may be added to this repository for historical purposes.
 
-### 1st Generation
+### 3rd Generation
 
-There was a project long ago that worked, and went
-[MIA](https://web.archive.org/web/20161112163301/http://xcomputerman.com/pages/entrance.html).
-Copies of the sources for some releases are in some distro repositories. A copy
-has  been obtained via a PCLinuxOS src rpm. Ideally, it would be great to get a
-copy of the old entrance repo to add to this one for historical purposes. If you
-have a copy of the old Entrance repository, please  open an issue and provide a
-link. That would be greatly appreciated!
+This project is the 3rd generation, a fork of the 2nd Generation code
+base, with a lot of fixes, and removal of incomplete and/or broken code. Rather
+than fix as is, we are looking to replace functionality with novel code and
+solutions providing similar functionality.
+
+This generation is currently in development and is usable. Please open an
+[issue](https://github.com/wltjr/entrance/issues) for any problems encountered.
