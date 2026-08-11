@@ -37,13 +37,13 @@ becomes more well defined.
 - [ ] Settings UI
   - [ ] for entrance.conf
   - [ ] for user icon/bg/session users.conf
-- [ ] refactor
-  - [ ] Uncalled code, identify never fired code paths
+- [-] refactor
+  - [-] Uncalled code, identify never fired code paths
   - [+] User history and pretty much all of history
   - [+] Look over user icon/background
   - [ ] Split desktop and session code in entrance_sessions
   - [ ] Name uniformity on user/login/conf functions, vars etc.
-- [ ] max tries, need to uncomment code and check it works with theme/UI?
+- [x] max tries, need to uncomment code and check it works with theme/UI?
 - [-] [logind integration](#logindelogind-aka-systemd)
   - [x] Multi-seat awareness (xserver/client per seat on start)
     - [ ] Test > 1 seat
