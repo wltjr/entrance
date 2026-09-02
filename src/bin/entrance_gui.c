@@ -495,23 +495,19 @@ entrance_gui_xsessions_get(void)
 void
 entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
 {
-   if (_gui->bg.path != conf->bg.path)
+   if (_gui->bg.path != conf->bg.path &&
+       (conf->bg.path) && (*conf->bg.path))
      {
-        if ((conf->bg.path) && (*conf->bg.path))
-        {
-            eina_stringshare_replace(&_gui->bg.path, conf->bg.path);
-            _gui->changed &= ENTRANCE_CONF_WALLPAPER;
-            _gui->conf_bg.path = conf->bg.path;
-        }
+        eina_stringshare_replace(&_gui->bg.path, conf->bg.path);
+        _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        _gui->conf_bg.path = conf->bg.path;
      }
-   if (_gui->bg.group != conf->bg.group)
+   if (_gui->bg.group != conf->bg.group && 
+       (conf->bg.group) && (*conf->bg.group))
      {
-        if ((conf->bg.group) && (*conf->bg.group))
-        {
-            eina_stringshare_replace(&_gui->bg.group, conf->bg.group);
-            _gui->changed &= ENTRANCE_CONF_WALLPAPER;
-            _gui->conf_bg.group = conf->bg.group;
-        }
+        eina_stringshare_replace(&_gui->bg.group, conf->bg.group);
+        _gui->changed &= ENTRANCE_CONF_WALLPAPER;
+        _gui->conf_bg.group = conf->bg.group;
      }
    if (_gui->conf_bg.random != conf->bg.random)
      {
