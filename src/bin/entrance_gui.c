@@ -642,8 +642,8 @@ _entrance_gui_background_random_get(const char *username)
     unsigned int rnd = 0;
     unsigned int user_backgrounds_count = 0;
     unsigned int sys_backgrounds_count = 0;
-    const Entrance_Image *img;
-    const Entrance_Login *el;
+    const Entrance_Image *img = NULL;
+    const Entrance_Login *el = NULL;
     const Eina_List *sys_backgrounds = NULL;
     const Eina_List *user_backgrounds = NULL;
 
