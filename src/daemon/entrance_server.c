@@ -103,7 +103,7 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
    eev = data;
    if (eev->type == ENTRANCE_EVENT_AUTH)
      {
-        char *msgs;
+        char *msgs = NULL;
 
         neev.type = ENTRANCE_EVENT_STATUS;
         if (entrance_session_authenticate(eev->event.auth.id,
