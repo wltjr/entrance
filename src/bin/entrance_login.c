@@ -80,8 +80,9 @@ _login_check_auth(Evas_Object *widget)
        ALERT_ERROR(widget, _("Please enter your password"));
        return;
      }
-   if(!_login->session &&
-      (!_login->session->name || *(_login->session->name) == '\0'))
+   if(!_login->session ||
+      (_login->session &&
+        (!_login->session->name || *(_login->session->name) == '\0')))
      {
        ALERT_ERROR(widget, _("Please choose a login session"));
        return;
