@@ -80,6 +80,7 @@ _entrance_session_pam_env_set(int id,
                               Eina_Bool is_wayland)
 {
    PT("Setting PAM environment for session #%d", id);
+   char *term_ptr = NULL;
    char mail[PATH_MAX] = {0};
    char seat[64] = {0};
    char seat_path[128] = {0};
@@ -87,11 +88,15 @@ _entrance_session_pam_env_set(int id,
    char term[128] = {0};
    char vtnr[64] = {0};
 
+   term_ptr = getenv("TERM");
    snprintf(mail, sizeof(mail), "/var/mail/%s", pwd->pw_name);
    snprintf(seat, sizeof(seat), "seat%d", id);
    snprintf(seat_path, sizeof(seat_path), "/org/freedesktop/DisplayManager/Seat%d", id);
    snprintf(session_path, sizeof(session_path), "/org/freedesktop/DisplayManager/Session%d", id);
-   snprintf(term, sizeof(term), "%s", getenv("TERM"));
+   if(term_ptr)
+       snprintf(term, sizeof(term), "%s", term_ptr);
+   else
+       snprintf(term, sizeof(term), "%s", "/bin/sh");
    snprintf(vtnr, sizeof(vtnr), "%d", _sessions[id]->vt);
 
    if (term[0]) entrance_pam_env_set(id, "TERM", term);
