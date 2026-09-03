@@ -91,7 +91,7 @@ _entrance_session_pam_env_set(int id,
    snprintf(seat, sizeof(seat), "seat%d", id);
    snprintf(seat_path, sizeof(seat_path), "/org/freedesktop/DisplayManager/Seat%d", id);
    snprintf(session_path, sizeof(session_path), "/org/freedesktop/DisplayManager/Session%d", id);
-   snprintf(term, sizeof(seat), "%s", getenv("TERM"));
+   snprintf(term, sizeof(term), "%s", getenv("TERM"));
    snprintf(vtnr, sizeof(vtnr), "%d", _sessions[id]->vt);
 
    if (term[0]) entrance_pam_env_set(id, "TERM", term);
