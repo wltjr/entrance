@@ -122,6 +122,8 @@ entrance_gui_init(const char *theme)
          /* login form on primary screen only */
          if(j == 0)
             _entrance_gui_login_form(screen, o);
+         if(!screen)
+            continue;
          evas_object_show(screen->transition);
          /* Add screen to list for all monitors (not just primary) */
          _gui->screens = eina_list_append(_gui->screens, screen);
