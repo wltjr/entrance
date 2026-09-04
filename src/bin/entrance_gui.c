@@ -239,40 +239,40 @@ entrance_gui_shutdown(void)
    const Entrance_Xsession *xsession;
    Entrance_Image *img;
    PT("Gui shutdown");
-   if (_gui)
-     {
-       evas_object_del(_gui->win);
-       EINA_LIST_FREE(_gui->screens, screen)
-         {
-            free(screen);
-         }
-       eina_stringshare_del(_gui->theme);
-       EINA_LIST_FREE(_gui->xsessions, xsession)
-         {
-            eina_stringshare_del(xsession->name);
-            eina_stringshare_del(xsession->command);
-            eina_stringshare_del(xsession->icon);
-         }
-       EINA_LIST_FREE(_gui->background_pool, img)
-         {
-           eina_stringshare_del(img->path);
-           eina_stringshare_del(img->group);
-           free(img);
-         }
-       EINA_LIST_FREE(_gui->icon_pool, img)
-         {
-           eina_stringshare_del(img->path);
-           eina_stringshare_del(img->group);
-           free(img);
-         }
-       EINA_LIST_FREE(_gui->theme_icon_pool, img)
-         {
-           eina_stringshare_del(img->path);
-           eina_stringshare_del(img->group);
-           free(img);
-         }
-       free(_gui);
-     }
+   if (!_gui)
+      return;
+
+    evas_object_del(_gui->win);
+    EINA_LIST_FREE(_gui->screens, screen)
+    {
+        free(screen);
+    }
+    eina_stringshare_del(_gui->theme);
+    EINA_LIST_FREE(_gui->xsessions, xsession)
+    {
+        eina_stringshare_del(xsession->name);
+        eina_stringshare_del(xsession->command);
+        eina_stringshare_del(xsession->icon);
+    }
+    EINA_LIST_FREE(_gui->background_pool, img)
+    {
+        eina_stringshare_del(img->path);
+        eina_stringshare_del(img->group);
+        free(img);
+    }
+    EINA_LIST_FREE(_gui->icon_pool, img)
+    {
+        eina_stringshare_del(img->path);
+        eina_stringshare_del(img->group);
+        free(img);
+    }
+    EINA_LIST_FREE(_gui->theme_icon_pool, img)
+    {
+        eina_stringshare_del(img->path);
+        eina_stringshare_del(img->group);
+        free(img);
+    }
+    free(_gui);
 }
 
 static Eina_List*
