@@ -255,49 +255,50 @@ _entrance_session_wait(int id)
   char proc_path[64];
   int wait_result;
 
-  if((session_pid = entrance_session_pid_get(id))>0)
+    session_pid = entrance_session_pid_get(id);
+    if(!session_pid)
+        return;
+
+    PT("session #%d running pid %d, waiting...", id, session_pid);
+    snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
+    
+    /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
+    while (!_entrance_signal)
     {
-      PT("session #%d running pid %d, waiting...", id, session_pid);
-      snprintf(proc_path, sizeof(proc_path), "/proc/%d", session_pid);
-      
-      /* Try waitpid() - may fail with ECHILD if backgrounded by init system */
-      while (!_entrance_signal)
+        struct timespec request = { 0, 500000000 };
+        wait_result = waitpid(session_pid, NULL, WNOHANG);
+        
+        if (wait_result > 0)
         {
-          struct timespec request = { 0, 500000000 };
-          wait_result = waitpid(session_pid, NULL, WNOHANG);
-          
-          if (wait_result > 0)
-            {
-              /* Child terminated */
-              PT("session #%d pid %d exited", id, session_pid);
-            }
-          else if (wait_result < 0)
-            {
-              if (errno == ECHILD)
-                {
-                  /* Not a direct child (backgrounded by OpenRC), poll /proc instead */
-                  PT("session #%d not direct child, polling /proc/%d", id, session_pid);
-                  while (!_entrance_signal)
-                    {
-                      if (access(proc_path, F_OK) != 0)
-                        {
-                          PT("session #%d pid %d terminated", id, session_pid);
-                          break;
-                        }
-                      nanosleep(&request, NULL); /* Check every 500ms */
-                    }
-                }
-              else
-                {
-                  /* Other error */
-                  PT("session #%d waitpid error: %d", id, errno);
-                }
-            }
-          if(wait_result != 0)
-              break;
-          /* wait_result == 0: child still running, sleep and check again */
-          nanosleep(&request, NULL);
+            /* Child terminated */
+            PT("session #%d pid %d exited", id, session_pid);
         }
+        else if (wait_result < 0)
+        {
+            if (errno == ECHILD)
+            {
+                /* Not a direct child (backgrounded by OpenRC), poll /proc instead */
+                PT("session #%d not direct child, polling /proc/%d", id, session_pid);
+                while (!_entrance_signal)
+                {
+                    if (access(proc_path, F_OK) != 0)
+                    {
+                        PT("session #%d pid %d terminated", id, session_pid);
+                        break;
+                    }
+                    nanosleep(&request, NULL); /* Check every 500ms */
+                }
+            }
+            else
+            {
+                /* Other error */
+                PT("session #%d waitpid error: %d", id, errno);
+            }
+        }
+        if(wait_result != 0)
+            break;
+        /* wait_result == 0: child still running, sleep and check again */
+        nanosleep(&request, NULL);
     }
 }
 
