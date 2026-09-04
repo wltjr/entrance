@@ -44,6 +44,7 @@ static void _entrance_logind_monitor_cb(void *data EINA_UNUSED);
 static void _entrance_session_wait(int id);
 static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
+static void _entrance_xservers_shutdown();
 static void _remove_lock();
 static void _signal_cb(int sig);
 static void _signal_log(int sig EINA_UNUSED);
@@ -552,6 +553,29 @@ _get_lock()
    return EINA_TRUE;
 }
 
+static void
+_entrance_xservers_shutdown()
+{
+    if (_entrance_xserver_pids)
+    {
+        for(int i = 0; i < _entrance_seat_count; i++)
+        {
+            if(_entrance_xserver_pids[i])
+            {
+                PT("xserver ending for seat%d", i);
+                _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
+            }
+        }
+        free(_entrance_xserver_pids);
+    }
+    for(int i = 0; i < _entrance_seat_count; i++)
+    {
+        entrance_xserver_shutdown(i);
+        PT("xserver shutdown for seat%d", i);
+    }
+    entrance_xservers_shutdown();
+}
+
 static Eina_Bool
 _open_log()
 {
@@ -808,27 +832,8 @@ main (int argc, char ** argv)
    PT("action shutdown");
    entrance_history_shutdown();
    PT("history shutdown");
-   if (!_xephyr)
-     {
-        if (_entrance_xserver_pids)
-        {
-            for(int i = 0; i < _entrance_seat_count; i++)
-            {
-                if(_entrance_xserver_pids[i])
-                {
-                    PT("xserver ending for seat%d", i);
-                    _entrance_kill_and_wait("xserver", _entrance_xserver_pids[i]);
-                }
-            }
-            free(_entrance_xserver_pids);
-        }
-        for(int i = 0; i < _entrance_seat_count; i++)
-        {
-            entrance_xserver_shutdown(i);
-            PT("xserver shutdown for seat%d", i);
-        }
-        entrance_xservers_shutdown();
-     }
+    if (!_xephyr)
+        _entrance_xservers_shutdown();
     for(int i = 0; i < _entrance_seat_count; i++)
     {
         entrance_session_shutdown(i);
