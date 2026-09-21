@@ -224,6 +224,7 @@ _entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj)
         evas_object_del(screen->transition);
         evas_object_del(screen->edj);
         free(screen);
+        screen = NULL;
         return;
     }
     screen->login = o;
