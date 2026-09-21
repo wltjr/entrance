@@ -94,7 +94,18 @@ _entrance_session_pam_env_set(int id,
    snprintf(seat_path, sizeof(seat_path), "/org/freedesktop/DisplayManager/Seat%d", id);
    snprintf(session_path, sizeof(session_path), "/org/freedesktop/DisplayManager/Session%d", id);
    if(term_ptr)
+   {
+       size_t len;
+
+       /* sanitize input */
+       len = strnlen(term_ptr, sizeof(term));
+       for(size_t i = 0; i < len; i++)
+       {
+          if (term_ptr[i] == '\n' || term_ptr[i] == '\r')
+             term_ptr[i] = ' ';
+       }
        snprintf(term, sizeof(term), "%s", term_ptr);
+   }
    else
        snprintf(term, sizeof(term), "%s", "/bin/sh");
    snprintf(vtnr, sizeof(vtnr), "%d", _sessions[id]->vt);
