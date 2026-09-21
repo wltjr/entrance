@@ -27,6 +27,7 @@ static void
 _entrance_system_distro_detect(void)
 {
    FILE *f;
+   size_t len;
    char line[256];
    char *name = NULL;
    
@@ -61,7 +62,18 @@ _entrance_system_distro_detect(void)
           }
      }
    fclose(f);
-   
+
+   /* sanitize input */
+    if(name)
+    {
+        len = strnlen(name, PATH_MAX - 1);
+        for(size_t i = 0; i < len; i++)
+        {
+            if (name[i] == '\n' || name[i] == '\r')
+                name[i] = ' ';
+        }
+    }
+
    _distro = name ? name : strdup("Linux");
 }
 
