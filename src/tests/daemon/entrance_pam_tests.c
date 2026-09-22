@@ -86,13 +86,13 @@ START_TEST(entrance_pam_test_user_nobody)
     /* test valid user */
     result = entrance_pam_start(id, _service, _tty, "nobody");
     ck_assert_int_eq(result, 0);
-    result = entrance_pam_session_open(id);
-    ck_assert_int_eq(result, 0);
 
     /* test auth error */
     result = entrance_pam_passwd_set(id, _passwd_good);
     ck_assert_int_eq(result, 0);
     result = entrance_pam_authenticate(id);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_session_open(id);
     ck_assert_int_eq(result, 1);
 
     _entrance_pam_cleanup(id);
