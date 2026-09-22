@@ -57,13 +57,13 @@ START_TEST(entrance_pam_test_user_good)
     /* test known user */
     result = entrance_pam_start(id, _service, _tty, _user_good);
     ck_assert_int_eq(result, 0);
-    result = entrance_pam_session_open(id);
-    ck_assert_int_eq(result, 0);
 
     /* test known auth success */
     result = entrance_pam_passwd_set(id, _passwd_good);
     ck_assert_int_eq(result, 0);
     result = entrance_pam_authenticate(id);
+    ck_assert_int_eq(result, 0);
+    result = entrance_pam_session_open(id);
     ck_assert_int_eq(result, 0);
 
     /* needless call just for code coverage */
