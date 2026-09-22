@@ -32,13 +32,13 @@ START_TEST(entrance_pam_test_user_bad)
     /* test unknown user */
     result = entrance_pam_start(id, _service, _tty, _user_bad);
     ck_assert_int_eq(result, 0);
-    result = entrance_pam_session_open(id);
-    ck_assert_int_eq(result, 0);
 
     /* test auth fail */
     result = entrance_pam_passwd_set(id, _passwd_bad);
     ck_assert_int_eq(result, 0);
     result = entrance_pam_authenticate(id);
+    ck_assert_int_eq(result, 1);
+    result = entrance_pam_session_open(id);
     ck_assert_int_eq(result, 1);
 
     _entrance_pam_cleanup(id);
