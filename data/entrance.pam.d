@@ -39,7 +39,7 @@ session     optional        pam_loginuid.so
 session     required        pam_env.so envfile=/etc/profile.env
 session     required        pam_limits.so
 session     required        pam_env.so
-session     required        pam_unix.so
+session     required        pam_unix.so shadow yescrypt
 -session    optional        pam_elogind.so
 -session    optional        pam_openrc.so
 -session    optional        pam_systemd.so
