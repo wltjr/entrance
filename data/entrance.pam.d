@@ -14,7 +14,7 @@ auth        required        pam_nologin.so
 auth        required        pam_env.so
 auth        requisite       pam_faillock.so preauth
 auth        [success=1 new_authtok_reqd=1 ignore=ignore default=bad]       pam_unix.so nullok
-#auth        [default=reset]   pam_faillock.so authfail
+auth        [default=die]   pam_faillock.so authfail
 auth        optional        pam_cap.so
 -auth       optional        pam_gnome_keyring.so
 -auth       optional        pam_kwallet6.so
