@@ -103,6 +103,7 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	-e "s|Enlightenment|Xsession|" \
     -e "s|showlogin\" uchar: 0|showlogin\" uchar: 1|" \
+    -e "s|autoselect_last_user\" uchar: 1|autoselect_last_user\" uchar: 0|" \
     -e "s|background_random\" uchar: 0|background_random\" uchar: 1|" \
 	/etc/entrance/entrance.conf
 
