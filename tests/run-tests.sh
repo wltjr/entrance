@@ -98,6 +98,7 @@ cat_and_rm
 echo -e "\e[1;35m${0} Test autologin\e[0m"
 export HOME=/home/ubuntu
 mv -v /etc/entrance/entrance.conf.tmp /etc/entrance/entrance.conf
+rm -v /etc/entrance/users.conf
 sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	-e "s|Enlightenment|Xsession|" \
