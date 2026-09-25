@@ -189,6 +189,11 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
 
    memcpy(buf, ev->data, size);
    buf[size] = '\0';  /* Ensure null termination */
+
+   /* hack to supress noise https://github.com/wltjr/entrance/issues/64 */
+   if(strstr(buf, "/lib/") || strstr(buf, "fixed"))
+      return ECORE_CALLBACK_DONE;
+
    EINA_LOG_DOM_WARN(_entrance_client_log, "%s", buf);
    return ECORE_CALLBACK_DONE;
 }
