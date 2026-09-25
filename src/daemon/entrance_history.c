@@ -288,9 +288,6 @@ _entrance_user_shutdown(void)
    const char *buf;
    EINA_LIST_FREE(_lusers, eu)
      {
-        if (_entrance_history_match(eu->login))
-            continue;
-
         eina_stringshare_del(eu->login);
         eina_stringshare_del(eu->session);
         eina_stringshare_del(eu->image.path);
