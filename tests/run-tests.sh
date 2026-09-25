@@ -117,6 +117,7 @@ rm /var/log/entrance.log
 
 echo -e "\e[1;35m${0} Test autologin again\e[0m"
 sed -i -e "s|autoselect_last_user\" uchar: 1|autoselect_last_user\" uchar: 0|" \
+    -e "s|background_path\" string: \"|background_path\" string: \"/usr/share/backgrounds/Fuji_san_by_amaral.png|" \
 	/etc/entrance/entrance.conf
 
 /usr/sbin/entrance & disown
