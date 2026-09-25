@@ -103,7 +103,6 @@ sed -i -e "s|autologin\" uchar: 0|autologin\" uchar: 1|" \
 	-e "s|userlogin\" string: \"myusername\"|userlogin\" string: \"ubuntu\"|" \
 	-e "s|Enlightenment|Xsession|" \
     -e "s|showlogin\" uchar: 0|showlogin\" uchar: 1|" \
-    -e "s|autoselect_last_user\" uchar: 1|autoselect_last_user\" uchar: 0|" \
     -e "s|background_random\" uchar: 0|background_random\" uchar: 1|" \
 	/etc/entrance/entrance.conf
 
@@ -117,6 +116,8 @@ cat /var/log/entrance.log
 rm /var/log/entrance.log
 
 echo -e "\e[1;35m${0} Test autologin again\e[0m"
+sed -i -e "s|autoselect_last_user\" uchar: 1|autoselect_last_user\" uchar: 0|" \
+	/etc/entrance/entrance.conf
 
 /usr/sbin/entrance & disown
 
