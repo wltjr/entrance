@@ -35,6 +35,7 @@ static pid_t _entrance_xserver_start(int id);
 static void _entrance_autologin_lock_del(void);
 static void _entrance_autologin_lock_set(void);
 static void _entrance_client_handlers_del(int id);
+static void _entrance_client_log_msg(void *event, int level);
 static void _entrance_clients_init(int count);
 static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
@@ -215,6 +216,41 @@ _entrance_client_handlers_del(int id)
 
     EINA_LIST_FREE(_entrance_clients[id]->handlers, h)
         ecore_event_handler_del(h);
+}
+
+static void
+_entrance_client_log_msg(void *event, int level)
+{
+    char *saveptr;
+    char buf[4096];
+    const Ecore_Exe_Event_Data *ev;
+    size_t size;
+
+    ev = event;
+    size = ev->size;
+
+    if ((unsigned int)ev->size > sizeof(buf) - 1)
+        size = sizeof(buf) - 1;
+
+    memcpy(buf, ev->data, size);
+    buf[size] = '\0';  /* Ensure null termination */
+
+    /* hack to supress noise https://github.com/wltjr/entrance/issues/64 */
+    if(level == 1 && (strstr(buf, "/lib/") || strstr(buf, "fixed")))
+        return;
+
+    /* log each line individually, to prevent wrapping under */
+    saveptr = buf;
+
+    /* loop in conditional to prevent conditional eval on interation */
+    if(level == 2)
+        for(char* token = strtok_r(buf, "\n", &saveptr); token != NULL; token = strtok_r(NULL, "\n", &saveptr))
+            EINA_LOG_DOM_WARN(_entrance_client_log, "%s", token);
+    else
+        for(char* token = strtok_r(buf, "\n", &saveptr); token != NULL; token = strtok_r(NULL, "\n", &saveptr))
+            EINA_LOG_DOM_INFO(_entrance_client_log, "%s", token);
+
+    return;
 }
 
 static void
