@@ -122,7 +122,6 @@ _entrance_autologin_lock_set(void)
 static Eina_Bool
 _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
-   char* token;
    char buf[4096];
    const Ecore_Exe_Event_Data *ev;
    size_t size;
@@ -137,7 +136,7 @@ _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
    buf[size] = '\0';  /* Ensure null termination */
 
    /* log each line individually, to prevent wrapping under */
-   for(token = strtok(buf, "\n"); token != NULL; token = strtok(NULL, "\n"))
+   for(char* token = strtok(buf, "\n"); token != NULL; token = strtok(NULL, "\n"))
       EINA_LOG_DOM_INFO(_entrance_client_log, "%s", token);
 
    return ECORE_CALLBACK_DONE;
@@ -181,7 +180,6 @@ _entrance_client_del(void *data, int type EINA_UNUSED, void *event)
 static Eina_Bool
 _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event)
 {
-   char* token;
    char buf[4096];
    const Ecore_Exe_Event_Data *ev;
    size_t size;
@@ -200,7 +198,7 @@ _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event
       return ECORE_CALLBACK_DONE;
 
    /* log each line individually, to prevent wrapping under */
-   for(token = strtok(buf, "\n"); token != NULL; token = strtok(NULL, "\n"))
+   for(char* token = strtok(buf, "\n"); token != NULL; token = strtok(NULL, "\n"))
       EINA_LOG_DOM_WARN(_entrance_client_log, "%s", token);
 
    return ECORE_CALLBACK_DONE;
