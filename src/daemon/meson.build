@@ -10,6 +10,7 @@ entrance_srcs = [
 	'entrance_session_utils.h', 'entrance_session_utils.c',
 	'entrance_xserver.h',	'entrance_xserver.c',
 	'entrance_server.h',	'entrance_server.c',
+	'entrance_keyboard.h',	'entrance_keyboard.c',
 	'entrance_history.h',	'entrance_history.c',
 	'entrance_action.h',	'entrance_action.c',
 	'entrance_image.h',	'entrance_image.c',
