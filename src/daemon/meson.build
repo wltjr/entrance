@@ -1,7 +1,7 @@
 inc = include_directories('.')
 
 # entrance
-entrance_deps = [crypt, deps, ecore_x, xcb]
+entrance_deps = [crypt, deps, ecore_x, xcb, xkb]
 entrance_incs = [inc, top_inc]
 entrance_srcs = [
 	'../../src/event/entrance_event.h',	'../../src/event/entrance_event.c',
