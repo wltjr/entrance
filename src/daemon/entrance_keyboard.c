@@ -3,6 +3,7 @@
 #include "entrance.h"
 
 static void _entrance_keyboard_connect();
+static void _entrance_keyboard_disconnect();
 
 xcb_connection_t *_xcb_connection = NULL;
 
@@ -34,7 +35,15 @@ _entrance_keyboard_connect()
     }
 }
 
+static void
+_entrance_keyboard_disconnect()
+{
+    xcb_disconnect(_xcb_connection);
+    _xcb_connection = NULL;
+}
+
 void entrance_keyboard_init()
 {
     _entrance_keyboard_connect();
+    _entrance_keyboard_disconnect();
 }
