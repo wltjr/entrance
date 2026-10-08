@@ -5,8 +5,11 @@
 static char * _entrance_keyboard_atom_name_get(xcb_get_atom_name_cookie_t cookie);
 static void _entrance_keyboard_connect();
 static void _entrance_keyboard_disconnect();
+static void _entrance_keyboard_indicator_masks_set();
 static uint8_t _entrance_keyboard_indicator_mask_get(uint8_t i);
 
+uint8_t _mask_capslock = 0;
+uint8_t _mask_numlock = 0;
 xcb_connection_t *_xcb_connection = NULL;
 
 static char *
@@ -94,8 +97,60 @@ _entrance_keyboard_indicator_mask_get(uint8_t i)
     return mask;
 }
 
+static void 
+_entrance_keyboard_indicator_masks_set()
+{
+    int indicators;
+    const void *buffer;
+    xcb_xkb_get_names_cookie_t cookie;
+    xcb_xkb_get_names_reply_t *reply = NULL;
+    xcb_xkb_get_names_value_list_t list;
+    xcb_generic_error_t *error = NULL;
+
+    cookie = xcb_xkb_get_names(_xcb_connection,
+                               XCB_XKB_ID_USE_CORE_KBD,
+                               XCB_XKB_NAME_DETAIL_INDICATOR_NAMES);
+    reply = xcb_xkb_get_names_reply(_xcb_connection, cookie, &error);
+
+    if (error)
+    {
+        PT("keyboard led map failed, error %d", error->error_code);
+        return;
+    }
+
+    buffer = xcb_xkb_get_names_value_list(reply);
+    xcb_xkb_get_names_value_list_unpack(buffer, reply->nTypes, reply->indicators,
+                                        reply->virtualMods, reply->groupNames,
+                                        reply->nKeys, reply->nKeyAliases,
+                                        reply->nRadioGroups, reply->which, &list);
+
+    indicators = xcb_xkb_get_names_value_list_indicator_names_length(reply, &list);
+    for (int i = 0; i < indicators; i++)
+    {
+        char *name;
+
+        name = _entrance_keyboard_atom_name_get(
+                    xcb_get_atom_name(_xcb_connection, list.indicatorNames[i]));
+
+        if (strcmp(name, "Num Lock") == 0)
+            _mask_numlock = _entrance_keyboard_indicator_mask_get(i);
+        else if (strcmp(name, "Caps Lock") == 0)
+            _mask_capslock = _entrance_keyboard_indicator_mask_get(i);
+
+        free(name);
+    }
+
+    free(reply);
+}
+
 void entrance_keyboard_init()
 {
     _entrance_keyboard_connect();
+
+    if(!_xcb_connection)
+        return;
+
+    // get and set masks
+    _entrance_keyboard_indicator_masks_set();
     _entrance_keyboard_disconnect();
 }
