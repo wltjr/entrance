@@ -2,10 +2,35 @@
 
 #include "entrance.h"
 
+static char * _entrance_keyboard_atom_name_get(xcb_get_atom_name_cookie_t cookie);
 static void _entrance_keyboard_connect();
 static void _entrance_keyboard_disconnect();
 
 xcb_connection_t *_xcb_connection = NULL;
+
+static char *
+_entrance_keyboard_atom_name_get(xcb_get_atom_name_cookie_t cookie)
+{
+    int len;
+    char *name = NULL;
+    xcb_get_atom_name_reply_t *reply = NULL;
+    xcb_generic_error_t *error = NULL;
+
+    reply = xcb_get_atom_name_reply(_xcb_connection, cookie, &error);
+
+    if (reply)
+    {
+        len = xcb_get_atom_name_name_length(reply) + 1;
+        name = (char *)malloc(len + 1);
+        snprintf(name, len, "%s", xcb_get_atom_name_name(reply));
+
+        free(reply);
+    }
+    else
+        PT("failed to get atom name, error %d", error->error_code);
+
+    return name;
+}
 
 static void
 _entrance_keyboard_connect()
