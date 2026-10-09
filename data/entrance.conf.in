@@ -36,7 +36,7 @@ group "Entrance_Config" struct {
     /* Enable capslock */
     value "capslock" uchar: 0;
 
-    /* Enable numlock TODO support it */
+    /* Enable numlock */
     value "numlock" uchar: 1;
 
     /** Bool to determine if entrance could use the xdg desktop files and
