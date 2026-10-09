@@ -33,6 +33,8 @@ group "Entrance_Config" struct {
     /* Command executed to suspend */
     value "suspend" string: "/usr/sbin/pm-suspend";
 
+    /* Enable capslock */
+    value "capslock" uchar: 0;
 
     /* Enable numlock TODO support it */
     value "numlock" uchar: 1;
