@@ -35,6 +35,7 @@ typedef struct _Entrance_Config
         Eina_Bool random;
      } bg;
    Eina_Bool xsessions;
+   Eina_Bool capslock;
    Eina_Bool numlock;
    Eina_Bool autologin;
    Eina_Bool showlogin;
