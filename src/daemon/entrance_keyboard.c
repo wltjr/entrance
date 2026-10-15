@@ -6,6 +6,7 @@ static char * _entrance_keyboard_atom_name_get(xcb_get_atom_name_cookie_t cookie
 static void _entrance_keyboard_connect();
 static void _entrance_keyboard_disconnect();
 static void _entrance_keyboard_indicator_masks_set();
+static void _entrance_keyboard_update();
 static uint8_t _entrance_keyboard_indicator_mask_get(uint8_t i);
 
 uint8_t _mask_capslock = 0;
@@ -143,6 +144,29 @@ _entrance_keyboard_indicator_masks_set()
     free(reply);
 }
 
+static void
+_entrance_keyboard_update()
+{
+    uint8_t mask_cur;
+    uint8_t mask_full;
+    xcb_void_cookie_t cookie;
+    xcb_generic_error_t *error = NULL;
+
+    mask_full = _mask_numlock | _mask_capslock;
+    mask_cur  = (entrance_config->numlock  ? _mask_numlock  : 0) |
+                (entrance_config->capslock ? _mask_capslock : 0);
+
+    cookie = xcb_xkb_latch_lock_state(_xcb_connection,
+                                      XCB_XKB_ID_USE_CORE_KBD,
+                                      mask_full,
+                                      mask_cur,
+                                      1, 0, 0, 0, 0);
+
+    error = xcb_request_check(_xcb_connection, cookie);
+    if (error)
+        PT("failed to update state, error %d", error->error_code);
+}
+
 void entrance_keyboard_init()
 {
     _entrance_keyboard_connect();
@@ -152,5 +176,9 @@ void entrance_keyboard_init()
 
     // get and set masks
     _entrance_keyboard_indicator_masks_set();
+
+    // enable/disable capslock/numlock
+    _entrance_keyboard_update();
+
     _entrance_keyboard_disconnect();
 }
