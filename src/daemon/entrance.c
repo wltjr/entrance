@@ -800,6 +800,8 @@ main (int argc, char ** argv)
 
    PT("history init");
    entrance_history_init();
+   PT("keyboard init");
+   entrance_keyboard_init();
    if (_entrance_auto_login && _entrance_autologin_lock_get())
      {
         PT("autologin init");
