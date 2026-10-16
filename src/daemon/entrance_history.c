@@ -216,32 +216,31 @@ _entrance_history_match(const char *login)
 static void
 _entrance_user_init(void)
 {
-   FILE *f;
+   int uid;
+   FILE *file;
    Eina_List *lu = NULL;
    char *saveptr;
    const char *token;
    const char *user;
+   char buf[PATH_MAX];
 
    PT("scan for users");
-   f = fopen("/etc/passwd", "r");
-   if (f)
-     {
-        char buf[PATH_MAX];
-        int uid;
+   file = fopen("/etc/passwd", "r");
+   if (!file)
+      return;
 
-        while (fgets(buf, sizeof(buf), f))
-          {
-             user = strtok_r(buf, ":", &saveptr);
-             if (!user) continue;
-             strtok_r(NULL, ":", &saveptr);
-             token = strtok_r(NULL, ":", &saveptr);
-             if (!token) continue;
-             uid = atoi(token);
-             if (uid > 999 && uid < 65534)
-                 lu = eina_list_append(lu, eina_stringshare_add(user));
-             }
-        fclose(f);
-     }
+    while (fgets(buf, sizeof(buf), file))
+    {
+        user = strtok_r(buf, ":", &saveptr);
+        if (!user) continue;
+        strtok_r(NULL, ":", &saveptr);
+        token = strtok_r(NULL, ":", &saveptr);
+        if (!token) continue;
+        uid = atoi(token);
+        if (uid > 999 && uid < 65534)
+            lu = eina_list_append(lu, eina_stringshare_add(user));
+    }
+    fclose(file);
    EINA_LIST_FREE(lu, user)
      {
         Entrance_Login *eu;
