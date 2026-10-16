@@ -253,7 +253,7 @@ entrance_gui_shutdown(void)
 {
    Entrance_Screen *screen;
    const Entrance_Xsession *xsession;
-   Entrance_Image *img;
+
    PT("Gui shutdown");
    if (!_gui)
       return;
@@ -270,24 +270,12 @@ entrance_gui_shutdown(void)
         eina_stringshare_del(xsession->command);
         eina_stringshare_del(xsession->icon);
     }
-    EINA_LIST_FREE(_gui->background_pool, img)
-    {
-        eina_stringshare_del(img->path);
-        eina_stringshare_del(img->group);
-        free(img);
-    }
-    EINA_LIST_FREE(_gui->icon_pool, img)
-    {
-        eina_stringshare_del(img->path);
-        eina_stringshare_del(img->group);
-        free(img);
-    }
-    EINA_LIST_FREE(_gui->theme_icon_pool, img)
-    {
-        eina_stringshare_del(img->path);
-        eina_stringshare_del(img->group);
-        free(img);
-    }
+
+    // free image pools
+    _entrance_gui_image_list_del(_gui->background_pool);
+    _entrance_gui_image_list_del(_gui->icon_pool);
+    _entrance_gui_image_list_del(_gui->theme_icon_pool);
+
     free(_gui);
 }
 
@@ -567,22 +555,11 @@ entrance_gui_conf_set(const Entrance_Conf_Gui_Event *conf)
 void
 entrance_gui_pools_set(const Entrance_Pools *pool)
 {
-   Entrance_Image *img;
-   EINA_LIST_FREE(_gui->background_pool, img)
-     {
-        eina_stringshare_del(img->path);
-        eina_stringshare_del(img->group);
-        free(img);
-     }
-   _gui->background_pool = pool->background_pool;
+    _entrance_gui_image_list_del(_gui->background_pool);
+    _gui->background_pool = pool->background_pool;
 
-   EINA_LIST_FREE(_gui->icon_pool, img)
-     {
-        eina_stringshare_del(img->path);
-        eina_stringshare_del(img->group);
-        free(img);
-     }
-   _gui->icon_pool = pool->icon_pool;
+    _entrance_gui_image_list_del(_gui->icon_pool);
+    _gui->icon_pool = pool->icon_pool;
 }
 
 const char *
