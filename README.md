@@ -33,23 +33,22 @@ becomes more well defined.
 
 ### Primary
 
-- [x] User settings icon/bg/session control via users.conf
-- [ ] Settings UI
-  - [ ] for entrance.conf
-  - [ ] for user icon/bg/session users.conf
-- [-] refactor
-  - [-] Uncalled code, identify never fired code paths
-  - [+] User history and pretty much all of history
-  - [+] Look over user icon/background
+- [x] User settings control via users.conf
+  - [x] icon/bg/session
+  - [x] caps/num lock
+- [ ] &#177; refactor
+  - [ ] &#177; Uncalled code, identify never fired code paths
+  - [x] User history and pretty much all of history
+  - [x] Look over user icon/background
   - [ ] Split desktop and session code in entrance_sessions
   - [ ] Name uniformity on user/login/conf functions, vars etc.
 - [x] max tries, need to uncomment code and check it works with theme/UI?
-- [-] [logind integration](#logindelogind-aka-systemd)
+- [ ] &#177; [logind integration](#logindelogind-aka-systemd)
   - [x] Multi-seat awareness (xserver/client per seat on start)
     - [ ] Test > 1 seat
     - [ ] Seat detection and management (add/remove seats)
-  - [-] VT number auto-detection (dynamic config value + seat id #)
-- [-] [wayland support](#wayland-display-sessions)
+  - [ ] &#177; VT number auto-detection (dynamic config value + seat id #)
+- [ ] &#177; [wayland support](#wayland-display-sessions)
   - [x] Basic detection and XDG_SESSION_TYPE=wayland set
   - [x] Session type (X11/Wayland) support
   - [ ] Disable X11 specific env and software (xserver, xauth, etc)
@@ -57,16 +56,19 @@ becomes more well defined.
   - [ ] Test wayland sessions
 - [ ] Theme for cursor
 - [ ] Virtual keyboard support
-- [-] Write tests for uncovered code (may require test binaries)
+- [ ] &#177; Write tests for uncovered code (may require test binaries)
+- [ ] Settings UI
+  - [ ] for entrance.conf
+  - [ ] for user icon/bg/session users.conf
 
 ### Housekeeping
 
-- [-] log output
-  - [-] Standardize seat, #, port, etc.
+- [ ] &#177; log output
+  - [ ] &#177; Standardize seat, #, port, etc.
   - [ ] Ensure client/seat # in client/server communication log (passed in callback data)
-- [-] clean up codebase
-  - [-] Refactor imports system -> libs -> local
-  - [-] Comment code (add comments to headers)
+- [ ] &#177; clean up codebase
+  - [ ] &#177; Refactor imports system -> libs -> local
+  - [ ] &#177; Comment code (add comments to headers)
 
 ## Build
 
