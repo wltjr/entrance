@@ -76,6 +76,7 @@ static void _entrance_gui_actions_populate();
 static void _entrance_gui_action_clicked_cb(void *data EINA_UNUSED,
                                             Evas_Object *obj EINA_UNUSED,
                                             void *event_info);
+static void _entrance_gui_image_list_del(Eina_List *images);
 static void _entrance_gui_login_form(Entrance_Screen *screen, Evas_Object *obj);
 static void _entrance_gui_update(void);
 static void _entrance_gui_users_populate(void);
@@ -150,6 +151,20 @@ entrance_gui_init(const char *theme)
    /* Let Elementary manage cursor theme and widget-specific cursors
     * Do not set global cursors as this interferes with text input cursors */
    return j;
+}
+
+static void
+_entrance_gui_image_list_del(Eina_List *images)
+{
+   Entrance_Image *img;
+
+    EINA_LIST_FREE(images, img)
+    {
+        eina_stringshare_del(img->path);
+        eina_stringshare_del(img->group);
+
+        free(img);
+    }
 }
 
 static void
