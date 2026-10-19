@@ -173,7 +173,7 @@ entrance_connect_auth_cb_add(Entrance_Connect_Auth_Cb func, void *data)
 {
    PT("auth handler add");
    Entrance_Connect_Auth *auth;
-   auth = malloc(sizeof(Entrance_Connect_Auth));
+   auth = calloc(1, sizeof(Entrance_Connect_Auth));
    auth->func = func;
    auth->data = data;
    _auth_list = eina_list_append(_auth_list, auth);
