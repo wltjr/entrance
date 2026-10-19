@@ -26,7 +26,7 @@ _entrance_keyboard_atom_name_get(xcb_get_atom_name_cookie_t cookie)
     if (reply)
     {
         len = xcb_get_atom_name_name_length(reply) + 1;
-        name = (char *)malloc(len + 1);
+        name = (char *)calloc(len + 1, sizeof(char));
         snprintf(name, len, "%s", xcb_get_atom_name_name(reply));
 
         free(reply);
