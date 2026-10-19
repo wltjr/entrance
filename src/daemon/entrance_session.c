@@ -168,7 +168,7 @@ _entrance_session_run(int id,
 #else
         int n = 0;
         char *term = getenv("TERM");
-        env = (char **)malloc(15 * sizeof(char *));
+        env = (char **)calloc(15, sizeof(char *));
         if (!env)
           {
             PT("Failed to allocate environment array");
