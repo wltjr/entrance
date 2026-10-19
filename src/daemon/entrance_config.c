@@ -75,7 +75,7 @@ _conf_get(void)
    rewind(f);
    if(textlen > 0)
      {
-       text = (char *)malloc(textlen);
+       text = (char *)calloc(textlen, sizeof(char));
        if (!text)
          goto cleanup;
      }
