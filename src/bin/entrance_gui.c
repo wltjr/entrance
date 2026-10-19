@@ -373,7 +373,7 @@ entrance_gui_stringlist_get(const char *str)
         if ((*s == ' ') || (!*s))
           {
              size_t len = s - b;
-             char *t = malloc(len + 1);
+             char *t = calloc(len + 1, sizeof(char));
              if (t)
                {
                   memcpy(t, b, len);
