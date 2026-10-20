@@ -84,7 +84,7 @@ _entrance_keyboard_indicator_mask_get(uint8_t i)
 
     if (reply)
     {
-        xcb_xkb_indicator_map_t *map;
+        const xcb_xkb_indicator_map_t *map;
 
         map = xcb_xkb_get_indicator_map_maps(reply);
         mask = map->mods;
@@ -157,7 +157,7 @@ _entrance_keyboard_update()
     uint8_t mask_cur;
     uint8_t mask_full;
     xcb_void_cookie_t cookie;
-    xcb_generic_error_t *error = NULL;
+    const xcb_generic_error_t *error = NULL;
 
     mask_full = _mask_numlock | _mask_capslock;
     mask_cur  = (entrance_config->numlock  ? _mask_numlock  : 0) |
