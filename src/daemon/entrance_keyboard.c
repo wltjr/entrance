@@ -112,9 +112,17 @@ _entrance_keyboard_indicator_masks_set()
                                XCB_XKB_NAME_DETAIL_INDICATOR_NAMES);
     reply = xcb_xkb_get_names_reply(_xcb_connection, cookie, &error);
 
+    if(!reply)
+    {
+        PT("no indicators present, keyboard issues or missing?");
+        _entrance_keyboard_disconnect();
+        return;
+    }
+
     if (error)
     {
         PT("keyboard led map failed, error %d", error->error_code);
+        _entrance_keyboard_disconnect();
         return;
     }
 
@@ -175,6 +183,10 @@ void entrance_keyboard_init()
 
     // get and set masks
     _entrance_keyboard_indicator_masks_set();
+
+    // not ideal, disconnected and set to NULL when previous function has error
+    if(!_xcb_connection)
+        return;
 
     // enable/disable capslock/numlock
     _entrance_keyboard_update();
