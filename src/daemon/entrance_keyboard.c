@@ -45,10 +45,9 @@ _entrance_keyboard_connect()
 
     _xcb_connection = xcb_connect(NULL, NULL);
 
-    if (xcb_connection_has_error(_xcb_connection))
+    if (!_xcb_connection)
     {
-        PT("xcb_connect failed, error %d", error->error_code);
-        _xcb_connection = NULL;
+        PT("xcb_connect failed");
         return;
     }
 
