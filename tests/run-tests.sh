@@ -80,6 +80,19 @@ echo -e "\e[1;35m${0} Test Entrance Start\e[0m"
 
 /usr/sbin/entrance & disown
 
+sleep 5
+echo -e "\e[1;35m${0} Test Auth Failure\e[0m"
+export DISPLAY=":0"
+xdotool type "utnubu"
+xdotool key KP_Enter
+
+sleep 5
+echo -e "\e[1;35m${0} Test Auth Success\e[0m"
+xdotool type "ubuntu"
+xdotool key KP_Enter
+sleep 5
+killall -v xeyes
+
 sleep_and_kill
 cat_and_rm
 
