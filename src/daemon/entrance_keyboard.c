@@ -133,7 +133,7 @@ _entrance_keyboard_indicator_masks_set()
                                         reply->nRadioGroups, reply->which, &list);
 
     indicators = xcb_xkb_get_names_value_list_indicator_names_length(reply, &list);
-    for (int i = 0; i < indicators; i++)
+    for (uint8_t i = 0; i < indicators; i++)
     {
         char *name;
 
