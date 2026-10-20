@@ -59,7 +59,7 @@ _entrance_keyboard_connect()
     if (error)
     {
         PT("xcb_connect failed, error %d", error->error_code);
-        _xcb_connection = NULL;
+        _entrance_keyboard_disconnect();
         return;
     }
 }
