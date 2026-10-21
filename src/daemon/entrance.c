@@ -29,7 +29,7 @@ static Eina_Bool _entrance_client_error(void *data EINA_UNUSED, int type EINA_UN
 static Eina_Bool _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_lock_create(int pid);
-static Eina_Bool _get_lock();
+static Eina_Bool _entrance_lock_get();
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
 static pid_t _entrance_xserver_start(int id);
@@ -549,7 +549,7 @@ _entrance_lock_create(int pid)
 }
 
 static Eina_Bool
-_get_lock()
+_entrance_lock_get()
 {
    FILE *f;
    char buf[128];
@@ -770,7 +770,7 @@ main (int argc, char ** argv)
 
    _entrance_auto_login = entrance_config->autologin;
 
-   if (!_get_lock())
+   if (!_entrance_lock_get())
         exit(1);
 
    if (!_open_log())
