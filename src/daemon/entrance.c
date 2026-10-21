@@ -28,6 +28,7 @@ static Eina_Bool _entrance_autologin_lock_get(void);
 static Eina_Bool _entrance_client_error(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_data(void *data EINA_UNUSED, int type EINA_UNUSED, void *event);
 static Eina_Bool _entrance_client_del(void *data, int type EINA_UNUSED, void *event);
+static Eina_Bool _entrance_lock_create(int pid);
 static Eina_Bool _get_lock();
 static Eina_Bool _open_log();
 static pid_t * _entrance_xservers_init();
@@ -524,6 +525,30 @@ _entrance_xserver_start(int id)
 }
 
 static Eina_Bool
+_entrance_lock_create(int pid)
+{
+    FILE *f;
+    char buf[128];
+
+    f = fopen(entrance_config->lockfile, "w");
+    if (!f)
+    {
+        PT("Could not create lockfile!");
+        return (EINA_FALSE);
+    }
+    snprintf(buf, sizeof(buf), "%d", pid);
+    if (!fwrite(buf, strnlen(buf, sizeof(buf)), 1, f))
+    {
+        fclose(f);
+        PT("Could not write the lockfile");
+        return EINA_FALSE;
+    }
+    fclose(f);
+
+    return EINA_TRUE;
+}
+
+static Eina_Bool
 _get_lock()
 {
    FILE *f;
@@ -535,20 +560,8 @@ _get_lock()
    if (!f)
      {
         /* No lockfile, so create one */
-        f = fopen(entrance_config->lockfile, "w");
-        if (!f)
-          {
-             PT("Could not create lockfile!");
-             return (EINA_FALSE);
-          }
-        snprintf(buf, sizeof(buf), "%d", my_pid);
-        if (!fwrite(buf, strnlen(buf, sizeof(buf)), 1, f))
-          {
-             fclose(f);
-             PT("Could not write the lockfile");
-             return EINA_FALSE;
-          }
-        fclose(f);
+        if (!_entrance_lock_create(my_pid))
+            return (EINA_FALSE);
      }
    else
      {
@@ -575,24 +588,14 @@ _get_lock()
             fclose(f);
         }
 
-        /* recycle lockfile if pid mia or different process */
-        if(!f || !strcmp(name, PACKAGE_SBIN_DIR"/"PACKAGE))
-        {
-            f = fopen(entrance_config->lockfile, "w");
-            snprintf(buf, sizeof(buf), "%d", my_pid);
-            if (!fwrite(buf, strnlen(buf, sizeof(buf)), 1, f))
-            {
-                fclose(f);
-                PT("Could not write the lockfile");
-                return EINA_FALSE;
-            }
-            fclose(f);
-        }
-        else
+        if(!strcmp(name, PACKAGE_SBIN_DIR"/"PACKAGE))
         {
             PT("A lock file is present, another instance exists, pid %d", pid);
             return EINA_FALSE;
         }
+        /* recycle lockfile if pid mia or different process */
+        else if (!_entrance_lock_create(my_pid))
+            return (EINA_FALSE);
      }
 
    return EINA_TRUE;
