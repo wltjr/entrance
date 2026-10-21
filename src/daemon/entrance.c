@@ -553,6 +553,8 @@ _get_lock()
    else
      {
         int pid = 0;
+        char name[1024] = {0};
+
         /* read the lockfile */
         if (fgets(buf, sizeof(buf), f))
           pid = atoi(buf);
@@ -560,8 +562,37 @@ _get_lock()
         if (pid == my_pid)
           return EINA_TRUE;
 
-        PT("A lock file is present, another instance may exist ?");
-        return EINA_FALSE;
+        /* get procses name */
+        snprintf(name, sizeof(name), "/proc/%d/cmdline", pid);
+        f = fopen(name,"r");
+        if(f)
+        {
+            size_t size;
+
+            size = fread(name, sizeof(char), 1024, f);
+            if(size > 0 && '\n' == name[size-1])
+                name[size-1]='\0';
+            fclose(f);
+        }
+
+        /* recycle lockfile if pid mia or different process */
+        if(!f || !strcmp(name, PACKAGE_SBIN_DIR"/"PACKAGE))
+        {
+            f = fopen(entrance_config->lockfile, "w");
+            snprintf(buf, sizeof(buf), "%d", my_pid);
+            if (!fwrite(buf, strnlen(buf, sizeof(buf)), 1, f))
+            {
+                fclose(f);
+                PT("Could not write the lockfile");
+                return EINA_FALSE;
+            }
+            fclose(f);
+        }
+        else
+        {
+            PT("A lock file is present, another instance exists, pid %d", pid);
+            return EINA_FALSE;
+        }
      }
 
    return EINA_TRUE;
