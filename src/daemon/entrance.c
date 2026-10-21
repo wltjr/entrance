@@ -40,6 +40,7 @@ static void _entrance_client_log_msg(void *event, int level);
 static void _entrance_clients_init(int count);
 static void _entrance_clients_shutdown();
 static void _entrance_kill_and_wait(const char *desc, pid_t pid);
+static void _entrance_lock_remove();
 #ifdef HAVE_LOGIND
 static void _entrance_logind_monitor_cb(void *data EINA_UNUSED);
 #endif
@@ -47,7 +48,6 @@ static void _entrance_session_wait(int id);
 static void _entrance_start_client(int id, const char *display);
 static void _entrance_uid_gid_init();
 static void _entrance_xservers_shutdown();
-static void _remove_lock();
 static void _signal_cb(int sig);
 static void _signal_log(int sig EINA_UNUSED);
 
@@ -645,7 +645,7 @@ _open_log()
 }
 
 static void
-_remove_lock()
+_entrance_lock_remove()
 {
    if(remove(entrance_config->lockfile)== -1)
      PT("Could not remove lockfile");
@@ -896,7 +896,7 @@ main (int argc, char ** argv)
 #endif
    PT("ecore shutdown");
    ecore_shutdown();
-   _remove_lock();
+   _entrance_lock_remove();
    PT("config shutdown");
    entrance_config_shutdown();
    PT("eet shutdown");
