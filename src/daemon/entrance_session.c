@@ -107,7 +107,7 @@ _entrance_session_pam_env_set(int id,
        snprintf(term, sizeof(term), "%s", term_ptr);
    }
    else
-       snprintf(term, sizeof(term), "%s", "/bin/sh");
+       snprintf(term, sizeof(term), "%s", "xterm");
    snprintf(vtnr, sizeof(vtnr), "%d", _sessions[id]->vt);
 
    if (term[0]) entrance_pam_env_set(id, "TERM", term);
