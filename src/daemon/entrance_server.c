@@ -113,6 +113,7 @@ _entrance_server_read_cb(const void *data, size_t size EINA_UNUSED, void *user_d
              PT("server authenticate granted");
              neev.event.status.login = entrance_session_login_get(eev->event.auth.id);
              neev.event.status.granted = EINA_TRUE;
+             neev.event.status.msgs = NULL;
              entrance_session_login(eev->event.auth.id,
                                     eev->event.auth.session,
                                     EINA_TRUE);
