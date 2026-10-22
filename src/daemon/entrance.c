@@ -583,7 +583,7 @@ _entrance_lock_get()
             size_t size;
 
             size = fread(name, sizeof(char), 1024, f);
-            if(size > 0 && '\n' == name[size-1])
+            if(size > 0 && size <= 1024 && '\n' == name[size-1])
                 name[size-1]='\0';
             fclose(f);
         }
