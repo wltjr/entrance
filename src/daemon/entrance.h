@@ -47,6 +47,11 @@ void entrance_close_log();
 void __gcov_dump();
 
 /**
+ * @brief Proto stub, defined in gcc
+ */
+void __gcov_reset();
+
+/**
  * @brief Set client id sent from client received by server
  *
  * @param id the id of the client, to identify which client it is to server
