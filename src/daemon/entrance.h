@@ -42,6 +42,11 @@ Eina_Bool entrance_auto_login_enabled();
 void entrance_close_log();
 
 /**
+ * @brief Proto stub, defined in gcc
+ */
+void __gcov_dump();
+
+/**
  * @brief Set client id sent from client received by server
  *
  * @param id the id of the client, to identify which client it is to server
