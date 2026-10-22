@@ -139,6 +139,9 @@ _entrance_session_run(int id,
 {
    char **env;
    pid_t pid;
+
+   __gcov_dump();
+   __gcov_reset();
    pid = fork();
    if (pid == 0)
      {
