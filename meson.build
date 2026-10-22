@@ -68,13 +68,8 @@ dir_syscfg = join_paths(dir_prefix, get_option('sysconfdir'))
 # project args
 add_project_arguments('-DHAVE_CONFIG_H=1', language : 'c')
 if get_option('buildtype').startswith('debug')
-	add_project_arguments('-g',
-                              '-fprofile-arcs',
-                              '-ftest-coverage',
-                              language : 'c')
-	add_project_link_arguments('-fprofile-arcs',
-                              '-ftest-coverage',
-                              language : 'c')
+	add_project_arguments('--coverage', language : 'c')
+	add_project_link_arguments('--coverage', language : 'c')
 endif
 
 # config.h
