@@ -41,6 +41,7 @@ do                                           \
 Eina_Bool entrance_auto_login_enabled();
 void entrance_close_log();
 
+#ifdef DEBUG
 /**
  * @brief Proto stub, defined in gcc
  */
@@ -50,6 +51,7 @@ void __gcov_dump();
  * @brief Proto stub, defined in gcc
  */
 void __gcov_reset();
+#endif
 
 /**
  * @brief Set client id sent from client received by server
