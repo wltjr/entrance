@@ -287,6 +287,7 @@ _entrance_user_shutdown(void)
    const char *buf;
    EINA_LIST_FREE(_lusers, eu)
      {
+        _entrance_history->history = eina_list_remove(_entrance_history->history, eu);
         eina_stringshare_del(eu->login);
         eina_stringshare_del(eu->session);
         eina_stringshare_del(eu->image.path);
