@@ -68,6 +68,7 @@ dir_syscfg = join_paths(dir_prefix, get_option('sysconfdir'))
 # project args
 add_project_arguments('-DHAVE_CONFIG_H=1', language : 'c')
 if get_option('buildtype').startswith('debug')
+    add_project_arguments('-DDEBUG', language : 'c')
 	add_project_arguments('--coverage', language : 'c')
 	add_project_link_arguments('--coverage', language : 'c')
 endif
