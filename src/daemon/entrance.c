@@ -431,7 +431,7 @@ _entrance_uid_gid_init()
           {
              PT("Creating new home directory for client");
              ecore_file_mkdir(ENTRANCE_CONFIG_HOME_PATH);
-             chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
+             entrance_chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
           }
         else
           {
@@ -442,7 +442,7 @@ _entrance_uid_gid_init()
                      " with a directory");
                   ecore_file_remove(ENTRANCE_CONFIG_HOME_PATH);
                   ecore_file_mkdir(ENTRANCE_CONFIG_HOME_PATH);
-                  chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
+                  entrance_chown(ENTRANCE_CONFIG_HOME_PATH, _entrance_uid, _entrance_gid);
                }
           }
         _entrance_home_path = strdup(ENTRANCE_CONFIG_HOME_PATH);
@@ -452,13 +452,7 @@ _entrance_uid_gid_init()
    PT("Home directory %s", _entrance_home_path);
 
     parent = dirname(strdup(_entrance_home_path));
-    if(chown(parent, _entrance_uid, _entrance_gid) != 0)
-    {
-        if(errno==ENOENT)
-            PT("chown failed, file does not exist %s", parent);
-        else
-            PT("chown failed %s", parent);
-    }
+    entrance_chown(parent, _entrance_uid, _entrance_gid);
     PT("chown %d:%d %s", _entrance_uid, _entrance_gid, parent);
     free(parent);
 }
