@@ -907,6 +907,9 @@ main (int argc, char ** argv)
    entrance_config_shutdown();
    PT("eet shutdown");
    eet_shutdown();
+   /* chown root hack due to above setenv("XDG_RUNTIME_DIR", PACKAGE_CACHE, 1); */
+   entrance_chown(dirname(_entrance_home_path), 0, 0);
+   PT("chown %d:%d %s", 0, 0, _entrance_home_path);
    if(_entrance_home_path)
      free(_entrance_home_path);
    PT("close log and exit\n\n");
