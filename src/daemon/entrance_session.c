@@ -140,8 +140,10 @@ _entrance_session_run(int id,
    char **env;
    pid_t pid;
 
+#ifdef DEBUG
    __gcov_dump();
    __gcov_reset();
+#endif
    pid = fork();
    if (pid == 0)
      {
