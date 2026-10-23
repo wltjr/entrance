@@ -54,6 +54,15 @@ void __gcov_reset();
 #endif
 
 /**
+ * @brief Wrapper to call chown and log error
+ *
+ * @param path      path to file or directory
+ * @param owner     owner uid, integer value
+ * @param group     group gid, integer value
+ */
+void entrance_chown(const char *path, uid_t owner, gid_t group);
+
+/**
  * @brief Set client id sent from client received by server
  *
  * @param id the id of the client, to identify which client it is to server
