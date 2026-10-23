@@ -199,7 +199,7 @@ _entrance_client_log_msg(void *event, int level)
     buf[size] = '\0';  /* Ensure null termination */
 
     /* hack to supress noise https://github.com/wltjr/entrance/issues/64 */
-    if(level == 2 && (strstr(buf, "/lib/") || strstr(buf, "fixed")))
+    if(level == 2 && (strstr(buf, "/lib") || strstr(buf, "fixed")))
         return;
 
     /* log each line individually, to prevent wrapping under */
