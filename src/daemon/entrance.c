@@ -694,6 +694,18 @@ Eina_Bool entrance_auto_login_enabled()
 }
 
 void
+entrance_chown(const char *path, uid_t owner, gid_t group)
+{
+    if(chown(path, owner, group) != 0)
+    {
+        if(errno==ENOENT)
+            PT("chown failed, file does not exist %s", path);
+        else
+            PT("chown failed %s", path);
+    }
+}
+
+void
 entrance_client_pid_set(int id, pid_t pid)
 {
     _entrance_clients[id]->pid = pid;
