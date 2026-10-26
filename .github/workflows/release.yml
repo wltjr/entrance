@@ -1,0 +1,40 @@
+name: Release CD
+
+on:
+    workflow_run:
+        workflows: ["CI"]
+        types:
+            - completed
+
+permissions:
+    contents: write
+    packages: write 
+
+jobs:
+    on-tag-success:
+        if: >
+            github.event.workflow_run.conclusion == 'success' && 
+            startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
+
+        runs-on: ubuntu-latest
+        steps:
+          - name: Check out repository
+            uses: actions/checkout@v7
+          - name: Create release archive
+            run: |
+                tar -czvf entrance-${{ github.ref_name }}.tar.gz --exclude="*.tar.gz" .
+          - name: Create release checksum
+            run: |
+                sha256sum entrance-*.tar.gz > checksums.txt
+          - name: Create GitHub Release
+            uses: softprops/action-gh-release@v3
+            env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+                name: Release ${{ github.ref_name }}
+                body: Entrance version ${{ github.ref_name }}
+                draft: false
+                prerelease: ${{ contains(github.ref_name, '_') }}
+                files: |
+                    entrance-*.tar.gz
+                    checksums.txt
