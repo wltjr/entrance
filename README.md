@@ -4,12 +4,17 @@
 [![Build Status](https://github.com/wltjr/entrance/actions/workflows/docker_build.yml/badge.svg)](https://github.com/wltjr/entrance/actions)
 [![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=wltjr_entrance&metric=alert_status)](https://sonarcloud.io/dashboard?id=wltjr_entrance)
 
-This is a fork and current development version.
-It is ALIVE! IT WORKS! (for me™).
+Entrance is ALIVE! IT WORKS! (for me™, will it work for you?)
+
+Finally, after almost 10 years of code cleanups and improvements, Entrance is here!
+
+This is a fork and current development version, with development first starting
+on June 13, 2017, a hiatus from 2021-2023, and development resuming in 2024, with
+considerable efforts starting end of year 2025 through first release fall 2026.
 
 This version of entrance has worked in some form or another since 2017. Many
 incorrectly assume this version is the same as past versions, when many have
-never run or seen this version, please see [History](#history).
+never run or seen this version, please see Entrance's [History](#history).
 
 [![A video of Entrance 3.0.0 Beta 1](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)](https://github.com/user-attachments/assets/0dbf2da2-b220-4427-b0aa-b42f4f83d3e5)
 
