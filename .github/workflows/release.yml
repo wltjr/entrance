@@ -1,21 +1,13 @@
-name: Release CD
+name: CD
 
-on:
-    workflow_run:
-        workflows: ["CI"]
-        types:
-            - completed
+on: workflow_dispatch
 
 permissions:
     contents: write
     packages: write 
 
 jobs:
-    on-tag-success:
-        if: >
-            github.event.workflow_run.conclusion == 'success' && 
-            startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
-
+    deploy:
         runs-on: ubuntu-latest
         steps:
           - name: Check out repository
