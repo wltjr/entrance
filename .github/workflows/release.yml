@@ -14,10 +14,10 @@ jobs:
             uses: actions/checkout@v7
           - name: Create release archive
             run: |
-                tar -czvf entrance-${{ github.ref_name }}.tar.gz --exclude="*.tar.gz" .
+                tar -czvf ../entrance-${{ github.ref_name }}.tar.gz --exclude=".git*" .
           - name: Create release checksum
             run: |
-                sha256sum entrance-*.tar.gz > checksums.txt
+                sha256sum ../entrance-*.tar.gz > ../checksums.txt
           - name: Create GitHub Release
             uses: softprops/action-gh-release@v3
             env:
@@ -28,5 +28,5 @@ jobs:
                 draft: false
                 prerelease: ${{ contains(github.ref_name, '_') }}
                 files: |
-                    entrance-*.tar.gz
-                    checksums.txt
+                    ../entrance-*.tar.gz
+                    ../checksums.txt
