@@ -5,6 +5,10 @@ on:
     pull_request:
         branches: [ master ]
 
+permissions:
+    actions: write
+    contents: read
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -13,6 +17,7 @@ jobs:
             uses: actions/checkout@v7
             with:
                 fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
           - name: Run the build process inside Docker container
             uses: addnab/docker-run-action@v3
             with:
@@ -30,3 +35,9 @@ jobs:
                     ./tests/run-tests.sh
                     gcovr --sonarqube build/coverage.xml build/
                     export PATH="/sonar-scanner-linux-x64/bin:${PATH}"; sonar-scanner
+
+          - name: Trigger release
+            env:
+              GH_TOKEN: ${{ github.token }}
+            if: startsWith(github.ref, 'refs/tags/')
+            run: gh workflow run --ref ${{ github.ref_name }} CD
