@@ -112,16 +112,16 @@ _entrance_keyboard_indicator_masks_set()
                                XCB_XKB_NAME_DETAIL_INDICATOR_NAMES);
     reply = xcb_xkb_get_names_reply(_xcb_connection, cookie, &error);
 
-    if(!reply)
+    if (error)
     {
-        PT("no indicators present, keyboard issues or missing?");
+        PT("keyboard led map failed, error %d", error->error_code);
         _entrance_keyboard_disconnect();
         return;
     }
 
-    if (error)
+    if(!reply)
     {
-        PT("keyboard led map failed, error %d", error->error_code);
+        PT("no indicators present, keyboard issues or missing?");
         _entrance_keyboard_disconnect();
         return;
     }
